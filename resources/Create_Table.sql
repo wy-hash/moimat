@@ -293,3 +293,16 @@ ALTER TABLE team_post_reply
 ALTER TABLE team_post_reply
     ADD CONSTRAINT FK_team_post_reply_post_seq_po FOREIGN KEY (post_seq)
         REFERENCES post (seq);
+
+-- member Table Create SQL
+CREATE TABLE attach
+(
+    fullName    VARCHAR2(150)    NOT NULL, 
+    post_seq    NUMBER           NOT NULL, 
+    regdate     DATE             NOT NULL, 
+    CONSTRAINT ATTACH_PK PRIMARY KEY (fullName)
+);
+
+ALTER TABLE attach
+    ADD CONSTRAINT FK_attach_post_seq_post_seq FOREIGN KEY (post_seq)
+        REFERENCES post (seq);
