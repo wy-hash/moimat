@@ -9,10 +9,10 @@ import lombok.Setter;
 @Setter
 public class TeamVO {
 	private Long seq;
-	private int interest_seq;
+	private int interestSeq;
 	private String name;
 	private String content;
-	private String short_content;
+	private String shortContent;
 	private Date regDate;
 	private String area;
 	private String maxPerson;

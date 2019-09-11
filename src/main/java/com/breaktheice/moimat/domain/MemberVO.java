@@ -15,7 +15,7 @@ public class MemberVO {
 	private Date birthday; //생년월일
 	private String email; //유저 이메일
 	private String area; //지역
-	private String phone_number; //전화번호
+	private String phoneNumber; //전화번호
 	private char state; //상태
 	private Date regDate; //등록일
 	private Date updateDate; //수정일

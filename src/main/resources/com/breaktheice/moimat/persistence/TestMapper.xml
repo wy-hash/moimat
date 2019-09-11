@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.breaktheice.moimat.persistence.TestMapper">
+	
+	<select id="getMeetMember" resultType="com.breaktheice.moimat.domain.MeetMemberVO">
+		select * from meet_member
+	</select>
+	<select id="getMeet" resultType="com.breaktheice.moimat.domain.MeetVO">
+		select * from meet
+	</select>
+	<select id="getMemberRole" resultType="com.breaktheice.moimat.domain.MemberRoleVO">
+		select * from member_role
+	</select>
+	<select id="getMember" resultType="com.breaktheice.moimat.domain.MemberVO">
+		select * from member
+	</select>
+	<select id="getRole" resultType="com.breaktheice.moimat.domain.RoleVO">
+		select * from role
+	</select>
+	<select id="getTeamMember" resultType="com.breaktheice.moimat.domain.TeamMemberVO">
+		select * from team_member
+	</select>
+	<select id="getTeam" resultType="com.breaktheice.moimat.domain.TeamVO">
+		select * from team
+	</select>
+	
+</mapper>
