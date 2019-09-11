@@ -16,4 +16,7 @@ public class MeetVO {
 	private Date updateDate; //수정일
 	private int maxPerson; //모임 최대인원
 	private Long memberSeq; // 정모 개설자 id
+	private String title;
+	private String content;
+	private String payment;
 }
