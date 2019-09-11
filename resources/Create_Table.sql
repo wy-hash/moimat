@@ -114,6 +114,9 @@ CREATE TABLE meet
     updatedate    DATE             NOT NULL, 
     maxperson     NUMBER           NOT NULL, 
 --    member_seq    NUMBER           NOT NULL,  -- 정모 주최자 -- MeetTable_Update.sql로 따로 추가
+--   title         VARCHAR2(50)     NOT NULL,  -- 정모이름
+--   content       VARCHAR2(400)    NOT NULL, -- 정모 내용
+--  payment       VARCHAR2(50)     NOT NULL, -- 회비
     CONSTRAINT MEET_PK PRIMARY KEY (seq)
 );
 
