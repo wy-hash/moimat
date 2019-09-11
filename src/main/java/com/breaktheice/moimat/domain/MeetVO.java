@@ -1,6 +1,9 @@
 package com.breaktheice.moimat.domain;
 
+
 import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,4 +22,10 @@ public class MeetVO {
 	private String title;
 	private String content;
 	private String payment;
+	
+	public void setMeetDate(String meetDate) throws ParseException {
+		Date date = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss").parse(meetDate);
+		this.meetDate = date;
+	}
+	
 }

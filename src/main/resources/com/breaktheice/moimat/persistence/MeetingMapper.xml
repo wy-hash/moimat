@@ -22,4 +22,9 @@
 			seq = #{seq}
 	</select>
 	
+	<insert id="regMeet">
+		insert into meet (seq, team_seq, area, meetdate, regdate, updatedate, maxperson, member_seq,title,content,payment)
+		values(meet_seq.nextval, #{teamSeq},#{area}, #{meetDate}, sysdate, sysdate, #{maxPerson}, #{memberSeq}, #{title}, #{content}, #{payment})
+	</insert>
+	
 </mapper>
