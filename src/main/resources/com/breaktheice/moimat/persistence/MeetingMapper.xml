@@ -13,4 +13,13 @@
 			and meet.seq = #{seq}
 	</select>
 	
+	<select id="getMeet" resultType="com.breaktheice.moimat.domain.MeetVO">
+		select
+			*
+		from
+			meet
+		where
+			seq = #{seq}
+	</select>
+	
 </mapper>
