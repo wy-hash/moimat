@@ -113,12 +113,17 @@ CREATE TABLE meet
     regdate       DATE             NOT NULL, 
     updatedate    DATE             NOT NULL, 
     maxperson     NUMBER           NOT NULL, 
+--    member_seq    NUMBER           NOT NULL,  -- 정모 주최자 -- MeetTable_Update.sql로 따로 추가
     CONSTRAINT MEET_PK PRIMARY KEY (seq)
 );
 
 ALTER TABLE meet
     ADD CONSTRAINT FK_meet_team_seq_team_seq FOREIGN KEY (team_seq)
         REFERENCES team (seq);
+
+-- ALTER TABLE meet
+--    ADD CONSTRAINT FK_meet_member_seq_member_seq FOREIGN KEY (member_seq)
+--        REFERENCES member (seq);
 
 -- member Table Create SQL
 CREATE TABLE member_role
