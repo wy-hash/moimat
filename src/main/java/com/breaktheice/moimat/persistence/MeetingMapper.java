@@ -16,6 +16,5 @@ public interface MeetingMapper {
 	public void modifyMeet(MeetVO meetVO);
 	//모임 삭제
 	public void deleteMeet(Long seq);
-	//임시용
-	public void deleteMeetMember(Long seq);
+	
 }

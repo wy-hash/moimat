@@ -60,8 +60,8 @@ public class MeetingMapperTests {
 	
 	@Test
 	public void deleteMeet() {
-		mapper.deleteMeetMember(2L);
-		mapper.deleteMeet(2L);
+		
+		mapper.deleteMeet(1L);
 		
 	}
 }
