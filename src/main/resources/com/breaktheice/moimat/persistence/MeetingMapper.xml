@@ -27,4 +27,18 @@
 		values(meet_seq.nextval, #{teamSeq},#{area}, #{meetDate}, sysdate, sysdate, #{maxPerson}, #{memberSeq}, #{title}, #{content}, #{payment})
 	</insert>
 	
+	<update id="modifyMeet">
+		update
+			meet
+		set
+			area = #{area},
+			meetdate = #{meetDate},
+			updatedate = sysdate,
+			maxperson = #{maxPerson},
+			title = #{title},
+			content = #{content},
+			payment = #{payment}
+		where seq = #{seq}		
+	</update>
+	
 </mapper>

@@ -10,6 +10,8 @@ public interface MeetingMapper {
 	public List<MemberVO> getMeetingMember(Long seq);
 	//MeetVO의 Long seq;
 	public MeetVO getMeet(Long seq);
-	//모임 등록
+	//모임 등록(register meeting)
 	public void regMeet(MeetVO meetVO);
+	
+	public void modifyMeet(MeetVO meetVO);
 }

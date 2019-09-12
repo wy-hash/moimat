@@ -45,7 +45,19 @@ public class MeetingMapperTests {
 		vo.setContent("내용");
 		vo.setPayment("엔빵");
 		mapper.regMeet(vo);
-		
+	}
+	
+	@Test
+	public void modifyMeetTest() throws ParseException {
+		MeetVO vo = mapper.getMeet(1L);
+		vo.setArea("관악구");
+		vo.setMeetDate("2019-10-20 20:30:00");
+		vo.setMaxPerson(200);
+		vo.setTitle("모여라!!");
+		vo.setContent("10월 정기 모임");
+		vo.setPayment("20000");
+		mapper.modifyMeet(vo);
+		mapper.getMeet(1L);
 		
 	}
 }
