@@ -48,4 +48,10 @@
 			seq = #{seq}
 	</delete>
 	
+	<insert id="attendMeet">
+		insert into
+			meet_member
+		values (#{meetSeq},#{memberSeq})
+	</insert>
+	
 </mapper>

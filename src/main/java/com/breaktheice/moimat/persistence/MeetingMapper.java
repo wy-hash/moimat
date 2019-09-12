@@ -2,6 +2,7 @@ package com.breaktheice.moimat.persistence;
 
 import java.util.List;
 
+import com.breaktheice.moimat.domain.MeetMemberVO;
 import com.breaktheice.moimat.domain.MeetVO;
 import com.breaktheice.moimat.domain.MemberVO;
 
@@ -16,5 +17,6 @@ public interface MeetingMapper {
 	public void modifyMeet(MeetVO meetVO);
 	//모임 삭제
 	public void deleteMeet(Long seq);
-	
+	//모임 참가(attend a meeting)
+	public void attendMeet(MeetMemberVO meetMemberVO);
 }

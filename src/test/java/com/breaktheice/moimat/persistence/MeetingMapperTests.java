@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.breaktheice.moimat.domain.MeetMemberVO;
 import com.breaktheice.moimat.domain.MeetVO;
 
 import lombok.Setter;
@@ -23,7 +24,7 @@ public class MeetingMapperTests {
 	
 	@Test
 	public void getMeetingMemberTest() {
-		log.info(mapper.getMeetingMember(1L));
+		log.info(mapper.getMeetingMember(6L));
 	}
 	
 	@Test
@@ -59,9 +60,16 @@ public class MeetingMapperTests {
 	}
 	
 	@Test
-	public void deleteMeet() {
-		
+	public void deleteMeetTest() {
 		mapper.deleteMeet(1L);
-		
 	}
+	
+	@Test
+	public void attendMeetTest() {
+		MeetMemberVO vo = new MeetMemberVO();
+		vo.setMeetSeq(22L);
+		vo.setMemberSeq(6L);
+		mapper.attendMeet(vo);
+	}
+	
 }
