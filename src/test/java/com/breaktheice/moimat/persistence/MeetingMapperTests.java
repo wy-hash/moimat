@@ -23,8 +23,8 @@ public class MeetingMapperTests {
 	private MeetingMapper mapper;
 	
 	@Test
-	public void getMeetingMemberTest() {
-		log.info(mapper.getMeetingMember(6L));
+	public void getMeetListTest() {
+		log.info(mapper.getMeetList(1L));
 	}
 	
 	@Test
@@ -72,4 +72,8 @@ public class MeetingMapperTests {
 		mapper.attendMeet(vo);
 	}
 	
+	@Test
+	public void getMeetingMemberTest() {
+		log.info(mapper.getMeetingMember(6L));
+	}
 }

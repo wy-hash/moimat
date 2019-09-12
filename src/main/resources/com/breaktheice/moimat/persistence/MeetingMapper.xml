@@ -2,15 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.breaktheice.moimat.persistence.MeetingMapper">
 	
-	<select id="getMeetingMember" resultType="com.breaktheice.moimat.domain.MemberVO">
-		select
-			member.*
-		from
-			meet_member, meet, member
-		where
-			meet.seq = meet_member.meet_seq
-			and member.seq = meet_member.member_seq
-			and meet.seq = #{seq}
+	<select id="getMeetList" resultType="com.breaktheice.moimat.domain.MeetVO">
+		select * from meet where team_seq = #{teamSeq}
 	</select>
 	
 	<select id="getMeet" resultType="com.breaktheice.moimat.domain.MeetVO">
@@ -53,5 +46,16 @@
 			meet_member
 		values (#{meetSeq},#{memberSeq})
 	</insert>
+	
+	<select id="getMeetingMember" resultType="com.breaktheice.moimat.domain.MemberVO">
+		select
+			member.*
+		from
+			meet_member, meet, member
+		where
+			meet.seq = meet_member.meet_seq
+			and member.seq = meet_member.member_seq
+			and meet.seq = #{seq}
+	</select>
 	
 </mapper>
