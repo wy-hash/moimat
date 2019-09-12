@@ -41,4 +41,19 @@
 		where seq = #{seq}		
 	</update>
 	
+	<delete id="deleteMeet">
+	
+		delete
+			meet
+		where 
+		  	seq = #{seq}
+	</delete>
+	
+	<delete id="deleteMeetMember">
+		delete
+			meet_member
+		where
+			meet_seq = #{seq}
+	</delete>
+	
 </mapper>

@@ -1,8 +1,6 @@
 package com.breaktheice.moimat.persistence;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,7 +55,13 @@ public class MeetingMapperTests {
 		vo.setContent("10월 정기 모임");
 		vo.setPayment("20000");
 		mapper.modifyMeet(vo);
-		mapper.getMeet(1L);
+		mapper.getMeet(1L);		
+	}
+	
+	@Test
+	public void deleteMeet() {
+		mapper.deleteMeetMember(2L);
+		mapper.deleteMeet(2L);
 		
 	}
 }
