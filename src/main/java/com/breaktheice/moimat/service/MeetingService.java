@@ -1,6 +1,5 @@
 package com.breaktheice.moimat.service;
 
-import com.breaktheice.moimat.domain.MeetMemberVO;
 import com.breaktheice.moimat.domain.MeetVO;
 import com.breaktheice.moimat.domain.MeetingPageVO;
 
@@ -9,4 +8,6 @@ public interface MeetingService {
 	public void createMeet(MeetVO meetVO, Long memberSeq);
 	
 	public MeetingPageVO readMeet(Long seq, Long memberSeq);
+	
+	public void modifyMeet(MeetVO meetVO);
 }

@@ -36,5 +36,10 @@ public class MeetingServiceImpl implements MeetingService{
 		return meetingPageVO;
 	}
 
+	@Override
+	public void modifyMeet(MeetVO meetVO) {
+		mapper.modifyMeet(meetVO);
+	}
+
 	
 }
