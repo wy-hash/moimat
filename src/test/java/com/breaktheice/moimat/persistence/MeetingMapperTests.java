@@ -95,9 +95,6 @@ public class MeetingMapperTests {
 	
 	@Test
 	public void isAttendTest() { //0 false 1 true로 반환해줌
-		MeetMemberVO vo = new MeetMemberVO();
-		vo.setMeetSeq(33L);
-		vo.setMemberSeq(2L);
-		mapper.isAttend(vo);
+		mapper.isAttend(33L,1L);
 	}
 }
