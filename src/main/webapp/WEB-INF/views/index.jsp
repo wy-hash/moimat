@@ -12,6 +12,7 @@
 	
 	id: ${ domain.id }<br>
 	name: ${ domain.name }<br>
-	address: ${ domain.address }
+	address: ${ domain.address }<br>
+	<a href="/groups/1">1번모임</a>
 </body>
 </html>
