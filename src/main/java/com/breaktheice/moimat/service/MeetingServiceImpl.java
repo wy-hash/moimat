@@ -7,7 +7,6 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.breaktheice.moimat.domain.MeetMemberVO;
 import com.breaktheice.moimat.domain.MeetVO;
 import com.breaktheice.moimat.domain.MeetingPageVO;
 import com.breaktheice.moimat.domain.MemberVO;
@@ -39,6 +38,27 @@ public class MeetingServiceImpl implements MeetingService{
 	@Override
 	public void modifyMeet(MeetVO meetVO) {
 		mapper.modifyMeet(meetVO);
+	}
+
+	@Override
+	public void deleteMeet(Long seq) {
+		mapper.deleteMeet(seq);
+	}
+
+	@Override
+	public void attendMeet(Long seq, Long memberSeq) {
+		mapper.attendMeet(seq, memberSeq);
+	}
+
+	@Override
+	public void cancelAttend(Long seq, Long memberSeq) {
+		mapper.cancelAttend(seq, memberSeq);
+	}
+
+	@Override
+	public List<MeetVO> getMeetList(Long teamSeq) {
+		// TODO Auto-generated method stub
+		return mapper.getMeetList(teamSeq);
 	}
 
 	

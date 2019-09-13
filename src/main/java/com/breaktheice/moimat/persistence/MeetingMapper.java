@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.breaktheice.moimat.domain.MeetMemberVO;
 import com.breaktheice.moimat.domain.MeetVO;
 import com.breaktheice.moimat.domain.MemberVO;
 
@@ -21,7 +20,7 @@ public interface MeetingMapper {
 	public void deleteMeet(Long seq);
 	//정모 참가(attend a meeting)
 	public void attendMeet(@Param("meetSeq")Long seq,@Param("memberSeq")Long memberSeq);
-	//정모 참석 취소 (To cancel attendance(참석 취소 하기)) (정모 참가와 취소는 isAttend처럼 @Param으로 바꾸는거 고려)
+	//정모 참석 취소 (To cancel attendance(참석 취소 하기))
 	public void cancelAttend(@Param("meetSeq")Long seq,@Param("memberSeq")Long memberSeq);
 	//정모 참석자 명단
 	public List<MemberVO> getMeetingMember(Long seq);
