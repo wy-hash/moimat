@@ -18,6 +18,9 @@
 	<insert id="regMeet">
 		insert into meet (seq, team_seq, area, meetdate, regdate, updatedate, maxperson, member_seq,title,content,payment)
 		values(meet_seq.nextval, #{teamSeq},#{area}, #{meetDate}, sysdate, sysdate, #{maxPerson}, #{memberSeq}, #{title}, #{content}, #{payment})
+		<selectKey order="AFTER" keyProperty="seq" resultType="Long">
+			select meet_seq.currval from dual
+		</selectKey>
 	</insert>
 	
 	<update id="modifyMeet">

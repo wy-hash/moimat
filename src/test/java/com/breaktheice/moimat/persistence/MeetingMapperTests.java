@@ -76,4 +76,21 @@ public class MeetingMapperTests {
 	public void getMeetingMemberTest() {
 		log.info(mapper.getMeetingMember(6L));
 	}
+	
+	@Test
+	public void regMeetSelectKeyTest() throws ParseException {
+		MeetVO vo = new MeetVO();
+		vo.setTeamSeq(1L);
+		vo.setArea("서초구");
+		vo.setMeetDate("2019-10-20 21:30:00");
+		vo.setMaxPerson(10);
+		vo.setMemberSeq(1L);
+		vo.setTitle("모여라!");
+		vo.setContent("내용");
+		vo.setPayment("엔빵");
+		mapper.regMeet(vo);
+		Long key = vo.getSeq();
+		System.out.println(key);
+	}
+	
 }
