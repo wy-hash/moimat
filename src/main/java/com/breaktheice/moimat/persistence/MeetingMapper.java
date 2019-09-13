@@ -21,4 +21,6 @@ public interface MeetingMapper {
 	public void attendMeet(MeetMemberVO meetMemberVO);
 	//정모 참석자 명단
 	public List<MemberVO> getMeetingMember(Long seq);
+	//정모 참여 상태(조회시 해당 정모 참여중인가 아닌가) 생각좀 해봐야겠음
+	public boolean isAttend(MeetMemberVO meeetMemberVO);
 }

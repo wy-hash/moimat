@@ -61,4 +61,14 @@
 			and meet.seq = #{seq}
 	</select>
 	
+	<select id="isAttend" resultType="boolean">
+		select
+			count(*)
+		from
+			meet_member
+		where
+			meet_seq = #{meetSeq}
+            and member_seq = #{memberSeq}
+	</select>
+	
 </mapper>
