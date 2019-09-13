@@ -66,10 +66,7 @@ public class MeetingMapperTests {
 	
 	@Test
 	public void attendMeetTest() {
-		MeetMemberVO vo = new MeetMemberVO();
-		vo.setMeetSeq(22L);
-		vo.setMemberSeq(6L);
-		mapper.attendMeet(vo);
+		mapper.attendMeet(22L,6L);
 	}
 	
 	@Test
@@ -96,5 +93,10 @@ public class MeetingMapperTests {
 	@Test
 	public void isAttendTest() { //0 false 1 true로 반환해줌
 		mapper.isAttend(33L,1L);
+	}
+	
+	@Test
+	public void calcelAttendTest() {
+		mapper.cancelAttend(22L, 6L);
 	}
 }

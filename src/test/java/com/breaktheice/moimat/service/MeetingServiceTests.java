@@ -34,11 +34,11 @@ public class MeetingServiceTests {
 		meetVO.setTitle("테스트");
 		meetVO.setPayment("1234");
 		meetMemberVO.setMemberSeq(1L);
-		service.createMeet(meetVO, meetMemberVO);
+		service.createMeet(meetVO, 2L);
 	}
 	
 	@Test
 	public void readMeetTest() {
-		log.info(service.readMeet(33L, 1L));
+		log.info(service.readMeet(35L, 2L));
 	}
 }

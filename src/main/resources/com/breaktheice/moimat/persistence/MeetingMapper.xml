@@ -49,6 +49,14 @@
 			meet_member
 		values (#{meetSeq},#{memberSeq})
 	</insert>
+	<delete id="cancelAttend">
+		delete
+			meet_member
+		where
+			meet_seq = #{meetSeq}
+		and
+			member_seq = #{memberSeq}
+	</delete>
 	
 	<select id="getMeetingMember" resultType="com.breaktheice.moimat.domain.MemberVO">
 		select

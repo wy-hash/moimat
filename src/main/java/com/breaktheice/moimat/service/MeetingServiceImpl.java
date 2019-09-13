@@ -21,10 +21,9 @@ public class MeetingServiceImpl implements MeetingService{
 	
 	@Override
 	@Transactional
-	public void createMeet(MeetVO meetVO, MeetMemberVO meetMemberVO) {//정모 생성한 사람은 자동으로 해당 정모 참가 
+	public void createMeet(MeetVO meetVO, Long memberSeq) {//정모 생성한 사람은 자동으로 해당 정모 참가 
 		mapper.regMeet(meetVO);
-		meetMemberVO.setMeetSeq(meetVO.getSeq());
-		mapper.attendMeet(meetMemberVO);
+		mapper.attendMeet(meetVO.getSeq(),memberSeq);
 	}
 
 	@Override
