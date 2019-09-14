@@ -1,5 +1,6 @@
 package com.breaktheice.moimat.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -7,6 +8,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.breaktheice.moimat.domain.MeetListVO;
 import com.breaktheice.moimat.domain.MeetVO;
 import com.breaktheice.moimat.domain.MeetingPageVO;
 import com.breaktheice.moimat.domain.MemberVO;
@@ -56,9 +58,18 @@ public class MeetingServiceImpl implements MeetingService{
 	}
 
 	@Override
-	public List<MeetVO> getMeetList(Long teamSeq) {
+	public MeetListVO getMeetList(Long teamSeq,Long memberSeq) {
 		// TODO Auto-generated method stub
-		return mapper.getMeetList(teamSeq);
+		List<MeetVO> list = mapper.getMeetList(teamSeq);
+		HashMap<Long,Integer> countMeetMember = new HashMap<Long, Integer>();
+		HashMap<Long,Boolean> isAttend = new HashMap<Long, Boolean>();
+		for (MeetVO meetVO : list) {
+			Long seq = meetVO.getSeq();
+			countMeetMember.put(seq, mapper.countMeetMember(seq));
+			isAttend.put(seq, mapper.isAttend(seq, memberSeq));
+		}
+		MeetListVO meetListTestVO = new MeetListVO(list,countMeetMember,isAttend);
+		return meetListTestVO;
 	}
 
 	

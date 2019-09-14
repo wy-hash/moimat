@@ -25,7 +25,7 @@ public class SampleController {
 		if(session.getAttribute("id")!=null) {
 			return "index";
 		}
-		session.setAttribute("id", 1);
+		session.setAttribute("id", "1");
 		//테스트용
 		log.info("request /");
 		

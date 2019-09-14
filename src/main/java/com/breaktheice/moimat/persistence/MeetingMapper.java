@@ -26,4 +26,7 @@ public interface MeetingMapper {
 	public List<MemberVO> getMeetingMember(Long seq);
 	//정모 참여 상태(조회시 해당 정모 참여중인가 아닌가) 생각좀 해봐야겠음
 	public boolean isAttend(@Param("meetSeq")Long seq,@Param("memberSeq")Long memberSeq);
+	//정모 참여자 수
+	public int countMeetMember(@Param("meetSeq")Long seq);
+	
 }

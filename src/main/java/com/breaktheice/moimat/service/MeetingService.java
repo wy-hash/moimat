@@ -2,12 +2,13 @@ package com.breaktheice.moimat.service;
 
 import java.util.List;
 
+import com.breaktheice.moimat.domain.MeetListVO;
 import com.breaktheice.moimat.domain.MeetVO;
 import com.breaktheice.moimat.domain.MeetingPageVO;
 
 public interface MeetingService {
 	//정모목록
-	public List<MeetVO> getMeetList(Long teamSeq);
+	public MeetListVO getMeetList(Long teamSeq,Long memberSeq);
 	//정모생성
 	public void createMeet(MeetVO meetVO, Long memberSeq);
 	//정모조회

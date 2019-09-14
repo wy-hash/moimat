@@ -79,4 +79,13 @@
             and member_seq = #{memberSeq}
 	</select>
 	
+	<select id="countMeetMember" resultType="int">
+		select
+			count(*)
+		from
+			meet_member
+		where
+			meet_seq = #{meetSeq}
+	</select>
+	
 </mapper>
