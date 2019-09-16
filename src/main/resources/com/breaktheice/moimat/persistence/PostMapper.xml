@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.breaktheice.moimat.persistence.PostMapper">
+
+	<select id="list" resultType="com.breaktheice.moimat.domain.PostDomain">
+		SELECT  p.seq seq, p.post_type_seq post_type_seq, p.title title, p.content content, p.regdate regdate, p.updatedate updatedate,
+		        p.count count, p.member_seq member_seq, p.orgin orgin, p.priority priority, p.depth depth, m.name name
+		FROM post p, member m
+		WHERE p.member_seq = m.seq
+		AND post_type_seq = #{postTypeSeq}
+	</select>
+	
+	<select id="view" resultType="com.breaktheice.moimat.domain.PostDomain">
+
+	</select>
+	
+	<insert id="add">
+		INSERT INTO post(
+        		seq, post_type_seq, title, content, regdate, updatedate,
+        		count, member_seq, orgin, priority, depth)
+		VALUES  (post_seq.nextval, #{postTypeSeq}, #{title}, #{content}, sysdate, sysdate,
+        		0, #{memberSeq}, post_seq.currval, #{priority}, #{depth})
+	</insert>
+	
+	<update id="update">
+	</update>
+	
+	<delete id="remove">
+	</delete>
+</mapper>
