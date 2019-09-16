@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.breaktheice.moimat.persistence.PostTypeMapper">
+
+	<select id="list" resultType="com.breaktheice.moimat.domain.PostTypeDomain">
+		SELECT SEQ, KEY, VALUE
+		FROM post_type
+	</select>
+	
+	<select id="view" resultType="com.breaktheice.moimat.domain.PostTypeDomain">
+		SELECT SEQ, KEY, VALUE
+		FROM post_type
+		WHERE SEQ = #{seq}
+	</select>
+	
+	<insert id="add">
+		INSERT INTO post_type(seq, key, value)
+		VALUES (post_type_seq.nextval, #{key}, #{value})
+	</insert>
+	
+	<update id="update">
+		UPDATE post_type
+		SET key = #{key},
+		    value = #{value}
+		WHERE seq = #{seq}
+	</update>
+	
+	<delete id="remove">
+		DELETE FROM post_type
+		WHERE seq=#{seq}
+	</delete>
+</mapper>

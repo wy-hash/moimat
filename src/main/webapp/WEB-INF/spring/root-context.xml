@@ -29,4 +29,7 @@
 	<mybatis-spring:scan base-package="com.breaktheice.moimat.persistence"/>
 	<context:component-scan base-package="com.breaktheice.moimat.service"></context:component-scan>
 	
+	<bean id="sha256" class="com.breaktheice.moimat.util.SHA256" /> 
+	
+	
 </beans>
