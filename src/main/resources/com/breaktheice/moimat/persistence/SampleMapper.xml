@@ -1,9 +1,44 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.breaktheice.moimat.persistence.SampleMapper">
+<mapper namespace="com.breaktheice.moimat.persistence.PhotoMapper">
 	
 	<select id="selectSampleDomain" resultType="com.breaktheice.moimat.domain.SampleDomain">
 		select * from sampletable
 	</select>
 	
+<<<<<<< Updated upstream:src/main/resources/com/breaktheice/moimat/persistence/SampleMapper.xml
+=======
+	<select id="selectBoardOne" parameterType="com.breaktheice.moimat.domain.PhotoDomain"  resultType="com.breaktheice.moimat.domain.PhotoDomain"><!-- id는 함수호출 -->
+      SELECT seq, post_type_seq, title, content, regdate, updatedate, count, member_seq, orgin, priority, depth 
+      FROM post 
+      WHERE seq = #{seq} 
+   </select> 
+   
+	<insert id="insertBoard"  parameterType="com.breaktheice.moimat.domain.PhotoDomain">
+    insert into post (seq, post_type_seq, title, content, regdate, updatedate, count, member_seq, orgin, priority, depth)
+    values (post_seq.nextval, #{post_type_seq}, #{title}, #{content}, #{regdate}, #{updatedate}, 0, #{member_seq}, post_seq.currval, 0, 0)
+	</insert>
+	
+	<delete id="deleteBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
+		delete from post where seq=#{seq}
+	</delete>
+	
+	<update id="modifyBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
+		update post set post_type_seq=#{post_type_seq},title=#{title},content=#{content},updatedate=#{updatedate},count=#{count},member_seq=#{member_seq},orgin=#{orgin},priority=#{priority},depth=#{depth}
+		where seq=#{seq}
+		
+	</update>
+	
+	<update id="replyUPBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
+   		update post set priority= priority+1 where orgin=#{orgin} and priority > #{priority}
+   </update>
+   
+	<insert id="replyBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
+		 insert into post (seq, post_type_seq, title, content, regdate, updatedate, member_seq, orgin, priority, depth)
+    	values (post_seq.nextval, #{post_type_seq}, #{title}, #{content}, #{regdate}, #{updatedate}, #{member_seq}, #{orgin}, #{priority}+1, #{depth}+1)
+	</insert>
+	
+	
+	
+>>>>>>> Stashed changes:src/main/resources/com/breaktheice/moimat/persistence/PhotoMapper.xml
 </mapper>
