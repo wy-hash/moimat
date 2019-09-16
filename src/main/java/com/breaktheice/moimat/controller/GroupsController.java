@@ -27,7 +27,7 @@ public class GroupsController {
 		}
 		Long id = Long.parseLong(session.getAttribute("id").toString());
 		
-		model.addAttribute("meetlist", service.getMeetList(groupId,id));
+		model.addAttribute("meetList", service.getMeetList(groupId,id));
 		return "/groups/groups";
 	}
 	

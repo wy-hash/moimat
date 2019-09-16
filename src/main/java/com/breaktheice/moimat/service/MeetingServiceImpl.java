@@ -70,7 +70,5 @@ public class MeetingServiceImpl implements MeetingService{
 		}
 		MeetListVO meetListTestVO = new MeetListVO(list,countMeetMember,isAttend);
 		return meetListTestVO;
-	}
-
-	
+	}	
 }
