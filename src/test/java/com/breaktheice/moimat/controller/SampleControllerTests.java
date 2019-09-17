@@ -31,22 +31,8 @@ public class SampleControllerTests {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
 	}
 	
-<<<<<<< Updated upstream:src/test/java/com/breaktheice/moimat/controller/SampleControllerTests.java
-=======
-	/*
-	 * @Test public void testPhotoController() {
-	 * 
-	 * List<PhotoDomain> list = service.selectBoardList(); System.out.println(list);
-	 * 
-	 * }
-	 */
-	
-	// 사진첩 목록 출력 테스트
->>>>>>> Stashed changes:src/test/java/com/breaktheice/moimat/controller/PhotoControllerTests.java
 	@Test
 	public void testIndexPage() throws Exception {
-		
-		
 		log.info(mockMvc.perform(MockMvcRequestBuilders.get("/"))
 				.andReturn()
 				.getModelAndView()
