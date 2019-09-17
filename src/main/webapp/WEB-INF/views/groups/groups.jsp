@@ -23,6 +23,9 @@
 </head>
 <body>
 	<div class="container">
+	<a class="btn btn-info btn-lg btn-block" href="/groups/${groupId}/meetings/new">정모 등록</a>
+	</div>
+	<div class="container">
 		<h1>정모목록</h1>
 
 		<c:forEach items="${meetList.meetList }" var="list">
@@ -34,7 +37,7 @@
 							<a href="${groupId }/${list.seq }"><h5 class="card-title">${list.title }</h5></a>
 							<p class="card-text">${list.content }</p>
 							<p class="card-text">${list.payment }</p>
-							<a class="${meetList.isAttend[list.seq]? 'btn btn-danger' :'btn btn-primary'}">참석하기</a>
+							<a id="attend" class="${meetList.isAttend[list.seq]? 'btn btn-danger':'btn btn-primary'}">${meetList.isAttend[list.seq]? '불참하기' :'참석하기'}</a>
 							<p class="card-text">${meetList.countMeetMember[list.seq] }/${list.maxPerson }</p>
 							<p class="card-text">
 								<small class="text-muted">Last updated 3 mins ago</small>
@@ -52,27 +55,32 @@
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6213368344dd87ee3c46139e0d1df7cd"></script>
 	<script>
-		
 		window.onload = function() {
+			var attend = document.getElementById("attend");
 			var geocoder = new kakao.maps.services.Geocoder();
 			<c:forEach items="${meetList.meetList }" var="list">
-			geocoder.addressSearch('${list.area}', function(result, status) {
-				if (status === kakao.maps.services.Status.OK) {
-					var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-				}
-				var mapContainer = document.getElementById('map${list.seq}'), // 지도를 표시할 div 
-				mapOption = {
-					center : coords,
-					level : 3
-				};
-				var map = new kakao.maps.Map(mapContainer, mapOption);
-				var marker = new kakao.maps.Marker({
-		            map: map,
-		            position: coords
-		        });
-				console.log('그런 너를 마주칠까 ' + result[0].address.address_name + '을 못가'); //기억용
-			});
+			geocoder.addressSearch('${list.area}',
+					function(result, status) {
+						if (status === kakao.maps.services.Status.OK) {
+							var coords = new kakao.maps.LatLng(result[0].y,
+									result[0].x);
+						}
+						var mapContainer = document
+								.getElementById('map${list.seq}'), // 지도를 표시할 div 
+						mapOption = {
+							center : coords,
+							level : 3
+						};
+						var map = new kakao.maps.Map(mapContainer, mapOption);
+						var marker = new kakao.maps.Marker({
+							map : map,
+							position : coords
+						});
+					});
+		
 			</c:forEach>
+			
+			
 		}
 	</script>
 </body>
