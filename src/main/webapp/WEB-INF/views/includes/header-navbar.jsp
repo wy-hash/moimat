@@ -141,7 +141,7 @@
                                             <li class="bg-gray">
                                                 <a class="media" href="#">
                                                     <div class="media-left">
-                                                        <img class="img-circle img-sm" alt="Profile Picture" src="img/profile-photos/9.png">
+                                                        <img class="img-circle img-sm" alt="Profile Picture" src="../resources/img/profile-photos/9.png">
                                                     </div>
                                                     <div class="media-body">
                                                         <div class="text-nowrap">Lucy sent you a message</div>
@@ -154,7 +154,7 @@
                                             <li class="bg-gray">
                                                 <a class="media" href="#">
                                                     <div class="media-left">
-                                                        <img class="img-circle img-sm" alt="Profile Picture" src="img/profile-photos/3.png">
+                                                        <img class="img-circle img-sm" alt="Profile Picture" src="../resources/img/profile-photos/3.png">
                                                     </div>
                                                     <div class="media-body">
                                                         <div class="text-nowrap">Jackson sent you a message</div>

@@ -68,10 +68,6 @@
 
     <!--=================================================-->
     
-    <!--Demo script [ DEMONSTRATION ]-->
-    <script src="../resources/js/demo/nifty-demo.min.js"></script>
-
-    
     <!--Morris.js [ OPTIONAL ]-->
     <script src="../resources/plugins/morris-js/morris.min.js"></script>
 	<script src="../resources/plugins/morris-js/raphael-js/raphael.min.js"></script>
@@ -80,9 +76,6 @@
     <!--Sparkline [ OPTIONAL ]-->
     <script src="../resources/plugins/sparkline/jquery.sparkline.min.js"></script>
 
-
-    <!--Specify page [ SAMPLE ]-->
-    <script src="../resources/js/demo/dashboard.js"></script>
 
 
 
