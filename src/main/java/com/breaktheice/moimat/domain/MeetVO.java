@@ -24,7 +24,7 @@ public class MeetVO {
 	private String payment;
 	
 	public void setMeetDate(String meetDate) throws ParseException {
-		Date date = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss").parse(meetDate);
+		Date date = new SimpleDateFormat("yyyy-MM-dd kk:mm").parse(meetDate);
 		this.meetDate = date;
 	}
 	
