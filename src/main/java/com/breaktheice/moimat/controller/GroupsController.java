@@ -1,13 +1,14 @@
 package com.breaktheice.moimat.controller;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.breaktheice.moimat.service.MeetingService;
@@ -16,7 +17,7 @@ import com.breaktheice.moimat.service.MeetingService;
 @RequestMapping("/groups")
 public class GroupsController {
 	
-	@Inject
+	@Autowired
 	private MeetingService service;
 
 	@GetMapping("/{groupId}")
@@ -31,4 +32,18 @@ public class GroupsController {
 		return "/groups/groups";
 	}
 	
+	@GetMapping("/{groupId}/meetings/new")
+	public String meetingsNew() {
+		return "/groups/new";
+	}
+	
+	@GetMapping("/map")
+	public String map() {
+		return "/groups/selectmap";
+	}
+	
+	@PostMapping("/{groupId}/meetings/new")
+	public String meetingsNew2() {
+		return "/groups/new";
+	}
 }
