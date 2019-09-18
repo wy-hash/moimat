@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.breaktheice.moimat.persistence.InterestMapper">
+
+	<select id="list" resultType="com.breaktheice.moimat.domain.InterestDomain">
+		SELECT SEQ, KEY, VALUE
+		FROM interest
+	</select>
+	
+	<select id="view" resultType="com.breaktheice.moimat.domain.InterestDomain">
+		SELECT SEQ, KEY, VALUE
+		FROM interest
+		WHERE SEQ = #{seq}
+	</select>
+	
+	<insert id="add">
+		INSERT INTO interest(seq, key, value)
+		VALUES (interest_seq.nextval, #{key}, #{value})
+	</insert>
+	
+	<update id="update">
+		UPDATE interest
+		SET key = #{key},
+		    value = #{value}
+		WHERE seq = #{seq}
+	</update>
+	
+	<delete id="remove">
+		DELETE FROM interest
+		WHERE seq=#{seq}
+	</delete>
+</mapper>

@@ -1,5 +1,6 @@
 package com.breaktheice.moimat.domain;
 
+
 import java.util.Date;
 
 import lombok.Getter;
