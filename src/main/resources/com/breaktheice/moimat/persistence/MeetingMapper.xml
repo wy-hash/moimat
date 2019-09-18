@@ -3,7 +3,9 @@
 <mapper namespace="com.breaktheice.moimat.persistence.MeetingMapper">
 	
 	<select id="getMeetList" resultType="com.breaktheice.moimat.domain.MeetVO">
-		select * from meet where team_seq = #{teamSeq}
+	<![CDATA[
+		select meet.*,meetdate-sysdate from meet where team_seq = #{teamSeq} and meetdate-sysdate > 0 order by meetdate-sysdate
+	]]>
 	</select>
 	
 	<select id="getMeet" resultType="com.breaktheice.moimat.domain.MeetVO">
