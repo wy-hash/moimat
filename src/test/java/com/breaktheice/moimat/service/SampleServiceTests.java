@@ -18,6 +18,6 @@ public class SampleServiceTests {
 	
 	@Test
 	public void getListTest() {
-		log.info(service.selectBoardList("1"));
+		log.info(service.getSampleDomain());
 	}
 }
