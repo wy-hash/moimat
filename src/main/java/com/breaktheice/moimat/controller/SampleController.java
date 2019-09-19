@@ -24,16 +24,15 @@ public class SampleController {
 	@GetMapping("/")
 	public String index(Model model,HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		if(session.getAttribute("id")!=null) {
-			return "index";
-		}
+		
 		session.setAttribute("id", "1");
+		session.setAttribute("groupid", "1");
 		//테스트용
 		log.info("request /");
 		
 		model.addAttribute("domain", service.getSampleDomain());
 		
-		return "index";
+		return "groupview";
 	}
 	
 	@GetMapping("/template")

@@ -1,15 +1,13 @@
 package com.breaktheice.moimat.domain;
 
 
-import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class MeetVO {
 	private Long seq; //번호
 	private Long teamSeq; //모임 번호

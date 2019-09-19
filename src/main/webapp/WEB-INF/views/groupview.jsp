@@ -1,12 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="ko">
 
 <!-- HEAD -->
 <%@ include file="includes/head.jsp"%>
+<link href="../resources/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet">
+	<link href="../resources/plugins/fullcalendar/nifty-skin/fullcalendar-nifty.min.css" rel="stylesheet">
+	 
 <title>Page Template | moim@</title>
+
 </head>
 <!-- END HEAD -->
 
@@ -52,23 +56,65 @@
 					<!-- #################################### -->
 
 					<div class="container-fluid">
-						<!-- temporary use img -->
-						<div class="mar-btm">
-							<img src="/resources/img/bg-img/bg-img-2.jpg"
-								class="img-responsive" alt="Responsive image"
-								style="max-height: 250px; width: 100%">
-						</div>
-						<!-- temporary use panel -->
-						<div class="panel panel-dark">
-							<div class="panel-heading">
-								<h3 class="panel-title">(대충 모임 명인 것)</h3>
-							</div>
-							<div class="panel-body" style="height: 600px">
-								<p>(대충 모임 소개내용인 것)
-								<p>
-							</div>
-
-						</div>
+						<div class="row">
+					    <div class="col-md-4 col-lg-3">
+					        <div class="panel">
+					            <div class="panel-heading">
+					                <h3 class="panel-title">Events</h3>
+					            </div>
+					            <div class="panel-body">
+					                <div class="form-group">
+					                    <input type="text" id="event_title" placeholder="Event Title..." class="form-control" value="">
+					                </div>
+					                <button class="btn btn-block btn-purple">Add New Event</button>
+					                <hr>
+					
+					                <!-- Draggable Events -->
+					                <!-- ============================================ -->
+					                <p class="text-semibold">Draggable Events</p>
+					                <div id="demo-external-events">
+					                    <div class="fc-event fc-list" data-class="warning">All Day Event</div>
+					                    <div class="fc-event fc-list" data-class="success">Meeting</div>
+					                    <div class="fc-event fc-list" data-class="mint">Birthday Party</div>
+					                    <div class="fc-event fc-list" data-class="purple">Happy Hour</div>
+					                    <div class="fc-event fc-list">Lunch</div>
+					                    <hr>
+					                    <div>
+					                        <label class="form-checkbox form-normal form-primary">
+					                            <input type="checkbox" id="drop-remove">
+					                            Remove after drop
+					                        </label>
+					                    </div>
+					                    <hr>
+					                    <div class="fc-event" data-class="warning">All Day Event</div>
+					                    <div class="fc-event" data-class="success">Meeting</div>
+					                    <div class="fc-event" data-class="mint">Birthday Party</div>
+					                    <div class="fc-event" data-class="purple">Happy Hour</div>
+					                    <div class="fc-event">Lunch</div>
+					                </div>
+					                <!-- ============================================ -->
+					
+					
+					            </div>
+					        </div>
+					    </div>
+					    <div class="col-md-8 col-lg-9">
+					        <div class="panel">
+					            <div class="panel-heading">
+					                <h3 class="panel-title">Calendar</h3>
+					            </div>
+					            <div class="panel-body">
+					
+					                <!-- Calendar placeholder-->
+					                <!-- ============================================ -->
+					                <div id='demo-calendar'></div>
+					                <!-- ============================================ -->
+					
+					            </div>
+					        </div>
+					    </div>
+					</div>
+					
 					</div>
 					<!-- end ./panel panel-dafault -->
 					<!-- start container-fluid -->
@@ -130,10 +176,16 @@
 
 		</div>
 		<!-- END CONTAINER -->
-		<script type="text/javascript"
-			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6213368344dd87ee3c46139e0d1df7cd&libraries=services"></script>
-		<script type="text/javascript"
-			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6213368344dd87ee3c46139e0d1df7cd"></script>
+		<script src="../resources/plugins/fullcalendar/lib/moment.min.js"></script>
+	<script src="../resources/plugins/fullcalendar/lib/jquery-ui.custom.min.js"></script>
+	<script src="../resources/plugins/fullcalendar/fullcalendar.min.js"></script>
+	<script type="text/javascript" src="/resources/js/meetlist.js"></script>
+	<!--Full Calendar [ SAMPLE ]-->
+    <script src="../resources/js/demo/misc-fullcalendar.js"></script>
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6213368344dd87ee3c46139e0d1df7cd&libraries=services"></script>
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6213368344dd87ee3c46139e0d1df7cd"></script>
 		<script>
 			window.onload = function() {
 				
@@ -161,6 +213,14 @@
 							});
 						});
 				}
+				var groupid = '<c:out value="${groupid}"/>'
+				var memberid = '<c:out value="${id}"/>'
+				meetListService.getList(groupid,memberid,function(list){
+					for(var i = 0, len = list.length||0; i<len; i++){
+						console.log(list[i].meetDate);
+						
+					}
+				})
 			}
 		</script>
 </body>
