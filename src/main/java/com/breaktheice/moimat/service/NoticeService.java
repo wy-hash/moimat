@@ -1,14 +1,15 @@
-package com.breaktheice.moimat.persistence;
+package com.breaktheice.moimat.service;
 
 import java.util.List;
 
-import com.breaktheice.moimat.domain.MemberVO;
+import org.springframework.stereotype.Service;
+
 import com.breaktheice.moimat.domain.PostDomain;
 
-public interface PostMapper {
+@Service
+public interface NoticeService {
+
 	
-	// 조회수 증가
-	public int viewCount(PostDomain domain);
 	// 게시물 목록
 	public List<PostDomain> list(PostDomain domain);
 	// 게시물 상세
@@ -20,6 +21,5 @@ public interface PostMapper {
 	// 게시물 삭제
 	public int remove(PostDomain domain);
 	
-	// 게시물 작성자 확인 member_seq 를 int 형으로 반환
-	public int memberCheck(PostDomain domain);
+
 }
