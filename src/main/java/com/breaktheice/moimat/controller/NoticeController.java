@@ -1,5 +1,7 @@
 package com.breaktheice.moimat.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,9 +23,13 @@ public class NoticeController {
 	// 공지사항 목록 출력 
 	@RequestMapping(value= {"","list"})
 	public String list(Model model, PostDomain domain) {
+		log.info("list() 호출");
+		domain.setPostTypeSeq(1);//공지사항 조회
 		
+		List<PostDomain> list = service.list(domain);
 		
-		model.addAttribute("list", service.list(domain));
+		log.info("list =>" +list);
+		model.addAttribute("list", list);
 		
 		return "/admin/notice/list";
 	}
