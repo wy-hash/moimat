@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.breaktheice.moimat.domain.MemberVO;
+import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.persistence.JoinMapper;
 
 import lombok.AllArgsConstructor;
@@ -39,11 +39,11 @@ public class JoinServiceImpl implements JoinService {
 	/**
 	 * 회원 정보 등록
 	 * 
-	 * @param MemberVO
+	 * @param MemberDomain
 	 * @return Boolean
 	 * @throws
 	 */
-	public boolean joinMember(MemberVO vo) {
+	public boolean joinMember(MemberDomain vo) {
 		
 		int success = joinMapper.join(vo);	// Member테이블 삽입
 		int success2 = joinMapper.insertInterest(vo); // MemberInterest테이블 삽입

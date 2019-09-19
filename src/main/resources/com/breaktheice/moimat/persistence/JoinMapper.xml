@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.breaktheice.moimat.persistence.JoinMapper">
+	
+	<select id="getInterestCodelist" resultType="com.breaktheice.moimat.domain.InterestDomain" >
+			SELECT   
+					SEQ
+					,KEY
+					,VALUE
+			FROM 
+					INTEREST
+		
+		
+	</select>
+	
+	<insert id="join" parameterType="com.breaktheice.moimat.domain.MemberDomain" >
+			
+		<!-- 회원가입 쿼리를 만들기 -->
+		
+			INSERT INTO MEMBER
+			SET
+				SEQ			= MEMBER_SEQ.NEXTVAL
+				,ID 		= #{id}
+			 	,PASSWORD 	= #{PASSWORD}
+			 	,NAME	 	= #{NAME}
+			 	,BIRTHDAY	= #{BIRTHDAY}
+			 	,EMAIL  	= #{EMAIL}
+			 	,AREA 		= #{AREA}
+			 	,PHONE_NUMBER = #{PHONE_NUMBER}
+			 	,STATE		= #{STATE}
+			 	,REGDATE 	= #{REGDATE}
+			 	,UPDATEDATE = #{UPDATEDATE}
+			 	,PHOTO      = ""
+			 	,INTEREST   = #{INTEREST}
+			 	
+		
+	</insert>
+	
+	<insert id="insertInterest" parameterType="com.breaktheice.moimat.domain.MemberDomain" >
+			
+		<!-- 회원가입 쿼리를 만들기 -->
+		
+			INSERT INTO MEMBER_INTEREST
+			SET
+				SEQ			= MEMBER_SEQ.NEXTVAL
+				,INTEREST_SEQ 		= #{id}
+			 	
+			 	
+		
+	</insert>
+	
+</mapper>

@@ -2,14 +2,14 @@ package com.breaktheice.moimat.persistence;
 
 import java.util.ArrayList;
 
-import com.breaktheice.moimat.domain.MemberVO;
+import com.breaktheice.moimat.domain.MemberDomain;
 
 
 public interface JoinMapper {
 	
-	public int join(MemberVO memberVo);
+	public int join(MemberDomain memberVo);
 	
-	public int insertInterest(MemberVO memberVo);
+	public int insertInterest(MemberDomain memberVo);
 	
 	public ArrayList getInterestCodelist();
 }

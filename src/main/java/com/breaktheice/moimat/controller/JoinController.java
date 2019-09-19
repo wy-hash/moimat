@@ -14,22 +14,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.breaktheice.moimat.domain.MemberVO;
+import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.service.JoinService;
 //import com.google.gson.Gson;
+import com.google.gson.Gson;
 
 import lombok.extern.log4j.Log4j;
 
 @Controller
 @Log4j
+@RequestMapping("reg")
 public class JoinController {
 
 	@Autowired
 	JoinService joinService;
 	
 	
-	@GetMapping("/joinPage")
-	public String joinPage(HttpServletRequest request) {
+	@GetMapping("/join")
+	public String join(HttpServletRequest request) {
 		 log.info("joinPage 호출.... "); 
 		 
 	 	return "login/joinPage";
@@ -49,20 +51,19 @@ public class JoinController {
 	 * @return String
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/codeList", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
-	public @ResponseBody String makeCodeList() throws Exception {
+	@RequestMapping(value = "/codeList", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8") // produces = "text/plain;charset=UTF-8: 한글
+	@ResponseBody // ajax 데이터 전송
+	public String makeCodeList() throws Exception {
 	
 		log.info("makeCodeList 호출..");
 		
 		Map map = new HashMap();
 		
 		map.put("codeList", joinService.getInterestCodeList());
-//		Gson gson = new Gson();
-//		String json = gson.toJson(map);
-		String json = "";
+		Gson gson = new Gson();
+		String json = gson.toJson(map);
 
 		log.info(json);
-		
 
 		return json;
 	}
@@ -73,16 +74,14 @@ public class JoinController {
 	 * @return String
 	 * @throws Exception
 	 */
-	@PostMapping("/checkId")
+	@RequestMapping(value = "/checkId", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+	@ResponseBody 
 	public String checkId(String id) throws Exception {
 	
-		log.info("joinAction 호출..");
+		log.info("checkId 호출..");
 		log.info("vo :" +id);
 		
 		//id 중복체크~!
-		
-		
-		
 		log.info("실패");
 		
 		return "fail";	// 실패 페이지
@@ -97,7 +96,7 @@ public class JoinController {
 	 * @throws Exception
 	 */
 	@PostMapping("/joinAction")
-	public String joinAction(MemberVO vo) throws Exception {
+	public String joinAction(MemberDomain vo) throws Exception {
 	
 		log.info("joinAction 호출..");
 		log.info("vo :" +vo);

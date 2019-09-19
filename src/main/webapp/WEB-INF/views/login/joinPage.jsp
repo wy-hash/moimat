@@ -76,7 +76,8 @@
 		                <div class="row">
 		                    <div class="col-sm-6">
 		                        <div class="form-group">
-		                            <input type="text" class="form-control" placeholder="Id" name="id">
+		                            <input type="text" class="form-control" placeholder="Id" id="id" name="id">
+		                            <input type="checkbox" id="checkId" hidden />
 		                        </div>
 		                        <div class="form-group">
 		                            <input type="text" class="form-control" placeholder="Pwd" name="pwd">
@@ -92,10 +93,15 @@
 		                    </div>
 		                    <div class="col-sm-6">
 		                        <div class="form-group">
-		                            <input type="text" class="form-control" placeholder="Gender" name="gender">
+		                             <select id="gender" name="gender" class="form-control"> 
+										<option value="">성별선택</option> 
+										<option value="M">남자</option> 
+										<option value="W">여자</option>
+				  					</select>
 		                        </div>
 		                        <div class="form-group">
-		                            <input type="password" class="form-control" placeholder="Email" name="email">
+		                            <input style="display:inline;width:46%;" type="password" class="form-control" placeholder="EmailId" name="email"> @ 
+		                            <input style="display:inline;width:46%;" type="text" 	   class="form-control"  id="emailDomain" 	placeholder="aaa.com" />
 		                        </div>
 		                    </div>
 		                    <div class="col-sm-6">
@@ -106,14 +112,13 @@
 		                            <input type="password" class="form-control" placeholder="Interest" name="interest">
 		                        </div>
 		                    </div>
-		                    <div class="col-sm-3">
+		                    <div class="col-sm-6">
 		                        <div class="form-group">
-		                            <input type="text" class="form-control" placeholder="phone1" name="phone1">
-		                            <input type="text" class="form-control" placeholder="phone2" name="phone2">
-		                            <input type="text" class="form-control" placeholder="phone3" name="phone3">
+		                            <input style="display:inline;width:30%;" type="text" class="form-control" placeholder="phone1" name="phone1"> -
+		                            <input style="display:inline;width:30%;" type="text" class="form-control" placeholder="phone2" name="phone2"> -
+		                            <input style="display:inline;width:30%;" type="text" class="form-control" placeholder="phone3" name="phone3">
 		                            <input type="hidden" id="phone_number" name="phone_number"/>
 		                        </div>
-		                       
 		                    </div>
 		                </div>
 		                <div class="checkbox pad-btm text-left">
@@ -121,6 +126,9 @@
 		                    <label for="demo-form-checkbox">I agree with the <a href="#" class="btn-link">Terms and Conditions</a></label>
 		                </div>
 		                <button class="btn btn-primary btn-block" type="submit">회원 가입</button>
+		                <div class="checkbox pad-btm text-center">
+		                    <h3 id="checkMsg"></h3>
+		                </div>
 		            </form>
 		        </div>
 		        <div class="pad-all">
@@ -148,31 +156,48 @@
 // 여기서 관심사 정보 갖고올거임
 $(document).ready(function(){
 	requestCode();
-	
-	
+	checkId();
 });
 
-//관심사 정보를 갖고오는 함수 
-function requestCode(){
+//id중복 체크
+function checkId(){
+	$('#id').focusout(function() {
+		 
+		// id 공백체크 모듈
+		if ($('#id').val() == null || $('#id').val() == '') {
+			alert('아이디 항목을 확인해주세요');
+			//$('#id').focus();
+			return;
+		}
 
-	$.ajax({
+		//id 길이체크
+		if ($('#id').val().length < 8 || $('#id').val().length > 15) {
+			alert('아이디는 최소 8자이상 15자 미만입니다');
+			//$('#id').focus();
+			return;
+		}
+		
+		// 위의 검증이 완료되면 중복체크
+		
+		$.ajax({
 			type : "POST",
-			url : "checkId",
+			url : "/reg/checkId",
 			//data:
 			dataType : "json",
 			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
 			async : false,
 			success : function(data, status, xhr) {
-
 				
-
+				
+				
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
 				alert(jqXHR.responseText);
 			}
 		});
 
-	}
+	});
+}
 
 // 관심사 정보를 갖고오는 함수 
 function requestCode(){
@@ -192,8 +217,9 @@ function requestCode(){
 				}
 
 			},
+			// 에러 발생시 여길로 떨어짐
 			error : function(jqXHR, textStatus, errorThrown) {
-				alert(jqXHR.responseText);
+				alert("코드리스트르 가져올수 없습니다 관리자에게 문의하세요");
 			}
 		});
 
@@ -211,20 +237,6 @@ function requestCode(){
 	}
 
 	function valueCheck() {
-
-		// id 공백체크 모듈
-		if ($('#id').val() == null || $('#id').val() == '') {
-			alert('아이디 항목을 확인해주세요');
-			$('#id').focus();
-			return;
-		}
-
-		//id 길이체크
-		if ($('#id').val().length < 8 || $('#id').val().length > 15) {
-			alert('아이디는 최소 8자이상 15자 미만입니다');
-			$('#id').focus();
-			return;
-		}
 
 		// 한글검증 추가 (추후에...)
 

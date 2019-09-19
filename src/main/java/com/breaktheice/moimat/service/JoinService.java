@@ -2,7 +2,7 @@ package com.breaktheice.moimat.service;
 
 import java.util.ArrayList;
 
-import com.breaktheice.moimat.domain.MemberVO;
+import com.breaktheice.moimat.domain.MemberDomain;
 
 public interface JoinService {
 	
@@ -20,11 +20,11 @@ public interface JoinService {
 	/**
 	 * 회원 정보 등록
 	 * 
-	 * @param MemberVO
+	 * @param MemberDomain
 	 * @return Boolean
 	 * @throws
 	 */
-	public boolean joinMember(MemberVO vo);
+	public boolean joinMember(MemberDomain vo);
 	
 	
 
