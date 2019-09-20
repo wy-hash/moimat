@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.service.JoinService;
-//import com.google.gson.Gson;
 import com.google.gson.Gson;
+
 
 import lombok.extern.log4j.Log4j;
 
