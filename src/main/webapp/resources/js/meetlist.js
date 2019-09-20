@@ -14,10 +14,21 @@ var meetListService = (function(){
 			}
 		});
 	}
+	
+	function parseDate(meetDate){
+		var dateObj = new Date(meetDate);
+		var yy = dateObj.getFullYear();
+		var mm = dateObj.getMonth()+1;
+		var dd = dateObj.getDate();
+		var hh = dateObj.getHours();
+		var mi = dateObj.getMinutes();
+		
+		return [yy,'/',(mm > 9 ? '' : '0')+mm,'/',(dd > 9 ? '' : '0')+dd,' ',
+			(hh > 9 ? '' : '0')+hh,':',(mi > 9 ? '' : '0')+mi].join('');
+	}
 	return {
-		getList : getList
+		getList : getList,
+		parseDate : parseDate
 	};
 })();
-
-
 
