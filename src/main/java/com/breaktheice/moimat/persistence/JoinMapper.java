@@ -12,6 +12,8 @@ public interface JoinMapper {
 	public int insertInterest(MemberDomain memberVo);
 	
 	public ArrayList getInterestCodelist();
+	
+	public String checkMemberId(String id);
 }
 
 

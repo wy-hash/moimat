@@ -78,6 +78,7 @@
 		                        <div class="form-group">
 		                            <input type="text" class="form-control" placeholder="Id" id="id" name="id">
 		                            <input type="checkbox" id="checkId" hidden />
+		                            <h5 id="idMsg"></h5>
 		                        </div>
 		                        <div class="form-group">
 		                            <input type="text" class="form-control" placeholder="Pwd" name="pwd">
@@ -171,8 +172,8 @@ function checkId(){
 		}
 
 		//id 길이체크
-		if ($('#id').val().length < 8 || $('#id').val().length > 15) {
-			alert('아이디는 최소 8자이상 15자 미만입니다');
+		if ($('#id').val().length < 5 || $('#id').val().length > 15) {
+			alert('아이디는 최소 5자이상 15자 미만입니다');
 			//$('#id').focus();
 			return;
 		}
@@ -182,14 +183,13 @@ function checkId(){
 		$.ajax({
 			type : "POST",
 			url : "/reg/checkId",
-			//data:
+			data: $("#id").serialize(),
 			dataType : "json",
 			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
 			async : false,
 			success : function(data, status, xhr) {
-				
-				
-				
+				console.log(data);
+				$('#idMsg').text(data.checkMsg);
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
 				alert(jqXHR.responseText);

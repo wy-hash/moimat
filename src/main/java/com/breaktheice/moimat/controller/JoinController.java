@@ -29,7 +29,6 @@ public class JoinController {
 	@Autowired
 	JoinService joinService;
 	
-	
 	@GetMapping("/join")
 	public String join(HttpServletRequest request) {
 		 log.info("joinPage 호출.... "); 
@@ -67,6 +66,7 @@ public class JoinController {
 
 		return json;
 	}
+	
 	/**
 	 * id 중복조회
 	 * 
@@ -79,12 +79,18 @@ public class JoinController {
 	public String checkId(String id) throws Exception {
 	
 		log.info("checkId 호출..");
-		log.info("vo :" +id);
+		log.info("id" +id);
 		
-		//id 중복체크~!
-		log.info("실패");
+		log.info("joinService : "+ joinService);
+		log.info("joinService2 : "+ joinService);
 		
-		return "fail";	// 실패 페이지
+		Map result = joinService.checkId(id);
+		Gson gson = new Gson();
+		
+		String resultJson = gson.toJson(result);	
+		log.info("result to json : " +resultJson);
+		
+		return resultJson;	//json 형식으로 전송
 	}
 	
 	
