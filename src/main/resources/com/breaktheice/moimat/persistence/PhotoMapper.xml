@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.breaktheice.moimat.persistence.PhotoMapper">
+	<!-- 게시물 상세보기 -->
+	<select id="selectBoardOne" parameterType="com.breaktheice.moimat.domain.PhotoDomain"  resultType="com.breaktheice.moimat.domain.PhotoDomain"><!-- id는 함수호출 -->
+      SELECT seq, post_type_seq, title, content, regdate, updatedate, count, member_seq, orgin, priority, depth 
+      FROM post 
+      WHERE seq = #{seq} 
+   </select> 
+   <!-- 게시물생성 -->
+	<insert id="insertBoard"  parameterType="com.breaktheice.moimat.domain.PhotoDomain">
+    insert into post (seq, post_type_seq, title, content, regdate, updatedate, count, member_seq, orgin, priority, depth)
+   values (post_seq.nextval, #{postTypeSeq}, #{title}, #{content}, #{regdate}, #{updatedate}, 0, #{memberSeq}, post_seq.currval, 0, 0)
+	</insert>
+	<!-- 게시물삭제 -->
+	<delete id="deleteBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
+		delete from post where seq=#{seq}
+	</delete>
+	<!-- 게시물 수정 -->
+	<update id="modifyBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
+		update post set post_type_seq=#{postTypeSeq},title=#{title},content=#{content},updatedate=#{updatedate},count=#{count},member_seq=#{memberSeq},orgin=#{orgin},priority=#{priority},depth=#{depth}
+		where seq=#{seq}
+	</update>
+	<!-- 댓글수정 -->
+	<update id="replyUPBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
+   		update reply set talk = #{talk},UPDATEDATE = sysdate where seq = #{replySeq}
+   </update>
+   <!-- 댓글생성 -->
+	<insert id="replyBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
+		insert into reply (SEQ, MEMBER_SEQ, TALK, REGDATE, UPDATEDATE)
+		values (reply_seq.nextval, #{memberSeq}, #{talk}, sysdate, sysdate)
+	</insert>
+	<!-- 댓글참조테이블사용 게시물 번호 덧글번호  -->
+	<insert id="replyFKBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
+	<!--  insert into post_reply (POST_SEQ, REPLY_SEQ) values (#{postSeq}, reply_seq.currval) -->
+	 	 insert into post_reply (POST_SEQ, REPLY_SEQ) values (#{seq}, (select max(seq) from reply))
+	</insert>
+	<!-- 참조테이블 댓글번호 게시물 번호 삭제 -->
+	<delete id="replydeleteBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
+		delete from post_reply where reply_seq=#{replySeq}
+	</delete>
+	<!-- 댓글삭제 -->
+	<delete id="replydeleteBoard2" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
+		delete from reply where seq = #{replySeq}
+	</delete>
+	
+	<delete id="photodeleteBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
+		delete from attach where fullname = #{fullname}
+	</delete>
+
+	<update id="photoUPBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
+   		update attach set fullname = #{fullname},regdate = sysdate where post_seq = #{postSeq}
+   </update>
+	
+</mapper>
