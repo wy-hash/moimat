@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.breaktheice.moimat.domain.LoginVO;
+import com.breaktheice.moimat.domain.LoginDomain;
 import com.breaktheice.moimat.service.LoginService;
 
 import lombok.extern.log4j.Log4j;
 
 @Controller
 @Log4j
-@RequestMapping("/auth")
+@RequestMapping("auth")
 public class LoginController {
 
 	@Autowired
@@ -25,7 +25,7 @@ public class LoginController {
 	
 	
 	@GetMapping("/login") // 사용자에게 로그인 입력 양식을 주는 페이지
-	public String loginPage(Model model) {
+	public String login(Model model) {
 		
 		log.info("loginPage 호출.... "); // Stem.out.println 써버에 부담 증가 .. log로 사용
 		
@@ -33,7 +33,7 @@ public class LoginController {
 	}
 	
 	@PostMapping("/login") // 로그인 처리... post로 받았기 때문에 PostMapping으로 처리
-	public String loginAction(Model model, LoginVO loginVo, HttpServletRequest request) {
+	public String login(Model model, LoginDomain loginVo, HttpServletRequest request) {
 
 		log.info("loginAction 호출.... ");
 		log.info("login.." + loginVo.toString());
@@ -49,16 +49,16 @@ public class LoginController {
 		}
 	}
 	
-	@GetMapping("/logoutPage") // 테스트로그아웃페이지
-	public String logoutPage(Model model) {
+	@GetMapping("/logout") // 테스트로그아웃페이지
+	public String logout(Model model) {
 		
-		log.info("logOutPage 호출.... "); 
+		log.info("logOut 호출.... "); 
 		
 		return "login/logoutPage";
 	}
 	
-	@GetMapping("/logoutAction") // 로그인 처리... post로 받았기 때문에 PostMapping으로 처리
-	public String logoutAction(HttpServletRequest request) {
+	@PostMapping("/logout") // 로그인 처리... post로 받았기 때문에 PostMapping으로 처리
+	public String logout(HttpServletRequest request) {
 		 log.info("logoutAction 호출.... "); 
 		 
 		 HttpSession session = request.getSession(); //세션을 가져와서 

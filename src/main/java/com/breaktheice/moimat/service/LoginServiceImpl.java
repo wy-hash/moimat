@@ -6,8 +6,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.breaktheice.moimat.domain.LoginVO;
-import com.breaktheice.moimat.domain.MemberVO;
+import com.breaktheice.moimat.domain.LoginDomain;
+import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.persistence.LoginMapper;
 import com.breaktheice.moimat.util.SHA256;
 
@@ -26,7 +26,7 @@ public class LoginServiceImpl implements LoginService {
 	SHA256 sha256;
 		
 	@Override
-	public boolean loginCheck(LoginVO vo, HttpServletRequest request) { // 로그인 처리
+	public boolean loginCheck(LoginDomain vo, HttpServletRequest request) { // 로그인 처리
 		
 		log.info("loginCheck");
 		
@@ -38,7 +38,7 @@ public class LoginServiceImpl implements LoginService {
 		String inputPwd = sha256.encrypt(vo.getPwd()); //변환작업
 
 		// 2. db에서 갖고옴(아직 mapper 안만듬)
-		MemberVO memberVO = mapper.login(vo);
+		MemberDomain memberVO = mapper.login(vo);
 		
 		log.info("db의 패스워드" + memberVO.getPassword() + "길이:"+ memberVO.getPassword().length());
 		log.info("사용자의 패스워드" + inputPwd+"길이:" + inputPwd.length());

@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.breaktheice.moimat.persistence.LoginMapper">
 	
-	<select id="login" parameterType="com.breaktheice.moimat.domain.LoginVO" 
-			resultType="com.breaktheice.moimat.domain.MemberVO">
+	<select id="login" parameterType="com.breaktheice.moimat.domain.LoginDomain" 
+			resultType="com.breaktheice.moimat.domain.MemberDomain">
 		SELECT	
 				id, 
 				password,
