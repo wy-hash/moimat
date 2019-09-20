@@ -121,7 +121,7 @@
 					<!-- meet list -->
 					<div class="container-fluid">
 						<div class="panel">
-							<div class="panel-body">
+							<div class="panel-body" id='meetList'>
 								<div class="row">
 									<div class="col-md-4 visible-md visible-lg"
 										style="min-width: 200px; height: 300px;">
@@ -188,13 +188,9 @@
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6213368344dd87ee3c46139e0d1df7cd"></script>
 		<script>
 			window.onload = function() {
-				
-				var attend = document.getElementById("attend");
+				var meetList = document.getElementById("meetList");
+				var meetListStr = '';
 				var geocoder = new kakao.maps.services.Geocoder();
-				setMap('서초구','map');
-				setMap('서초구','map2');
-				setMap('서초구','map3');
-				//map id와 meetVO에 있는 area 어떻게 가져올까 다시 생각하기
 				
 				function setMap(area, idx) {geocoder.addressSearch(area,
 						function(result, status) {
@@ -218,9 +214,21 @@
 				meetListService.getList(groupid,memberid,function(list){
 					for(var i = 0, len = list.length||0; i<len; i++){
 						console.log(list[i].meetDate);
-						
+						meetListStr +='<div class="row">'
+								   +	'<div class="col-md-4 visible-md visible-lg"'
+								   +	'style="min-width: 200px; height: 300px;">'
+								   +		'<div id="map'+i+'" style="height: 100%"></div>'
+								   +	'</div>'
+								   +	'<div class="col-md-8"></div>'
+								   + '</div>'
+						 		   + '<hr>';
+					}
+					meetList.innerHTML = meetListStr;
+					for(var i = 0, len = list.length||0; i<len; i++){
+						setMap(list[i].area,"map"+i)
 					}
 				})
+				
 			}
 		</script>
 </body>
