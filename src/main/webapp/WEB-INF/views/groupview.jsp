@@ -211,21 +211,23 @@
 				}
 				var groupid = '<c:out value="${groupid}"/>'
 				var memberid = '<c:out value="${id}"/>'
+				
 				meetListService.getList(groupid,memberid,function(list){
-					for(var i = 0, len = list.length||0; i<len; i++){
-						console.log(list[i].meetDate);
+					//meetList,countMeetMember, isAttend	
+					for(var i = 0, len = list.meetList.length||0; i<len; i++){
 						meetListStr +='<div class="row">'
 								   +	'<div class="col-md-4 visible-md visible-lg"'
 								   +	'style="min-width: 200px; height: 300px;">'
 								   +		'<div id="map'+i+'" style="height: 100%"></div>'
 								   +	'</div>'
-								   +	'<div class="col-md-8"></div>'
+								   +	'<div class="col-md-8">'
+								   +	'</div>'
 								   + '</div>'
 						 		   + '<hr>';
 					}
 					meetList.innerHTML = meetListStr;
-					for(var i = 0, len = list.length||0; i<len; i++){
-						setMap(list[i].area,"map"+i)
+					for(var i = 0, len = list.meetList.length||0; i<len; i++){
+						setMap(list.meetList[i].area,"map"+i)
 					}
 				})
 				

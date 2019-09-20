@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.breaktheice.moimat.domain.MeetVO;
+import com.breaktheice.moimat.domain.MeetListVO;
 import com.breaktheice.moimat.service.MeetingService;
 
 import lombok.AllArgsConstructor;
@@ -29,7 +29,7 @@ public class CalController {
 			produces = {
 					MediaType.APPLICATION_JSON_UTF8_VALUE
 			})
-	public ResponseEntity<List<MeetVO>> getList(@PathVariable("groupid")Long a,@PathVariable("memberid")Long b){
-		return new ResponseEntity<>(service.getMeetList(a, b).getMeetList(),HttpStatus.OK);
+	public ResponseEntity<MeetListVO> getList(@PathVariable("groupid")Long a,@PathVariable("memberid")Long b){
+		return new ResponseEntity<>(service.getMeetList(a, b),HttpStatus.OK);
 	}
 }
