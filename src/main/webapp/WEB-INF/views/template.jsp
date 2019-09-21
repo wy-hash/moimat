@@ -51,9 +51,7 @@
             	    <!-- #################################### -->
                 
                 
-                <!-- login page -->
-				<%@ include file="login/joinPage.jsp" %>
-				<!-- login page --->
+               
                 	
 				
 					
