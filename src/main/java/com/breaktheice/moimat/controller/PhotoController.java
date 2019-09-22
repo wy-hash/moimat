@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.breaktheice.moimat.domain.PhotoDomain;
+import com.breaktheice.moimat.page.Criteria;
+import com.breaktheice.moimat.page.PageMaker;
 import com.breaktheice.moimat.service.FileUploadService;
 import com.breaktheice.moimat.service.PhotoService;
 
@@ -42,6 +44,29 @@ public class PhotoController {
 		
 		return "test";
 	}	
+	@RequestMapping("/list2")
+	public void list3(Criteria criteria, Model model) throws Exception {
+		System.out.println("list2()");
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(criteria);
+		
+		System.out.println(criteria.getPerPageNum());
+		System.out.println(criteria.getPage());
+		
+   
+	    int totalCount = service.selectAllBoard();
+	    System.out.println(totalCount);
+	    System.out.println("��ü �Խù� ���� ����:" + totalCount);
+		pageMaker.setTotalCount(totalCount);
+       
+		List<PhotoDomain> boardList = service.selectBoardListPage(criteria); 
+		
+		model.addAttribute("list", boardList);
+		model.addAttribute("pageMaker", pageMaker);
+
+		//return "redirect:list";
+	}
 	@RequestMapping( "/upload" )
 	public String upload(
 			Model model,

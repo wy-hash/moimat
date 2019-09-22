@@ -7,8 +7,12 @@
       FROM post 
       WHERE seq = #{seq} 
    </select> 
+ 		<!-- 페이징  -->
+	<select id="selectAllBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
+		select count(*) from post
+	</select>	
    <!-- 게시물생성 -->
-	<insert id="insertBoard"  parameterType="com.breaktheice.moimat.domain.PhotoDomain">
+	<insert id="insertBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
     insert into post (seq, post_type_seq, title, content, regdate, updatedate, count, member_seq, orgin, priority, depth)
    values (post_seq.nextval, #{postTypeSeq}, #{title}, #{content}, #{regdate}, #{updatedate}, 0, #{memberSeq}, post_seq.currval, 0, 0)
 	</insert>

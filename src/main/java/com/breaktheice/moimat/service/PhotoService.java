@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.breaktheice.moimat.domain.PhotoDomain;
+import com.breaktheice.moimat.page.Criteria;
 
 public interface PhotoService {
 	
@@ -23,6 +24,11 @@ public interface PhotoService {
 	public void photodeleteBoard(PhotoDomain domain);
 	
 	public void photoUPBoard(PhotoDomain domain);
+	
+	//파일업로드
+	public int selectAllBoard() throws Exception;
+	
+	  public List<PhotoDomain> selectBoardListPage(Criteria criteria) throws Exception;
 	
 	public String restore(List<MultipartFile> files,PhotoDomain domain);
 	public String genSaveFileName(String extName,PhotoDomain domain);

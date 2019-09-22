@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.breaktheice.moimat.domain.PhotoDomain;
+import com.breaktheice.moimat.page.Criteria;
 import com.breaktheice.moimat.persistence.PhotoMapper;
 
 import lombok.AllArgsConstructor;
@@ -18,6 +19,16 @@ public class PhotoServiceImpl implements PhotoService{
 	private PhotoMapper mapper;
 	static final String SAVE_PATH = "C:\\git\\moimat\\resources\\FileUpload";
 	static final String PREFIX_URL = "/upload/";
+	
+	//파일업로드
+	public int selectAllBoard() throws Exception {
+		
+		return mapper.selectAllBoard();
+    }
+	//파일업로드
+	  public List<PhotoDomain> selectBoardListPage(Criteria criteria) throws Exception {
+			return mapper.selectBoardListPage(criteria);
+	    }
 	
 	public String restore(List<MultipartFile> files,PhotoDomain domain) {
 		String url = null;
