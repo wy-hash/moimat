@@ -117,6 +117,7 @@ public class JoinServiceImpl implements JoinService {
 		if(tmp != null && tmp.getCode().equals(auth.getCode())) {
 			
 			// 기능 추가(해당 인증로우 삭제)
+			joinMapper.deleteCode(auth);
 			
 			return true;
 			
@@ -125,7 +126,6 @@ public class JoinServiceImpl implements JoinService {
 		// 인증실패
 		return false;
 		
-		
 	}
-	
+		
 }

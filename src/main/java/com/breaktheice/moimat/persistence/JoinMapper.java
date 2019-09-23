@@ -19,6 +19,10 @@ public interface JoinMapper {
 	public int insertCode(AuthCodeDomain auth);
 	
 	public AuthCodeDomain selectCode(AuthCodeDomain auth);
+	
+	public int deleteCode(AuthCodeDomain auth);
+	
+	
 }
 
 

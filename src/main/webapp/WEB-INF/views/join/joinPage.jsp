@@ -55,36 +55,42 @@
 										<h3 class="h4 mar-no">회원가입 페이지</h3>
 										<p class="text-muted"></p>
 									</div>
-									<form
-										action="http://www.themeon.net/nifty/v2.5/pages-login.html">
+									<form id="regForm" action="/joinAction" method="post">
 										<div class="row">
 											<div class="col-sm-6">
 												<div class="form-group">
-													<input type="text" 		class="form-control" 	id="emailId" 		placeholder="emailId" style="display:inline;width:46%;"/>
-												  @ <input type="text" 		class="form-control" 	id="emailDomain" 	placeholder="aaa.com" style="display:inline;width:46%;"/>
-												    <input type="hidden" 	id="email" 				style="display:inline;width:46%;"/>
+													<input type="text" class="form-control" id="emailId" name= "emailId"
+														placeholder="emailId" style="display: inline; width: 46%;" />
+													@ <input type="text" class="form-control" id="emailDomain"
+														placeholder="aaa.com" style="display: inline; width: 46%;" />
+													<input type="hidden" id="email"
+														style="display: inline; width: 46%;" />
 												</div>
 											</div>
 											<div class="col-sm-6">
 												<div class="form-group">
-													<input	type="text" class="form-control" 	id="emailCode" 		placeholder="인증코드입력" style="display:inline;width:58%;"/>
-													<button class="btn btn-primary btn-block" 	type="button"	id="emailCheck" onclick="checkEmail();" 	style="display:inline;width:40%;">이메일인증</button>
-													 <input type="hidden" 	id="checkEmail;" 				style="display:inline;width:46%;"/>
+													<input type="text" class="form-control" id="emailCode"
+														placeholder="인증코드입력" style="display: inline; width: 58%;" />
+													<button class="btn btn-primary btn-block" type="button" id="emailCheck"
+													  onclick="checkEmail();" style="display: inline; width: 40%;">이메일인증</button>
+													 <input type="checkBox" id="checkEmailBox" hidden
+														style="display: inline; width: 46%;"  /> 
 												</div>
 											</div>
 											<div class="col-sm-6">
 												<div class="form-group">
-													<input type="text" class="form-control" placeholder="Pwd" name="pwd">
+													<input type="text" class="form-control" placeholder="Pwd" id="pwd"	name="pwd">
 												</div>
 											</div>
 											<div class="col-sm-6">
 												<div class="form-group">
-													<input type="text" class="form-control" placeholder="Name"	name="name">
+													<input type="text" class="form-control" placeholder="Name"	id="name" name="name"  >
 												</div>
 											</div>
 											<div class="col-sm-6">
 												<div class="form-group">
-													<input type="password" class="form-control"	placeholder="Birthday" name="birthday">
+													<input type="text" class="form-control"
+														placeholder="Birthday" id="birthday" name="birthday">
 												</div>
 											</div>
 											<div class="col-sm-6">
@@ -92,56 +98,50 @@
 													<select id="gender" name="gender" class="form-control">
 														<option value="">성별선택</option>
 														<option value="M">남자</option>
-														<option value="W">여자</option>
+														<option value="F">여자</option>
 													</select>
 												</div>
 											</div>
 											<div class="col-sm-6">
 												<div class="form-group">
-													<input type="text" class="form-control" placeholder="Area"	name="area">
+													<input type="text" class="form-control"  id="area" name="area" placeholder="Area"
+														>
 												</div>
 											</div>
-											<div class="col-sm-6">
+ 											<div class="col-sm-6">
 												<div class="form-group">
-													<select class="form-control" id="interest1" name="interest3" placeholder="Interest" >
-														<option default>관심사 선택</option>
+													<select class="form-control" id="interest1"	name="interest1" placeholder="Interest">
+														<option value="" default>관심사1 선택</option>
 													</select>
 												</div>
 											</div>
+
 											<div class="col-sm-6">
 												<div class="form-group">
-													<select class="form-control" id="interest2" name="interest3" placeholder="Interest" >
-														<option default>관심사 선택</option>
+													<select class="form-control" id="interest2"
+														name="interest2" placeholder="Interest">
+														<option default>관심사2 선택</option>
 													</select>
 												</div>
 											</div>
+											
 											<div class="col-sm-6">
 												<div class="form-group">
-													<select class="form-control" id="interest3" name="interest3" placeholder="Interest" >
-														<option default>관심사 선택</option>
+													<select class="form-control" id="interest3"
+														name="interest3" placeholder="Interest">
+														<option default>관심사3 선택</option>
 													</select>
 												</div>
-											</div>
-											<!-- <div class="col-sm-6">
-												<div class="form-group">
-													<input style="display: inline; width: 30%;" type="text"
-														class="form-control" placeholder="phone1" name="phone1">
-													- <input style="display: inline; width: 30%;" type="text"
-														class="form-control" placeholder="phone2" name="phone2">
-													- <input style="display: inline; width: 30%;" type="text"
-														class="form-control" placeholder="phone3" name="phone3">
-													<input type="hidden" id="phone_number" name="phone_number" />
-												</div>
-											</div> -->
+											</div> 
+											
 										</div>
 										<div class="checkbox pad-btm text-left">
-											<input id="demo-form-checkbox" class="magic-checkbox"
-												type="checkbox"> <label for="demo-form-checkbox">I
-												agree with the <a href="#" class="btn-link">Terms and
-													Conditions</a>
+											<input type="checkbox" id="demo-form-checkbox" class="magic-checkbox" > 
+												<label for="demo-form-checkbox">I
+													agree with the <a href="#" class="btn-link">Terms and Conditions</a>
 											</label>
 										</div>
-										<button class="btn btn-primary btn-block" type="submit">회원	가입</button>
+										<button class="btn btn-primary btn-block" type="button" onclick="checkAndSubmit();">회원가입</button>
 										<div class="checkbox pad-btm text-center">
 											<h3 id="checkMsg"></h3>
 										</div>
@@ -180,9 +180,10 @@
 
 		</div>
 		<!-- END CONTAINER -->
+		
 <script>
    
-// 여기서 관심사 정보 갖고올거임
+	//여기서 관심사 정보 갖고올거임
    $(document).ready(function(){
    		requestCode();
   
@@ -259,11 +260,13 @@
    				alert(data.msg);
    				
    				if(data.msgCode == 1){
+   					
    					$('#emailCheck').html('인증코드확인');             // 버튼이름 변경(색상 변경하기)
    					$('#emailCheck').removeAttr("onclick");			// 온클릭 속성 삭제
    					$('#emailCheck').attr('onclick',"checkCode();") // 새로운 온클릭 속성 부여
    				 	$("#emailId").attr("readonly",true);			// 이메일 아이디 readOnly
    					$("#emailDomain").attr("readonly",true);		// 이메일 도메인 readOnly
+   					
    				}
    										
    			},
@@ -303,6 +306,8 @@
    					$('#emailCode').attr("readOnly", true);
    					// 인증코드 버튼기능 제거
    					$('#emailCheck').removeAttr("onclick");	
+   					// 히든필드 인증체크 확인
+   					$("#checkEmailBox").attr("checked", true);
    				}
    				
    										
@@ -336,35 +341,33 @@
    					option += "<option value='"+codeList[i].key+"'>"+ codeList[i].value + "</option>"					
    				}
    				
-   				$('#interest').append(option);
+   				$('#interest1').append(option);
+   				$('#interest2').append(option);
+   				$('#interest3').append(option);
 
    			},
    			// 에러 발생시 여길로 떨어짐
    			error : function(jqXHR, textStatus, errorThrown) {
-   				alert("코드리스트르 가져올수 없습니다 관리자에게 문의하세요");
+   				alert("codeList를 가져올수 없습니다. 관리자에게 문의하세요");
    			}
    		});
 
    	}
 
-   	// 나중에 ... 기능추가 한글입력방지
-   	function fn_press_han(obj) {
-
-   		//좌우 방향키, 백스페이스, 딜리트, 탭키에 대한 예외
-   		if (event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37
-   				|| event.keyCode == 39 || event.keyCode == 46)
-   			return;
-   		//obj.value = obj.value.replace(/[\a-zㄱ-ㅎㅏ-ㅣ가-힣]/g, '');
-   		obj.value = obj.value.replace(/[\ㄱ-ㅎㅏ-ㅣ가-힣]/g, '');
-   	}
-
-   	function submit() {
-   		
+   	// 최종 유효성 검사후 전송기능 함수
+   	function checkAndSubmit() {
+   		   		  		
    		//emailId + '@' + emailDomain 합쳐서  email hidden 태그에 넣기
    		var str = ''; // 임시로 받는 변수
    		str += $('#emailId').val() + '@' + $('#emailDomain').val();
    		$('#email').val(str)
 
+   		//인증코드 
+   		if($("#checkEmailBox").is(":checked") != true){
+   			alert("이메일 인증을 확인하세요");
+   			return;
+   		}
+   		
    		//pwd 빈칸
    		if ($('#pwd').val() == null || $('#pwd').val() == '') {
    			alert('패스워드 항목을 확인해주세요');
@@ -395,6 +398,8 @@
    			$('#name').focus();
    			return;
    		}
+   		
+   		// name 특수문자 필터링
 
    		//birthday 빈칸 방지
    		if ($('#birthday').val() == null || $('#birthday').val() == '') {
@@ -402,7 +407,15 @@
    			$('#birthday').focus();
    			return;
    		}
-
+   		
+   		// 생일 유효성 검사(오로직 숫자만)
+	   	var regType1 = /^[0-9]{8}$/; //{8} :8자리
+	   	
+	 	if(!regType1.test($('#birthday').val())){
+	   		alert("생일 형식이 맞지않습니다(숫자만)")
+	   		return;
+	   	}
+		
    		//gender 빈칸방지
    		if ($('#gender').val() == null || $('#gender').val() == '') {
    			alert('gender 항목을 확인해주세요');
@@ -421,42 +434,42 @@
    			$('#name').focus();
    			return;
    		}
-
    		
    		// 지역 빈칸 검증
-   		if ($('#area1').val() == null || $('#area1').val() == '') {
-   			alert('지역1 빈칸 확인해주세요');
-   			$('#area1').focus();
+   		if ($('#area').val() == null || $('#area').val() == '') {
+   			alert('지역 빈칸 확인해주세요');
+   			$('#area').focus();
    			return;
    		}
 
    		// 지역 길이체크
-   		if ($('#area1').val().length < 2 || $('#area1').val().length > 5) {
-   			alert('지역1 길이체크 최소 2자이상 5자 미만입니다');
-   			$('#area1').focus();
+   		if ($('#area').val().length < 2 || $('#area').val().length > 5) {
+   			alert('지역 길이체크 최소 2자이상 5자 미만입니다');
+   			$('#area').focus();
    			return;
    		}
 
    		//관심사1 빈칸 검증
-   		if ($('#interest').val() == null || $("#interest").val() == '') {
+   		if ($('#interest1').val() == null || $("#interest1").val() == '') {
    			alert('interest 항목을 확인해주세요');
-   			$('#interest').focus();
+   			$('#interest1').focus();
    			return;
    		}
    		
-   	    //관심사2 빈칸 검증
-   		if ($('#interest').val() == null || $("#interest").val() == '') {
-   			alert('interest 항목을 확인해주세요');
-   			$('#interest').focus();
+   		if($("#demo-form-checkbox").is(":checked") != true){
+   			alert("가입동의에 체크해주세요");
    			return;
    		}
-   	
-   	    //관심사3 빈칸 검증
-   		if ($('#interest').val() == null || $("#interest").val() == '') {
-   			alert('interest 항목을 확인해주세요');
-   			$('#interest').focus();
-   			return;
+		
+   		// 최종적으로 submit()
+   		if(confirm("가입하시겠습니까?")){
+   			$('#regForm').submit()
+   			
+   			
+   			
    		}
+   		
+   		
 		
    	}
 </script>

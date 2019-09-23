@@ -70,7 +70,7 @@
 			)
 	</insert>
 	
-		<select id="selectCode" parameterType="com.breaktheice.moimat.domain.AuthCodeDomain" resultType="com.breaktheice.moimat.domain.AuthCodeDomain">
+	<select id="selectCode" parameterType="com.breaktheice.moimat.domain.AuthCodeDomain" resultType="com.breaktheice.moimat.domain.AuthCodeDomain">
 		
 		SELECT 
 				*
@@ -81,6 +81,18 @@
 				and email = #{email}
 	
 	</select>
+	
+	<delete id="deleteCode" parameterType="com.breaktheice.moimat.domain.AuthCodeDomain">
+		
+		DELETE 
+				
+		FROM
+				AUTHCODE
+		WHERE 
+					code = #{code}
+				and email = #{email}
+	
+	</delete>
 	
 	
 </mapper>
