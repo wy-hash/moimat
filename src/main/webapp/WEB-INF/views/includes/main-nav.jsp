@@ -20,25 +20,8 @@
                                             <img class="img-circle img-sm img-border" src="../resources/img/profile-photos/1.png" alt="Profile Picture">
                                         </div>
                                         <a href="#profile-nav" class="box-block" data-toggle="collapse" aria-expanded="false">
-                                            <span class="pull-right dropdown-toggle">
-                                                <i class="dropdown-caret"></i>
-                                            </span>
-                                            <p class="mnp-name">Aaron Chavez</p>
-                                            <span class="mnp-desc">aaron.cha@themeon.net</span>
-                                        </a>
-                                    </div>
-                                    <div id="profile-nav" class="collapse list-group bg-trans">
-                                        <a href="#" class="list-group-item">
-                                            <i class="demo-pli-male icon-lg icon-fw"></i> View Profile
-                                        </a>
-                                        <a href="#" class="list-group-item">
-                                            <i class="demo-pli-gear icon-lg icon-fw"></i> Settings
-                                        </a>
-                                        <a href="#" class="list-group-item">
-                                            <i class="demo-pli-information icon-lg icon-fw"></i> Help
-                                        </a>
-                                        <a href="#" class="list-group-item">
-                                            <i class="demo-pli-unlock icon-lg icon-fw"></i> Logout
+                                            <p class="mnp-name">이모임</p>
+                                            <span class="mnp-desc">@서울특별시 서초구</span>
                                         </a>
                                     </div>
                                 </div>
