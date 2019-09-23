@@ -27,36 +27,6 @@
                                 </div>
 
 
-                                <!--Shortcut buttons-->
-                                <!--================================-->
-                                <div id="mainnav-shortcut">
-                                    <ul class="list-unstyled">
-                                        <li class="col-xs-3" data-content="My Profile">
-                                            <a class="shortcut-grid" href="#">
-                                                <i class="demo-psi-male"></i>
-                                            </a>
-                                        </li>
-                                        <li class="col-xs-3" data-content="Messages">
-                                            <a class="shortcut-grid" href="#">
-                                                <i class="demo-psi-speech-bubble-3"></i>
-                                            </a>
-                                        </li>
-                                        <li class="col-xs-3" data-content="Activity">
-                                            <a class="shortcut-grid" href="#">
-                                                <i class="demo-psi-thunder"></i>
-                                            </a>
-                                        </li>
-                                        <li class="col-xs-3" data-content="Lock Screen">
-                                            <a class="shortcut-grid" href="#">
-                                                <i class="demo-psi-lock-2"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <!--================================-->
-                                <!--End shortcut buttons-->
-
-
                                 <ul id="mainnav-menu" class="list-group">
 						
 						            <!--Category name-->
