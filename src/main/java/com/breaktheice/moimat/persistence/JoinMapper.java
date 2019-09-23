@@ -2,6 +2,7 @@ package com.breaktheice.moimat.persistence;
 
 import java.util.ArrayList;
 
+import com.breaktheice.moimat.domain.AuthCodeDomain;
 import com.breaktheice.moimat.domain.MemberDomain;
 
 
@@ -13,7 +14,11 @@ public interface JoinMapper {
 	
 	public ArrayList getInterestCodelist();
 	
-	public String checkMemberId(String id);
+	public String checkMemberEmail(String email);
+	
+	public int insertCode(AuthCodeDomain auth);
+	
+	public AuthCodeDomain selectCode(AuthCodeDomain auth);
 }
 
 

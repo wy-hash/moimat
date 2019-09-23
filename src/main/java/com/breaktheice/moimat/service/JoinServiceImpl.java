@@ -1,15 +1,13 @@
 package com.breaktheice.moimat.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.breaktheice.moimat.domain.AuthCodeDomain;
 import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.persistence.JoinMapper;
-import com.google.gson.Gson;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -64,36 +62,70 @@ public class JoinServiceImpl implements JoinService {
 	
 	
 	/**
-	 * id 중복조회
+	 * email 중복조회
 	 *  
 	 * @param 
 	 * @return 
 	 * @throws
 	 */
 	@Override
-	public Map checkId(String id) {
+	public boolean checkEmail(String email) {
 		
 		// db에서 회원정보 갖고온다
-		String result = joinMapper.checkMemberId(id);
+		String result = joinMapper.checkMemberEmail(email);
 		
-		//GSon
-		Gson gson = new Gson();
-		
-		//Map
-		Map map = new HashMap();
-		
-		// id 중복이 있는경우 있는경우(중복)
+		// email중복이 있는경우 있는경우(중복)
 		if(result != null && !result.equals("")) {
-			map.put("checkCode", 1);
-			map.put("checkMsg", "Id가 중복됩니다");
-		}else { // id 중복이 없는 경우
-			map.put("checkCode", 0);
-			map.put("checkMsg", "사용할 수 있는 아이디 입니다");
+			return true;
 		}
 		
-		return map;
-			
+		return false;	// 중복 없는 경우
 	}
 	
+	/**
+	 * 인증코드 저장
+	 *  
+	 * @param 
+	 * @return 
+	 * @throws
+	 */
+	@Override
+	public boolean insertCode(AuthCodeDomain auth) {
+		
+		int result = joinMapper.insertCode(auth);
+		
+		if(result == 1) {
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
+	/**
+	 * 인증코드 확인
+	 *  
+	 * @param 
+	 * @return 
+	 * @throws
+	 */
+	public boolean selectAuthCode(AuthCodeDomain auth) {
+		
+		AuthCodeDomain tmp = joinMapper.selectCode(auth);
+		
+		// 인증오케이
+		if(tmp != null && tmp.getCode().equals(auth.getCode())) {
+			
+			// 기능 추가(해당 인증로우 삭제)
+			
+			return true;
+			
+		}
+		
+		// 인증실패
+		return false;
+		
+		
+	}
 	
 }

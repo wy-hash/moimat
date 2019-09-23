@@ -1,45 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<!-- <!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<title>회원 가입 페이지</title>
-	<script
-  src="https://code.jquery.com/jquery-3.4.1.js"  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="  crossorigin="anonymous"></script>
-</head>
-<body>
-	<h2>joinPage</h2>
-	<form id="joinAction" action="" method="post">
-		아이디       : <input type="text"	 	id="id" 			name="id" 			onkeydown="fn_press_han(this);" placeholder="아이디 입력" /> <br>
-		패스워드    : <input type="password"	id="pwd" 			name="password" 	placeholder="비밀번호" /> <br>
-		닉네임       : <input type="text" 		id="name" 			name="name" 		placeholder="" /> <br>
-		생년월일    : <input type="date" 		id="birthday" 		name="birthday" 	placeholder="" /> <br>
-		성별          : <select id="gender" name="gender"> 
-					<option value="">성별선택</option> 
-					<option value="M">남자</option> 
-					<option value="W">여자</option>
-				  </select> <br>
-				
-		이메일       : <input type="text" 		id="emailId" 		placeholder="" />
-				@ <input type="text" 		id="emailDomain" 	placeholder="" />
-				  <input type="hidden" 		id="email" 			name="email"/> <br>
-		지역          : <input type="text" id="area1" /> - <input type="text" id="area2" /> -<input type="text" id="area3" />
-		          <input type="hidden" id="area" name="area" value="테스트지역"/> <br> 
-		관심사       : <select id="interest" name="interest">
-					
-				  </select>
-				  <br>
-		핸드폰번호 : <input type="text" id="phone1" /> - <input type="text" id="phone2" /> -<input type="text" id="phone3" /> 
-		<input type="hidden" id="phone_number" name="phone_number"/> <br>
-	</form>
-	<a href="javascript:void(0);" onclick="valueCheck();">전송</a>
-	
-
-</body>
-</html> -->
-
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -99,15 +60,15 @@
 										<div class="row">
 											<div class="col-sm-6">
 												<div class="form-group">
-													<input type="text" 		class="form-control" 	id="emaiId" 		placeholder="aaa.com" style="display:inline;width:46%;"/>
+													<input type="text" 		class="form-control" 	id="emailId" 		placeholder="emailId" style="display:inline;width:46%;"/>
 												  @ <input type="text" 		class="form-control" 	id="emailDomain" 	placeholder="aaa.com" style="display:inline;width:46%;"/>
 												    <input type="hidden" 	id="email" 				style="display:inline;width:46%;"/>
 												</div>
 											</div>
 											<div class="col-sm-6">
 												<div class="form-group">
-													<input	type="text" class="form-control" 	id="emailCod" 		placeholder="인증코드입력" style="display:inline;width:58%;"/>
-													<button class="btn btn-primary btn-block" 	type="void(0);" 	style="display:inline;width:40%;">이메일인증</button>
+													<input	type="text" class="form-control" 	id="emailCode" 		placeholder="인증코드입력" style="display:inline;width:58%;"/>
+													<button class="btn btn-primary btn-block" 	type="button"	id="emailCheck" onclick="checkEmail();" 	style="display:inline;width:40%;">이메일인증</button>
 													 <input type="hidden" 	id="checkEmail;" 				style="display:inline;width:46%;"/>
 												</div>
 											</div>
@@ -142,8 +103,23 @@
 											</div>
 											<div class="col-sm-6">
 												<div class="form-group">
-													<input type="password" class="form-control"
-														placeholder="Interest" name="interest">
+													<select class="form-control" id="interest1" name="interest3" placeholder="Interest" >
+														<option default>관심사 선택</option>
+													</select>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="form-group">
+													<select class="form-control" id="interest2" name="interest3" placeholder="Interest" >
+														<option default>관심사 선택</option>
+													</select>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="form-group">
+													<select class="form-control" id="interest3" name="interest3" placeholder="Interest" >
+														<option default>관심사 선택</option>
+													</select>
 												</div>
 											</div>
 											<!-- <div class="col-sm-6">
@@ -208,47 +184,137 @@
    
 // 여기서 관심사 정보 갖고올거임
    $(document).ready(function(){
-   	requestCode();
-   	checkId();
+   		requestCode();
+  
    });
 
    //이메일 중복체크
-   function checkMail(){
-   	$('#emailId').focusout(function() {
-   		 
-   		// id 공백체크 모듈
-   		if ($('#email').val() == null || $('#id').val() == '') {
-   			alert('아이디 항목을 확인해주세요');
-   			//$('#id').focus();
+   function checkEmail(){
+      	
+	   	let emailId = $('#emailId').val();
+		//정규식...  han => 한글입력 패턴
+       	var isHan = /[ㄱ-ㅎ가-힣]/g;
+     
+	   
+   		// 이메일 id 공백 체크!
+   		if (emailId == null || emailId == '') {
+   			alert('이메일 id 항목을 확인해주세요');
+   			$('#emaiId').focus();
    			return;
    		}
 
-   		//id 길이체크
-   		if ($('#id').val().length < 5 || $('#id').val().length > 15) {
-   			alert('아이디는 최소 5자이상 15자 미만입니다');
-   			//$('#id').focus();
+   		//이메일 id 길이체크
+   		if (emailId.length < 5 || emailId.length >= 15) {
+   			alert('이메일 id는 최소 5자이상 15자 미만입니다');
+   			$('#emaiId').focus();
    			return;
    		}
+   		// 이메일 id 한글체크
+        if (isHan.test(emailId)) {
+            alert("이메일 주소를 다시 확인해주세요.");
+            return;
+        }
+    	
+   		let emailDomain = $('#emailDomain').val();
+   		
+     // 이메일 도메인 공백 체크!
+   		if (emailDomain == null || emailDomain == '') {
+   			alert('이메일 도메인 항목을 확인해주세요');
+   			$('#emailDomain').focus();
+   			return;
+   		}
+      //이메일 도메인 길이체크
+   		if (emailDomain.length < 8 || emailDomain.length >= 15) {
+   			alert('이메일 도메인 최소 8자이상 15자 미만입니다');
+   			$('#emailDomain').focus();
+   			return;
+   		}
+   		// 이메일 도메인 한글체크
+        if (isHan.test(emailDomain)) {
+            alert("이메일 주소를 다시 확인해주세요.");
+            return;
+        }
+   		
+   		//검증된 id와 도메인을 이메일 주소형식으로 생성
+   		let email = emailId + '@'+emailDomain;
+   		
+   		//정규식...isEmail=>email형식이 맞는지 확인
+   		var isEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+   		
+   	  	if (!isEmail.test(email)) {
+          alert("이메일 주소 형식 다시 확인해주세요.");
+          return;
+      	}
    		
    		// 위의 검증이 완료되면 중복체크
-   		
    		$.ajax({
    			type : "POST",
-   			url : "/reg/checkId",
-   			data: $("#id").serialize(),
+   			url : "/reg/checkEmail",
+   			data: {email:email},
    			dataType : "json",
    			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
    			async : false,
    			success : function(data, status, xhr) {
    				console.log(data);
-   				$('#idMsg').text(data.checkMsg);
+   				alert(data.msg);
+   				
+   				if(data.msgCode == 1){
+   					$('#emailCheck').html('인증코드확인');             // 버튼이름 변경(색상 변경하기)
+   					$('#emailCheck').removeAttr("onclick");			// 온클릭 속성 삭제
+   					$('#emailCheck').attr('onclick',"checkCode();") // 새로운 온클릭 속성 부여
+   				 	$("#emailId").attr("readonly",true);			// 이메일 아이디 readOnly
+   					$("#emailDomain").attr("readonly",true);		// 이메일 도메인 readOnly
+   				}
+   										
    			},
    			error : function(jqXHR, textStatus, errorThrown) {
    				alert(jqXHR.responseText);
    			}
-   		});
-
-   	});
+   		}); 
+   	
+   }
+   
+   function checkCode(){	// 인증코드 입력확인
+	   	let code = $('#emailCode').val() 								// 이메일 인증 코드
+	   	let email = $('#emailId').val() + '@' + $('#emailDomain').val(); //이메일 주소갖고온다
+	   
+	   	// 인증코드 유효성 검사(오로직 숫자만)
+	   	var regType1 = /^[0-9]{9}$/;
+		
+	   	if(!regType1.test(code)){
+	   		alert("인증코드형식이 맞지않습니다(숫자만)")
+	   		return;
+	   	}
+	   	
+	   	// 인증코드 검증
+	   	$.ajax({
+   			type : "POST",
+   			url : "/reg/checkAuthCode",
+   			data: {code:code, email:email },
+   			dataType : "json",
+   			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
+   			async : false,
+   			success : function(data, status, xhr) {
+   				console.log(data);
+   				alert(data.msg);
+   				
+   				if(data.msgCode == 1){// 인증이 성공한경우
+   					// 인증코드 입력칸 닫아야됨
+   					$('#emailCode').attr("readOnly", true);
+   					// 인증코드 버튼기능 제거
+   					$('#emailCheck').removeAttr("onclick");	
+   				}
+   				
+   										
+   			},
+   			error : function(jqXHR, textStatus, errorThrown) {
+   				alert(jqXHR.responseText);
+   			}
+   		}); 
+	   	
+		
+	   	
+				   
    }
 
    // 관심사 정보를 갖고오는 함수 
@@ -264,9 +330,13 @@
 
    				console.log(data);
    				let codeList = data.codeList;
+   				let option = "";
+   				
    				for (let i = 0; i < codeList.length; i++) {
-   					$('#interest').append("<option value='"+codeList[i].key+"'>"+ codeList[i].value + "</option>");
+   					option += "<option value='"+codeList[i].key+"'>"+ codeList[i].value + "</option>"					
    				}
+   				
+   				$('#interest').append(option);
 
    			},
    			// 에러 발생시 여길로 떨어짐
@@ -288,9 +358,12 @@
    		obj.value = obj.value.replace(/[\ㄱ-ㅎㅏ-ㅣ가-힣]/g, '');
    	}
 
-   	function valueCheck() {
-
-   		// 한글검증 추가 (추후에...)
+   	function submit() {
+   		
+   		//emailId + '@' + emailDomain 합쳐서  email hidden 태그에 넣기
+   		var str = ''; // 임시로 받는 변수
+   		str += $('#emailId').val() + '@' + $('#emailDomain').val();
+   		$('#email').val(str)
 
    		//pwd 빈칸
    		if ($('#pwd').val() == null || $('#pwd').val() == '') {
@@ -337,32 +410,7 @@
    			return;
    		}
 
-   		//emailId 빈칸 검증
-   		if ($('#emailId').val() == null || $('#emailId').val() == '') {
-   			alert('이메일 아이디 항목을 확인해주세요');
-   			$('#emailId').focus();
-   			return;
-   		}
-
-   		//emailId 길이 검증
-   		if ($('#emailId').val().length < 5 || $('#emailId').val().length > 15) {
-   			alert('이메일 아이디는 최소 8자이상 15자 미만입니다');
-   			$('#emailId').focus();
-   			return;
-   		}
-
-   		//emailDomain 빈간 검증
-   		if ($('#emailDomain').val() == null || $('#emailDomain').val() == '') {
-   			alert('이메일 도메인 항목을 확인해주세요');
-   			$('#emailDomain').focus();
-   			return;
-   		}
-
-   		//emailId + '@' + emailDomain 합쳐서  email hidden 태그에 넣기
-   		var str = ''; // 임시로 받는 변수
-   		str += $('#emailId').val() + '@' + $('#emailDomain').val();
-   		$('#email').val(str)
-
+   		// 이름 체크
    		if ($('#name').val() == null || $('#name').val() == '') {
    			alert('이름 항목을 확인해주세요');
    			$('#name').focus();
@@ -374,83 +422,42 @@
    			return;
    		}
 
-   		/*
-   		//지역1 빈칸 검증
+   		
+   		// 지역 빈칸 검증
    		if ($('#area1').val() == null || $('#area1').val() == '') {
    			alert('지역1 빈칸 확인해주세요');
    			$('#area1').focus();
    			return;
    		}
 
-   		//지역2 빈칸 검증
-   		if ($('#area2').val() == null || $('#area2').val() == '') {
-   			alert('지역2 빈칸 확인해주세요');
-   			$('#area2').focus();
-   			return;
-   		}
-
-   		//지역3 빈칸 검증
-   		if ($('#area3').val() == null || $('#area3').val() == '') {
-   			alert('지역3 빈칸 확인해주세요');
-   			$('#area3').focus();
-   			return;
-   		}
-
-   		//지역1 길이체크
+   		// 지역 길이체크
    		if ($('#area1').val().length < 2 || $('#area1').val().length > 5) {
    			alert('지역1 길이체크 최소 2자이상 5자 미만입니다');
    			$('#area1').focus();
    			return;
    		}
 
-   		//지역2 길이체크
-   		if ($('#area2').val().length < 2 || $('#area2').val().length > 5) {
-   			alert('지역2 길이체크 최소 2자이상 5자 미만입니다');
-   			$('#area2').focus();
-   			return;
-   		}
-
-   		//지역3 길이체크
-   		if ($('#area3').val().length < 2 || $('#area3').val().length > 5) {
-   			alert('지역3 길이체크 최소 2자이상 5자 미만입니다');
-   			$('#area3').focus();
-   			return;
-   		}
-   		
-   		*/
-
-   		//관심사 빈칸 검증
+   		//관심사1 빈칸 검증
    		if ($('#interest').val() == null || $("#interest").val() == '') {
    			alert('interest 항목을 확인해주세요');
    			$('#interest').focus();
    			return;
    		}
-		/*
-   		//phone1 빈칸 검증
-   		if ($('#phone1').val() == null || $('#phone1').val() == '') {
-   			alert('핸드폰번호1 빈칸 확인해주세요');
-   			$('#phone1').focus();
-   			return;
-   		}
-
-   		//phone2 빈칸 검증
-   		if ($('#phone2').val() == null || $('#phone2').val() == '') {
-   			alert('핸드폰번호2 빈칸 확인해주세요');
-   			$('#phone2').focus();
-   			return;
-   		}
-   		//phone3 빈칸 검증
-   		if ($('#phone3').val() == null || $('#phone3').val() == '') {
-   			alert('핸드폰번호3 빈칸 확인해주세요');
-   			$('#phone3').focus();
-   			return;
-   		}
    		
-   		// 길이체크 만들어 ... 욕심나면 숫자만
-   		
-   		// 폰번호1,2,3 합치기
-   		$('#phone_number').val($('#phon1').val()+$('#phon2').val()+$('#phon3').val());
-	*/
+   	    //관심사2 빈칸 검증
+   		if ($('#interest').val() == null || $("#interest").val() == '') {
+   			alert('interest 항목을 확인해주세요');
+   			$('#interest').focus();
+   			return;
+   		}
+   	
+   	    //관심사3 빈칸 검증
+   		if ($('#interest').val() == null || $("#interest").val() == '') {
+   			alert('interest 항목을 확인해주세요');
+   			$('#interest').focus();
+   			return;
+   		}
+		
    	}
 </script>
 </body>

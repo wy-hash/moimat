@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.breaktheice.moimat.domain.AuthCodeDomain;
 import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.service.JoinService;
+import com.breaktheice.moimat.service.MailSenderService;
 import com.google.gson.Gson;
-
 
 import lombok.extern.log4j.Log4j;
 
@@ -29,11 +30,14 @@ public class JoinController {
 	@Autowired
 	JoinService joinService;
 	
+	//@Autowired
+	//MailSenderService mailService;
+	
 	@GetMapping("/join")
 	public String join(HttpServletRequest request) {
 		 log.info("joinPage 호출.... "); 
 		 
-	 	return "login/joinPage";
+	 	return "join/joinPage";
 	}
 	
 	@GetMapping("/findpwd")
@@ -68,26 +72,94 @@ public class JoinController {
 	}
 	
 	/**
-	 * id 중복조회
+	 * email 중복조회
 	 * 
 	 * @param
 	 * @return String
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/checkId", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value = "/checkEmail", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	@ResponseBody 
-	public String checkId(String id) throws Exception {
+	public String checkId(String email) throws Exception {
 	
-		log.info("checkId 호출..");
-		log.info("id" +id);
+		log.info("checkEmail 호출..");
+		log.info("email: " +email);
 		
-		log.info("joinService : "+ joinService);
-		log.info("joinService2 : "+ joinService);
+		// 1. 이메일 중복체크
+		boolean result = joinService.checkEmail(email);			// 이메일 중복여부 확인(중복이 있으면 true, 없으면 false)
+		Map map = new HashMap();
 		
-		Map result = joinService.checkId(id);
+		if(!result) {	// 중복없는 경우 (false)
+			// 2. 인증코드 생성
+			int code = (int)(Math.random()*1000000000);
+			log.info("code :" + code);
+				
+			// 2-1)인증메일 발송 세팅  --> 미완성
+			String setFrom = "test@gmail.com";
+			String setTo =email;
+			String setSubject ="인증메일 발송안내";
+			String setText ="인증번호는"+code+"입니다.";
+					
+			// 2-2) 인증번호 메일 발송  --> 미완성
+		//	mailService.simpleMailSend(setFrom,setTo,setSubject,setText);
+			
+			// 3. 인증코드 테이블에 추가
+			AuthCodeDomain auth = new AuthCodeDomain();
+			auth.setCode(code+"");
+			auth.setEmail(email);
+			joinService.insertCode(auth);
+			
+			map.put("msgCode", "1");  //메세지 코드(인증번호가 발송되었습니다.)
+			map.put("msg", "인증번호가 전송되었습니다");
+			
+		}else {
+			
+			map.put("msgCode", "0");
+			map.put("msg", "가입된 메일이 있습니다.");
+		}
+		
 		Gson gson = new Gson();
 		
-		String resultJson = gson.toJson(result);	
+		String resultJson = gson.toJson(map);	
+		log.info("result to json : " +resultJson);
+		
+		return resultJson;	//json 형식으로 전송
+	}
+	
+	/**
+	 * 인증코드 확인
+	 * 
+	 * @param
+	 * @return String
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/checkAuthCode", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+	@ResponseBody 
+	public String checkAuthCode(AuthCodeDomain auth) throws Exception {
+	
+		log.info("checkAuthCode 호출..");
+		log.info("checkAuthCode: " +auth.getCode());
+		log.info("email: " +auth.getEmail());
+		
+		
+		Map map = new HashMap();
+		
+		// 인증코드 확인  => 발송된 인증번호와 메일 인증번호 일치 여부 확인
+		boolean result = joinService.selectAuthCode(auth);
+		
+		// 성공인 경우
+		if(result) {
+			map.put("msg", "성공");
+			map.put("msgCode", "1");
+			
+		}else {
+			map.put("msg", "실패");
+			map.put("msgCode", "0");
+		}
+		
+		Gson gson = new Gson();
+		
+		String resultJson = gson.toJson(map);	
 		log.info("result to json : " +resultJson);
 		
 		return resultJson;	//json 형식으로 전송

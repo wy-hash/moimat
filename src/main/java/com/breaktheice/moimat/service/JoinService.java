@@ -1,8 +1,8 @@
 package com.breaktheice.moimat.service;
 
 import java.util.ArrayList;
-import java.util.Map;
 
+import com.breaktheice.moimat.domain.AuthCodeDomain;
 import com.breaktheice.moimat.domain.MemberDomain;
 
 public interface JoinService {
@@ -28,13 +28,32 @@ public interface JoinService {
 	public boolean joinMember(MemberDomain vo);
 	
 	/**
-	 * id 중복조회
+	 * email 중복조회
 	 *  
 	 * @param 
 	 * @return 
 	 * @throws
 	 */
-	public Map checkId(String id);
+	public boolean checkEmail(String email);
+	
+	
+	/**
+	 * 인증코드 저장
+	 *  
+	 * @param 
+	 * @return 
+	 * @throws
+	 */
+	public boolean insertCode(AuthCodeDomain auth);
+	
+	/**
+	 * 인증코드 확인
+	 *  
+	 * @param 
+	 * @return 
+	 * @throws
+	 */
+	public boolean selectAuthCode(AuthCodeDomain auth);
 	
 
 }

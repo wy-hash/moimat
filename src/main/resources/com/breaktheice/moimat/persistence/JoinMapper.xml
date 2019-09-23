@@ -47,15 +47,38 @@
 	</insert>
 	
 		
-	<select id="checkMemberId" parameterType="String" resultType="String">
+	<select id="checkMemberEmail" parameterType="String" resultType="String">
 		
 		SELECT 
 				ID
 		FROM
 				MEMBER
 		WHERE 
-				ID = #{id}
+				email = #{email}
+	
+	</select>
+	
+	<insert id="insertCode" parameterType="com.breaktheice.moimat.domain.AuthCodeDomain" >
+			
+		<!-- 인증코드 저장 -->
 		
+			INSERT INTO AUTHCODE
+			VALUES(
+				 #{email}
+				,#{code}
+				,SYSDATE 
+			)
+	</insert>
+	
+		<select id="selectCode" parameterType="com.breaktheice.moimat.domain.AuthCodeDomain" resultType="com.breaktheice.moimat.domain.AuthCodeDomain">
+		
+		SELECT 
+				*
+		FROM
+				AUTHCODE
+		WHERE 
+					code = #{code}
+				and email = #{email}
 	
 	</select>
 	
