@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class MeetListVO {
-	private List<MeetVO> meetList;
+	private List<MeetDomain> meetList;
 	private Map<Long,Integer> countMeetMember;
 	private Map<Long,Boolean> isAttend;
 }

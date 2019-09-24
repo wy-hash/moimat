@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.breaktheice.moimat.domain.MeetMemberVO;
+import com.breaktheice.moimat.domain.MeetMemberDomain;
 import com.breaktheice.moimat.domain.MeetVO;
 
 import lombok.extern.log4j.Log4j;
@@ -24,7 +24,7 @@ public class MeetingServiceTests {
 	@Test
 	public void getListTest() throws ParseException {
 		MeetVO meetVO = new MeetVO();
-		MeetMemberVO meetMemberVO = new MeetMemberVO();
+		MeetMemberDomain meetMemberVO = new MeetMemberDomain();
 		meetVO.setTeamSeq(1L);
 		meetVO.setArea("관악구");
 		meetVO.setMeetDate("2019-10-19 16:30:00");

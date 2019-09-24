@@ -195,8 +195,7 @@
 				//meetList,countMeetMember, isAttend	
 				for(var i = 0, len = list.meetList.length||0; i<len; i++){
 					meetListStr +='<div class="row">'
-							   +	'<div class="col-lg-4"'
-							   +	'style="min-width: 200px; height: 300px;">'
+							   +	'<div class="col-lg-4" style="min-width: 200px; height: 300px;">'
 							   +		'<div id="map'+i+'" style="height: 100%;"></div>'
 							   +	'</div>'
 							   +	'<div class="col-lg-8" style="height:300px;">'
