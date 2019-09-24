@@ -71,15 +71,14 @@
 			tmem_id = #{tmemId}
 	</delete>
 	
-	<select id="getMeetingMember" resultType="com.breaktheice.moimat.domain.MemberVO">
+	<select id="getMeetingMember" resultType="com.breaktheice.moimat.domain.MeetMemberVO">
 		select
-			member.*
+			*
 		from
-			meet_member, meet, member
+			meet_member
 		where
-			meet.seq = meet_member.meet_seq
-			and member.seq = meet_member.member_seq
-			and meet.seq = #{seq}
+			meet_id = #{meetId}
+			
 	</select>
 	
 	<select id="isAttend" resultType="boolean">
@@ -88,8 +87,8 @@
 		from
 			meet_member
 		where
-			meet_seq = #{meetSeq}
-            and member_seq = #{memberSeq}
+			meet_Id = #{meetId}
+            and tmem_Id = #{tmemId}
 	</select>
 	
 	<select id="countMeetMember" resultType="int">
@@ -98,7 +97,7 @@
 		from
 			meet_member
 		where
-			meet_seq = #{meetSeq}
+			meet_id = #{meetId}
 	</select>
 	
 </mapper>

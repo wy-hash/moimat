@@ -8,10 +8,10 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.breaktheice.moimat.domain.MeetVO;
 import com.breaktheice.moimat.domain.MeetListVO;
+import com.breaktheice.moimat.domain.MeetMemberVO;
+import com.breaktheice.moimat.domain.MeetVO;
 import com.breaktheice.moimat.domain.MeetingPageVO;
-import com.breaktheice.moimat.domain.MemberVO;
 import com.breaktheice.moimat.persistence.MeetingMapper;
 
 @Service
@@ -31,7 +31,7 @@ public class MeetingServiceImpl implements MeetingService{
 	@Transactional
 	public MeetingPageVO readMeet(Long seq, Long memberSeq) {
 		MeetVO meetVO = mapper.getMeet(seq);
-		List<MemberVO> memberList = mapper.getMeetingMember(seq);
+		List<MeetMemberVO> memberList = mapper.getMeetingMember(seq);
 		boolean isAttend = mapper.isAttend(seq,memberSeq);
 		MeetingPageVO meetingPageVO = new MeetingPageVO(meetVO, memberList, isAttend);
 		return meetingPageVO;

@@ -75,4 +75,19 @@ public class MeetingMapperTests {
 	public void cancelAttendTest() {
 		mapper.cancelAttend(12L, 1L);
 	}
+	
+	@Test
+	public void meetMemberTest() {
+		mapper.getMeetingMember(12L);
+	}
+	
+	@Test
+	public void isAttendTest() {
+		mapper.isAttend(11L, 1L);
+	}
+	
+	@Test
+	public void countAttendTest() {
+		mapper.countMeetMember(12L);
+	}
 }

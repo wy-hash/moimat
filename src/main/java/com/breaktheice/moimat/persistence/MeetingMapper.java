@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.breaktheice.moimat.domain.MeetMemberVO;
 import com.breaktheice.moimat.domain.MeetVO;
-import com.breaktheice.moimat.domain.MemberVO;
 
 public interface MeetingMapper {
 	//정모 목록
@@ -23,10 +23,10 @@ public interface MeetingMapper {
 	//정모 참석 취소 (To cancel attendance(참석 취소 하기))
 	public void cancelAttend(@Param("meetId")Long meetId,@Param("tmemId")Long tmemId);
 	//정모 참석자 명단
-	public List<MemberVO> getMeetingMember(Long seq);
+	public List<MeetMemberVO> getMeetingMember(Long meetId);
 	//정모 참여 상태(조회시 해당 정모 참여중인가 아닌가) 생각좀 해봐야겠음
-	public boolean isAttend(@Param("meetSeq")Long seq,@Param("memberSeq")Long memberSeq);
+	public boolean isAttend(@Param("meetId")Long meetId,@Param("tmemId")Long tmemId);
 	//정모 참여자 수
-	public int countMeetMember(@Param("meetSeq")Long seq);
+	public int countMeetMember(@Param("meetId")Long meetId);
 	
 }
