@@ -29,27 +29,37 @@
 		update
 			meet
 		set
-			area = #{area},
-			meetdate = #{meetDate},
-			updatedate = sysdate,
-			maxperson = #{maxPerson},
-			title = #{title},
-			content = #{content},
-			payment = #{payment}
-		where seq = #{seq}		
+			meet_area = #{meetArea},
+			meet_date = #{meetDate},
+			meet_max = #{meetMax},
+			meet_title = #{meetTitle},
+			meet_content = #{meetContent},
+			meet_pay = #{meetPay}
+		where meet_Id = #{meetId}		
 	</update>
 	
 	<delete id="deleteMeet">	
 		delete
 			meet
 		where 
-			seq = #{seq}
+			meet_Id = #{meetId}
 	</delete>
 	
 	<insert id="attendMeet">
-		insert into
-			meet_member
-		values (#{meetSeq},#{memberSeq})
+		insert into 
+			meet_member 
+				(mmem_id, meet_id, tmem_id,mmem_nickname,mmem_email)
+			(select 
+				meet_member_seq.nextval,
+				#{meetId}, 
+				tmem_id, 
+				tmem_nickname as mmem_nickname, 
+				tmem_email as mmem_email 
+			from 
+				team_member
+			where
+				tmem_id = #{tmemId}
+			)
 	</insert>
 	<delete id="cancelAttend">
 		delete

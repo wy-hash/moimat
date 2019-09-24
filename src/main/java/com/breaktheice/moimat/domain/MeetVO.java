@@ -20,6 +20,7 @@ public class MeetVO {
 	private Long tmemId;//작성자 (team memberId)
 	private String meetNickName;//작성자 별명 (고민)
 	private String meetEmail;//작성자 이메일 (사용안함)
+	private String meetArea;
 	
 	
 	public void setMeetDate(String meetDate) throws ParseException {

@@ -9,17 +9,17 @@ import com.breaktheice.moimat.domain.MemberVO;
 
 public interface MeetingMapper {
 	//정모 목록
-	public List<MeetVO> getMeetList(Long teamSeq);
+	public List<MeetVO> getMeetList(Long teamId);
 	//정모 조회 MeetVO의 Long seq;
 	public MeetVO getMeet(Long meetId);
 	//정모 등록(register meeting)
-	public void regMeet(MeetVO meetDomain);
+	public void regMeet(MeetVO meetVO);
 	//정모 내용 수정
-	public void modifyMeet(MeetVO meetDomain);
+	public void modifyMeet(MeetVO meetVO);
 	//정모 삭제
 	public void deleteMeet(Long seq);
 	//정모 참가(attend a meeting)
-	public void attendMeet(@Param("meetSeq")Long seq,@Param("memberSeq")Long memberSeq);
+	public void attendMeet(@Param("meetId")Long meetId,@Param("tmemId")Long tmemId);
 	//정모 참석 취소 (To cancel attendance(참석 취소 하기))
 	public void cancelAttend(@Param("meetSeq")Long seq,@Param("memberSeq")Long memberSeq);
 	//정모 참석자 명단

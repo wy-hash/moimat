@@ -5,8 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MeetMemberDomain {
-	private Long mmemId; //meetMemberId
+public class MeetMemberVO {
+	private Long mmemId; //meetMemberId (meet_member_seq)
 	private Long meetId; //meetId(MeetDomain)
 	private Long tmemId; // teamMemberID
 	private String mmemNickName;// meetMemberNickName
