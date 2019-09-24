@@ -8,8 +8,8 @@
                 <!--Brand logo & name-->
                 <!--================================-->
                 <div class="navbar-header">
-                    <a href="/sample/template" class="navbar-brand">
-                        <img src="../resources/img/logo.png" alt="Nifty Logo" class="brand-icon">
+                    <a href="/" class="navbar-brand">
+                        <img src="/resources/img/logo.png" alt="Nifty Logo" class="brand-icon">
                         <div class="brand-title">
                             <span class="brand-text">moim@</span>
                         </div>
@@ -140,7 +140,7 @@
                                             <li class="bg-gray">
                                                 <a class="media" href="#">
                                                     <div class="media-left">
-                                                        <img class="img-circle img-sm" alt="Profile Picture" src="../resources/img/profile-photos/9.png">
+                                                        <img class="img-circle img-sm" alt="Profile Picture" src="/resources/img/profile-photos/9.png">
                                                     </div>
                                                     <div class="media-body">
                                                         <div class="text-nowrap">Lucy sent you a message</div>
@@ -153,7 +153,7 @@
                                             <li class="bg-gray">
                                                 <a class="media" href="#">
                                                     <div class="media-left">
-                                                        <img class="img-circle img-sm" alt="Profile Picture" src="../resources/img/profile-photos/3.png">
+                                                        <img class="img-circle img-sm" alt="Profile Picture" src="/resources/img/profile-photos/3.png">
                                                     </div>
                                                     <div class="media-body">
                                                         <div class="text-nowrap">Jackson sent you a message</div>

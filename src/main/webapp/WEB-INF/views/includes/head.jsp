@@ -86,7 +86,7 @@
 
 
     <!-- common - 공통 스크립트 -->
-	<script src="../resources/js/common.js"></script>
+	<script src="/resources/js/common.js"></script>
 
 
 
