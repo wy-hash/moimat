@@ -29,6 +29,9 @@
 - spring-jdbc
 - spring-tx
 - log4jdbc-log4j2-jdbc4 1.16
+- jackson-databind 2.9.9
+- jackson-dataformat-xml 2.9.9
+- gson 2.8.5
 
 
 ## configuration

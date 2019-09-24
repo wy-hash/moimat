@@ -2,16 +2,35 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.breaktheice.moimat.persistence.PostMapper">
 
+	<update id="viewCount">
+	    UPDATE  post
+	    SET     count = count+1
+	    WHERE   seq = #{seq}
+	</update>
+	
+	<select id="memberCheck" resultType="int">
+		SELECT member_seq 
+    	FROM post 
+    	WHERE seq = ${seq}
+	</select>
+
 	<select id="list" resultType="com.breaktheice.moimat.domain.PostDomain">
 		SELECT  p.seq seq, p.post_type_seq post_type_seq, p.title title, p.content content, p.regdate regdate, p.updatedate updatedate,
 		        p.count count, p.member_seq member_seq, p.orgin orgin, p.priority priority, p.depth depth, m.name name
-		FROM post p, member m
-		WHERE p.member_seq = m.seq
-		AND post_type_seq = #{postTypeSeq}
+		FROM 	post p, member m
+		WHERE 	p.member_seq = m.seq
+		AND 	post_type_seq = #{postTypeSeq}
+		ORDER BY seq
 	</select>
 	
 	<select id="view" resultType="com.breaktheice.moimat.domain.PostDomain">
-
+		SELECT  p.seq seq, p.post_type_seq post_type_seq, p.title title, p.content content, p.regdate regdate, p.updatedate updatedate,
+        		p.count count, p.member_seq member_seq, p.orgin orgin, p.priority priority, p.depth depth, m.name name
+		FROM 	post p, member m
+		WHERE 	p.member_seq = m.seq
+		AND 	post_type_seq = #{postTypeSeq}
+		AND 	p.seq = #{seq}
+		ORDER BY seq
 	</select>
 	
 	<insert id="add">
@@ -23,8 +42,16 @@
 	</insert>
 	
 	<update id="update">
+	    UPDATE  post
+	    SET     post_type_seq = #{postTypeSeq},
+	            title = #{title},
+	            content = #{content},
+	            updatedate = sysdate
+	    WHERE   seq = #{seq}
 	</update>
 	
 	<delete id="remove">
+	    DELETE FROM post
+    	WHERE seq = #{seq}
 	</delete>
 </mapper>
