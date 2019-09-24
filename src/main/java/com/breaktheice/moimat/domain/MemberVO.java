@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MemberDomain {
+public class MemberVO {
 	private Long memId;
 	private String memEmail;
 	private String memPassword;

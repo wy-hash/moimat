@@ -1,7 +1,5 @@
 package com.breaktheice.moimat.persistence;
 
-import javax.sql.DataSource;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +20,10 @@ public class TestMapperTests {
 	@Setter(onMethod_ = @Autowired)
 	private TestMapper mapper;
 	
-	@Test
-	public void getMeetTest() {
-		log.info(mapper.getMeet());
-	}
+//	@Test
+//	public void getMeetTest() {
+//		log.info(mapper.getMeet());
+//	}
 	@Test
 	public void getMeetMemberTest() {
 		log.info(mapper.getMeetMember());
@@ -34,10 +32,10 @@ public class TestMapperTests {
 	public void getMemberTest() {
 		log.info(mapper.getMember());
 	}
-	@Test
-	public void getMemberRoleTest() {
-		log.info(mapper.getMemberRole());
-	}
+//	@Test
+//	public void getMemberRoleTest() {
+//		log.info(mapper.getMemberRole());
+//	}
 	@Test
 	public void getRole() {
 		log.info(mapper.getRole());

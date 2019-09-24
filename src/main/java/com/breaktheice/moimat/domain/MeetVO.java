@@ -8,7 +8,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class MeetDomain {
+public class MeetVO {
 	private Long meetId; //정모 번호
 	private Long teamId; //모임 번호
 	private String meetTitle;//정모 제목
@@ -16,10 +16,10 @@ public class MeetDomain {
 	private Date meetDate;//정모 모임날자
 	private Date meetRegDate;//정모 등록날자
 	private int meetMax;//정모 최대인원
-	private int meetPay;//정모 회비
+	private String meetPay;//정모 회비
 	private Long tmemId;//작성자 (team memberId)
-	private String meetNickName;//작성자 별명
-	private String meetEmail;//작성자 이메일
+	private String meetNickName;//작성자 별명 (고민)
+	private String meetEmail;//작성자 이메일 (사용안함)
 	
 	
 	public void setMeetDate(String meetDate) throws ParseException {

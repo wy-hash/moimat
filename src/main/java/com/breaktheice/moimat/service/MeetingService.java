@@ -1,9 +1,7 @@
 package com.breaktheice.moimat.service;
 
-import java.util.List;
-
-import com.breaktheice.moimat.domain.MeetListVO;
 import com.breaktheice.moimat.domain.MeetVO;
+import com.breaktheice.moimat.domain.MeetListVO;
 import com.breaktheice.moimat.domain.MeetingPageVO;
 
 public interface MeetingService {

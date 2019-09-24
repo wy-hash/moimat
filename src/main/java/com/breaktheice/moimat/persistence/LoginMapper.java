@@ -1,10 +1,10 @@
 package com.breaktheice.moimat.persistence;
 
 import com.breaktheice.moimat.domain.LoginVO;
-import com.breaktheice.moimat.domain.MemberDomain;
+import com.breaktheice.moimat.domain.MemberVO;
 
 public interface LoginMapper {
 	
-	public MemberDomain login(LoginVO loginVO);
+	public MemberVO login(LoginVO loginVO);
 
 }

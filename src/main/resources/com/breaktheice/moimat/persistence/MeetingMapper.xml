@@ -4,7 +4,7 @@
 	
 	<select id="getMeetList" resultType="com.breaktheice.moimat.domain.MeetVO">
 	<![CDATA[
-		select meet.*,meetdate-sysdate from meet where team_seq = #{teamSeq} and meetdate-sysdate > 0 order by meetdate-sysdate
+		select meet.*,meet_date-sysdate from meet where team_id = #{teamId} and meet_date-sysdate > 0 order by meet_date-sysdate
 	]]>
 	</select>
 	
@@ -14,13 +14,13 @@
 		from
 			meet
 		where
-			seq = #{seq}
+			meet_id = #{meetId}
 	</select>
 	
 	<insert id="regMeet">
-		insert into meet (seq, team_seq, area, meetdate, regdate, updatedate, maxperson, member_seq,title,content,payment)
-		values(meet_seq.nextval, #{teamSeq},#{area}, #{meetDate}, sysdate, sysdate, #{maxPerson}, #{memberSeq}, #{title}, #{content}, #{payment})
-		<selectKey order="AFTER" keyProperty="seq" resultType="Long">
+		insert into meet (meet_id, team_id, meet_title, meet_content, meet_date, meet_regdate, meet_max, meet_pay, tmem_id, meet_nickname)
+		values(meet_seq.nextval, #{teamId}, #{meetTitle}, #{meetContent}, #{meetDate}, sysdate, #{meetMax}, #{meetPay}, #{tmemId}, #{meetNickName})
+		<selectKey order="AFTER" keyProperty="meetId" resultType="Long">
 			select meet_seq.currval from dual
 		</selectKey>
 	</insert>

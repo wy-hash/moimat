@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class MeetingPageVO {
-	private MeetDomain meetDomain;
-	private List<MemberDomain> memberList;
+	private MeetVO meetDomain;
+	private List<MemberVO> memberList;
 	private boolean isAttend;
 }

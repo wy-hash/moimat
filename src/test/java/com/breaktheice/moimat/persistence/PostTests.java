@@ -7,7 +7,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.breaktheice.moimat.domain.InterestDomain;
-import com.breaktheice.moimat.domain.MemberDomain;
+import com.breaktheice.moimat.domain.MemberVO;
 import com.breaktheice.moimat.domain.PostDomain;
 import com.breaktheice.moimat.domain.PostTypeDomain;
 
