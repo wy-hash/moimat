@@ -61,13 +61,14 @@
 				tmem_id = #{tmemId}
 			)
 	</insert>
+	
 	<delete id="cancelAttend">
 		delete
 			meet_member
 		where
-			meet_seq = #{meetSeq}
+			meet_id = #{meetId}
 		and
-			member_seq = #{memberSeq}
+			tmem_id = #{tmemId}
 	</delete>
 	
 	<select id="getMeetingMember" resultType="com.breaktheice.moimat.domain.MemberVO">
