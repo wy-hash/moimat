@@ -6,7 +6,7 @@ import com.breaktheice.moimat.domain.MeetingPageVO;
 
 public interface MeetingService {
 	//정모목록
-	public MeetListVO getMeetList(Long teamSeq,Long memberSeq);
+	public MeetListVO getMeetList(Long teamId,Long tmemId);
 	//정모생성
 	public void createMeet(MeetVO meetVO, Long memberSeq);
 	//정모조회

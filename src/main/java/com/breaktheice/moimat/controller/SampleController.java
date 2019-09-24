@@ -26,7 +26,7 @@ public class SampleController {
 		HttpSession session = request.getSession();
 		
 		session.setAttribute("id", "1");
-		session.setAttribute("groupid", "1");
+		session.setAttribute("groupid", "2");
 		//테스트용
 		log.info("request /");
 		

@@ -60,54 +60,8 @@
 					<!-- #################################### -->
 
 					<div class="container-fluid">
-						<div class="row">
-							<div class="col-md-4 col-lg-3">
-								<div class="panel">
-									<div class="panel-heading">
-										<h3 class="panel-title">Events</h3>
-									</div>
-									<div class="panel-body">
-										<div class="form-group">
-											<input type="text" id="event_title"
-												placeholder="Event Title..." class="form-control" value="">
-										</div>
-										<button class="btn btn-block btn-purple">Add New
-											Event</button>
-										<hr>
-
-										<!-- Draggable Events -->
-										<!-- ============================================ -->
-										<p class="text-semibold">Draggable Events</p>
-										<div id="demo-external-events">
-											<div class="fc-event fc-list" data-class="warning">All
-												Day Event</div>
-											<div class="fc-event fc-list" data-class="success">Meeting</div>
-											<div class="fc-event fc-list" data-class="mint">Birthday
-												Party</div>
-											<div class="fc-event fc-list" data-class="purple">Happy
-												Hour</div>
-											<div class="fc-event fc-list">Lunch</div>
-											<hr>
-											<div>
-												<label class="form-checkbox form-normal form-primary">
-													<input type="checkbox" id="drop-remove"> Remove
-													after drop
-												</label>
-											</div>
-											<hr>
-											<div class="fc-event" data-class="warning">All Day
-												Event</div>
-											<div class="fc-event" data-class="success">Meeting</div>
-											<div class="fc-event" data-class="mint">Birthday Party</div>
-											<div class="fc-event" data-class="purple">Happy Hour</div>
-											<div class="fc-event">Lunch</div>
-										</div>
-										<!-- ============================================ -->
-
-									</div>
-								</div>
-							</div>
-							<div class="col-md-8 col-lg-9">
+							
+							<div>
 								<div class="panel">
 									<div class="panel-heading">
 										<h3 class="panel-title">Calendar</h3>
@@ -121,7 +75,6 @@
 									</div>
 								</div>
 							</div>
-						</div>
 					</div>
 					<!-- end ./panel panel-dafault -->
 					<!-- start container-fluid -->
@@ -201,7 +154,7 @@
 							   +	'<div class="col-lg-8" style="height:300px;">'
 							   +		'<div class="panel panel-bordered panel-dark" style="height:100%;">'
 					           +			'<div class="panel-heading">'
-				               +				'<h3 class="panel-title">'+list.meetList[i].title+'</h3>'
+				               +				'<h3 class="panel-title">'+list.meetList[i].meetTitle+'</h3>'
 				               +			'</div>'
 				           	   +			'<div class="panel-body">'
 							   +				'<div class="list-group">'
@@ -217,27 +170,27 @@
 							   +							'<span style="color:orange;">'
 							   +								'<i class="fa fa-map-marker"></i>'
 							   +							'</span>'
-							   +							'&ensp;'+list.meetList[i].area
+							   +							'&ensp;'+list.meetList[i].meetArea
 							   +						'</div>'
 							   +						'<div class="col-lg-3">'
 							   +							'<span style="color:green;">'
 							   +								'<i class="fa fa-krw"></i>'
 							   +							'</span>'
 							   +							'&ensp;'
-							   +							list.meetList[i].payment
+							   +							list.meetList[i].meetPay
 							   +						'</div>'
 							   +						'<div class="col-lg-3">'
 							   +							'<span style="color:black;">'
 							   +								'<i class="fa fa-users"></i>'
 							   +							'</span>'
 							   +							'&ensp;참여인원 : '
-							   +							list.countMeetMember[list.meetList[i].seq]+'/'
-				               +							list.meetList[i].maxPerson
+							   +							list.countMeetMember[list.meetList[i].meetId]+'/'
+				               +							list.meetList[i].meetMax
 				               +						'</div>'
 							   +					'</div>'
 							   +				'</div>'
 							   +				'<div>'
-							   +					'<p style="word-break:break-all">'+list.meetList[i].content+'<p>'
+							   +					'<p style="word-break:break-all">'+list.meetList[i].meetContent+'<p>'
 							   +				'</div>'
 							   +			'</div>'
 					           +		'</div>'
@@ -247,7 +200,7 @@
 				}
 				meetList.innerHTML = meetListStr;
 				for(var i = 0, len = list.meetList.length||0; i<len; i++){
-					setMap(list.meetList[i].area,"map"+i)
+					setMap(list.meetList[i].meetArea,"map"+i)
 				}
 			})
 		}

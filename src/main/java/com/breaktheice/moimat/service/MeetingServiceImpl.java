@@ -43,30 +43,31 @@ public class MeetingServiceImpl implements MeetingService{
 	}
 
 	@Override
-	public void deleteMeet(Long seq) {
-		mapper.deleteMeet(seq);
+	public void deleteMeet(Long meetId) {
+		mapper.deleteMeet(meetId);
 	}
 
 	@Override
-	public void attendMeet(Long seq, Long memberSeq) {
-		mapper.attendMeet(seq, memberSeq);
+	public void attendMeet(Long meetId, Long tmemId) {
+		mapper.attendMeet(meetId, tmemId);
 	}
 
 	@Override
-	public void cancelAttend(Long seq, Long memberSeq) {
-		mapper.cancelAttend(seq, memberSeq);
+	public void cancelAttend(Long meetId, Long tmemId) {
+		mapper.cancelAttend(meetId, tmemId);
 	}
 
 	@Override
-	public MeetListVO getMeetList(Long teamSeq,Long memberSeq) {
+	@Transactional
+	public MeetListVO getMeetList(Long teamId,Long tmemId) {
 		// TODO Auto-generated method stub
-		List<MeetVO> list = mapper.getMeetList(teamSeq);
+		List<MeetVO> list = mapper.getMeetList(teamId);
 		HashMap<Long,Integer> countMeetMember = new HashMap<Long, Integer>();
 		HashMap<Long,Boolean> isAttend = new HashMap<Long, Boolean>();
 		for (MeetVO meetVO : list) {
-			Long seq = meetVO.getMeetId();
-			countMeetMember.put(seq, mapper.countMeetMember(seq));
-			isAttend.put(seq, mapper.isAttend(seq, memberSeq));
+			Long meetId = meetVO.getMeetId();
+			countMeetMember.put(meetId, mapper.countMeetMember(meetId));
+			isAttend.put(meetId, mapper.isAttend(meetId, tmemId));
 		}
 		MeetListVO meetListTestVO = new MeetListVO(list,countMeetMember,isAttend);
 		return meetListTestVO;
