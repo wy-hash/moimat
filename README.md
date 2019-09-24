@@ -17,7 +17,7 @@
 - sts 3.9.9
 - tc server v4.0 (local)
 - tomcat 8.5.45
-- spring 4.3.25
+- spring 4.3.23
 - servlet 3.1.0
 - jsp 2.3.3
 - lombok 1.18.8
@@ -32,6 +32,7 @@
 - jackson-databind 2.9.9
 - jackson-dataformat-xml 2.9.9
 - gson 2.8.5
+- spring-security(core, web, config, taglibs) 4.2.13
 
 
 ## configuration
