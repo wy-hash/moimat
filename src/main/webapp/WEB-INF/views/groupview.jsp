@@ -242,9 +242,7 @@
 				meetTitle.forEach(function(e){
 					e.addEventListener('click', function(){
 						meetid = this.getAttribute('value');
-						
-						
-						meetListService.meetRead(meetid,memberid,function(data){
+						meetListService.meetRead(meetid,groupid,memberid,function(data){
 							console.log(meetid);
 							console.log(memberid);
 							console.log(data);

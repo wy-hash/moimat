@@ -32,11 +32,11 @@ public class CalController {
 		return new ResponseEntity<>(service.getMeetList(a, b),HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/detailedmeet/{memberid}/{meetid}",
+	@GetMapping(value = "/detailedmeet/{meetid}/{groupid}/{memberid}",
 			produces = {
 					MediaType.APPLICATION_JSON_UTF8_VALUE
 			})
-	public ResponseEntity<MeetingPageVO> get(@PathVariable("memberid")Long memberid,@PathVariable("meetid")Long meetid){
-		return new ResponseEntity<>(service.readMeet(memberid, meetid),HttpStatus.OK);
+	public ResponseEntity<MeetingPageVO> get(@PathVariable("meetid")Long meetId,@PathVariable("groupid")Long groupId,@PathVariable("memberid")Long memberId){
+		return new ResponseEntity<>(service.readMeet(meetId,groupId,memberId),HttpStatus.OK);
 	}
 }

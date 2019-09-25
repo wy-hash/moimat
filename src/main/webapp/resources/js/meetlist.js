@@ -27,8 +27,8 @@ var meetListService = (function(){
 			(hh > 9 ? '' : '0')+hh,':',(mi > 9 ? '' : '0')+mi].join('');
 	}
 	
-	function meetRead(meetid,memberid,callback,error){
-		$.get("/cal/detailedmeet/"+meetid+"/"+memberid+".json",
+	function meetRead(meetid,groupid,memberid,callback,error){
+		$.get("/cal/detailedmeet/"+meetid+"/"+groupid+"/"+memberid+".json",
 				function(data){
 					if(callback){
 						callback(data);

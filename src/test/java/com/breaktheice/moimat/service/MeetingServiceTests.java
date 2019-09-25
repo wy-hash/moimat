@@ -18,7 +18,7 @@ public class MeetingServiceTests {
 	
 	@Test
 	public void readMeetTest() {
-		service.readMeet(11L, 1L);
+		service.readMeet(12L,2L, 1L);
 	}
 	
 }

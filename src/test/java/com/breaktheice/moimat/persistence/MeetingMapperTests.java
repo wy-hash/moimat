@@ -68,12 +68,12 @@ public class MeetingMapperTests {
 	
 	@Test
 	public void attendMeetTest() {
-		mapper.attendMeet(12L, 2L);
+		mapper.attendMeet(12L, 2L, 4L);
 	}
 	
 	@Test
 	public void cancelAttendTest() {
-		mapper.cancelAttend(12L, 1L);
+		mapper.cancelAttend(12L, 2L, 4L);
 	}
 	
 	@Test
@@ -83,7 +83,7 @@ public class MeetingMapperTests {
 	
 	@Test
 	public void isAttendTest() {
-		mapper.isAttend(11L, 1L);
+		mapper.isAttend(11L,2L, 1L);
 	}
 	
 	@Test

@@ -59,7 +59,8 @@
 			from 
 				team_member
 			where
-				tmem_id = #{tmemId}
+				tmem_id = 
+			<include refid="getTmemId"></include>
 			)
 	</insert>
 	
@@ -69,7 +70,8 @@
 		where
 			meet_id = #{meetId}
 		and
-			tmem_id = #{tmemId}
+			tmem_id = 
+		<include refid="getTmemId"></include>
 	</delete>
 	
 	<select id="getMeetingMember" resultType="com.breaktheice.moimat.domain.MeetMemberVO">
@@ -89,7 +91,8 @@
 			meet_member
 		where
 			meet_Id = #{meetId}
-            and tmem_Id = #{tmemId}
+            and tmem_Id =
+        <include refid="getTmemId"></include>
 	</select>
 	
 	<select id="countMeetMember" resultType="int">
@@ -100,5 +103,16 @@
 		where
 			meet_id = #{meetId}
 	</select>
+	
+	<sql id="getTmemId">
+	(select
+		tmem_id
+	from
+		team_member
+	where
+		mem_id = #{memId}
+		and
+		team_id = #{groupId})
+	</sql>
 	
 </mapper>

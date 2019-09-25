@@ -22,17 +22,17 @@ public class MeetingServiceImpl implements MeetingService{
 	
 	@Override
 	@Transactional
-	public void createMeet(MeetVO meetVO, Long memberSeq) {//정모 생성한 사람은 자동으로 해당 정모 참가 
+	public void createMeet(MeetVO meetVO,Long groupId, Long memId) {//정모 생성한 사람은 자동으로 해당 정모 참가 
 		mapper.regMeet(meetVO);
-		mapper.attendMeet(meetVO.getMeetId(),memberSeq);
+		mapper.attendMeet(meetVO.getMeetId(),groupId,memId);
 	}
 
 	@Override
 	@Transactional
-	public MeetingPageVO readMeet(Long meetId, Long tmemId) {
+	public MeetingPageVO readMeet(Long meetId,Long groupId, Long memberId) {
 		MeetVO meetVO = mapper.getMeet(meetId);
 		List<MeetMemberVO> memberList = mapper.getMeetingMember(meetId);
-		boolean isAttend = mapper.isAttend(meetId,tmemId);
+		boolean isAttend = mapper.isAttend(meetId,groupId,memberId);
 		MeetingPageVO meetingPageVO = new MeetingPageVO(meetVO, memberList, isAttend);
 		return meetingPageVO;
 	}
@@ -48,25 +48,25 @@ public class MeetingServiceImpl implements MeetingService{
 	}
 
 	@Override
-	public void attendMeet(Long meetId, Long tmemId) {
-		mapper.attendMeet(meetId, tmemId);
+	public void attendMeet(Long meetId, Long groupId, Long memId) {
+		mapper.attendMeet(meetId,groupId, memId);
 	}
 
 	@Override
-	public void cancelAttend(Long meetId, Long tmemId) {
-		mapper.cancelAttend(meetId, tmemId);
+	public void cancelAttend(Long meetId,Long groupId,Long memId) {
+		mapper.cancelAttend(meetId,groupId,memId);
 	}
 
 	@Override
 	@Transactional
-	public MeetListVO getMeetList(Long teamId,Long tmemId) {
+	public MeetListVO getMeetList(Long teamId,Long memId) {
 		List<MeetVO> list = mapper.getMeetList(teamId);
 		HashMap<Long,Integer> countMeetMember = new HashMap<Long, Integer>();
 		HashMap<Long,Boolean> isAttend = new HashMap<Long, Boolean>();
 		for (MeetVO meetVO : list) {
 			Long meetId = meetVO.getMeetId();
 			countMeetMember.put(meetId, mapper.countMeetMember(meetId));
-			isAttend.put(meetId, mapper.isAttend(meetId, tmemId));
+			isAttend.put(meetId, mapper.isAttend(meetId,teamId,memId));
 		}
 		MeetListVO meetListTestVO = new MeetListVO(list,countMeetMember,isAttend);
 		return meetListTestVO;
