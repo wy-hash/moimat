@@ -46,12 +46,12 @@
 		                <h3 class="h4 mar-no">Account Login</h3>
 		                <p class="text-muted">Sign In to your account</p>
 		            </div>
-		            <form id="loginForm" action="auth/login" method="post">
+		            <form id="auth/login" action="login" method="post">
 		                <div class="form-group">
-		                    <input type="text" id="id" name="id" class="form-control" placeholder="아이디 입력" autofocus>
+		                    <input type="text" id="id" name="memEmail" class="form-control" placeholder="아이디 입력" autofocus>
 		                </div>
 		                <div class="form-group">
-		                    <input type="password" id="pwd" name="pwd" class="form-control" placeholder="패스워드 입력">
+		                    <input type="password" id="pwd" name="memPassword" class="form-control" placeholder="패스워드 입력">
 		                </div>
 		                <div class="checkbox pad-btm text-left">
 		                    <input id="demo-form-checkbox" class="magic-checkbox" type="checkbox">

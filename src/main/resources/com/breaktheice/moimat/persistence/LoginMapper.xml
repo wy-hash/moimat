@@ -3,15 +3,16 @@
 <mapper namespace="com.breaktheice.moimat.persistence.LoginMapper">
 	
 	<select id="login" parameterType="com.breaktheice.moimat.domain.LoginDomain" 
-			resultType="com.breaktheice.moimat.domain.MemberDomain">
-		SELECT	
-				id, 
-				password,
-				name
+			resultType="com.breaktheice.moimat.domain.LoginDomain">
+	 	SELECT	
+				mem_id			<!--  LoginDomain.memId 변수명을 찾아서 들어간다 -->
+				,mem_email
+				,mem_password
 		FROM	
 				MEMBER 
 		WHERE
-				id	=	#{id}
+				mem_email	=	#{memEmail} 
+
 	</select>
 	
 </mapper>
