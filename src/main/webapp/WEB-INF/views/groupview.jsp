@@ -14,7 +14,20 @@
 <link href="../resources/plugins/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet">
 <title>Page Template | moim@</title>
-
+<style>
+	div .my {
+		display : flex;
+		height : 100%;
+	 	align-items : center;
+	 	justify-content : flex-end;
+	 	overflow: hidden;
+	 	
+	}
+	div .my>button {
+		margin-right: 10px;
+	 	
+	}
+</style>
 </head>
 <!-- END HEAD -->
 
@@ -152,9 +165,16 @@
 							   +		'<div id="map'+i+'" style="height: 100%;"></div>'
 							   +	'</div>'
 							   +	'<div class="col-lg-8" style="height:300px;">'
-							   +		'<div class="panel panel-bordered panel-dark" style="height:100%;">'
+							   +		'<div class="panel panel-bordered panel-dark" style="height:100%; margin:0px;">'
 					           +			'<div class="panel-heading">'
-				               +				'<h3 class="panel-title">'+list.meetList[i].meetTitle+'</h3>'
+					           +				'<div class="row" style="height:100%;">'
+					           +					'<div class="col-xs-8">'
+				               +						'<h3 class="panel-title">'+list.meetList[i].meetTitle+'</h3>'
+				               +					'</div>'
+				               +					'<div class="col-xs-4 my">'
+				               +						'<button type="button" class="btn btn-rounded btn-purple">ㄹㄹ</button>'
+				               +					'</div>'
+				               +				'</div>'
 				               +			'</div>'
 				           	   +			'<div class="panel-body">'
 							   +				'<div class="list-group">'
