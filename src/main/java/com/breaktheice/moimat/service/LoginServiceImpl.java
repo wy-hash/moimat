@@ -46,7 +46,7 @@ public class LoginServiceImpl implements LoginService {
 		if (loginVo != null && inputPwd.equals(loginVo.getMemPassword())) {
 
 			loginVo.setMemPassword("");						// 비밀번호 제거
-			HttpSession session = request.getSession(); // 세션 객체 얻고
+			HttpSession session = request.getSession(true); 	// 세션 객체 얻고
 			session.setAttribute("loginVO", loginVo); 		// 세션객체에 들어갈 사옹자 정보
 			
 			log.info("로그인 성공.... ");

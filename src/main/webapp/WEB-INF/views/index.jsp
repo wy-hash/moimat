@@ -8,19 +8,17 @@
 	<title>Insert title here</title>
 </head>
 <body>
-
-
 	<h2>sample domain info.</h2>
 		
 	<c:choose>
-	    <c:when test="${empty memberVO }">
+	    <c:when test="${empty loginVO }">
 	    	<a href="loginPage">로그인</a>
 	    </c:when>
 	 
-	    <c:when test="${!empty memberVO}">
+	    <c:when test="${empty loginVO}">
 	    
-	    	id: ${memberVO.id}<br>
-			name: ${memberVO.name}<br>
+	    	id: ${loginVO.memEmail}<br>
+			name: ${loginVO.memId}<br>
 	     	 <a href="logoutAction">로그아웃</a>
 	    </c:when>
 	</c:choose>

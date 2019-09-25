@@ -67,5 +67,12 @@ public class LoginController {
 		return "index";
 	}
 
+	@GetMapping("/findPwd") // 테스트로그아웃페이지
+	public String findPwd(Model model) {
+		
+		log.info("findPwd 호출.... "); 
+		
+		return "login/findpwd";
+	}
 	
 }

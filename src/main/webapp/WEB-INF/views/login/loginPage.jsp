@@ -46,7 +46,7 @@
 		                <h3 class="h4 mar-no">Account Login</h3>
 		                <p class="text-muted">Sign In to your account</p>
 		            </div>
-		            <form id="loginForm" action="auth/login" method="post">
+		            <form id="loginForm" action="login" method="post">
 		                <div class="form-group">
 		                    <input type="text" id="memEmail" name="memEmail" class="form-control" placeholder="아이디 입력" autofocus>
 		                </div>
@@ -62,8 +62,8 @@
 		        </div>
 		
 		        <div class="pad-all">
-		            <a href="findpwd" class="btn-link mar-rgt">비밀번호 찾기</a>
-		            <a href="joinPage" class="btn-link mar-lft">회원가입</a>
+		            <a href="/auth/findPwd" class="btn-link mar-rgt">비밀번호 찾기</a>
+		            <a href="/reg/join" class="btn-link mar-lft">회원가입</a>
 		
 		            <div class="media pad-top bord-top">
 		                <div class="pull-right">
@@ -97,8 +97,8 @@
 		}
 
 		// 3. 길이체크
-		if(memEmail.length < 8 || memEmail.length > 15) {
-			alert('아이디는 최소 8자이상 15자 미만입니다');
+		if(memEmail.length < 8 || memEmail.length > 30) {
+			alert('아이디는 최소 8자이상 30자 미만입니다');
 			$('#memEmail').focus();
 			return;
 		}
@@ -125,10 +125,15 @@
 		}
 
 		// 3. 길이체크
-		if(memPassword.length < 8 || memPassword.length > 15) {
-			alert('아이디는 최소 8자이상 15자 미만입니다');
+		if(memPassword.length < 3 || memPassword.length > 15) {
+			alert('비밀번호 최소 3자이상 15자 미만입니다');
 			$('#memPassword').focus();
 			return;
+		}
+		
+		if($('#demo-form-checkbox').is(":checked") != true){
+			alert("가입여부에 동의해주세요");
+			$('#demo-form-checkbox').focus();
 		}
 		
 		// 전송
