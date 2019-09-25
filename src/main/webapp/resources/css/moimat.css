@@ -1,0 +1,37 @@
+div .my {
+	display: flex;
+	height: 100%;
+	align-items: center;
+	justify-content: flex-end;
+	overflow: hidden;
+}
+
+div .my>button {
+	margin-right: 10px;
+}
+
+.meetTitle {
+	cursor: pointer;
+}
+
+div .moimat-m {
+	min-width: 200px;
+	height: 300px;
+}
+
+div .moimat-m>div {
+	height: 100%;
+}
+
+div .moimat-t {
+	height: 300px;
+}
+
+div .moimat-t>.panel {
+	height: 100%;
+	margin: 0px;
+}
+
+div .moimat-t>.panel>.panel-heading>.row {
+	height: 100%;
+}

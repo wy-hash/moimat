@@ -3,9 +3,9 @@ package com.breaktheice.moimat.domain;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 @AllArgsConstructor
 public class MeetingPageVO {
 	private MeetVO meetVO;

@@ -29,10 +29,10 @@ public class MeetingServiceImpl implements MeetingService{
 
 	@Override
 	@Transactional
-	public MeetingPageVO readMeet(Long seq, Long memberSeq) {
-		MeetVO meetVO = mapper.getMeet(seq);
-		List<MeetMemberVO> memberList = mapper.getMeetingMember(seq);
-		boolean isAttend = mapper.isAttend(seq,memberSeq);
+	public MeetingPageVO readMeet(Long meetId, Long tmemId) {
+		MeetVO meetVO = mapper.getMeet(meetId);
+		List<MeetMemberVO> memberList = mapper.getMeetingMember(meetId);
+		boolean isAttend = mapper.isAttend(meetId,tmemId);
 		MeetingPageVO meetingPageVO = new MeetingPageVO(meetVO, memberList, isAttend);
 		return meetingPageVO;
 	}
@@ -60,7 +60,6 @@ public class MeetingServiceImpl implements MeetingService{
 	@Override
 	@Transactional
 	public MeetListVO getMeetList(Long teamId,Long tmemId) {
-		// TODO Auto-generated method stub
 		List<MeetVO> list = mapper.getMeetList(teamId);
 		HashMap<Long,Integer> countMeetMember = new HashMap<Long, Integer>();
 		HashMap<Long,Boolean> isAttend = new HashMap<Long, Boolean>();

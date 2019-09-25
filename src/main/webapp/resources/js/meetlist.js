@@ -26,9 +26,23 @@ var meetListService = (function(){
 		return [yy,'/',(mm > 9 ? '' : '0')+mm,'/',(dd > 9 ? '' : '0')+dd,' ',
 			(hh > 9 ? '' : '0')+hh,':',(mi > 9 ? '' : '0')+mi].join('');
 	}
+	
+	function meetRead(meetid,memberid,callback,error){
+		$.get("/cal/detailedmeet/"+meetid+"/"+memberid+".json",
+				function(data){
+					if(callback){
+						callback(data);
+					}
+		}).fail(function(xhr,status,err){
+			if(error){
+				error();
+			}
+		});
+	}
 	return {
 		getList : getList,
-		parseDate : parseDate
+		parseDate : parseDate,
+		meetRead : meetRead
 	};
 })();
 

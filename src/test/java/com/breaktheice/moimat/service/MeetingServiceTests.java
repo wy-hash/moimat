@@ -1,5 +1,6 @@
 package com.breaktheice.moimat.service;
 
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -15,5 +16,9 @@ public class MeetingServiceTests {
 	@Autowired
 	private MeetingService service;
 	
+	@Test
+	public void readMeetTest() {
+		service.readMeet(11L, 1L);
+	}
 	
 }

@@ -13,8 +13,7 @@
 	rel="stylesheet">
 <link href="../resources/plugins/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet">
-	<link href="../resources/css/moimat.css"
-	rel="stylesheet">
+<link href="../resources/css/moimat.css" rel="stylesheet">
 <title>Page Template | moim@</title>
 
 </head>
@@ -62,21 +61,21 @@
 					<!-- #################################### -->
 
 					<div class="container-fluid">
-							
-							<div>
-								<div class="panel">
-									<div class="panel-heading">
-										<h3 class="panel-title">Calendar</h3>
-									</div>
-									<div class="panel-body">
-										<!-- Calendar placeholder-->
-										<!-- ============================================ -->
-										<div id='demo-calendar'></div>
-										<!-- ============================================ -->
 
-									</div>
+						<div>
+							<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">Calendar</h3>
+								</div>
+								<div class="panel-body">
+									<!-- Calendar placeholder-->
+									<!-- ============================================ -->
+									<div id='demo-calendar'></div>
+									<!-- ============================================ -->
+
 								</div>
 							</div>
+						</div>
 					</div>
 					<!-- end ./panel panel-dafault -->
 					<!-- start container-fluid -->
@@ -86,7 +85,27 @@
 							<div class="panel-body" id='meetList'></div>
 							<div class="panel-footer">
 								<!-- pagination button 들어갈 공간 -->
-								
+<button data-target="#demo-lg-modal" data-toggle="modal" class="btn btn-warning">Large modal</button>
+							</div>
+						</div>
+					</div>
+					<div class="modal fade" tabindex="-1" style="display: none;"
+						id="demo-lg-modal">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">
+										<i class="pci-cross pci-circle"></i>
+									</button>
+									<h4 class="modal-title" id="myLargeModalLabel">Large modal</h4>
+								</div>
+								<div class="modal-body">
+									<p>Lorem ipsum dolor sit amet, consectetuer adipiscing
+										elit, sed diam nonummy nibh euismod tincidunt ut laoreet
+										dolore magna aliquam erat volutpat. Ut wisi enim ad minim
+										veniam, quis nostrud exerci tation ullamcorper suscipit
+										lobortis nisl ut aliquip ex ea commodo consequat.</p>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -111,7 +130,8 @@
 	</div>
 	<!-- END CONTAINER -->
 	<script src="../resources/plugins/fullcalendar/lib/moment.min.js"></script>
-	<script src="../resources/plugins/fullcalendar/lib/jquery-ui.custom.min.js"></script>
+	<script
+		src="../resources/plugins/fullcalendar/lib/jquery-ui.custom.min.js"></script>
 	<script src="../resources/plugins/fullcalendar/fullcalendar.min.js"></script>
 	<script type="text/javascript" src="/resources/js/meetlist.js"></script>
 	<!--Full Calendar [ SAMPLE ]-->
@@ -218,15 +238,22 @@
 					setMap(list.meetList[i].meetArea,"map"+i)
 				}
 				var meetTitle = document.querySelectorAll(".meetTitle");
-				var text = '';
+				var meetid = '';
 				meetTitle.forEach(function(e){
 					e.addEventListener('click', function(){
-						text = this.getAttribute('value');
-						alert(text);
-						console.log(text);
+						meetid = this.getAttribute('value');
+						
+						
+						meetListService.meetRead(meetid,memberid,function(data){
+							console.log(meetid);
+							console.log(memberid);
+							console.log(data);
+						});
 					})
 				});
 			})
+			
+			
 		}
 	</script>
 </body>
