@@ -35,3 +35,6 @@ div .moimat-t>.panel {
 div .moimat-t>.panel>.panel-heading>.row {
 	height: 100%;
 }
+div .moimat-c>p{
+	 word-break:break-all;
+}

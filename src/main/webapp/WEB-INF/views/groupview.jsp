@@ -61,7 +61,6 @@
 					<!-- #################################### -->
 
 					<div class="container-fluid">
-
 						<div>
 							<div class="panel">
 								<div class="panel-heading">
@@ -85,26 +84,69 @@
 							<div class="panel-body" id='meetList'></div>
 							<div class="panel-footer">
 								<!-- pagination button 들어갈 공간 -->
-<button data-target="#demo-lg-modal" data-toggle="modal" class="btn btn-warning">Large modal</button>
+								<button data-target="#moimat-modal" data-toggle="modal"
+									class="btn btn-warning">Large modal</button>
 							</div>
 						</div>
 					</div>
+					<!-- modal -->
 					<div class="modal fade" tabindex="-1" style="display: none;"
-						id="demo-lg-modal">
+						id="moimat-modal">
 						<div class="modal-dialog modal-lg">
 							<div class="modal-content">
 								<div class="modal-header">
 									<button type="button" class="close" data-dismiss="modal">
 										<i class="pci-cross pci-circle"></i>
 									</button>
-									<h4 class="modal-title" id="myLargeModalLabel">Large modal</h4>
+									<h4 class="modal-title" id="myLargeModalLabel">상세보기</h4>
 								</div>
 								<div class="modal-body">
-									<p>Lorem ipsum dolor sit amet, consectetuer adipiscing
-										elit, sed diam nonummy nibh euismod tincidunt ut laoreet
-										dolore magna aliquam erat volutpat. Ut wisi enim ad minim
-										veniam, quis nostrud exerci tation ullamcorper suscipit
-										lobortis nisl ut aliquip ex ea commodo consequat.</p>
+									<!-- map 들어가는 div -->
+									<div id="modalMap" style="height: 400;"></div>
+									<!-- 내용 -->
+									<form class="form-horizontal">
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="row form-group form-group-lg">
+													<label class="col-sm-3 control-label"
+														for="formGroupInputLarge">만나는날</label>
+													<div class="col-sm-9">
+														<input type="text" class="form-control">
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="row form-group form-group-lg">
+													<label class="col-sm-3 control-label"
+														for="formGroupInputLarge">만나는곳</label>
+													<div class="col-sm-9">
+														<input type="text" class="form-control">
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="row form-group form-group-lg">
+													<label class="col-sm-3 control-label"
+														for="formGroupInputLarge">금액</label>
+													<div class="col-sm-9">
+														<input type="text" class="form-control">
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="row form-group form-group-lg">
+													<label class="col-sm-3 control-label"
+														for="formGroupInputLarge">참여인원</label>
+													<div class="col-sm-9">
+														<input type="text" class="form-control">
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<textarea class="form-control" rows="3"></textarea>
+										</div>
+									</form>
 								</div>
 							</div>
 						</div>
@@ -184,7 +226,10 @@
 					           +			'<div class="panel-heading">'
 					           +				'<div class="row">'
 					           +					'<div class="col-xs-8">'
-				               +						'<h3 class="panel-title"><span class="meetTitle" value="'+list.meetList[i].meetId+'">'+list.meetList[i].meetTitle+'</span></h3>'
+				               +						'<h3 class="panel-title">'
+					           +							'<span class="meetTitle" value="'+list.meetList[i].meetId+'">'
+					           +								list.meetList[i].meetTitle
+					           +							'</span></h3>'
 				               +					'</div>'
 				               +					'<div class="col-xs-4 my">'
 				               +						button
@@ -224,8 +269,8 @@
 				               +						'</div>'
 							   +					'</div>'
 							   +				'</div>'
-							   +				'<div>'
-							   +					'<p style="word-break:break-all">'+list.meetList[i].meetContent+'<p>'
+							   +				'<div class="moimat-c">'
+							   +					'<p>'+list.meetList[i].meetContent+'<p>'
 							   +				'</div>'
 							   +			'</div>'
 					           +		'</div>'
@@ -237,6 +282,10 @@
 				for(var i = 0, len = list.meetList.length||0; i<len; i++){
 					setMap(list.meetList[i].meetArea,"map"+i)
 				}
+				detailedMeet();
+			})
+			
+			function detailedMeet(){
 				var meetTitle = document.querySelectorAll(".meetTitle");
 				var meetid = '';
 				meetTitle.forEach(function(e){
@@ -249,8 +298,7 @@
 						});
 					})
 				});
-			})
-			
+			}
 			
 		}
 	</script>
