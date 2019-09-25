@@ -13,21 +13,10 @@
 	rel="stylesheet">
 <link href="../resources/plugins/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet">
+	<link href="../resources/css/moimat.css"
+	rel="stylesheet">
 <title>Page Template | moim@</title>
-<style>
-	div .my {
-		display : flex;
-		height : 100%;
-	 	align-items : center;
-	 	justify-content : flex-end;
-	 	overflow: hidden;
-	 	
-	}
-	div .my>button {
-		margin-right: 10px;
-	 	
-	}
-</style>
+
 </head>
 <!-- END HEAD -->
 
@@ -97,9 +86,9 @@
 							<div class="panel-body" id='meetList'></div>
 							<div class="panel-footer">
 								<!-- pagination button 들어갈 공간 -->
+								
 							</div>
 						</div>
-
 					</div>
 				</div>
 				<!--===================================================-->
@@ -137,12 +126,12 @@
 			var meetListStr = '';
 			var geocoder = new kakao.maps.services.Geocoder();
 			
+			
 			function setMap(area, idx) {geocoder.addressSearch(area,
 					function(result, status) {
 						if (status === kakao.maps.services.Status.OK) {
 							var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 						}
-		
 						var mapContainer = document.getElementById(idx), mapOption = {
 							center : coords,
 							level : 3
@@ -160,19 +149,25 @@
 			meetListService.getList(groupid,memberid,function(list){
 				//meetList,countMeetMember, isAttend	
 				for(var i = 0, len = list.meetList.length||0; i<len; i++){
+					var button = '';
+					if(list.isAttend[list.meetList[i].meetId]){
+						button = '<button type="button" class="btn btn-danger" value="'+list.meetList[i].meetId+'">불참하기</button>';
+					}else{
+						button = '<button type="button" class="btn btn-warning" value="'+list.meetList[i].meetId+'">참석하기</button>';
+					}
 					meetListStr +='<div class="row">'
-							   +	'<div class="col-lg-4" style="min-width: 200px; height: 300px;">'
-							   +		'<div id="map'+i+'" style="height: 100%;"></div>'
+							   +	'<div class="col-lg-4 moimat-m">'
+							   +		'<div id="map'+i+'"></div>'
 							   +	'</div>'
-							   +	'<div class="col-lg-8" style="height:300px;">'
-							   +		'<div class="panel panel-bordered panel-dark" style="height:100%; margin:0px;">'
+							   +	'<div class="col-lg-8 moimat-t">'
+							   +		'<div class="panel panel-bordered panel-dark">'
 					           +			'<div class="panel-heading">'
-					           +				'<div class="row" style="height:100%;">'
+					           +				'<div class="row">'
 					           +					'<div class="col-xs-8">'
-				               +						'<h3 class="panel-title">'+list.meetList[i].meetTitle+'</h3>'
+				               +						'<h3 class="panel-title"><span class="meetTitle" value="'+list.meetList[i].meetId+'">'+list.meetList[i].meetTitle+'</span></h3>'
 				               +					'</div>'
 				               +					'<div class="col-xs-4 my">'
-				               +						'<button type="button" class="btn btn-rounded btn-purple">ㄹㄹ</button>'
+				               +						button
 				               +					'</div>'
 				               +				'</div>'
 				               +			'</div>'
@@ -222,6 +217,15 @@
 				for(var i = 0, len = list.meetList.length||0; i<len; i++){
 					setMap(list.meetList[i].meetArea,"map"+i)
 				}
+				var meetTitle = document.querySelectorAll(".meetTitle");
+				var text = '';
+				meetTitle.forEach(function(e){
+					e.addEventListener('click', function(){
+						text = this.getAttribute('value');
+						alert(text);
+						console.log(text);
+					})
+				});
 			})
 		}
 	</script>
