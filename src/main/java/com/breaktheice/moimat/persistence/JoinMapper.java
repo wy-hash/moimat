@@ -10,8 +10,6 @@ public interface JoinMapper {
 	
 	public int join(MemberDomain memberVo);
 	
-	public int insertInterest(MemberDomain memberVo);
-	
 	public ArrayList getInterestCodelist();
 	
 	public String checkMemberEmail(String email);

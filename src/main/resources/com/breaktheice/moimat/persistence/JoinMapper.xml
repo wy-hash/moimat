@@ -3,50 +3,62 @@
 <mapper namespace="com.breaktheice.moimat.persistence.JoinMapper">
 	
 	<select id="getInterestCodelist" resultType="com.breaktheice.moimat.domain.InterestDomain" >
-			SELECT   
-					SEQ
-					,KEY
-					,VALUE
-			FROM 
-					INTEREST
 		
+		SELECT   
+				INT_ID
+				,INT_KEY
+				,INT_NAME
+				,INT_ORDER
+				,INT_ORDER
+				,INT_IS_USE
+		FROM 
+				INTEREST
 		
 	</select>
 	
 	<insert id="join" parameterType="com.breaktheice.moimat.domain.MemberDomain" >
-			
 		<!-- 회원가입 쿼리를 만들기 -->
-		
-			INSERT INTO MEMBER
-			SET
-				SEQ			= MEMBER_SEQ.NEXTVAL
-				,ID 		= #{id}
-			 	,PASSWORD 	= #{PASSWORD}
-			 	,NAME	 	= #{NAME}
-			 	,BIRTHDAY	= #{BIRTHDAY}
-			 	,EMAIL  	= #{EMAIL}
-			 	,AREA 		= #{AREA}
-			 	,PHONE_NUMBER = #{PHONE_NUMBER}
-			 	,STATE		= #{STATE}
-			 	,REGDATE 	= #{REGDATE}
-			 	,UPDATEDATE = #{UPDATEDATE}
-			 	,PHOTO      = ""
-			 	,INTEREST   = #{INTEREST}
-		
+		INSERT INTO MEMBER
+		SET
+		(
+			MEM_ID,
+			MEM_EMAIL,
+			MEM_PASSWORD,
+			MEM_NICKNAME,
+			MEM_BIRTHDAY,
+			MEM_GENDER,
+			MEM_AREA,
+			MEM_REGDATE,
+			MEM_UPDATE,
+			MEM_LASTLOGIN,
+			MEM_CONTENT,
+			MEM_PHOTO,
+			MEM_LEVEL,
+			MEM_STATUS,
+			MEM_INT1,
+			MEM_INT2,
+			MEM_INT3
+		)
+		VALUES
+		(
+			MEMBER_SEQ.NEXTVAL,
+			#{memEmail},
+			#{memPassword},
+			#{memNickname},
+			#{memBirthday},
+			#{memGender},
+			#{memArea},
+			#{memRegdate},
+			#{memDate},
+			#{memLastlogin},
+			#{memContent},
+			#{memPhoto},
+			#{memLevel},
+			#{memStatus},
+			#{memInt1}
+		)
 	</insert>
 	
-	<insert id="insertInterest" parameterType="com.breaktheice.moimat.domain.MemberDomain" >
-			
-		<!-- 회원가입 쿼리를 만들기 -->
-		
-			INSERT INTO MEMBER_INTEREST
-			SET
-				SEQ			= MEMBER_SEQ.NEXTVAL
-				,INTEREST_SEQ 		= #{id}
-		
-	</insert>
-	
-		
 	<select id="checkMemberEmail" parameterType="String" resultType="String">
 		
 		SELECT 
@@ -54,7 +66,7 @@
 		FROM
 				MEMBER
 		WHERE 
-				email = #{email}
+				MEM_EMAIL = #{memEmail}
 	
 	</select>
 	
@@ -62,12 +74,12 @@
 			
 		<!-- 인증코드 저장 -->
 		
-			INSERT INTO AUTHCODE
-			VALUES(
-				 #{email}
-				,#{code}
-				,SYSDATE 
-			)
+		INSERT INTO CERT
+		VALUES(
+			 #{memEmail}
+			,#{certCode}
+			,SYSDATE 
+		)
 	</insert>
 	
 	<select id="selectCode" parameterType="com.breaktheice.moimat.domain.AuthCodeDomain" resultType="com.breaktheice.moimat.domain.AuthCodeDomain">
@@ -75,10 +87,10 @@
 		SELECT 
 				*
 		FROM
-				AUTHCODE
+				CERT
 		WHERE 
-					code = #{code}
-				and email = #{email}
+					CERT_CODE = #{certCode}
+				and MEM_EMAIL = #{memEmail}
 	
 	</select>
 	
@@ -87,10 +99,10 @@
 		DELETE 
 				
 		FROM
-				AUTHCODE
+				CERT
 		WHERE 
-					code = #{code}
-				and email = #{email}
+					CERT_CODE = #{certCode}
+				and MEM_EMAIL = #{cretEmail}
 	
 	</delete>
 	

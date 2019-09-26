@@ -48,11 +48,9 @@ public class JoinServiceImpl implements JoinService {
 	public boolean joinMember(MemberDomain vo) {
 		
 		int success = joinMapper.join(vo);	// Member테이블 삽입
-		int success2 = joinMapper.insertInterest(vo); // MemberInterest테이블 삽입
 		
-		
+		// 회원정보 등록 성공!
 		if(success == 1) {
-			
 			
 			return true;
 		}
@@ -114,7 +112,7 @@ public class JoinServiceImpl implements JoinService {
 		AuthCodeDomain tmp = joinMapper.selectCode(auth);
 		
 		// 인증오케이
-		if(tmp != null && tmp.getCode().equals(auth.getCode())) {
+		if(tmp != null && tmp.getCretCode().equals(auth.getCretCode())) {
 			
 			// 기능 추가(해당 인증로우 삭제)
 			joinMapper.deleteCode(auth);

@@ -4,8 +4,9 @@ import lombok.Data;
 
 @Data
 public class AuthCodeDomain {
-	private String email;
-	private String code;
-	private String regTime;
+	private String certId;
+	private String cretCode;
+	private String cretEmail;
+	private String cretRegdate;
 	
 }

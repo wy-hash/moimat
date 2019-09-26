@@ -30,8 +30,8 @@ public class JoinController {
 	@Autowired
 	JoinService joinService;
 	
-	//@Autowired
-	//MailSenderService mailService;
+	@Autowired
+	MailSenderService mailService;
 	
 	@GetMapping("/join")
 	public String join(HttpServletRequest request) {
@@ -94,19 +94,19 @@ public class JoinController {
 			int code = (int)(Math.random()*1000000000);
 			log.info("code :" + code);
 				
-			// 2-1)인증메일 발송 세팅  --> 미완성
+			// 2-1)인증메일 발송 세팅  --> 
 			String setFrom = "test@gmail.com";
 			String setTo =email;
 			String setSubject ="인증메일 발송안내";
 			String setText ="인증번호는"+code+"입니다.";
 					
-			// 2-2) 인증번호 메일 발송  --> 미완성
-		//	mailService.simpleMailSend(setFrom,setTo,setSubject,setText);
+			// 2-2) 인증번호 메일 발송  --> 
+			mailService.simpleMailSend(setFrom,setTo,setSubject,setText);
 			
 			// 3. 인증코드 테이블에 추가
 			AuthCodeDomain auth = new AuthCodeDomain();
-			auth.setCode(code+"");
-			auth.setEmail(email);
+			auth.setCretCode(code+"");
+			auth.setCretEmail(email);
 			joinService.insertCode(auth);
 			
 			map.put("msgCode", "1");  //메세지 코드(인증번호가 발송되었습니다.)
@@ -138,8 +138,8 @@ public class JoinController {
 	public String checkAuthCode(AuthCodeDomain auth) throws Exception {
 	
 		log.info("checkAuthCode 호출..");
-		log.info("checkAuthCode: " +auth.getCode());
-		log.info("email: " +auth.getEmail());
+		log.info("checkAuthCode: " +auth.getCretCode());
+		log.info("email: " +auth.getCretEmail());
 		
 		
 		Map map = new HashMap();

@@ -59,11 +59,11 @@
 										<div class="row">
 											<div class="col-sm-6">
 												<div class="form-group">
-													<input type="text" class="form-control" id="emailId" name= "emailId"
+													<input type="text" class="form-control" id="memEmail" name= "emailId"
 														placeholder="emailId" style="display: inline; width: 46%;" />
 													@ <input type="text" class="form-control" id="emailDomain"
 														placeholder="aaa.com" style="display: inline; width: 46%;" />
-													<input type="hidden" id="email"
+													<input type="hidden" id="memEmail" name="memEmail"
 														style="display: inline; width: 46%;" />
 												</div>
 											</div>
@@ -79,23 +79,23 @@
 											</div>
 											<div class="col-sm-6">
 												<div class="form-group">
-													<input type="text" class="form-control" placeholder="Pwd" id="pwd"	name="pwd">
+													<input type="text" class="form-control" placeholder="Pwd" id="pwd"	name="memPassword">
 												</div>
 											</div>
 											<div class="col-sm-6">
 												<div class="form-group">
-													<input type="text" class="form-control" placeholder="Name"	id="name" name="name"  >
+													<input type="text" class="form-control" placeholder="Name"	id="name" name="memNickname"  >
 												</div>
 											</div>
 											<div class="col-sm-6">
 												<div class="form-group">
 													<input type="text" class="form-control"
-														placeholder="Birthday" id="birthday" name="birthday">
+														placeholder="Birthday" id="birthday" name="memBirthday">
 												</div>
 											</div>
 											<div class="col-sm-6">
 												<div class="form-group">
-													<select id="gender" name="gender" class="form-control">
+													<select id="gender" name="memGender" class="form-control">
 														<option value="">성별선택</option>
 														<option value="M">남자</option>
 														<option value="F">여자</option>
@@ -104,13 +104,13 @@
 											</div>
 											<div class="col-sm-6">
 												<div class="form-group">
-													<input type="text" class="form-control"  id="area" name="area" placeholder="Area"
+													<input type="text" class="form-control"  id="area" name="memArea" placeholder="Area"
 														>
 												</div>
 											</div>
  											<div class="col-sm-6">
 												<div class="form-group">
-													<select class="form-control" id="interest1"	name="interest1" placeholder="Interest">
+													<select class="form-control" id="interest1"	name="memInt1" placeholder="Interest">
 														<option value="" default>관심사1 선택</option>
 													</select>
 												</div>
@@ -119,7 +119,7 @@
 											<div class="col-sm-6">
 												<div class="form-group">
 													<select class="form-control" id="interest2"
-														name="interest2" placeholder="Interest">
+														name="memInt2" placeholder="Interest">
 														<option default>관심사2 선택</option>
 													</select>
 												</div>
@@ -128,7 +128,7 @@
 											<div class="col-sm-6">
 												<div class="form-group">
 													<select class="form-control" id="interest3"
-														name="interest3" placeholder="Interest">
+														name="memInt3" placeholder="Interest">
 														<option default>관심사3 선택</option>
 													</select>
 												</div>
@@ -308,6 +308,8 @@
    					$('#emailCheck').removeAttr("onclick");	
    					// 히든필드 인증체크 확인
    					$("#checkEmailBox").attr("checked", true);
+   					// 히든필드에 메일 삽입
+   					$('#memEmail').val(email);
    				}
    				
    										
@@ -338,7 +340,7 @@
    				let option = "";
    				
    				for (let i = 0; i < codeList.length; i++) {
-   					option += "<option value='"+codeList[i].key+"'>"+ codeList[i].value + "</option>"					
+   					option += "<option value='"+codeList[i].intKey+"'>"+ codeList[i].intName + "</option>"					
    				}
    				
    				$('#interest1').append(option);
