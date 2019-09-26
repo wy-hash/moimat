@@ -98,55 +98,10 @@
 									<button type="button" class="close" data-dismiss="modal">
 										<i class="pci-cross pci-circle"></i>
 									</button>
-									<h4 class="modal-title" id="myLargeModalLabel">상세보기</h4>
+									<h4 class="modal-title" id="moimat-modal-title">상세보기</h4>
 								</div>
-								<div class="modal-body">
-									<!-- map 들어가는 div -->
-									<div id="modalMap" style="height: 400;"></div>
-									<!-- 내용 -->
-									<form class="form-horizontal">
-										<div class="row">
-											<div class="col-sm-6">
-												<div class="row form-group form-group-lg">
-													<label class="col-sm-3 control-label"
-														for="formGroupInputLarge">만나는날</label>
-													<div class="col-sm-9">
-														<input type="text" class="form-control">
-													</div>
-												</div>
-											</div>
-											<div class="col-sm-6">
-												<div class="row form-group form-group-lg">
-													<label class="col-sm-3 control-label"
-														for="formGroupInputLarge">만나는곳</label>
-													<div class="col-sm-9">
-														<input type="text" class="form-control">
-													</div>
-												</div>
-											</div>
-											<div class="col-sm-6">
-												<div class="row form-group form-group-lg">
-													<label class="col-sm-3 control-label"
-														for="formGroupInputLarge">금액</label>
-													<div class="col-sm-9">
-														<input type="text" class="form-control">
-													</div>
-												</div>
-											</div>
-											<div class="col-sm-6">
-												<div class="row form-group form-group-lg">
-													<label class="col-sm-3 control-label"
-														for="formGroupInputLarge">참여인원</label>
-													<div class="col-sm-9">
-														<input type="text" class="form-control">
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="form-group">
-											<textarea class="form-control" rows="3"></textarea>
-										</div>
-									</form>
+								<div class="modal-body" id="moimat-modal-body">
+									
 								</div>
 							</div>
 						</div>
@@ -270,7 +225,7 @@
 							   +					'</div>'
 							   +				'</div>'
 							   +				'<div class="moimat-ellipsis">'
-							   +					'<span>'+list.meetList[i].meetContent+'</span>'
+							   +					'<a class="meetContent" data-target="#moimat-modal" data-toggle="modal">'+list.meetList[i].meetContent+'</a>'
 							   +				'</div>'
 							   +			'</div>'
 					           +		'</div>'
@@ -283,6 +238,7 @@
 					setMap(list.meetList[i].meetArea,"map"+i)
 				}
 				detailedMeet();
+				detailedText();
 			})
 			
 			function detailedMeet(){
@@ -298,6 +254,19 @@
 						});
 					})
 				});
+			}
+			var mmodal = document.querySelector("#moimat-modal");
+			var mmodaltitle = document.querySelector("#moimat-modal-title");
+			var mmodalbody = document.querySelector("#moimat-modal-body");
+			function detailedText(){
+				var meetContent = document.querySelectorAll(".meetContent");
+				meetContent.forEach(function(e){
+					e.addEventListener('click',function(){
+						mmodaltitle.innerText = '내용 상세 보기';
+						mmodalbody.innerText = this.innerText
+						console.log(e);
+					})
+				})
 			}
 			
 		}
