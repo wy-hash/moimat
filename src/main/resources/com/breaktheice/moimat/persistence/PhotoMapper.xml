@@ -3,57 +3,80 @@
 <mapper namespace="com.breaktheice.moimat.persistence.PhotoMapper">
 	<!-- 게시물 상세보기 -->
 	<select id="selectBoardOne" parameterType="com.breaktheice.moimat.domain.PhotoDomain"  resultType="com.breaktheice.moimat.domain.PhotoDomain"><!-- id는 함수호출 -->
-      SELECT seq, post_type_seq, title, content, regdate, updatedate, count, member_seq, orgin, priority, depth 
-      FROM post 
-      WHERE seq = #{seq} 
+	SELECT POST_ID,
+	POST_NUM,
+	TEAM_ID,
+	BRD_ID,
+	POST_TITLE,
+	POST_CONTENT,
+	TMEM_ID,
+	POST_TMEM_LEVEL,
+	POST_NICKNAME,
+	POST_EMAIL,
+	POST_REGDATE,
+	POST_UPDATE,
+	POST_HIT,
+	POST_LIKE,
+	POST_DISLIKE
+
+	where post_id = #{postId}
    </select> 
  		<!-- 페이징  -->
 	<select id="selectAllBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
-		select count(*) from post
-	</select>	
-   <!-- 게시물생성 -->
+		select count(*) from team_post
+	</select>
+		
+		
+   <!-- 모임 게시물생성  -->
 	<insert id="insertBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
-    insert into post (seq, post_type_seq, title, content, regdate, updatedate, count, member_seq, orgin, priority, depth)
-   values (post_seq.nextval, #{postTypeSeq}, #{title}, #{content}, #{regdate}, #{updatedate}, 0, #{memberSeq}, post_seq.currval, 0, 0)
-	</insert>
+   		insert into team_post (post_id, team_id, brd_id, post_title, post_content, tmem_id, 
+   		post_tmem_level, post_nickname, post_email, post_regdate, post_update, post_hit)
+   		
+   		values (team_post_seq.nextval,#{teamId}, #{brdId}, #{postTitle} #{postContent}, #{tmemId}, #{postTmemLevel}
+   		, #{postNickname}, #{postEmail}, sysdate, sysdate,0) 
+	</insert> <!-- 팀포스트 테이블 컬럼들로 변경해줘야함 이거부터 하면됨 -->
+	
 	<!-- 게시물삭제 -->
 	<delete id="deleteBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
-		delete from post where seq=#{seq}
-	</delete>
-	<!-- 게시물 수정 -->
-	<update id="modifyBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
-		update post set post_type_seq=#{postTypeSeq},title=#{title},content=#{content},updatedate=#{updatedate},count=#{count},member_seq=#{memberSeq},orgin=#{orgin},priority=#{priority},depth=#{depth}
-		where seq=#{seq}
-	</update>
-	<!-- 댓글수정 -->
-	<update id="replyUPBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
-   		update reply set talk = #{talk},UPDATEDATE = sysdate where seq = #{replySeq}
-   </update>
-   <!-- 댓글생성 -->
-	<insert id="replyBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
-		insert into reply (SEQ, MEMBER_SEQ, TALK, REGDATE, UPDATEDATE)
-		values (reply_seq.nextval, #{memberSeq}, #{talk}, sysdate, sysdate)
-	</insert>
-	<!-- 댓글참조테이블사용 게시물 번호 덧글번호  -->
-	<insert id="replyFKBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
-	<!--  insert into post_reply (POST_SEQ, REPLY_SEQ) values (#{postSeq}, reply_seq.currval) -->
-	 	 insert into post_reply (POST_SEQ, REPLY_SEQ) values (#{seq}, (select max(seq) from reply))
-	</insert>
-	<!-- 참조테이블 댓글번호 게시물 번호 삭제 -->
-	<delete id="replydeleteBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
-		delete from post_reply where reply_seq=#{replySeq}
-	</delete>
-	<!-- 댓글삭제 -->
-	<delete id="replydeleteBoard2" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
-		delete from reply where seq = #{replySeq}
+		delete from team_post where post_id=#{postId} and tmem_id=#{tmemId}
 	</delete>
 	
-	<delete id="photodeleteBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
-		delete from attach where fullname = #{fullname}
-	</delete>
-
-	<update id="photoUPBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
-   		update attach set fullname = #{fullname},regdate = sysdate where post_seq = #{postSeq}
+	<!-- 게시물 수정 -->
+	<update id="modifyBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
+		update team_post set POST_TITLE = #{postTitle},
+		POST_CONTENT = #{postContent},POST_UPDATE = sysdate
+		where post_id=#{postId} and tmem_id=#{tmemId}
+	</update>
+	
+	<!-- 댓글수정 -->
+	<update id="replyUPBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
+   		update team_comments set CMT_CONTENT = #{cmtContent}, UPDATE = sysdate
+   		 where cmt_id =#{cmtId} and tmem_id =#{tmemId}
    </update>
+   
+   <!-- 댓글생성 -->
+	<insert id="replyBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
+		insert into team_comments (CMT_ID,POST_ID,BRD_ID,CMT_CONTENT,TMEM_ID,CMT_NICKNAME,
+		CMT_EMAIL,CMT_REGDATE,CMT_UPDATE)
+		values (team_comments_seq.nextval, #{postId}, #{brdId}, #{cmtContent}, #{teamId},
+		#{cmtNickname}, #{cmtEmail}, sysdate, sysdate)
+	</insert>
+	
+	<!--   댓글 삭제 -->
+	<delete id="replydeleteBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
+		delete from team_comments where CMT_ID=#{cmtId} and tmem_id=#{tmemId}
+	</delete>
+	
+	<!-- file 테이블 인서트 -->
+		<insert id="photoinsertBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
+		insert into team_post_file (PFI_ID, POST_ID, BRD_ID, TMEM_ID, PFI_ORIGINNAME, PFI_REGDATE)
+		values (team_post_file_seq.nextval, #{postId}, #{brdId}, #{tmemId}, #{pfiOriginname})
+		</insert>
+	
+	<!-- 사진삭제 -->
+	<delete id="photodeleteBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
+		delete from team_post_file where pfi_id = #{pfiId} and tmem_id = #{tmemId};
+	</delete>
+	
 	
 </mapper>

@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.breaktheice.moimat.domain.PhotoDomain;
 import com.breaktheice.moimat.page.Criteria;
 import com.breaktheice.moimat.page.PageMaker;
-import com.breaktheice.moimat.service.FileUploadService;
 import com.breaktheice.moimat.service.PhotoService;
 
 import lombok.extern.log4j.Log4j;
@@ -24,26 +23,39 @@ import lombok.extern.log4j.Log4j;
 @Controller
 @Log4j
 public class PhotoController {
-
 	@Autowired
 	private PhotoService service;
 	
-	@Autowired
-	FileUploadService fileUploadService;
-	
 	@RequestMapping( "/test" )
-	public String test() {
+	public String file(
+			Model model) {
+		
+	
+		return "fileuploadwrite";
+	}
+	
+	@RequestMapping( "/fileupload" )
+	public String test(Model model,@RequestParam("email") String email) {
 		
 		PhotoDomain domain = new PhotoDomain();
-
-		domain.setSeq(4);		
-		domain.setTalk("가가각r");		
-		domain.setMemberSeq(1);
 		
-		service.replyBoard(domain);
+		model.addAttribute("email",email);
 		
-		return "test";
+		return "result";
 	}	
+	@RequestMapping( "/fileuploadwrite")
+	public String upload(
+			Model model,
+//			@RequestParam("email") String email,
+			@RequestParam(required=false) List <MultipartFile> files,PhotoDomain domain) {
+		
+//		String url = service.restore(files,domain);
+//		model.addAttribute("url",url);
+//		
+//		model.addAttribute("email",email);
+	
+		return "fileupload";
+	}
 	@RequestMapping("/list2")
 	public void list3(Criteria criteria, Model model) throws Exception {
 		System.out.println("list2()");
@@ -67,17 +79,7 @@ public class PhotoController {
 
 		//return "redirect:list";
 	}
-	@RequestMapping( "/upload" )
-	public String upload(
-			Model model,
-			@RequestParam("email") String email,
-			@RequestParam(required=false) List <MultipartFile> files) {
-		
-		String url = fileUploadService.restore(files);
-		model.addAttribute("url", url);
-	
-		return "result";
-	}
+
 	// 사진첩 목록
 	@GetMapping("/groups/{groupid}/photos1")
 	public String list(@PathVariable String groupid, Model model) {
@@ -115,7 +117,7 @@ public class PhotoController {
 		System.out.println("delete");	
 //		model.addAttribute("write_view",boardService.selectBoardOne(bId));
 		int test = Integer.parseInt(photoid);
-		domain.setSeq(test);
+		
 		service.photoUPBoard(domain);
 		service.deleteBoard(domain);
 		
@@ -172,9 +174,5 @@ public class PhotoController {
 		service.photodeleteBoard(domain);
 		return "redirect:list";
 }
-	
-	
-	
-	
 	
 }	

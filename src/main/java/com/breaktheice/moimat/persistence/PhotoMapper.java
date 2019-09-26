@@ -18,20 +18,22 @@ public interface PhotoMapper {
 	public void modifyBoard(PhotoDomain domain);
 	public void replyUPBoard(PhotoDomain domain);
 	
-	public void replyBoard(PhotoDomain domain);	
-	 
-	public void replyFKBoard(PhotoDomain domain);
-	
-	
+	public void replyBoard(PhotoDomain domain);
 	public void replydeleteBoard(PhotoDomain domain);
 	public void replydeleteBoard2(PhotoDomain domain);
 	
+	public void photoinsertBoard(PhotoDomain domain);	
 	public void photodeleteBoard(PhotoDomain domain);
 	public void photoUPBoard(PhotoDomain domain);
+	
 	//파일업로드
 	public int selectAllBoard() throws Exception;
 	
-	  public List<PhotoDomain> selectBoardListPage(Criteria criteria) throws Exception;
+	public String restore(List<MultipartFile> files,PhotoDomain domain);
+	public String genSaveFileName(String extName,PhotoDomain domain);
+	public boolean writeFile(MultipartFile multipartFile, String saveFileName,PhotoDomain domain) throws IOException;
+	
+	public List<PhotoDomain> selectBoardListPage(Criteria criteria) throws Exception;
 	
 //	public String restore(List<MultipartFile> files,PhotoDomain domain);
 //	public String genSaveFileName(String extName,PhotoDomain domain);

@@ -31,12 +31,12 @@
 
     <!--Demo [ DEMONSTRATION ]-->
     <link href="css/demo/nifty-demo.min.css" rel="stylesheet">
-
-
         
     <!--Dropzone [ OPTIONAL ]-->
     <link href="plugins/dropzone/dropzone.min.css" rel="stylesheet">
 
+ 	<!--Summernote [ OPTIONAL ]-->
+    <link href="plugins/summernote/summernote.min.css" rel="stylesheet">
 
 
 
@@ -72,15 +72,17 @@
     <script src="js/demo/nifty-demo.min.js"></script>
 
     
+    <!--Summernote [ OPTIONAL ]-->
+    <script src="plugins/summernote/summernote.min.js"></script>
+      
     <!--Dropzone [ OPTIONAL ]-->
     <script src="plugins/dropzone/dropzone.min.js"></script>
 
+    <!--Form File Upload [ SAMPLE ]-->
+    <script src="js/demo/form-text-editor.js"></script>
 
     <!--Form File Upload [ SAMPLE ]-->
     <script src="js/demo/form-file-upload.js"></script>
-
-
-
 
     
     <!--=================================================
@@ -592,7 +594,7 @@
                 <!--Page content-->
                 <!--===================================================-->
                 <div id="page-content">
-                    
+                          
 					<div class="panel">
 					    <div class="panel-heading">
 					        <h3 class="panel-title">DropzoneJs</h3>
@@ -620,10 +622,14 @@
 					            </div>
 					        </form>
 					        <!--===================================================-->
-					        <!-- End Dropzonejs -->
+                            <!-- End Dropzonejs -->
+                            
+                            
 					
-					    </div>
-					</div>
+                        </div>
+                        
+                    </div>
+                    
 					
 					<div class="panel">
 					    <div class="panel-heading">
@@ -650,10 +656,9 @@
 					                    <i class="demo-pli-cross"></i>
 					                </button>
 					            </div>
-					        </div>
-					
-					
-					        <div id="dz-previews">
+                            </div>
+                            
+				        <div id="dz-previews">
 					            <div id="dz-template" class="pad-top bord-top">
 					                <div class="media">
 					                    <div class="media-body">
@@ -679,7 +684,27 @@
 					                    </div>
 					                </div>
 					            </div>
-					        </div>
+                            </div>
+                            
+                            <form method="post" action="upload" enctype="multipart/form-data">
+                            <div class="panel">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">WYSIWYG Summernote Editor</h3>
+                                </div>
+                                <div class="panel-body">
+                            
+                                    <!--Summernote-->
+                                    <!--===================================================-->
+                                    <div id="demo-summernote">
+                                        <h4><span style="color: rgb(206, 198, 206); font-family: inherit; line-height: 1.1;">Please, write text here!</span><br></h4><h4><font color="#9c9c94"></font></h4>
+                                    </div>
+                                    <!--===================================================-->
+                                    <!-- End Summernote -->
+                            
+                                </div>
+                            </div>>
+                            
+                            </form>
 					        <!--===================================================-->
 					        <!--End Dropzonejs using Bootstrap theme-->
 					
@@ -1870,7 +1895,7 @@
                         <div class="demo-bg-boxed-footer">
                             <button id="demo-close-boxed-img" class="btn btn-primary">Close</button>
                         </div>
-                    </div>
+                     </div>
                 </div>
             </div>
         </div>

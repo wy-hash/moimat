@@ -22,15 +22,15 @@ public class LoginServiceImpl implements LoginService {
 	@Autowired 
 	LoginMapper mapper;
 	
-	@Autowired
-	SHA256 sha256;
-		
+//	@Autowired
+//	SHA256 sha256;
+//		
 	@Override
 	public boolean loginCheck(LoginVO vo, HttpServletRequest request) { // 로그인 처리
 		
 		log.info("loginCheck");
 		
-		// 사용로자로 부터 받은 비번
+/*		// 사용로자로 부터 받은 비번
 		// 실제는 db에 sha256값 저장...꺼낼때도 암호문
 		// 패스워드를 --- sha256값으로 암호화 ==> 꺼낸암호문과 비교했을떄 같으면 ok
 		
@@ -49,13 +49,13 @@ public class LoginServiceImpl implements LoginService {
 			HttpSession session = request.getSession(true); // 세션 객체 얻고
 			session.setAttribute("memberVO", memberVO ); 	// 세션객체에 들어갈 사옹자 정보
 			log.info("로그인 성공.... ");
-			
+			*/
 			// 여기서 true반환
-			return true;
-		}
+		//	return true;
+		//}
 
 		// 실패의 경우 코드가 여기까기오기 때문에 반송
-		log.info("로그인 실패.... ");
+		//log.info("로그인 실패.... ");
 		
 		return false;
 

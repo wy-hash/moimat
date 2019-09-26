@@ -1,4 +1,4 @@
-package com.breaktheice.moimat.service;
+ package com.breaktheice.moimat.service;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,16 +20,17 @@ public class PhotoServiceImpl implements PhotoService{
 	static final String SAVE_PATH = "C:\\git\\moimat\\resources\\FileUpload";
 	static final String PREFIX_URL = "/upload/";
 	
+	//페이징
+	  public List<PhotoDomain> selectBoardListPage(Criteria criteria) throws Exception {
+			return mapper.selectBoardListPage(criteria);
+	    }
+	
 	//파일업로드
 	public int selectAllBoard() throws Exception {
 		
 		return mapper.selectAllBoard();
     }
-	//파일업로드
-	  public List<PhotoDomain> selectBoardListPage(Criteria criteria) throws Exception {
-			return mapper.selectBoardListPage(criteria);
-	    }
-	
+
 	public String restore(List<MultipartFile> files,PhotoDomain domain) {
 		String url = null;
 		
@@ -43,7 +44,7 @@ public class PhotoServiceImpl implements PhotoService{
 				Long size = (long) files.size();
 				
 				// 서버에서 저장 할 파일 이름
-				String saveFileName = genSaveFileName(extName, domain);
+				String saveFileName = genSaveFileName(originFilename+extName, domain);
 				
 				System.out.println("originFilename : " + originFilename);
 				System.out.println("extensionName : " + extName);
@@ -52,6 +53,12 @@ public class PhotoServiceImpl implements PhotoService{
 				
 				writeFile(multipartFile, saveFileName, domain);
 				url = PREFIX_URL + saveFileName;
+				
+				//업로드 성공시
+				
+				photoinsertBoard(domain);
+				domain.setPfiOriginname(saveFileName);
+				
 			}
 			catch (IOException e) {
 				// 원래라면 RuntimeException 을 상속받은 예외가 처리되어야 하지만
@@ -116,7 +123,7 @@ public class PhotoServiceImpl implements PhotoService{
 	}
 	//댓글 생성
 	public void replyBoard(PhotoDomain domain) {
-		mapper.replyFKBoard(domain);
+		
 		mapper.replyBoard(domain);
 		}
 	//댓글 수정
@@ -136,9 +143,13 @@ public class PhotoServiceImpl implements PhotoService{
 		mapper.photodeleteBoard(domain);
 }
 	public void photoUPBoard(PhotoDomain domain) {
+		
 		mapper.photoUPBoard(domain);
 		
 	}
+	//사진및 파일 첨부
+	public void photoinsertBoard(PhotoDomain domain) {
 		
-	
+		mapper.photoinsertBoard(domain);
+	}
 }

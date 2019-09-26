@@ -6,6 +6,7 @@
 <!-- HEAD -->
 <%@ include file="includes/head.jsp" %>
 	<title>Page Template | moim@</title>
+	
 </head>
 <!-- END HEAD -->
 
@@ -28,7 +29,6 @@
 			<!-- ASIDE -->
 			<%-- <%@ include file="includes/aside.jsp" %> --%>
 			<!-- END ASIDE -->
-			
 			
 					
            <!--CONTENT CONTAINER-->
@@ -79,5 +79,7 @@
 			
 	</div>
 	<!-- END CONTAINER -->
+	
+	
 </body>
 </html>

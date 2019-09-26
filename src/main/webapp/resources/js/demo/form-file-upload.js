@@ -14,7 +14,7 @@ $(document).ready(function() {
     // Require Dropzone
     // http://www.dropzonejs.com/
     // =================================================================
-    Dropzone.options.demoDropzone = { // The camelized version of the ID of the form element
+    Dropzone.options.demoDropzone = {// The camelized version of the ID of the form element
         // The configuration we've talked about above
         autoProcessQueue: false,
         //uploadMultiple: true,

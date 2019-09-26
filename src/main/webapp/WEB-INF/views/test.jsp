@@ -18,7 +18,7 @@
 	${domain.postTypeSeq}memberSeq
 	${domain.memberSeq}
 	
-	<form method="post" action="upload" enctype="multipart/form-data">
+	<form method="post" action="fileupload" enctype="multipart/form-data">
          <label>email:</label>
          <input type="text" name="email">
          <br><br>
