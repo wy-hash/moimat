@@ -23,18 +23,38 @@ div .moimat-m>div {
 	height: 100%;
 }
 
-div .moimat-t {
-	height: 300px;
+div .moimat-mc {
+	height: 250px;
 }
-
-div .moimat-t>.panel {
+div .moimat-mc> * {
+	display: inline-block;
+	position : absolute;
+	width: 100%;
+}
+div .moimat-mc>.panel {
 	height: 100%;
 	margin: 0px;
 }
 
-div .moimat-t>.panel>.panel-heading>.row {
+div .moimat-mc>.panel>.panel-heading>.row {
 	height: 100%;
 }
-div .moimat-c>p{
-	 word-break:break-all;
+div .moimat-mc>.panel>.panel-body {
+	max-height: 200px;
 }
+
+.moimat-ellipsis{
+  max-height: 3.6em;
+  overflow: hidden;
+} 
+.moimat-ellipsis>*{
+	white-space: normal; 
+	line-height: 1.2; 
+	text-align: left; 
+	word-wrap: break-word; 
+	display: -webkit-box; 
+	-webkit-line-clamp: 3; 
+	-webkit-box-orient: vertical;
+}
+
+
