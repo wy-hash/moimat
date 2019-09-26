@@ -1,86 +1,115 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
-<html>
-<meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로그인 페이지</title>
+<html lang="ko">
 
-    <!--Open Sans Font [ OPTIONAL ]-->
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
-    <!--Bootstrap Stylesheet [ REQUIRED ]-->
-    <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
-   <!--Nifty Stylesheet [ REQUIRED ]-->
-    <link href="/resources/css/nifty.min.css" rel="stylesheet">
-   <!--Nifty Premium Icon [ DEMONSTRATION ]-->
-    <link href="/resources/css/demo/nifty-demo-icons.min.css" rel="stylesheet">
-    <!--Demo [ DEMONSTRATION ]-->
-    <link href="/resources/css/demo/nifty-demo.min.css" rel="stylesheet">
-   <!--Magic Checkbox [ OPTIONAL ]-->
-    <link href="/resources/plugins/magic-check/css/magic-check.min.css" rel="stylesheet">
-     <!--JAVASCRIPT-->
-    <!--=================================================-->
-    <!--Pace - Page Load Progress Par [OPTIONAL]-->
-    <link href="/resources/plugins/pace/pace.min.css" rel="stylesheet">
-    <script src="/resources/plugins/pace/pace.min.js"></script>
-    <!--jQuery [ REQUIRED ]-->
-    <script src="/resources/js/jquery-2.2.4.min.js"></script>
-    <!--BootstrapJS [ RECOMMENDED ]-->
-    <script src="/resources/js/bootstrap.min.js"></script>
-    <!--NiftyJS [ RECOMMENDED ]-->
-    <script src="/resources/js/nifty.min.js"></script>
-    <!--Background Image [ DEMONSTRATION ]-->
-    <script src="/resources/js/demo/bg-images.js"></script>
-      
-
+	<!-- HEAD -->
+	<%@ include file="../includes/head.jsp" %>
+	<title>Login Page</title>
 </head>
+<!-- END HEAD -->
+
 <body>
-	<div id="container" class="cls-container">
-		<div id="bg-overlay"></div>
-		<div class="cls-content">
-		    <div class="cls-content-sm panel">
-		        <div class="panel-body">
-		            <div class="mar-ver pad-btm">
-		                <h3 class="h4 mar-no">Account Login</h3>
-		                <p class="text-muted">Sign In to your account</p>
-		            </div>
-		            <form id="loginForm" action="login" method="post">
-		                <div class="form-group">
-		                    <input type="text" id="memEmail" name="memEmail" class="form-control" placeholder="아이디 입력" autofocus>
-		                </div>
-		                <div class="form-group">
-		                    <input type="password" id="memPassword" name="memPassword" class="form-control" placeholder="패스워드 입력">
-		                </div>
-		                <div class="checkbox pad-btm text-left">
-		                    <input id="demo-form-checkbox" class="magic-checkbox" type="checkbox">
-		                    <label for="demo-form-checkbox">Remember me</label>
-		                </div>
-		                <button class="btn btn-primary btn-lg btn-block" type="button" onclick="checkValue();" >Sign In</button>
-		            </form>
-		        </div>
-		
-		        <div class="pad-all">
-		            <a href="/auth/findPwd" class="btn-link mar-rgt">비밀번호 찾기</a>
-		            <a href="/reg/join" class="btn-link mar-lft">회원가입</a>
-		
-		            <div class="media pad-top bord-top">
-		                <div class="pull-right">
-		                    <a href="#" class="pad-rgt"><i class="demo-psi-facebook icon-lg text-primary"></i></a>
-		                    <a href="#" class="pad-rgt"><i class="demo-psi-twitter icon-lg text-info"></i></a>
-		                    <a href="#" class="pad-rgt"><i class="demo-psi-google-plus icon-lg text-danger"></i></a>
-		                </div>
-		                <div class="media-body text-left">
-		                    Login with
-		                </div>
-		            </div>
-		        </div>
-		    </div>
-		</div>
-	</div>
+	<!--TIPS-->
+	<!--You may remove all ID or Class names which contain "demo-", they are only used for demonstration. -->
+	<div id="container" class="effect aside-float aside-bright mainnav-lg">
 	
-	<script>
+		<!-- HEADER-NAVBAR -->
+		<%@ include file="../includes/header-navbar.jsp" %>
+		<!-- END NAVBAR -->
+		
+		<!-- BOXED -->
+		<div class="boxed">
+		
+			<!-- MAIN-NAV -->
+			<%@ include file="../includes/main-nav.jsp" %>
+			<!-- END MAIN-NAV -->
+			
+			<!-- ASIDE -->
+			<%-- <%@ include file="includes/aside.jsp" %> --%>
+			<!-- END ASIDE -->
+			
+			
+					
+           <!--CONTENT CONTAINER-->
+            <!--===================================================-->
+            <div id="content-container">
+                
+                <!--Page Title-->
+                <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                <div id="page-title">
+                    <h1 class="page-header text-overflow">Login</h1>
+                </div>
+                <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                <!--End page title-->
+
+                <!--Page content-->
+                <!--===================================================-->
+				<div id="page-content">
+					<div id="container"
+						class="effect aside-float aside-bright mainnav-lg">
+						<div id="bg-overlay"></div>
+						<div class="cls-content">
+							<div class="cls-content-sm panel">
+								<div class="panel-body">
+									<div class="mar-ver pad-btm">
+										<h3 class="h4 mar-no">Account Login</h3>
+										<p class="text-muted">Sign In to your account</p>
+									</div>
+									<form id="loginForm" action="login" method="post">
+										<div class="form-group">
+											<input type="text" id="memEmail" name="memEmail"
+												class="form-control" placeholder="아이디 입력" autofocus>
+										</div>
+										<div class="form-group">
+											<input type="password" id="memPassword" name="memPassword"
+												class="form-control" placeholder="패스워드 입력">
+										</div>
+										<div class="checkbox pad-btm text-left">
+											<input id="demo-form-checkbox" class="magic-checkbox"
+												type="checkbox"> <label for="demo-form-checkbox">Remember
+												me</label>
+										</div>
+										<button class="btn btn-primary btn-lg btn-block" type="button"
+											onclick="checkValue();">Sign In</button>
+									</form>
+								</div>
+
+								<div class="pad-all">
+									<a href="/auth/findPwd" class="btn-link mar-rgt">비밀번호 찾기</a> <a
+										href="/reg/join" class="btn-link mar-lft">회원가입</a>
+
+									<div class="media pad-top bord-top">
+										<div class="pull-right">
+											<a href="#" class="pad-rgt"><i
+												class="demo-psi-facebook icon-lg text-primary"></i></a> <a
+												href="#" class="pad-rgt"><i
+												class="demo-psi-twitter icon-lg text-info"></i></a> <a href="#"
+												class="pad-rgt"><i
+												class="demo-psi-google-plus icon-lg text-danger"></i></a>
+										</div>
+										<div class="media-body text-left">Login with</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				<!--===================================================-->
+                <!--End page content-->
+            </div>
+            <!--===================================================-->
+            <!--END CONTENT CONTAINER-->			
+		</div>
+		<!-- END BOXED -->
+		
+		<!-- FOOTER -->
+		<%@ include file="../includes/footer.jsp" %>
+		<!-- END FOOTER -->
+			
+	</div>
+	<!-- END CONTAINER -->
+	
+		<script>
 	
 	// 유효성 체크후 전송
 	function checkValue(){
@@ -95,7 +124,6 @@
 			$('#memEmail').focus();
 			return;
 		}
-
 		// 3. 길이체크
 		if(memEmail.length < 8 || memEmail.length > 30) {
 			alert('아이디는 최소 8자이상 30자 미만입니다');
@@ -123,7 +151,6 @@
 			$('#memPassword').focus();
 			return;
 		}
-
 		// 3. 길이체크
 		if(memPassword.length < 3 || memPassword.length > 15) {
 			alert('비밀번호 최소 3자이상 15자 미만입니다');
@@ -143,6 +170,5 @@
 	
 	
 	</script>
-	
 </body>
 </html>
