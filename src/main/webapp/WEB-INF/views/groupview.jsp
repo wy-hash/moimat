@@ -166,29 +166,27 @@
 			meetListService.getList(groupid,memberid,function(list){
 				//meetList,countMeetMember, isAttend	
 				for(var i = 0, len = list.meetList.length||0; i<len; i++){
-					var button = '';
+					/*var button = '';
 					if(list.isAttend[list.meetList[i].meetId]){
 						button = '<button type="button" class="btn btn-danger" value="'+list.meetList[i].meetId+'">불참하기</button>';
 					}else{
 						button = '<button type="button" class="btn btn-warning" value="'+list.meetList[i].meetId+'">참석하기</button>';
-					}
+					}  이건 나중에 다시 쓸거임 일단 없앰*/
 					meetListStr +='<div class="row">'
 							   +	'<div class="col-lg-4 moimat-m">'
 							   +		'<div id="map'+i+'"></div>'
 							   +	'</div>'
 							   +	'<div class="col-lg-8 moimat-mc">'
-							   +		'<div class="panel panel-bordered panel-dark">'
-					           +			'<div class="panel-heading">'
-					           +				'<div class="row">'
-					           +					'<div class="col-xs-8">'
-				               +						'<h3 class="panel-title">'
-					           +							'<span class="meetTitle" value="'+list.meetList[i].meetId+'">'
-					           +								list.meetList[i].meetTitle
-					           +							'</span></h3>'
-				               +					'</div>'
-				               +					'<div class="col-xs-4 my">'
-				               +						button
-				               +					'</div>'
+							   +		'<div class="panel panel-bordered panel-dark mar-no">'
+					           +			'<div class="row panel-heading mar-no">'
+					           +				'<div class="col-xs-8 pad-no">'
+				               +					'<h3 class="panel-title">'
+					           +						'<span class="meetTitle" data-mid="'+list.meetList[i].meetId+'">'
+					           +							list.meetList[i].meetTitle
+					           +						'</span></h3>'
+				               +				'</div>'
+				               +				'<div class="col-xs-4 my">'
+				               +					'<p class="text-bold mar-no text-overflow">'+list.meetList[i].meetNickName+'님이 작성...</p>'
 				               +				'</div>'
 				               +			'</div>'
 				           	   +			'<div class="panel-body">'
@@ -218,9 +216,10 @@
 							   +							'<span style="color:black;">'
 							   +								'<i class="fa fa-users"></i>'
 							   +							'</span>'
-							   +							'&ensp;참여인원 : '
-							   +							list.countMeetMember[list.meetList[i].meetId]+'/'
-				               +							list.meetList[i].meetMax
+							   +							'<a class="meetMember" data-target="#moimat-modal" data-toggle="modal" data-mid="'+list.meetList[i].meetId+'"> 참여인원 :'
+							   +								list.countMeetMember[list.meetList[i].meetId]+'/'
+				               +								list.meetList[i].meetMax
+				               +							'</a>'
 				               +						'</div>'
 							   +					'</div>'
 							   +				'</div>'
@@ -229,6 +228,9 @@
 							   +				'</div>'
 							   +			'</div>'
 					           +		'</div>'
+							   +		'<div class="btn-group"style="height:40px;">'
+							   +			'<button type="button" class="btn btn-primary"/><button type="button" class="btn btn-primary"/><button type="button" class="btn btn-primary"/>'
+							   +		'</div>'
 							   +	'</div>'
 							   + '</div>'
 					 		   + '<hr>';
@@ -238,7 +240,7 @@
 					setMap(list.meetList[i].meetArea,"map"+i)
 				}
 				detailedMeet();
-				detailedText();
+				moimCEvent();
 			})
 			
 			function detailedMeet(){
@@ -246,7 +248,7 @@
 				var meetid = '';
 				meetTitle.forEach(function(e){
 					e.addEventListener('click', function(){
-						meetid = this.getAttribute('value');
+						meetid = this.getAttribute('data-mid');
 						meetListService.meetRead(meetid,groupid,memberid,function(data){
 							console.log(meetid);
 							console.log(memberid);
@@ -258,15 +260,46 @@
 			var mmodal = document.querySelector("#moimat-modal");
 			var mmodaltitle = document.querySelector("#moimat-modal-title");
 			var mmodalbody = document.querySelector("#moimat-modal-body");
-			function detailedText(){
+			function moimCEvent(){
 				var meetContent = document.querySelectorAll(".meetContent");
+				var meetMember = document.querySelectorAll(".meetMember");
 				meetContent.forEach(function(e){
 					e.addEventListener('click',function(){
+						removeMoimatContent(mmodalbody,mmodaltitle);
 						mmodaltitle.innerText = '내용 상세 보기';
-						mmodalbody.innerText = this.innerText
+						mmodalbody.innerText = this.innerText;
 						console.log(e);
 					})
 				})
+				meetMember.forEach(function(e){
+					e.addEventListener('click',function(){
+						removeMoimatContent(mmodalbody,mmodaltitle);
+						var meetid = this.getAttribute('data-mid');
+						mmodaltitle.innerText = '참가인원 모두보기!!';
+						let mmhtml = '';
+						meetListService.meetRead(meetid,groupid,memberid,function(data){
+							console.log(data.memberList)
+							for(var i = 0, len = data.memberList.length||0; i<len; i++){
+								mmhtml += '<p>'+data.memberList[i].mmemId+'</p>'
+									   +  '<p>'+data.memberList[i].meetId+'</p>'
+								       +  '<p>'+data.memberList[i].tmemId+'</p>'
+								       +  '<p>'+data.memberList[i].mmemNickName+'</p>'
+								       +  '<p>'+data.memberList[i].mmemEmail+'</p>'
+								
+							}
+							console.log(mmhtml);
+							mmodalbody.innerHTML = mmhtml;
+						});
+						
+					})
+				})
+			}
+			function removeMoimatContent(){ //혹시몰라서 하나의 모달창을 돌려쓰니까... 내용을 다 비우고 넣을려고 제이쿼리면 안만들어도됬음... 더좋은방법?? 몰르르르르르
+				for(var i = 0, len = arguments.length||0; i<len; i++){
+					while(arguments[i].firstChild) {
+						arguments[i].removeChild(arguments[i].firstChild);
+					}
+				}
 			}
 			
 		}
