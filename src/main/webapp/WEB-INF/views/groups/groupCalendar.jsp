@@ -5,15 +5,15 @@
 <html lang="ko">
 
 <!-- HEAD -->
-<%@ include file="includes/head.jsp"%>
-<link href="../resources/plugins/fullcalendar/fullcalendar.min.css"
+<%@ include file="../includes/head.jsp"%>
+<link href="/resources/plugins/fullcalendar/fullcalendar.min.css"
 	rel="stylesheet">
 <link
-	href="../resources/plugins/fullcalendar/nifty-skin/fullcalendar-nifty.min.css"
+	href="/resources/plugins/fullcalendar/nifty-skin/fullcalendar-nifty.min.css"
 	rel="stylesheet">
-<link href="../resources/plugins/font-awesome/css/font-awesome.min.css"
+<link href="/resources/plugins/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet">
-<link href="../resources/css/moimat.css" rel="stylesheet">
+<link href="/resources/css/moimat.css" rel="stylesheet">
 <title>Page Template | moim@</title>
 
 </head>
@@ -25,14 +25,14 @@
 	<div id="container" class="effect aside-float aside-bright mainnav-lg">
 
 		<!-- HEADER-NAVBAR -->
-		<%@ include file="includes/header-navbar.jsp"%>
+		<%@ include file="../includes/header-navbar.jsp"%>
 		<!-- END NAVBAR -->
 
 		<!-- BOXED -->
 		<div class="boxed">
 
 			<!-- MAIN-NAV -->
-			<%@ include file="includes/main-nav.jsp"%>
+			<%@ include file="../includes/main-nav.jsp"%>
 			<!-- END MAIN-NAV -->
 
 			<!-- ASIDE -->
@@ -81,6 +81,14 @@
 					<!-- meet list -->
 					<div class="container-fluid">
 						<div class="panel">
+							<div class="row panel-heading mar-no">
+								<div class="col-xs-8">
+									<h3> 모임들</h3>
+								</div>
+								<div class="col-xs-4 btn-group my">
+									<button type="button" id="mRegBtn" class="btn btn-info pull-right">모임 등록</button>
+								</div>
+							</div>
 							<div class="panel-body" id='meetList'></div>
 							<div class="panel-footer">
 								<!-- pagination button 들어갈 공간 -->
@@ -121,18 +129,18 @@
 		<!-- END BOXED -->
 
 		<!-- FOOTER -->
-		<%@ include file="includes/footer.jsp"%>
+		<%@ include file="../includes/footer.jsp"%>
 		<!-- END FOOTER -->
 
 	</div>
 	<!-- END CONTAINER -->
-	<script src="../resources/plugins/fullcalendar/lib/moment.min.js"></script>
+	<script src="/resources/plugins/fullcalendar/lib/moment.min.js"></script>
 	<script
-		src="../resources/plugins/fullcalendar/lib/jquery-ui.custom.min.js"></script>
-	<script src="../resources/plugins/fullcalendar/fullcalendar.min.js"></script>
+		src="/resources/plugins/fullcalendar/lib/jquery-ui.custom.min.js"></script>
+	<script src="/resources/plugins/fullcalendar/fullcalendar.min.js"></script>
 	<script type="text/javascript" src="/resources/js/meetlist.js"></script>
 	<!--Full Calendar [ SAMPLE ]-->
-	<script src="../resources/js/demo/misc-fullcalendar.js"></script>
+	<script src="/resources/js/demo/misc-fullcalendar.js"></script>
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6213368344dd87ee3c46139e0d1df7cd&libraries=services"></script>
 	<script type="text/javascript"
@@ -142,7 +150,13 @@
 			var meetList = document.getElementById("meetList");
 			var meetListStr = '';
 			var geocoder = new kakao.maps.services.Geocoder();
+			var mRegBtn = document.querySelector("#mRegBtn");
+			var groupid = '<c:out value="${groupId}"/>'
+			var memberid = '<c:out value="${id}"/>'
 			
+			mRegBtn.addEventListener('click',function(e){
+				self.location.href = '/groups/'+groupid+'/meetings/new'
+			})
 			
 			function setMap(area, idx) {geocoder.addressSearch(area,
 					function(result, status) {
@@ -160,18 +174,19 @@
 						});
 					});
 			}
-			var groupid = '<c:out value="${groupid}"/>'
-			var memberid = '<c:out value="${id}"/>'
+			
 			
 			meetListService.getList(groupid,memberid,function(list){
-				//meetList,countMeetMember, isAttend	
-				for(var i = 0, len = list.meetList.length||0; i<len; i++){
-					/*var button = '';
+				//meetList,countMeetMember, isAttend
+				var zxzx = (list.meetList.length > 3 ? 3 : list.meetList.length )
+				console.log(zxzx)
+				for(var i = 0, len = list.meetList.length||0; i<zxzx; i++){ //일단 3개만(페이징 완성되면 수정할 부분)
+					var button = '';
 					if(list.isAttend[list.meetList[i].meetId]){
-						button = '<button type="button" class="btn btn-danger" value="'+list.meetList[i].meetId+'">불참하기</button>';
+						button = '<button type="button" class="btn btn-danger pull-right" value="'+list.meetList[i].meetId+'">불참하기</button>';
 					}else{
-						button = '<button type="button" class="btn btn-warning" value="'+list.meetList[i].meetId+'">참석하기</button>';
-					}  이건 나중에 다시 쓸거임 일단 없앰*/
+						button = '<button type="button" class="btn btn-warning pull-right" value="'+list.meetList[i].meetId+'">참석하기</button>';
+					}
 					meetListStr +='<div class="row">'
 							   +	'<div class="col-lg-4 moimat-m">'
 							   +		'<div id="map'+i+'"></div>'
@@ -203,7 +218,8 @@
 							   +							'<span style="color:orange;">'
 							   +								'<i class="fa fa-map-marker"></i>'
 							   +							'</span>'
-							   +							'&ensp;'+list.meetList[i].meetArea
+							   +							'&ensp;'
+							   +								list.meetList[i].meetArea
 							   +						'</div>'
 							   +						'<div class="col-lg-3">'
 							   +							'<span style="color:green;">'
@@ -216,7 +232,8 @@
 							   +							'<span style="color:black;">'
 							   +								'<i class="fa fa-users"></i>'
 							   +							'</span>'
-							   +							'<a class="meetMember" data-target="#moimat-modal" data-toggle="modal" data-mid="'+list.meetList[i].meetId+'"> 참여인원 :'
+							   +							'<a class="meetMember" data-target="#moimat-modal" data-toggle="modal" data-mid="'
+							   +								list.meetList[i].meetId+'"> 참여인원 :'
 							   +								list.countMeetMember[list.meetList[i].meetId]+'/'
 				               +								list.meetList[i].meetMax
 				               +							'</a>'
@@ -229,14 +246,16 @@
 							   +			'</div>'
 					           +		'</div>'
 							   +		'<div class="btn-group"style="height:40px;">'
-							   +			'<button type="button" class="btn btn-primary"/><button type="button" class="btn btn-primary"/><button type="button" class="btn btn-primary"/>'
+							   +			'<button type="button" class="btn btn-primary">수정하기</button>'
+							   +			'<button type="button" class="btn btn-danger">삭제하기</button>'
+							   +			button
 							   +		'</div>'
 							   +	'</div>'
 							   + '</div>'
 					 		   + '<hr>';
 				}
 				meetList.innerHTML = meetListStr;
-				for(var i = 0, len = list.meetList.length||0; i<len; i++){
+				for(var i = 0, len = list.meetList.length||0; i<zxzx; i++){
 					setMap(list.meetList[i].meetArea,"map"+i)
 				}
 				detailedMeet();
@@ -263,20 +282,21 @@
 			function moimCEvent(){
 				var meetContent = document.querySelectorAll(".meetContent");
 				var meetMember = document.querySelectorAll(".meetMember");
+				var meetArea = document.querySelectorAll(".meetArea");
 				meetContent.forEach(function(e){
 					e.addEventListener('click',function(){
 						removeMoimatContent(mmodalbody,mmodaltitle);
 						mmodaltitle.innerText = '내용 상세 보기';
 						mmodalbody.innerText = this.innerText;
-						console.log(e);
 					})
-				})
+				})//end meetContent.forEach
+				
 				meetMember.forEach(function(e){
 					e.addEventListener('click',function(){
 						removeMoimatContent(mmodalbody,mmodaltitle);
 						var meetid = this.getAttribute('data-mid');
 						mmodaltitle.innerText = '참가인원 모두보기!!';
-						let mmhtml = '';
+						var mmhtml = '';
 						meetListService.meetRead(meetid,groupid,memberid,function(data){
 							console.log(data.memberList)
 							for(var i = 0, len = data.memberList.length||0; i<len; i++){
@@ -285,14 +305,12 @@
 								       +  '<p>'+data.memberList[i].tmemId+'</p>'
 								       +  '<p>'+data.memberList[i].mmemNickName+'</p>'
 								       +  '<p>'+data.memberList[i].mmemEmail+'</p>'
-								
+								//나중에 수정 ^^;
 							}
-							console.log(mmhtml);
 							mmodalbody.innerHTML = mmhtml;
 						});
-						
-					})
-				})
+					});
+				});//end meetMember.forEach
 			}
 			function removeMoimatContent(){ //혹시몰라서 하나의 모달창을 돌려쓰니까... 내용을 다 비우고 넣을려고 제이쿼리면 안만들어도됬음... 더좋은방법?? 몰르르르르르
 				for(var i = 0, len = arguments.length||0; i<len; i++){

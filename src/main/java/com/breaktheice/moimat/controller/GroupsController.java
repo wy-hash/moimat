@@ -32,6 +32,13 @@ public class GroupsController {
 		return "/groups/groups";
 	}
 	
+	@GetMapping("/{groupId}/calendar")
+	public String getCalendar(@PathVariable Long groupId,Model model,HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.setAttribute("id", 1);
+		return "/groups/groupCalendar";
+	}
+	
 	@GetMapping("/{groupId}/meetings/new")
 	public String meetingsNew() {
 		return "/groups/new";

@@ -23,11 +23,6 @@ public class SampleController {
 	
 	@GetMapping("/")
 	public String index(Model model,HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		
-		session.setAttribute("id", "1");
-		session.setAttribute("groupid", "2");
-		//테스트용
 		log.info("request /");
 		
 		model.addAttribute("domain", service.getSampleDomain());
