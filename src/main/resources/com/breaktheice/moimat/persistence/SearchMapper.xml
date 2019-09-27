@@ -44,4 +44,43 @@
 		WHERE	team_id > 0
 	</select>
 	
+	<select id="autocomplete" parameterType="string" resultType="com.breaktheice.moimat.domain.InterestDomain">
+		<![CDATA[
+		SELECT	int_name
+		FROM	interest
+		WHERE	int_name like concat('%', concat(lower(#{intName}),'%'))
+				or
+				int_name like concat('%', concat(upper(#{intName}),'%'))
+		]]>
+	</select>
+	
+	<select id="recommend" resultType="com.breaktheice.moimat.domain.InterestDomain">
+		<![CDATA[
+		SELECT	int_name
+		FROM	(
+				SELECT rownum, int_name
+				FROM interest
+				ORDER BY rownum desc
+				)
+		WHERE rownum <= 5
+		]]>
+	</select>
+	
+	<select id="recomResult" resultType="com.breaktheice.moimat.domain.TeamDomain">
+		<![CDATA[
+		SELECT team_name, team_short_content
+		FROM team
+		WHERE int_id in	(
+						SELECT int_id
+						
+						FROM	(
+								SELECT rownum, int_id
+								FROM interest
+								ORDER BY rownum desc
+								)
+								
+						WHERE rownum <= 5
+						)
+		]]>
+	</select>
 </mapper>

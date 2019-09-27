@@ -52,10 +52,236 @@
                 	<!-- #### WRITE CODE BELOW THIS LINE #### -->
             	    <!-- #################################### -->
             	    
+            	    
+            	    
+            	    
+            	    
+            	    <div class="row">
+            	    
+            	    	<div class="panel">
+            	    		<div class="panel-heading">
+            	    			<h3 class="panel-title">관심사 기반 추천모임</h3>
+            	    		</div>
+            	    
+            	    		
+            	    		<!--Purple Accordion-->
+					        <!--===================================================-->
+					        <div class="panel-group accordion" id="demo-acc-purple">
+					            <div class="panel panel-purple">
+					
+					                <!-- Accordion title -->
+					                <div class="panel-heading">
+					                    <h4 class="panel-title">
+					                        <a data-parent="#demo-acc-purple" data-toggle="collapse" href="#demo-acd-purple-1">{ _첫번째 관심사_ }</a>
+					                    </h4>
+					                </div>
+					
+					                <!-- Accordion content -->
+					                <div class="panel-collapse collapse in" id="demo-acd-purple-1">
+					                    <div class="panel-body">
+					                    
+					                    
+											<div class="media bord-btm">
+						                		<div class="media-left pad-all">
+						                			<img class="img-lg" src="resources/img/profile-photos/1.png" alt="Sample Image">
+						                		</div>
+						                		<div class="media-body pad-all text-semibold">
+						                			<p>{ _모임이름_ }</p>
+						                			<p>{ _모임위치_ }</p>
+						                			<p>{ _모임인원_ }</p> 
+						                		 
+						                			     
+			                					</div>
+			                					
+			                				</div>
+			                				
+			                				
+			                				 
+			                				
+			                				<div class="media bord-btm">
+						                		<div class="media-left pad-all">
+						                			<img class="img-lg" src="resources/img/profile-photos/1.png" alt="Sample Image">
+						                		</div>
+						                		<div class="media-body pad-all text-semibold">
+						                			<p>{ _모임이름_ }</p>
+						                			<p>{ _모임위치_ }</p>
+						                			<p>{ _모임인원_ }</p>
+						                			
+						                			
+			                					</div>
+			                				</div>
+						                	
+						                	
+						                	
+						                	
+						                	<div class="media bord-btm">
+						                		<div class="media-left pad-all">
+						                			<img class="img-lg" src="resources/img/profile-photos/1.png" alt="Sample Image">
+						                		</div>
+						                		<div class="media-body pad-all text-semibold">
+						                			<p>{ _모임이름_ }</p>
+						                			<p>{ _모임위치_ }</p>
+						                			<p>{ _모임인원_ }</p>
+			                					</div>
+			                				</div>
+						                	
+						                	
+					                    </div>
+					                </div>
+					            </div>
+					            <div class="panel panel-purple">
+					
+					                <!-- Accordion title -->
+					                <div class="panel-heading">
+					                    <h4 class="panel-title">
+					                        <a data-parent="#demo-acc-purple" data-toggle="collapse" href="#demo-acd-purple-2">{ _두번째 관심사_ }</a>
+					                    </h4>
+					                </div>
+					
+					                <!-- Accordion content -->
+					                <div class="panel-collapse collapse" id="demo-acd-purple-2">
+					                    <div class="panel-body">
+											
+											<div class="media bord-btm">
+						                		<div class="media-left pad-all">
+						                			<img class="img-lg" src="resources/img/profile-photos/1.png" alt="Sample Image">
+						                		</div>
+						                		<div class="media-body pad-all text-semibold">
+						                			<p>{ _모임이름_ }</p>
+						                			<p>{ _모임위치_ }</p>
+						                			<p>{ _모임인원_ }</p>
+			                					</div>
+			                				</div>
+			                				
+			                				
+			                				 
+			                				
+			                				<div class="media bord-btm">
+						                		<div class="media-left pad-all">
+						                			<img class="img-lg" src="resources/img/profile-photos/1.png" alt="Sample Image">
+						                		</div>
+						                		<div class="media-body pad-all text-semibold">
+						                			<p>{ _모임이름_ }</p>
+						                			<p>{ _모임위치_ }</p>
+						                			<p>{ _모임인원_ }</p>
+			                					</div>
+			                				</div>
+						                	
+						                	
+						                	
+						                	
+						                	<div class="media bord-btm">
+						                		<div class="media-left pad-all">
+						                			<img class="img-lg" src="resources/img/profile-photos/1.png" alt="Sample Image">
+						                		</div>
+						                		<div class="media-body pad-all text-semibold">
+						                			<p>{ _모임이름_ }</p>
+						                			<p>{ _모임위치_ }</p>
+						                			<p>{ _모임인원_ }</p>
+			                					</div>
+			                				</div>
+											
+											
+											
+											
+					                    </div>
+					                </div>
+					            </div>
+					            <div class="panel panel-purple">
+					
+					                <!-- Accordion title -->
+					                <div class="panel-heading">
+					                    <h4 class="panel-title">
+					                        <a data-parent="#demo-acc-purple" data-toggle="collapse" href="#demo-acd-purple-3">{ _세번째 관심사_ }</a>
+					                    </h4>
+					                </div>
+					
+					                <!-- Accordion content -->
+					                <div class="panel-collapse collapse" id="demo-acd-purple-3">
+					                    <div class="panel-body">
+											<div class="media bord-btm">
+						                		<div class="media-left pad-all">
+						                			<img class="img-lg" src="resources/img/profile-photos/1.png" alt="Sample Image">
+						                		</div>
+						                		<div class="media-body pad-all text-semibold">
+						                			<p>{ _모임이름_ }</p>
+						                			<p>{ _모임위치_ }</p>
+						                			<p>{ _모임인원_ }</p>
+			                					</div>
+			                				</div>
+			                				
+			                				
+			                				 
+			                				
+			                				<div class="media bord-btm">
+						                		<div class="media-left pad-all">
+						                			<img class="img-lg" src="resources/img/profile-photos/1.png" alt="Sample Image">
+						                		</div>
+						                		<div class="media-body pad-all text-semibold">
+						                			<p>{ _모임이름_ }</p>
+						                			<p>{ _모임위치_ }</p>
+						                			<p>{ _모임인원_ }</p>
+			                					</div>
+			                				</div>
+						                	
+						                	
+						                	
+						                	
+						                	<div class="media bord-btm">
+						                		<div class="media-left pad-all">
+						                			<img class="img-lg" src="resources/img/profile-photos/1.png" alt="Sample Image">
+						                		</div>
+						                		<div class="media-body pad-all text-semibold">
+						                			<p>{ _모임이름_ }</p>
+						                			<p>{ _모임위치_ }</p>
+						                			<p>{ _모임인원_ }</p>
+			                					</div>
+			                				</div>
+					                    </div>
+					                </div>
+					            </div>
+					        </div>
+					        <!--===================================================-->
+					        <!--End Purple Accordion-->
+            	    		
+            	    		
+ 
+            	    	</div>
+            	    
+            	    </div>
+            	    
+            	    
+            	    
+            	    
+            	    
+            	    
+            	    
+            	    
+            	    
+            	    
+            	    
                  <div class="col-xs-12">
+                 	<div class="col-sm-6">
+                 		<div class="panel-body">
+                 		
+               			<!-- 추천 관심사 -->
+          					<table>
+           						<tr>
+             						<c:forEach items="${recom}" var="recommend">
+									<h3><input type="button"  readonly="readonly" class ="btn btn-purple btn-rounded btn-labeled demo-psi-heart-2" value="${recommend.intName}"/></h3>
+									</c:forEach>
+								</tr>
+               			<!-- 추천 관심사에 따른 모임명 출력. -->
+               					<tr>
+               						<c:forEach items="${result}" var="recomResult">
+               						<h4><c:out value="${recomResult.teamName}"/></h4>
+               						<h5><c:out value="${recomResult.teamShortContent}"/></h5>
+           							</c:forEach>
+           						</tr>
+							</table>
+						</div>
+					</div>
                  	<div class="panel">
-               		<div class="panel-heading">
-               		</div>
            			<div class="panel-body">
                			<div class="bootstrap-table">
            				<table>
@@ -100,18 +326,17 @@
                			<div class="col-xs-12">
                				<form id="searchForm" action="/home/search" method="get">
                					<select name="type">
-               						<option value="" <c:out value="${pageMaker.cri.type == null?'selected':''}"/>>--</option>
                						<option value="M" <c:out value="${pageMaker.cri.type eq 'M'?'selected':''}"/>>모임</option>
                						<option value="I" <c:out value="${pageMaker.cri.type eq 'I'?'selected':''}"/>>관심사</option>
                					</select>
                					<input type="text" id="searchKeyword" name="keyword" value='<c:out value="${pageMaker.cri.keyword}"/>' />
                					<input type="hidden" name="pageNum" value='${pageMaker.cri.pageNum}'>
                					<input type="hidden" name="amount" value='${pageMaker.cri.amount}'>
-               					<button id="autocomplete">검색</button>
+               					<button type="submit">검색</button>
                				</form>
                			</div>
                			</div>
-               		</div>
+               			</div>
 				 	</div>
 				 </div>
                		
@@ -149,8 +374,28 @@
 	 		var array = ["test","test1","test2"];
 	 		
 	 		$('#searchKeyword').autocomplete({
-	 			source:array
-	 			});
+	 			
+	 			source:	function(request, response) {
+	 				
+	 				$.ajax({
+	 		 			url:		"/home/search",
+	 	 				type:		"POST",
+	 	 				dataType:	"json",
+	 		 			data:		request,
+	 		 			success:	function(data) {
+	 		 				console.log(data);
+	 		 				
+	 		 				var result = data;
+	 		 				response(result);
+	 		 			},
+	 		 			error: function(request, status, error) {
+	 		 				var msg = "ERROR : " + request.status + "<br>"
+	 		 			      msg +=  + "내용 : " + request.responseText + "<br>" + error;
+	 		 			      console.log(msg);
+	 		 			}
+	 		 		});
+	 			}
+ 			});
 	 		
 	 		var searchForm = $("#searchForm");
 	 		
@@ -178,5 +423,6 @@
 	 		});
 	 	});
 	 </script>
+	 
 </body>
 </html>
