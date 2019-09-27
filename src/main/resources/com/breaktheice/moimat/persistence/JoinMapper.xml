@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.breaktheice.moimat.persistence.JoinMapper">
+	
+	<select id="getInterestCodelist" resultType="com.breaktheice.moimat.domain.InterestDomain" >
+		
+		SELECT   
+				INT_ID
+				,INT_KEY
+				,INT_NAME
+				,INT_ORDER
+				,INT_ORDER
+				,INT_IS_USE
+		FROM 
+				INTEREST
+		
+	</select>
+	
+	<insert id="join" parameterType="com.breaktheice.moimat.domain.MemberDomain" >
+		<!-- 회원가입 쿼리를 만들기 -->
+		INSERT INTO MEMBER
+		SET
+		(
+			MEM_ID,
+			MEM_EMAIL,
+			MEM_PASSWORD,
+			MEM_NICKNAME,
+			MEM_BIRTHDAY,
+			MEM_GENDER,
+			MEM_AREA,
+			MEM_REGDATE,
+			MEM_UPDATE,
+			MEM_LASTLOGIN,
+			MEM_CONTENT,
+			MEM_PHOTO,
+			MEM_LEVEL,
+			MEM_STATUS,
+			MEM_INT1,
+			MEM_INT2,
+			MEM_INT3
+		)
+		VALUES
+		(
+			MEMBER_SEQ.NEXTVAL,
+			#{memEmail},
+			#{memPassword},
+			#{memNickname},
+			#{memBirthday},
+			#{memGender},
+			#{memArea},
+			#{memRegdate},
+			#{memDate},
+			#{memLastlogin},
+			#{memContent},
+			#{memPhoto},
+			#{memLevel},
+			#{memStatus},
+			#{memInt1}
+		)
+	</insert>
+	
+	<select id="checkMemberEmail" parameterType="String" resultType="String">
+		
+		SELECT 
+				MEM_EMAIL
+		FROM
+				MEMBER
+		WHERE 
+				MEM_EMAIL = #{email}
+	
+	</select>
+	
+	<insert id="insertCode" parameterType="com.breaktheice.moimat.domain.CertDomain" >
+			
+		<!-- 인증코드 저장 -->
+		
+		INSERT INTO CERT
+		VALUES(
+			 #{memEmail}
+			,#{certCode}
+			,SYSDATE 
+		)
+	</insert>
+	
+	<select id="selectCode" parameterType="com.breaktheice.moimat.domain.CertDomain" resultType="com.breaktheice.moimat.domain.CertDomain">
+		
+		SELECT 
+				*
+		FROM
+				CERT
+		WHERE 
+					CERT_CODE = #{certCode}
+				and MEM_EMAIL = #{memEmail}
+	
+	</select>
+	
+	<delete id="deleteCode" parameterType="com.breaktheice.moimat.domain.CertDomain">
+		
+		DELETE 
+				
+		FROM
+				CERT
+		WHERE 
+					CERT_CODE = #{certCode}
+				and MEM_EMAIL = #{cretEmail}
+	
+	</delete>
+	
+	<update id="updateMember" parameterType="com.breaktheice.moimat.domain.MemberDomain">
+		
+		UPDATE	MEMBER	
+		
+		SET
+			MEM_PASSWORD = #{memPassword}
+		
+		WHERE 
+			MEM_EMAIL = #{memEmail}
+		<!--
+		<set>       ﻿
+      		<if test="memPassword != null">MEM_PASSWORD=#{memPassword}</if>       ﻿
+  		</set>  
+		
+			MEM_EMAIL 		= CASE WHEN COL 	IS NULL THEN #{memEmail} 		ELSE MEM_EMAIL 		END
+			,MEM_PASSWORD 	= CASE WHEN COL 	IS NULL THEN #{memPassword} 	ELSE MEM_PASSWORD 	END
+			,MEM_NICKNAME 	= CASE WHEN COL 	IS NULL THEN #{memNickname} 	MEM_NICKNAME  	END
+			,MEM_BIRTHDAY 	= CASE WHEN #{memBirthday} 	IS NULL THEN MEM_BIRTHDAY 	ELSE #{memBirthday} 	END
+			,MEM_GENDER 	= CASE WHEN #{memGender} 	IS NULL THEN MEM_GENDER 	ELSE #{memGender} 		END
+			,MEM_AREA 		= CASE WHEN #{memArea} 		IS NULL THEN MEM_AREA 		ELSE #{memArea} 		END
+	   		,MEM_REGDATE 	= CASE WHEN #{memRegdate} 	IS NULL THEN MEM_REGDATE 	ELSE #{memRegdate} 		END
+			,MEM_UPDATE 	= CASE WHEN #{memDate} 		IS NULL THEN MEM_UPDATE 	ELSE #{memDate} 		END
+			,MEM_LASTLOGIN 	= CASE WHEN #{memLastlogin} IS NULL THEN MEM_LASTLOGIN 	ELSE #{memLastlogin} 	END
+			,MEM_CONTENT 	= CASE WHEN #{memContent} 	IS NULL THEN MEM_CONTENT 	ELSE #{memContent} 		END
+			,MEM_PHOTO		= CASE WHEN #{memPhoto} 	IS NULL THEN MEM_LEVEL 		ELSE #{memPhoto} 		END
+			,MEM_LEVEL 		= CASE WHEN #{memLevel} 	IS NULL THEN MEM_LEVEL 		ELSE #{memLevel} 		END
+			,MEM_STATUS 	= CASE WHEN #{memStatus} 	IS NULL THEN MEM_STATUS 	ELSE #{memStatus} 		END
+			,MEM_INT1 		= CASE WHEN #{memInt1} 		IS NULL THEN MEM_INT1 		ELSE #{memInt1} 		END
+			,MEM_INT2		= CASE WHEN #{memInt2} 		IS NULL THEN MEM_INT2 		ELSE #{memInt2} 		END
+			,MEM_INT3		= CASE WHEN #{memInt3} 		IS NULL THEN MEM_INT3 		ELSE #{memInt3} 		END 
+			
+		<where>
+		    <if test="memId != null and memId != '' ">
+		         MEM_ID = #{memId}
+		    </if>
+		    <if test="memEmail != null and memEmail != '' ">
+		        AND MEM_EMAIL = #{memEmail}
+		    </if>
+  		</where>
+		-->		
+	
+	</update>
+	
+	
+</mapper>

@@ -11,7 +11,22 @@
 		FROM	
 				MEMBER 
 		WHERE
-				mem_email	=	#{memEmail} 
+				MEM_EMAIL	=	#{memEmail} 
+
+	</select>
+	
+	<select id="login2" parameterType="com.breaktheice.moimat.domain.LoginDomain" 
+										resultType="Map">
+	 	
+		 	SELECT	
+				mem_id			<!--  LoginDomain.memId 변수명을 찾아서 들어간다 -->
+				,mem_email
+				,mem_password
+		FROM	
+				MEMBER 
+		WHERE
+				MEM_EMAIL	=	#{memEmail} 
+				
 
 	</select>
 	

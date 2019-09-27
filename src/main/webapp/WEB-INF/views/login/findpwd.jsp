@@ -65,7 +65,7 @@
 									action="http://www.themeon.net/nifty/v2.5/pages-login.html">
 									<div class="form-group">
 										<input type="email" id="email" name="memEmail" class="form-control" placeholder="Email">
-										<input type="text" id="certCode" name="certCode" class="form-control" placeholder="인증코드입력" hidden>
+										<input type="text" id="certCode" name="certCode" class="form-control" placeholder="인증코드입력" >
 									</div>
 									<div class="form-group text-right">
 										<button class="btn btn-success btn-block" id="resetButton" type="button" onclick="checkAndSubmit();">Reset Password</button>
@@ -101,6 +101,12 @@
 		
 <script>
 
+	$(document).ready(function(){
+		
+		$('#certCode').hide();
+		
+	});
+
 	function checkAndSubmit(){
 		
 		let email = $('#email').val();
@@ -112,7 +118,7 @@
 			return;
 		}
 		// 3. 길이체크
-		if(memEmail.length < 8 || memEmail.length > 30) {
+		if(email.length < 8 || email.length > 30) {
 			alert('아이디는 최소 8자이상 30자 미만입니다');
 			$('#memEmail').focus();
 			return;
@@ -120,7 +126,7 @@
 	
 		var isEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         
-   	  	if (!isEmail.test(memEmail)) {
+   	  	if (!isEmail.test(email)) {
           alert("이메일 주소 형식 다시 확인해주세요.");
           $('#email').focus();
           return;
@@ -129,7 +135,7 @@
    	  // 메일 확인 후 인증번호 발송	
    	 $.ajax({
 			type : "POST",
-			url : "/reg/checkEmail",
+			url : "/auth/checkEmail",
 			data: {memEmail:email},
 			dataType : "json",
 			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
@@ -140,10 +146,10 @@
 				
 				if(data.msgCode == 1){
 					$('#email').hide();
-					$('#authcode').show();
+					$('#certCode').show();
 					
 					$('#resetButton').removeAttr("onclick");			// 온클릭 속성 삭제
-   					$('#resetButton').attr('onclick',"checkCode();") 	// 새로운 온클릭 속성 부여
+   					$('#resetButton').attr('onclick',"checkCertCode();") 	// 새로운 온클릭 속성 부여
 					   					
 				}
 										
@@ -157,12 +163,10 @@
 		
 	}
 
-	function checkCode(){
-		
+	function checkCertCode(){
 		let code = $('#certCode').val() 			 // 이메일 인증 코드
-	   	let email = $('#email').val() 				 //이메일 주소갖고온다
-	   
-	   	// 인증코드 유효성 검사(오로직 숫자만)
+	   	
+		// 인증코드 유효성 검사(오로직 숫자만)
 	   	var regType1 = /^[0-9]{9}$/;
 		
 	   	if(!regType1.test(code)){
@@ -170,11 +174,13 @@
 	   		return;
 	   	}
 	   	
+	   	alert(code);
+	   	
 	   	// 인증코드 검증
 	   	$.ajax({
    			type : "POST",
-   			url : "/reg/checkAuthCode",
-   			data: {cretEmail:code, certCode:certCode },
+   			url : "/auth/checkAuthCode",
+   			data: {certCode:code},
    			dataType : "json",
    			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
    			async : false,

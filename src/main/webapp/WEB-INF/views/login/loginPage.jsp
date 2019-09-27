@@ -161,6 +161,7 @@
 		if($('#demo-form-checkbox').is(":checked") != true){
 			alert("가입여부에 동의해주세요");
 			$('#demo-form-checkbox').focus();
+			return;
 		}
 		
 		// 전송

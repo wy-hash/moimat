@@ -1,5 +1,9 @@
 package com.breaktheice.moimat.service;
 
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -38,7 +42,9 @@ public class LoginServiceImpl implements LoginService {
 	
 		// 2. db에서 갖고옴(아직 mapper 안만듬)
 		LoginDomain loginVo = mapper.login(vo);
-		 
+	
+		
+		log.info(loginVo);
 		log.info("db의 패스워드" + loginVo.getMemPassword());
 		log.info("사용자의 패스워드" + inputPwd);
 		
