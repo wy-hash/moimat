@@ -1,5 +1,8 @@
 package com.breaktheice.moimat.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -9,9 +12,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.breaktheice.moimat.domain.LoginDomain;
+import com.breaktheice.moimat.service.JoinService;
 import com.breaktheice.moimat.service.LoginService;
+import com.google.gson.Gson;
 
 import lombok.extern.log4j.Log4j;
 
@@ -23,6 +30,11 @@ public class LoginController {
 	@Autowired
 	LoginService loginService; 
 	
+	//@Autowired
+	//MailSenderService mailService;
+	
+	//@Autowired 
+	//JoinService joinService;
 	
 	@GetMapping("/login") // 사용자에게 로그인 입력 양식을 주는 페이지
 	public String login(Model model) {
@@ -74,5 +86,102 @@ public class LoginController {
 		
 		return "login/findpwd";
 	}
+	
+	/**
+	 * email 중복체크
+	 * 
+	 * @param
+	 * @return String
+	 * @throws Exception
+	 */
+	/*
+	@RequestMapping(value = "/checkEmail", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+	@ResponseBody 
+	public String checkId(String email, HttpServletRequest request) throws Exception {
+	
+		log.info("checkEmail 중복체크");
+		log.info("email: " +email);
+		
+		// 1. 이메일 중복 체크
+		boolean result = joinService.checkEmail(email);			
+		Map map = new HashMap();
+		
+		if(!result) {	// 
+		
+			int code = (int)(Math.random()*1000000000);
+			log.info("code :" + code);
+			
+			String setFrom = "test@gmail.com";
+			String setTo =email;
+			String setSubject ="이메일 찾기 인증코드";
+			String setText ="인증코드는 "+code+" 입니다.";
+		
+			mailService.simpleMailSend(setFrom,setTo,setSubject,setText);
+			
+			HttpSession session = request.getSession(true);
+			session.setAttribute("authCode", code);
+			session.setAttribute("email", email);
+			session.setAttribute("cnt", "0");			// 카운트
+					
+			map.put("msgCode", "1");  
+			map.put("msg", "인증메일이 발송되었습니다");
+			
+		}else {
+			
+			map.put("msgCode", "0");
+			map.put("msg", "가입하신 메일이 존재하지 않습니다");
+		}
+		
+		Gson gson = new Gson();
+		
+		String resultJson = gson.toJson(map);	
+		log.info("result to json : " +resultJson);
+		
+		return resultJson;	
+	}
+	
+	@RequestMapping(value = "/checkAuthCode", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+	@ResponseBody 
+	public String checkAuthCode(AuthCodeDomain auth, HttpServletRequest request) throws Exception {
+	
+		log.info("checkAuthCode �샇異�..");
+		log.info("checkAuthCode: " +auth.getCretCode());
+		log.info("email: " +auth.getCretEmail());
+		
+		Map map = new HashMap();
+		
+		HttpSession session = request.getSession();
+		String code = (String)session.getAttribute("cretCode");
+		
+		if(code.contentEquals(auth.get)) {
+			
+			String setFrom = "test@gmail.com";
+			String setTo = auth.getCertEmail();
+			String setSubject ="이메일 찾기 인증코드";
+			String setText ="인증코드는 "+code+" 입니다.";
+			
+			mailService.simpleMailSend(setFrom,setTo,setSubject,setText);
+			
+			//(추가)회원패스워드 수정 -->JoinService
+			
+			map.put("msg", "임시비밀번호를 발송하였습니다");
+			map.put("msgCode", "1");
+			
+		}else {
+			map.put("msg", "인증번호가 맞지 않습니다");
+			map.put("msgCode", "0");
+		}
+		
+		Gson gson = new Gson();
+		
+		String resultJson = gson.toJson(map);	
+		log.info("result to json : " +resultJson);
+		
+		return resultJson;	
+	}
+	
+	*/
+	
+	
 	
 }
