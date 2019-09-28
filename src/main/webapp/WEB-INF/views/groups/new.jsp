@@ -159,7 +159,6 @@
 	</div>
 	<!-- END CONTAINER -->
 	<script type="text/javascript">
-		
 		$(document).ready(function(){
 			var openWin;
 			$('#selectmap').on('click',function(){
@@ -168,7 +167,6 @@
 				openWin = window.open("/groups/map", "childForm",
 						"width=1200, height=600");
 			});
-			
 			$("#setTime").timepicker({
 				timeFormat: 'H:i'
 			});
@@ -176,8 +174,6 @@
 			$('#subbtn').on('click',function(e){
 				e.preventDefault();
 			})
-
-			
 		})
 	</script>
 </body>

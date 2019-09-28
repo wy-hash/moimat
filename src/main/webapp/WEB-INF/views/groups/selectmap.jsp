@@ -1,28 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ include file="../includes/head.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"
-	integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-	crossorigin="anonymous"></script>
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-	crossorigin="anonymous"></script>
-<!-- services 라이브러리 불러오기 -->
-<script type="text/javascript"
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6213368344dd87ee3c46139e0d1df7cd&libraries=services,clusterer,drawing"></script>
-<script type="text/javascript"
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6213368344dd87ee3c46139e0d1df7cd"></script>
-
-<title>Insert title here</title>
-<style>
+	<!-- services 라이브러리 불러오기 -->
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6213368344dd87ee3c46139e0d1df7cd&libraries=services,clusterer,drawing"></script>
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6213368344dd87ee3c46139e0d1df7cd"></script>
+<title>주소 선택</title>
+<style type="text/css">
 .map_wrap, .map_wrap * {
 	margin: 0;
 	padding: 0;
@@ -47,6 +36,7 @@
 	left: 0;
 	bottom: 0;
 	width: 100%;
+	height: 500px;
 	padding: 5px;
 	overflow-y: auto;
 	background: rgba(255, 255, 255, 0.7);
@@ -212,25 +202,24 @@
 <body>
 	<div class="container">
 		<div class="row">
-			<div class="col-3 px-0">
+			<div class="col-xs-3 pad-no">
 				<div id="menu_wrap" class="bg_white">
 					<div class="option">
 						<div>
 							<form onsubmit="searchPlaces(); return false;">
 								키워드 : <input type="text" value="" id="keyword" size="15">
-								<button class="btn btn-info btn-sm" type="submit">검색하기</button>
+								<button class="btn btn-dark btn-sm" type="submit">검색하기</button>
 							</form>
 						</div>
 					</div>
 					<hr>
-					<ul id="placesList" class="px-0"></ul>
+					<ul id="placesList" class="pad-no"></ul>
 					<div id="pagination"></div>
 				</div>
 			</div>
-			<div class="col-9 px-0">
+			<div class="col-xs-8 pad-no">
 				<div class="map_wrap">
-					<div id="map"
-						style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
+					<div id="map" style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
 				</div>
 			</div>
 			
@@ -238,7 +227,7 @@
 <hr>
 
 <input type="text" value="" id="abcd" style="width: 100%" readonly="readonly">
-<button type="button" class="btn btn-lg btn-info btn-block" id="sendmap">선택하기</button>
+<button type="button" class="btn btn-dark btn-block" id="sendmap">선택하기</button>
 
 	</div>
 
