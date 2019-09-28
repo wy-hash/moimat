@@ -492,7 +492,7 @@
 		
 		var sendmap = document.getElementById('sendmap');
 		sendmap.addEventListener('click',function(){
-			opener.document.getElementById("getmap").value = abcd.value
+			opener.document.getElementById("getMap").value = abcd.value
 			window.close();
 		});
 	</script>
