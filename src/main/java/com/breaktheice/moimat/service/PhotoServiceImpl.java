@@ -55,9 +55,10 @@ public class PhotoServiceImpl implements PhotoService{
 				url = PREFIX_URL + saveFileName;
 				
 				//업로드 성공시
-				
-				photoinsertBoard(domain);
 				domain.setPfiOriginname(saveFileName);
+				photoinsertBoard(domain);
+				
+				
 				
 			}
 			catch (IOException e) {

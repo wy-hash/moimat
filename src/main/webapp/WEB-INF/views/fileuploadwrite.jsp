@@ -6,7 +6,7 @@
 <!-- HEAD -->
 <% String path = request.getContextPath();
    pageContext.setAttribute("path", path);
-%>
+%>  
 
 
 <%@ include file="includes/head.jsp" %>
@@ -159,7 +159,7 @@
                 	<!-- #################################### -->
                 	<!-- #### WRITE CODE BELOW THIS LINE #### -->
             	    <!-- #################################### -->
-            	  <form method="post" action="fileuploadwrite" enctype="multipart/form-data">
+            	  <form method="post" action="filelistview" enctype="multipart/form-data">
             	 <div class="panel">
 					    <div class="panel-heading">
 					        <h3 class="panel-title">Bootstrap theme</h3>
@@ -215,20 +215,27 @@
 					                </div>
 					            </div>
                             </div>
-                            
-                            <div class="panel">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">WYSIWYG Summernote Editor</h3>
-                                </div>
-                                <div class="panel-body">
-                            
-                                    <!--Summernote-->
-                                    <!--===================================================-->
-                                    <textarea id="demo-summernote" name="email">
-                                        <h4><span style="color: rgb(206, 198, 206); font-family: inherit; line-height: 1.1;">Please, write text here!</span><br></h4><h4><font color="#9c9c94"></font></h4>
+
+							<div class="panel">
+							
+									<label for="exampleInputEmail1"></label> <input name="title" type="text"
+										class="form-control" id="exampleInputEmail1"
+										placeholder="게시물 제목을 입력하세요">
+							
+								<div class="panel-body">
+
+									<!--Summernote-->
+									<!--===================================================-->
+									<textarea id="demo-summernote" name="text">
+                                        <h4>
+											<span
+												style="line-height: 1.1;">내용을 입력 해주세요</span><br>
+										</h4>
+										<h4>
+											<font color="#9c9c94"></font>
+										</h4>
                                     </textarea>
-                                     <input type="hidden" type="file" name="files" multiple>
-                                    </form>
+									<input type="hidden" type="file" name="files" multiple></form>
                                     <!--===================================================-->
                                     <!-- End Summernote -->
                             

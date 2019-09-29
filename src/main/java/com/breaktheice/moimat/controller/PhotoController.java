@@ -26,35 +26,42 @@ public class PhotoController {
 	@Autowired
 	private PhotoService service;
 	
-	@RequestMapping( "/test" )
-	public String file(
-			Model model) {
-		
+//	@RequestMapping( "/test" )
+//	public String file(
+//			Model model,HttpServletRequest request) {
+//		
+//		String title = request.getParameter("title");
+//		
+//		model.addAttribute("title", title);
+//		
+//	
+//		return "fileuploadwrite";
+//	}
 	
-		return "fileuploadwrite";
-	}
-	
-	@RequestMapping( "/fileupload" )
-	public String test(Model model,@RequestParam("email") String email) {
+	@RequestMapping( "/filelistview")
+	public String test(Model model,@RequestParam("title") String title,HttpServletRequest request) {
 		
-		PhotoDomain domain = new PhotoDomain();
+		String text = request.getParameter("text");
 		
-		model.addAttribute("email",email);
+		model.addAttribute("title",title);
+		model.addAttribute("text", text);
 		
-		return "result";
+		
+		return "filelistview";
 	}	
 	@RequestMapping( "/fileuploadwrite")
 	public String upload(
-			Model model,
-//			@RequestParam("email") String email,
-			@RequestParam(required=false) List <MultipartFile> files,PhotoDomain domain) {
+			Model model,		
+			@RequestParam(required=false) List <MultipartFile> files,PhotoDomain domain,HttpServletRequest request) {
 		
-//		String url = service.restore(files,domain);
-//		model.addAttribute("url",url);
+		String url = service.restore(files,domain);
+		model.addAttribute("url",url);
 //		
-//		model.addAttribute("email",email);
+		String title =	request.getParameter("title");
+		model.addAttribute("title",title);
 	
-		return "fileupload";
+		return "fileuploadwrite";
+		
 	}
 	@RequestMapping("/list2")
 	public void list3(Criteria criteria, Model model) throws Exception {

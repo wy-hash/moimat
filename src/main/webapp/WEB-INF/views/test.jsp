@@ -10,17 +10,9 @@
 <body>
 	<h2>sample domain info.</h2>
 	
-	id: ${ domain.id }<br>
-	name: ${ domain.name }<br>
-	address: ${ domain.address }
-	${domain.seq}
-	${domain.talk}
-	${domain.postTypeSeq}memberSeq
-	${domain.memberSeq}
+
 	
-	<form method="post" action="fileupload" enctype="multipart/form-data">
-         <label>email:</label>
-         <input type="text" name="email">
+	<form method="post" action="fileuploadview" enctype="multipart/form-data">
          <br><br>
          <label>파일:</label>
          <input type="file" name="files" multiple>
