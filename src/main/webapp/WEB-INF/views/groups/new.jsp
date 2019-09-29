@@ -66,7 +66,6 @@
 							</div>
 							<form id="meetRegForm" class="form-horizontal" action="/groups/${groupId}/meetings/new" method="post">
 								<input type="hidden" name="teamId" value="${groupId }">
-								<input type="hidden" name="memberSeq" value="${id }"> 
 								<div class="panel-body">
 									<div class="form-group">
 										<label class="col-lg-2 control-label">모임 글제목</label>
@@ -178,32 +177,69 @@
 			timeFormat: 'H:i'
 		});
 		
+		
+		$('#meetDay').keyup(function(){
+			var temp = this.value;
+			if(isNaN(temp) == true) {
+				alert("숫자만 입력 가능합니다.");
+				this.value = '';
+			}
+		});		
+		
+		$('input[name="meetMax"]').keyup(function(){
+			var temp = this.value;
+			if(isNaN(temp) == true) {
+				alert("숫자만 입력 가능합니다.");
+				this.value = '';
+			}
+		});
+		
 		$('#subbtn').on('click',function(e){
 			e.preventDefault();//submit 버튼 동작안하게만듬
 			var meetDay = $('#meetDay').val()
-			var hh = $('#meetTime').timepicker("getTime").getHours();
-			var mi = $('#meetTime').timepicker("getTime").getMinutes();
 			
-			
-			
-			if(vaildDate(meetDay)){
+			if($("input[name=meetTitle]").val()==""){
+				alert("글 제목이 작성되지 않았습니다.")
+				return false;
+			}else if($("input[name='meetArea']").val()==""){
+				alert("장소가 작성되지 않았습니다.")
+				return false;
+			}else if($("#meetDay").val()==""){
+				alert("날짜가 작성되지 않았습니다.")
+				return false;
+			}else if($("#meetTime").val()==""){
+				alert("시간이 선택되지 않았습니다.")
+				return false;
+			}else if($("textarea[name='meetContent']").val()==""){
+				alert("내용이 작성되지 않았습니다.")
+				return false;
+			}else if($("input[name='meetPay']").val()==""){
+				alert("비용이 작성되지 않았습니다.")
+				return false;
+			}else if($("input[name='meetMax']").val()==""){
+				alert("인원이 작성되지 않았습니다.")
+				return false;
+			}else if(vaildDate(meetDay)){
 				inputDate = new Date();
 				nowDate = new Date();
 				var yy = meetDay.substring(0,4);
 				var MM = meetDay.substring(4,6)-1;
 				var dd = meetDay.substring(6,8);
+				var hh = $('#meetTime').timepicker("getTime").getHours();
+				var mi = $('#meetTime').timepicker("getTime").getMinutes();
 				inputDate.setFullYear(yy);
 				inputDate.setMonth(MM);
 				inputDate.setDate(dd);
 				inputDate.setHours(hh);
 				inputDate.setMinutes(mi);
 				if(inputDate-nowDate<0){
-					alert('no')
+					alert('과거에선 만날 수 없잖아요?')
 					return false;
 				}
 				$('#meetDate').val(inputDate);
+				$('#meetRegForm').submit();
 			};
-			$('#meetRegForm').submit();
+			
 		});
 		function vaildDate(meetDay){
 			function now(){
@@ -230,20 +266,7 @@
 			return true;
 		}
 		
-		$('#meetDay').keypress(function(){
-			//키보드입력시 문자입력 자체를 못하게
-			 if(event.keyCode<48 || event.keyCode>57){
-		           event.returnValue=false;
-		        }
-		});
-		$('#meetDay').keyup(function(){
-			//복사붙여넣기로 입력 시도시
-			var temp = this.value;
-			if(isNaN(temp) == true) {
-				alert("숫자만 입력 가능합니다.");
-				this.value = '';
-			}
-		});
+		
 		
 	})
 	</script>
