@@ -17,9 +17,9 @@ public class MemberDomain {
 	private String memLastlogin;
 	private String memContent;
 	private String memPhoto;
-	private String memLevel;
-	private String memStatus;
-	private String memInt1;
-	private String memInt2;
-	private String memInt3;
+	private int memLevel;
+	private int memStatus;
+	private int memInt1;
+	private int memInt2;
+	private int memInt3;
 }
