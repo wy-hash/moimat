@@ -138,7 +138,6 @@ public class JoinServiceImpl implements JoinService {
 	public boolean updateMember(MemberDomain member) {
 		
 		int cnt = joinMapper.updateMember(member);
-		
 		if(cnt == 1) { return true; }
 		
 		return false;

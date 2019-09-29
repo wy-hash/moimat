@@ -67,8 +67,7 @@
 										</div>
 										<div class="checkbox pad-btm text-left">
 											<input id="demo-form-checkbox" class="magic-checkbox"
-												type="checkbox"> <label for="demo-form-checkbox">Remember
-												me</label>
+												type="checkbox"> <label for="demo-form-checkbox">ID 기억하기</label>
 										</div>
 										<button class="btn btn-primary btn-lg btn-block" type="button"
 											onclick="checkValue();">Sign In</button>
@@ -109,7 +108,18 @@
 	</div>
 	<!-- END CONTAINER -->
 	
-		<script>
+	<script>
+	
+	$(document).ready(function(){
+
+	    // 저장된 쿠키값을 가져와서 ID 칸에 넣어준다. 없으면 공백으로 들어감.
+	    var key = getCookie("userInputId");
+	    if(key != null && key != ""){
+	    	$('#memEmail').val(key)
+	    	$("#demo-form-checkbox").prop("checked", true); /* by ID */
+	    }
+	});
+	
 	
 	// 유효성 체크후 전송
 	function checkValue(){
@@ -158,17 +168,44 @@
 			return;
 		}
 		
-		if($('#demo-form-checkbox').is(":checked") != true){
-			alert("가입여부에 동의해주세요");
-			$('#demo-form-checkbox').focus();
-			return;
-		}
+		// 아이디 저장
+		if($("#demo-form-checkbox").is(":checked")){
+	        setCookie("userInputId", memEmail, 7); // 7일 동안 쿠키 보관
+	    }else{
+	    	deleteCookie("userInputId", "", 7); // 7일 동안 쿠키 보관
+	    }
 		
 		// 전송
 		$('#loginForm').submit();
 	}
 	
-	
+	// 쿠키 관련 (나중에 공통 js로 통합해서 쓸 예정)
+	function setCookie(cookieName, value, exdays){
+	    var exdate = new Date();
+	    exdate.setDate(exdate.getDate() + exdays);
+	    var cookieValue = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toGMTString());
+	    document.cookie = cookieName + "=" + cookieValue;
+	}
+	 
+	function deleteCookie(cookieName){
+	    var expireDate = new Date();
+	    expireDate.setDate(expireDate.getDate() - 1);
+	    document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
+	}
+	 
+	function getCookie(cookieName) {
+	    cookieName = cookieName + '=';
+	    var cookieData = document.cookie;
+	    var start = cookieData.indexOf(cookieName);
+	    var cookieValue = '';
+	    if(start != -1){
+	        start += cookieName.length;
+	        var end = cookieData.indexOf(';', start);
+	        if(end == -1)end = cookieData.length;
+	        cookieValue = cookieData.substring(start, end);
+	    }
+	    return unescape(cookieValue);
+	}
 	
 	</script>
 </body>

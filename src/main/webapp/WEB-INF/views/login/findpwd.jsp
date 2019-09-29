@@ -147,10 +147,10 @@
 				if(data.msgCode == 1){
 					$('#email').hide();
 					$('#certCode').show();
-					
+				
 					$('#resetButton').removeAttr("onclick");			// 온클릭 속성 삭제
    					$('#resetButton').attr('onclick',"checkCertCode();") 	// 새로운 온클릭 속성 부여
-					   					
+										
 				}
 										
 			},
@@ -193,6 +193,7 @@
    					$('#certCode').attr("readOnly", true);
    					// 인증코드 버튼기능 제거
    					$('#resetButton').removeAttr("onclick");	
+   					$('#resetButton').text("인증완료");
    				}
    				
    										
