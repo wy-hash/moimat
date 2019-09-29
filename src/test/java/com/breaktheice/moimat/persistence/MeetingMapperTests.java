@@ -37,12 +37,12 @@ public class MeetingMapperTests {
 		vo.setTeamId(2L);
 		vo.setMeetTitle("모이시오!");
 		vo.setMeetContent("모임 내용");
-		vo.setMeetDate("2019-10-11 20:30");
+//		vo.setMeetDate("2019-10-11 20:30");
 		vo.setMeetMax(10);
 		vo.setMeetPay("엔빵임임임임");
 		vo.setTmemId(1L);
 		vo.setMeetNickName("닉네이임");
-		mapper.regMeet(vo);
+//		mapper.regMeet(vo);
 	}
 	
 	@Test
@@ -52,7 +52,7 @@ public class MeetingMapperTests {
 		vo.setTeamId(2L);
 		vo.setMeetTitle("모이시오!");
 		vo.setMeetContent("모임 내용");
-		vo.setMeetDate("2019-10-11 20:30");
+//		vo.setMeetDate("2019-10-11 20:30");
 		vo.setMeetMax(10);
 		vo.setMeetPay("엔빵임임임임");
 		vo.setTmemId(1L);

@@ -22,10 +22,4 @@ public class MeetVO {
 	private String meetEmail;//작성자 이메일 (사용안함)
 	private String meetArea;
 	
-	
-	public void setMeetDate(String meetDate) throws ParseException {
-		Date date = new SimpleDateFormat("yyyy-MM-dd kk:mm").parse(meetDate);
-		this.meetDate = date;
-	}//이거 건들이지 마세요 
-	
 }

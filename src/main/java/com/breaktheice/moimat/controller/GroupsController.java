@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.breaktheice.moimat.domain.MeetVO;
 import com.breaktheice.moimat.service.MeetingService;
 
 @Controller
@@ -40,7 +41,7 @@ public class GroupsController {
 	}
 	
 	@GetMapping("/{groupId}/meetings/new")
-	public String meetingsNew() {
+	public String meetingsNew(@PathVariable Long groupId) {
 		return "/groups/new";
 	}
 	
@@ -50,7 +51,10 @@ public class GroupsController {
 	}
 	
 	@PostMapping("/{groupId}/meetings/new")
-	public String meetingsNew2() {
-		return "/groups/new";
+	public String meetingsNew2(MeetVO meetVO,@PathVariable Long groupId,HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Long id = Long.parseLong(session.getAttribute("id").toString());
+		service.createMeet(meetVO, groupId, id);
+		return "redirect:/groups/"+groupId+"/calendar";
 	}
 }

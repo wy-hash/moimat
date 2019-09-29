@@ -15,6 +15,7 @@ var meetListService = (function(){
 		});
 	}
 	
+	
 	function parseDate(meetDate){
 		var dateObj = new Date(meetDate);
 		var yy = dateObj.getFullYear();

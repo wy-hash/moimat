@@ -29,4 +29,7 @@ public interface MeetingMapper {
 	//정모 참여자 수
 	public int countMeetMember(@Param("meetId")Long meetId);
 	
+	public Long setTmemId(@Param("groupId")Long groupId,@Param("memId")Long memId);
+	
+	public String setTmemNickName(@Param("groupId")Long groupId,@Param("memId") Long memId);
 }

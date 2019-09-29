@@ -23,6 +23,8 @@ public class MeetingServiceImpl implements MeetingService{
 	@Override
 	@Transactional
 	public void createMeet(MeetVO meetVO,Long groupId, Long memId) {//정모 생성한 사람은 자동으로 해당 정모 참가 
+		meetVO.setTmemId(mapper.setTmemId(groupId, memId));
+		meetVO.setMeetNickName(mapper.setTmemNickName(groupId, memId));
 		mapper.regMeet(meetVO);
 		mapper.attendMeet(meetVO.getMeetId(),groupId,memId);
 	}
@@ -39,7 +41,7 @@ public class MeetingServiceImpl implements MeetingService{
 
 	@Override
 	public void modifyMeet(MeetVO meetVO) {
-		mapper.modifyMeet(meetVO);
+//		mapper.modifyMeet(meetVO);
 	}
 
 	@Override
