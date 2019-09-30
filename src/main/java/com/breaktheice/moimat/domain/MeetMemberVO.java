@@ -11,4 +11,5 @@ public class MeetMemberVO {
 	private Long tmemId; // teamMemberID
 	private String mmemNickName;// meetMemberNickName
 	private String mmemEmail;// meetMemberEmail
+	private String mmemPhoto;// meetMemberPhoto
 }

@@ -126,7 +126,7 @@
 										<h3 class="panel-title">모임 등록</h3>
 									</div>
 									<form id="meetRegForm" class="form-horizontal"
-										action="/groups/${groupId}/meetings/meetmodify" method="post">
+										action="/groups/${groupId}/schedule/meetmodify" method="post">
 										<input type="hidden" name="teamId" value="${groupId }">
 										<input type="hidden" name="meetId"
 											value="${MeetVO.meetVO.meetId }">

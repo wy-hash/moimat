@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +32,7 @@ public class GroupsMeetController {
 	}
 
 	@PostMapping("/new")
-	public String meetingsNew2(MeetVO meetVO, @PathVariable Long groupId, HttpServletRequest request) {
+	public String newMeet(MeetVO meetVO, @PathVariable Long groupId, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		Long id = Long.parseLong(session.getAttribute("id").toString());
 		service.createMeet(meetVO, groupId, id);
@@ -45,6 +46,12 @@ public class GroupsMeetController {
 		return "redirect:/groups/" + groupId + "/schedule";
 	}
 	
+	@PostMapping("/meetmodify")
+	public String updateMeet(@PathVariable Long groupId,MeetVO meetVO) {
+		service.modifyMeet(meetVO);
+		return "redirect:/groups/" + groupId + "/schedule";
+	}
+	
 	@PostMapping("/modify")
 	public String meetModify(@PathVariable Long groupId,@RequestParam("meetId")Long meetId, HttpServletRequest request) {
 		HttpSession session = request.getSession();
@@ -52,4 +59,21 @@ public class GroupsMeetController {
 		request.setAttribute("MeetVO", service.readMeet(meetId, groupId, id));
 		return "/groups/schedule/meetModify";
 	}
+	
+	@GetMapping("/cancel")
+	public String cancelMeet(@PathVariable Long groupId,@RequestParam("meetid")Long meetId, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Long id = Long.parseLong(session.getAttribute("id").toString());
+		service.cancelAttend(meetId, groupId, id);
+		return "redirect:/groups/" + groupId + "/schedule";
+	}
+	
+	@GetMapping("/attend")
+	public String attendMeet(@PathVariable Long groupId,@RequestParam("meetid")Long meetId, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Long id = Long.parseLong(session.getAttribute("id").toString());
+		service.attendMeet(meetId, groupId, id);
+		return "redirect:/groups/" + groupId + "/schedule";
+	}
+	
 }

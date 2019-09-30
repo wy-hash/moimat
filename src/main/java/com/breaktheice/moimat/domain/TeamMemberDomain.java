@@ -19,6 +19,6 @@ public class TeamMemberDomain {
 	private Date tmemRegDate;
 	private String tmemBirthDay;// 이거 캘린더에 추가해야겟당 ㅎㅎ(기억용)
 	private char tmemGender;
-	
+	private String tmemPhoto;
 	
 }

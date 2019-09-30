@@ -3,7 +3,7 @@
  */
 var meetListService = (function(){
 	function getList(groupid,memberid,callback,error){
-		$.getJSON("/cal/ca/"+groupid+"/"+memberid+".json",
+		$.getJSON("/meet/getList/"+groupid+"/"+memberid+".json",
 				function(data){
 					if(callback){
 						callback(data);
@@ -29,7 +29,7 @@ var meetListService = (function(){
 	}
 	
 	function meetRead(meetid,groupid,memberid,callback,error){
-		$.get("/cal/detailedmeet/"+meetid+"/"+groupid+"/"+memberid+".json",
+		$.get("/meet/detailedmeet/"+meetid+"/"+groupid+"/"+memberid+".json",
 				function(data){
 					if(callback){
 						callback(data);

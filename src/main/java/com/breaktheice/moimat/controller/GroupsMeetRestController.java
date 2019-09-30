@@ -16,15 +16,15 @@ import com.breaktheice.moimat.service.MeetingService;
 
 import lombok.AllArgsConstructor;
 
-@RequestMapping("/cal")
+@RequestMapping("/meet")
 @RestController
 @AllArgsConstructor
-public class CalController {
+public class GroupsMeetRestController {
 	//테스트용 안쓸거임
 	@Inject
 	private MeetingService service;
 	
-	@GetMapping(value = "/ca/{groupid}/{memberid}",
+	@GetMapping(value = "/getList/{groupid}/{memberid}",
 			produces = {
 					MediaType.APPLICATION_JSON_UTF8_VALUE
 			})

@@ -50,13 +50,14 @@
 	<insert id="attendMeet">
 		insert into 
 			meet_member 
-				(mmem_id, meet_id, tmem_id,mmem_nickname,mmem_email)
+				(mmem_id, meet_id, tmem_id,mmem_nickname,mmem_email,mmem_photo)
 			(select 
 				meet_member_seq.nextval,
 				#{meetId}, 
 				tmem_id, 
 				tmem_nickname as mmem_nickname, 
-				tmem_email as mmem_email 
+				tmem_email as mmem_email,
+				tmem_photo as mmem_photo 
 			from 
 				team_member
 			where

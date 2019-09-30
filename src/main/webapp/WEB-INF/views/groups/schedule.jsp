@@ -153,10 +153,17 @@
 										<div class="panel-footer">
 											<!-- pagination button 들어갈 공간 -->
 											<button data-target="#moimat-modal" data-toggle="modal"
-												class="btn btn-warning">Large modal</button>
+												class="btn btn-warning">페이지 버튼 들어갈공간</button>
 										</div>
 									</div>
 								</div>
+								
+								
+					                        
+					                       
+					            </div>
+					            
+					        
 								<!-- modal -->
 								<div class="modal fade" tabindex="-1" style="display: none;"
 									id="moimat-modal">
@@ -174,7 +181,6 @@
 								</div>
 							</div>
 						</div>
-					</div>
 					<!--===================================================-->
 					<!--End Default Tabs (Left Aligned)-->
 
@@ -198,8 +204,6 @@
 		<!-- END FOOTER -->
 
 	</div>
-	<!-- END CONTAINER -->
-
 	<!-- END CONTAINER -->
 	<script src="/resources/plugins/fullcalendar/lib/moment.min.js"></script>
 	<script
@@ -251,9 +255,9 @@
 					var button = '';
 					var mdButton = '';
 					if(list.isAttend[list.meetList[i].meetId]){
-						button = '<button type="button" class="btn btn-danger pull-right" value="'+list.meetList[i].meetId+'">불참하기</button>';
+						button = '<button type="button" class="btn btn-danger pull-right cancelBtn" data-mid="'+list.meetList[i].meetId+'">불참하기</button>'
 					}else{
-						button = '<button type="button" class="btn btn-warning pull-right" value="'+list.meetList[i].meetId+'">참석하기</button>';
+						button = '<button type="button" class="btn btn-warning pull-right attendBtn" data-mid="'+list.meetList[i].meetId+'">참석하기</button>';
 					}
 					if(list.isWriter[list.meetList[i].meetId]){
 						mdButton += '<form id="mdButton'+i+'" method="Post">'
@@ -365,6 +369,8 @@
 				var meetContent = document.querySelectorAll(".meetContent");
 				var meetMember = document.querySelectorAll(".meetMember");
 				var meetArea = document.querySelectorAll(".meetArea");
+				var cancelBtn = document.querySelectorAll(".cancelBtn");
+				var attendBtn = document.querySelectorAll(".attendBtn");
 				meetContent.forEach(function(e){
 					e.addEventListener('click',function(){
 						removeMoimatContent(mmodalbody,mmodaltitle);
@@ -381,17 +387,36 @@
 						var mmhtml = '';
 						meetListService.meetRead(meetid,groupid,memberid,function(data){
 							console.log(data.memberList)
+							mmhtml += '<div class="list-group bg-trans">'
 							for(var i = 0, len = data.memberList.length||0; i<len; i++){
-								mmhtml += '<p>'+data.memberList[i].mmemId+'</p>'
-									   +  '<p>'+data.memberList[i].meetId+'</p>'
-								       +  '<p>'+data.memberList[i].tmemId+'</p>'
-								       +  '<p>'+data.memberList[i].mmemNickName+'</p>'
-								       +  '<p>'+data.memberList[i].mmemEmail+'</p>'
-								//나중에 수정 ^^;
-							}
+								mmhtml += '<a href="#" class="list-group-item">'
+		                           	   +  	'<div class="media-left pos-rel">'
+		                               + 		'<img class="img-circle img-xs" src="/resources/img/profile-photos/2.png" alt="Profile Picture">'
+		                               + 		'<i class="badge badge-success badge-stat badge-icon pull-left"></i>'
+		                               + 	'</div>'
+		                               +	'<div class="media-body">'
+		                               +		'<p class="mar-no">'+data.memberList[i].mmemNickName+'</p>'
+		                               +		'<small class="text-muted">'+data.memberList[i].mmemEmail+'</small>'
+		                               +	'</div>'
+	                       		 	   +  '</a>'
+							} //추후 유저정보 조회하는 그걸로 올려야함 
+							mmhtml += '</div>'
 							mmodalbody.innerHTML = mmhtml;
 						});
 					});
+					
+					cancelBtn.forEach(function(e){
+						e.addEventListener('click',function(){
+							var meetid = this.getAttribute("data-mid");
+							location.href = '/groups/'+groupid+'/schedule/cancel?meetid='+meetid;
+						})
+					})
+					attendBtn.forEach(function(e){
+						e.addEventListener('click',function(){
+							var meetid = this.getAttribute("data-mid");
+							location.href = '/groups/'+groupid+'/schedule/attend?meetid='+meetid;
+						})
+					})
 				});//end meetMember.forEach
 			}
 			function dButtonEvent(formid,buttonid){
@@ -420,5 +445,7 @@
 			
 		}
 	</script>
+
+	
 </body>
 </html>

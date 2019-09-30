@@ -41,7 +41,7 @@ public class MeetingServiceImpl implements MeetingService{
 
 	@Override
 	public void modifyMeet(MeetVO meetVO) {
-//		mapper.modifyMeet(meetVO);
+		mapper.modifyMeet(meetVO);
 	}
 
 	@Override
