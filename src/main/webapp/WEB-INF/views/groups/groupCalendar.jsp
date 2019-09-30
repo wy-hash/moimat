@@ -253,9 +253,15 @@
 							   +				'</div>'
 							   +			'</div>'
 					           +		'</div>'
-							   +		'<div class="btn-group"style="height:40px;">'
-							   +			mdButton
-							   +			button
+							   +		'<div class="btn-group" style="height:40px;display:block;">'
+							   +			'<div class="clearfix">'
+							   +				'<div class="col-xs-6 pad-no">'
+							   +					mdButton
+							   +				'</div>'
+							   +				'<div class="col-xs-6 pad-no">'
+							   +					button
+							   +				'</div>'
+							   +			'</div>'
 							   +		'</div>'
 							   +	'</div>'
 							   + '</div>'
