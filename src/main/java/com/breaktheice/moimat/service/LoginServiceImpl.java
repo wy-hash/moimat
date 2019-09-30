@@ -1,16 +1,12 @@
 package com.breaktheice.moimat.service;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.breaktheice.moimat.domain.LoginDomain;
+import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.persistence.LoginMapper;
 import com.breaktheice.moimat.util.SHA256;
 
@@ -29,7 +25,7 @@ public class LoginServiceImpl implements LoginService {
 	SHA256 sha256;
 
 	@Override
-	public boolean loginCheck(LoginDomain vo, HttpServletRequest request) { // 로그인 처리
+	public boolean loginCheck(MemberDomain vo, HttpServletRequest request) { // 로그인 처리
 
 		log.info("loginCheck");
 
@@ -41,7 +37,7 @@ public class LoginServiceImpl implements LoginService {
 		String inputPwd = sha256.encrypt(vo.getMemPassword()); // 변환작업
 	
 		// 2. db에서 갖고옴(아직 mapper 안만듬)
-		LoginDomain loginVo = mapper.login(vo);
+		MemberDomain loginVo = mapper.login(vo);
 	
 		
 		log.info(loginVo);

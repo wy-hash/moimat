@@ -2,7 +2,6 @@ package com.breaktheice.moimat.persistence;
 
 import java.util.List;
 
-import com.breaktheice.moimat.domain.MemberVO;
 import com.breaktheice.moimat.domain.PostDomain;
 
 public interface PostMapper {

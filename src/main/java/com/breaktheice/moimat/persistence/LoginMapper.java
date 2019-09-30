@@ -1,12 +1,9 @@
 package com.breaktheice.moimat.persistence;
 
-import java.util.Map;
-
-import com.breaktheice.moimat.domain.LoginDomain;
+import com.breaktheice.moimat.domain.MemberDomain;
 
 public interface LoginMapper {
 	
-	public LoginDomain login(LoginDomain loginVO);
+	public MemberDomain login(MemberDomain loginVO);
 	
-	public Map login2(LoginDomain loginVO);
 }

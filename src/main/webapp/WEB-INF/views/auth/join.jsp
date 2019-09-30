@@ -15,14 +15,12 @@
 	<div id="container" class="effect aside-float aside-bright mainnav-lg">
 
 		<!-- HEADER-NAVBAR -->
-		<%@ include file="../includes/header-navbar.jsp"%>
 		<!-- END NAVBAR -->
 
 		<!-- BOXED -->
 		<div class="boxed">
 
 			<!-- MAIN-NAV -->
-			<%@ include file="../includes/main-nav.jsp"%>
 			<!-- END MAIN-NAV -->
 
 			<!-- ASIDE -->
@@ -250,7 +248,7 @@
    		// 위의 검증이 완료되면 중복체크
    		$.ajax({
    			type : "POST",
-   			url : "/reg/checkEmail",
+   			url : "/auth/checkEmail",
    			data: {email:email},
    			dataType : "json",
    			contentType : "application/x-www-form-urlencoded; charset=UTF-8",

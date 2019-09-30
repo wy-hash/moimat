@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.breaktheice.moimat.persistence.LoginMapper">
 	
-	<select id="login" parameterType="com.breaktheice.moimat.domain.LoginDomain" 
-			resultType="com.breaktheice.moimat.domain.LoginDomain">
+	<select id="login" parameterType="com.breaktheice.moimat.domain.MemberDomain" 
+			resultType="com.breaktheice.moimat.domain.MemberDomain">
 	 	SELECT	
 				mem_id			<!--  LoginDomain.memId 변수명을 찾아서 들어간다 -->
 				,mem_email
@@ -12,21 +12,6 @@
 				MEMBER 
 		WHERE
 				MEM_EMAIL	=	#{memEmail} 
-
-	</select>
-	
-	<select id="login2" parameterType="com.breaktheice.moimat.domain.LoginDomain" 
-										resultType="Map">
-	 	
-		 	SELECT	
-				mem_id			<!--  LoginDomain.memId 변수명을 찾아서 들어간다 -->
-				,mem_email
-				,mem_password
-		FROM	
-				MEMBER 
-		WHERE
-				MEM_EMAIL	=	#{memEmail} 
-				
 
 	</select>
 	

@@ -6,6 +6,12 @@
 	<!-- HEAD -->
 	<%@ include file="../includes/head.jsp" %>
 	<title>Login Page</title>
+	<style>
+		#container{
+			border : 1px solid block;
+		}
+	
+	</style>
 </head>
 <!-- END HEAD -->
 
@@ -15,14 +21,14 @@
 	<div id="container" class="effect aside-float aside-bright mainnav-lg">
 	
 		<!-- HEADER-NAVBAR -->
-		<%@ include file="../includes/header-navbar.jsp" %>
+	<%-- 	<%@ include file="../includes/header-navbar.jsp" %> --%>
 		<!-- END NAVBAR -->
 		
 		<!-- BOXED -->
 		<div class="boxed">
 		
 			<!-- MAIN-NAV -->
-			<%@ include file="../includes/main-nav.jsp" %>
+		<%-- 	<%@ include file="../includes/main-nav.jsp" %> --%>
 			<!-- END MAIN-NAV -->
 			
 			<!-- ASIDE -->
