@@ -27,7 +27,7 @@ import lombok.extern.log4j.Log4j;
 
 @Controller
 @Log4j
-@RequestMapping("auth")
+@RequestMapping("/auth")
 public class LoginController {
 
 	@Autowired
