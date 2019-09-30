@@ -177,7 +177,6 @@
 			timeFormat: 'H:i'
 		});
 		
-		
 		$('#meetDay').keyup(function(){
 			var temp = this.value;
 			if(isNaN(temp) == true) {
@@ -223,7 +222,6 @@
 				$('#meetDate').val(inputDate);
 				$('#meetRegForm').submit();
 			};
-			
 		});
 		function vaildDate(meetDay){
 			inputDate = new Date();
@@ -259,8 +257,6 @@
 			}
 			return true;
 		}
-		
-		
 		
 	})
 	</script>

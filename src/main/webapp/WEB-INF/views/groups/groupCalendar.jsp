@@ -182,10 +182,15 @@
 				console.log(zxzx)
 				for(var i = 0, len = list.meetList.length||0; i<zxzx; i++){ //일단 3개만(페이징 완성되면 수정할 부분)
 					var button = '';
+					var mdButton = '';
 					if(list.isAttend[list.meetList[i].meetId]){
 						button = '<button type="button" class="btn btn-danger pull-right" value="'+list.meetList[i].meetId+'">불참하기</button>';
 					}else{
 						button = '<button type="button" class="btn btn-warning pull-right" value="'+list.meetList[i].meetId+'">참석하기</button>';
+					}
+					if(list.isWriter[list.meetList[i].meetId]){
+						mdButton += '<button type="button" class="btn btn-primary">수정하기</button>'
+							   	 +	'<button type="button" class="btn btn-danger">삭제하기</button>'
 					}
 					meetListStr +='<div class="row">'
 							   +	'<div class="col-lg-4 moimat-m">'
@@ -246,8 +251,7 @@
 							   +			'</div>'
 					           +		'</div>'
 							   +		'<div class="btn-group"style="height:40px;">'
-							   +			'<button type="button" class="btn btn-primary">수정하기</button>'
-							   +			'<button type="button" class="btn btn-danger">삭제하기</button>'
+							   +			mdButton
 							   +			button
 							   +		'</div>'
 							   +	'</div>'

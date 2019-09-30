@@ -65,12 +65,15 @@ public class MeetingServiceImpl implements MeetingService{
 		List<MeetVO> list = mapper.getMeetList(teamId);
 		HashMap<Long,Integer> countMeetMember = new HashMap<Long, Integer>();
 		HashMap<Long,Boolean> isAttend = new HashMap<Long, Boolean>();
+		HashMap<Long,Boolean> isWriter = new HashMap<Long, Boolean>();
 		for (MeetVO meetVO : list) {
 			Long meetId = meetVO.getMeetId();
+			Long tmemId = meetVO.getTmemId();
 			countMeetMember.put(meetId, mapper.countMeetMember(meetId));
 			isAttend.put(meetId, mapper.isAttend(meetId,teamId,memId));
+			isWriter.put(meetId, mapper.isWriter(teamId, memId, tmemId));
 		}
-		MeetListVO meetListTestVO = new MeetListVO(list,countMeetMember,isAttend);
-		return meetListTestVO;
+		MeetListVO meetListVO = new MeetListVO(list,countMeetMember,isAttend,isWriter);
+		return meetListVO;
 	}	
 }

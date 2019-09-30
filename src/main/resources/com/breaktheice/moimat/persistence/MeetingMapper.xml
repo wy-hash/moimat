@@ -127,6 +127,11 @@
 		team_id = #{groupId}
 	</select>
 	
+	<select id="isWriter" resultType="boolean">
+		select #{tmemId} from dual
+		where #{tmemId} = <include refid="getTmemId"></include>
+	</select>
+	
 	<sql id="getTmemId">
 	(select
 		tmem_id

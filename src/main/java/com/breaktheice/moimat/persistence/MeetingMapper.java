@@ -32,4 +32,7 @@ public interface MeetingMapper {
 	public Long setTmemId(@Param("groupId")Long groupId,@Param("memId")Long memId);
 	
 	public String setTmemNickName(@Param("groupId")Long groupId,@Param("memId") Long memId);
+	
+	public boolean isWriter(@Param("groupId")Long groupId,@Param("memId")Long memId,@Param("tmemId")Long tmemId);
+	
 }
