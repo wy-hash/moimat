@@ -159,7 +159,7 @@
                 	<!-- #################################### -->
                 	<!-- #### WRITE CODE BELOW THIS LINE #### -->
             	    <!-- #################################### -->
-            	  <form method="post" action="filelistview" enctype="multipart/form-data">
+            	  <form method="post" action="fileuploadwrite" enctype="multipart/form-data">
             	 <div class="panel">
 					    <div class="panel-heading">
 					        <h3 class="panel-title">Bootstrap theme</h3>
@@ -172,7 +172,7 @@
 					
 					        <div class="bord-top pad-ver">
 					            <!-- The fileinput-button span is used to style the file input field as button -->
-					            <span class="btn btn-success fileinput-button dz-clickable">
+					            <span name="file" class="btn btn-success fileinput-button dz-clickable">
 					                <i class="fa fa-plus"></i>
 					                <span>Add files...</span>
 					            </span>
@@ -235,7 +235,7 @@
 											<font color="#9c9c94"></font>
 										</h4>
                                     </textarea>
-									<input type="hidden" type="file" name="files" multiple></form>
+									
                                     <!--===================================================-->
                                     <!-- End Summernote -->
                             

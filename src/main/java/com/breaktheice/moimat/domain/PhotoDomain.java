@@ -24,7 +24,7 @@ public class PhotoDomain {
 		//파일업로드 테이블
 		private int pfiId;
 		private String pfiOriginname;
-		private Timestamp pfiRegdate;
+		private Timestamp pfiRegdate;                   
 		
 		//TEAM_COMMENTS 테이블
 		private int	CMT_ID;

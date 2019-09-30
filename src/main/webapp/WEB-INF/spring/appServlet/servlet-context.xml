@@ -22,7 +22,7 @@
 		<beans:property name="suffix" value=".jsp" />
 		
 	</beans:bean>
-	
+<!-- 	<resources location="file:/upload/" mapping="/upload/*"/> -->
 	
 	<context:component-scan base-package="com.breaktheice.moimat" />
 	

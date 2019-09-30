@@ -31,7 +31,7 @@ public interface PhotoService {
 	
 	  public List<PhotoDomain> selectBoardListPage(Criteria criteria) throws Exception;
 	
-	public String restore(List<MultipartFile> files,PhotoDomain domain);
+	public String restore(List<MultipartFile> file,PhotoDomain domain);
 	public String genSaveFileName(String extName,PhotoDomain domain);
 	public boolean writeFile(MultipartFile multipartFile, String saveFileName,PhotoDomain domain) throws IOException;
 	public void photoUPBoard(PhotoDomain domain);

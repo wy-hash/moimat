@@ -2,6 +2,9 @@
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -17,7 +20,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class PhotoServiceImpl implements PhotoService{
 	private PhotoMapper mapper;
-	static final String SAVE_PATH = "C:\\git\\moimat\\resources\\FileUpload";
+	static final String SAVE_PATH = "/resources/photo";
 	static final String PREFIX_URL = "/upload/";
 	
 	//페이징
@@ -34,11 +37,18 @@ public class PhotoServiceImpl implements PhotoService{
 	public String restore(List<MultipartFile> files,PhotoDomain domain) {
 		String url = null;
 		
+		Timestamp time = new Timestamp(0);
+		
+		if(files == null) { 
+			return url;
+		}
+		
 		for (MultipartFile multipartFile : files) {
 	
 			try {
 				// 파일 정보
 				String originFilename =  multipartFile.getOriginalFilename();
+				System.out.println("ssssss"+multipartFile);
 				String extName 
 					= originFilename.substring(originFilename.lastIndexOf("."), originFilename.length());
 				Long size = (long) files.size();
@@ -56,6 +66,9 @@ public class PhotoServiceImpl implements PhotoService{
 				
 				//업로드 성공시
 				domain.setPfiOriginname(saveFileName);
+				domain.setPfiId(3);
+				domain.setPfiRegdate(time);
+				System.out.println(time);
 				photoinsertBoard(domain);
 				
 				

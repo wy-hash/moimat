@@ -31,10 +31,10 @@
 	<insert id="insertBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">
    		insert into team_post (post_id, team_id, brd_id, post_title, post_content, tmem_id, 
    		post_tmem_level, post_nickname, post_email, post_regdate, post_update, post_hit)
-   		
+   	
    		values (team_post_seq.nextval,#{teamId}, #{brdId}, #{postTitle} #{postContent}, #{tmemId}, #{postTmemLevel}
    		, #{postNickname}, #{postEmail}, sysdate, sysdate,0) 
-	</insert> <!-- 팀포스트 테이블 컬럼들로 변경해줘야함 이거부터 하면됨 -->
+	</insert>
 	
 	<!-- 게시물삭제 -->
 	<delete id="deleteBoard" parameterType="com.breaktheice.moimat.domain.PhotoDomain">

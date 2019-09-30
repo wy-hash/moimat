@@ -29,7 +29,7 @@ public interface PhotoMapper {
 	//파일업로드
 	public int selectAllBoard() throws Exception;
 	
-	public String restore(List<MultipartFile> files,PhotoDomain domain);
+	public String restore(List<MultipartFile> file,PhotoDomain domain);
 	public String genSaveFileName(String extName,PhotoDomain domain);
 	public boolean writeFile(MultipartFile multipartFile, String saveFileName,PhotoDomain domain) throws IOException;
 	

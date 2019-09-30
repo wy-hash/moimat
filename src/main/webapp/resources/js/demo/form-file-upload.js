@@ -20,7 +20,7 @@ $(document).ready(function() {
         //uploadMultiple: true,
         //parallelUploads: 25,
         //maxFiles: 25,
-
+        paramName: "file",
         // The setting up of the dropzone
         init: function() {
         var myDropzone = this;

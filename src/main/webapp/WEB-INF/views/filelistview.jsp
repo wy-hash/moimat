@@ -125,7 +125,8 @@
 								<!--Accordion c ontent-->
 								<div class="panel-collapse collapse in" id="collapseOne">
 									<div class="panel-body">
-									<img src="${path}/resources/img/test.jpg">${path}${url}
+									<img src="${path}/resources/img/test.jpg">
+										
 									</div>
 									<span class="m-tcol-p num">
 									[
