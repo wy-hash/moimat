@@ -152,7 +152,7 @@
 			select 
 				tmem_nickname as title,
 				tmem_birthday as "start",
-				'red' as className
+				'pink' as className
 			from team_member
 				where team_id = #{groupId})
 		

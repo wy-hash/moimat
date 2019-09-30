@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.breaktheice.moimat.domain.CalendarEventVO;
 import com.breaktheice.moimat.domain.MeetListVO;
 import com.breaktheice.moimat.domain.MeetMemberVO;
 import com.breaktheice.moimat.domain.MeetVO;
@@ -77,5 +78,11 @@ public class MeetingServiceImpl implements MeetingService{
 		}
 		MeetListVO meetListVO = new MeetListVO(list,countMeetMember,isAttend,isWriter);
 		return meetListVO;
+	}
+
+	@Override
+	public List<CalendarEventVO> getEvent(Long groupId) {
+		return mapper.getEvent(groupId);
+		
 	}	
 }

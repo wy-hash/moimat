@@ -128,7 +128,7 @@
 											<div class="panel-body">
 												<!-- Calendar placeholder-->
 												<!-- ============================================ -->
-												<div id='demo-calendar'></div>
+												<div id='meet-calendar'></div>
 												<!-- ============================================ -->
 											</div>
 										</div>
@@ -219,8 +219,10 @@
 			var meetListStr = '';
 			var geocoder = new kakao.maps.services.Geocoder();
 			var mRegBtn = document.querySelector("#mRegBtn");
-			var groupid = '<c:out value="${groupId}"/>'
-			var memberid = '<c:out value="${id}"/>'
+			var groupid = '<c:out value="${groupId}"/>';
+			var memberid = '<c:out value="${id}"/>';
+			
+			CalendarEvent.getEvent('#meet-calendar',groupid);
 			
 			mRegBtn.addEventListener('click',function(e){
 				self.location.href = '/groups/'+groupid+'/schedule/new'

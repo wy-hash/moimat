@@ -1,5 +1,7 @@
 package com.breaktheice.moimat.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.breaktheice.moimat.domain.CalendarEventVO;
 import com.breaktheice.moimat.domain.MeetListVO;
 import com.breaktheice.moimat.domain.MeetingPageVO;
 import com.breaktheice.moimat.service.MeetingService;
@@ -40,5 +43,10 @@ public class GroupsMeetRestController {
 		return new ResponseEntity<>(service.readMeet(meetId,groupId,memberId),HttpStatus.OK);
 	}
 	
-	
+	@GetMapping(value = "/getEvent/{groupid}", produces = {
+			MediaType.APPLICATION_JSON_UTF8_VALUE
+			})
+	public ResponseEntity<List<CalendarEventVO>> getEvent(@PathVariable("groupid")Long groupId){
+		return new ResponseEntity<>(service.getEvent(groupId),HttpStatus.OK);
+	}
 }
