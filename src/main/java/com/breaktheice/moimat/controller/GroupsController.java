@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.breaktheice.moimat.domain.MeetVO;
 import com.breaktheice.moimat.service.MeetingService;
@@ -55,6 +56,12 @@ public class GroupsController {
 		HttpSession session = request.getSession();
 		Long id = Long.parseLong(session.getAttribute("id").toString());
 		service.createMeet(meetVO, groupId, id);
+		return "redirect:/groups/"+groupId+"/calendar";
+	}
+	
+	@PostMapping("/{groupId}/meetings/delete")
+	public String meetDelete(@PathVariable Long groupId, @RequestParam("meetId")Long meetId, HttpServletRequest request) {
+		 service.deleteMeet(meetId);
 		return "redirect:/groups/"+groupId+"/calendar";
 	}
 }

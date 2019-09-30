@@ -17,7 +17,7 @@ public interface MeetingMapper {
 	//정모 내용 수정
 	public void modifyMeet(MeetVO meetVO);
 	//정모 삭제
-	public void deleteMeet(Long seq);
+	public void deleteMeet(Long meetId);
 	//정모 참가(attend a meeting)
 	public void attendMeet(@Param("meetId")Long meetId,@Param("groupId")Long groupId,@Param("memId")Long memId);
 	//정모 참석 취소 (To cancel attendance(참석 취소 하기))
@@ -34,5 +34,7 @@ public interface MeetingMapper {
 	public String setTmemNickName(@Param("groupId")Long groupId,@Param("memId") Long memId);
 	
 	public boolean isWriter(@Param("groupId")Long groupId,@Param("memId")Long memId,@Param("tmemId")Long tmemId);
+	
+	public void deleteMeetMember(Long meetId);
 	
 }

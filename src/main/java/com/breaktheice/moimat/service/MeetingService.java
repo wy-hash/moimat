@@ -14,7 +14,7 @@ public interface MeetingService {
 	//정모수정
 	public void modifyMeet(MeetVO meetVO);
 	//정모삭제
-	public void deleteMeet(Long seq);
+	public void deleteMeet(Long meetId);
 	//정모 참가
 	public void attendMeet(Long meetId, Long groupId, Long memId);
 	//정모 참석 취소

@@ -45,7 +45,9 @@ public class MeetingServiceImpl implements MeetingService{
 	}
 
 	@Override
+	@Transactional
 	public void deleteMeet(Long meetId) {
+		mapper.deleteMeetMember(meetId);
 		mapper.deleteMeet(meetId);
 	}
 

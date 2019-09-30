@@ -178,8 +178,8 @@
 			
 			meetListService.getList(groupid,memberid,function(list){
 				//meetList,countMeetMember, isAttend
-				var zxzx = (list.meetList.length > 3 ? 3 : list.meetList.length )
-				console.log(zxzx)
+				var zxzx = (list.meetList.length > 3 ? 3 : list.meetList.length );
+				console.log(zxzx);
 				for(var i = 0, len = list.meetList.length||0; i<zxzx; i++){ //일단 3개만(페이징 완성되면 수정할 부분)
 					var button = '';
 					var mdButton = '';
@@ -189,8 +189,11 @@
 						button = '<button type="button" class="btn btn-warning pull-right" value="'+list.meetList[i].meetId+'">참석하기</button>';
 					}
 					if(list.isWriter[list.meetList[i].meetId]){
-						mdButton += '<button type="button" class="btn btn-primary">수정하기</button>'
-							   	 +	'<button type="button" class="btn btn-danger">삭제하기</button>'
+						mdButton += '<form id="mdButton'+i+'" method="Post">'
+								 +      '<input type="hidden" name="meetId" value="'+list.meetList[i].meetId+'">'
+								 + 		'<button id="mod'+i+'" type="button" class="btn btn-primary">수정하기</button>'
+							   	 +		'<button id="del'+i+'" type="button" class="btn btn-danger">삭제하기</button>'
+							   	 +	'</form>'
 					}
 					meetListStr +='<div class="row">'
 							   +	'<div class="col-lg-4 moimat-m">'
@@ -261,6 +264,7 @@
 				meetList.innerHTML = meetListStr;
 				for(var i = 0, len = list.meetList.length||0; i<zxzx; i++){
 					setMap(list.meetList[i].meetArea,"map"+i)
+					dButtonEvent("mdButton"+i,"del"+i);
 				}
 				detailedMeet();
 				moimCEvent();
@@ -315,6 +319,15 @@
 						});
 					});
 				});//end meetMember.forEach
+			}
+			function dButtonEvent(formid,buttonid){
+				var btn = document.querySelector('#'+buttonid);
+				btn.addEventListener('click',function(){
+					var buttonForm = document.querySelector('#'+formid);
+					buttonForm.setAttribute("action","/groups/"+groupid+"/meetings/delete");
+					buttonForm.submit();
+				});
+				
 			}
 			function removeMoimatContent(){ //혹시몰라서 하나의 모달창을 돌려쓰니까... 내용을 다 비우고 넣을려고 제이쿼리면 안만들어도됬음... 더좋은방법?? 몰르르르르르
 				for(var i = 0, len = arguments.length||0; i<len; i++){

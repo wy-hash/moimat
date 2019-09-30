@@ -1,8 +1,6 @@
 package com.breaktheice.moimat.domain;
 
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import lombok.Data;

@@ -132,6 +132,13 @@
 		where #{tmemId} = <include refid="getTmemId"></include>
 	</select>
 	
+	<delete id="deleteMeetMember">	
+		delete
+			meet_member
+		where 
+			meet_Id = #{meetId}
+	</delete>
+	
 	<sql id="getTmemId">
 	(select
 		tmem_id
