@@ -178,7 +178,7 @@
 		if($("#demo-form-checkbox").is(":checked")){
 	        setCookie("userInputId", memEmail, 7); // 7일 동안 쿠키 보관
 	    }else{
-	    	deleteCookie("userInputId", "", 7); // 7일 동안 쿠키 보관
+	    	deleteCookie("userInputId", "", 7); // 쿠키삭제
 	    }
 		
 		// 전송

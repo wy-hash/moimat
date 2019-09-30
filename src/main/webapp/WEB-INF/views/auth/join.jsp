@@ -203,7 +203,7 @@
    		}
 
    		//이메일 id 길이체크
-   		if (emailId.length < 5 || emailId.length >= 15) {
+   		if ( (emailId.length < 5) || (emailId.length >= 15)) {
    			alert('이메일 id는 최소 5자이상 15자 미만입니다');
    			$('#emaiId').focus();
    			return;
@@ -223,7 +223,7 @@
    			return;
    		}
       //이메일 도메인 길이체크
-   		if (emailDomain.length < 8 || emailDomain.length >= 15) {
+   		if ((emailDomain.length < 8) || (emailDomain.length >= 15)) {
    			alert('이메일 도메인 최소 8자이상 15자 미만입니다');
    			$('#emailDomain').focus();
    			return;
@@ -463,13 +463,9 @@
 		
    		// 최종적으로 submit()
    		if(confirm("가입하시겠습니까?")){
-   			$('#regForm').submit()
+   			$('#regForm').submit()   			
    			
-   			
-   			
-   		}
-   		
-   		
+   		}		
 		
    	}
 </script>

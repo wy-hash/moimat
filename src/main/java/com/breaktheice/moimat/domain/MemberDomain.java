@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class MemberDomain {
 
-	private int memId;
+	private Long memId;
 	private String memEmail;
 	private String memPassword;
 	private String memNickname;
@@ -13,13 +13,13 @@ public class MemberDomain {
 	private String memGender;
 	private String memArea;
 	private String memRegdate;
-	private String memDate;
+	private String memUpdate;
 	private String memLastlogin;
 	private String memContent;
 	private String memPhoto;
-	private int memLevel;
-	private int memStatus;
-	private int memInt1;
-	private int memInt2;
-	private int memInt3;
+	private Long memLevel;
+	private Long memStatus;
+	private Long memInt1;
+	private Long memInt2;
+	private Long memInt3;
 }

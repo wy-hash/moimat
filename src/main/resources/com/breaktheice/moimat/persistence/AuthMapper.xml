@@ -134,17 +134,23 @@
 			,MEM_PHOTO		= CASE WHEN #{memPhoto} 	IS NULL THEN MEM_PHOTO 		ELSE 	#{memPhoto} 		END
 			,MEM_LEVEL 		= CASE WHEN #{memLevel} 	IS NULL THEN MEM_LEVEL 		ELSE 	#{memLevel} 		END
 			,MEM_STATUS 	= CASE WHEN #{memStatus} 	IS NULL THEN MEM_STATUS 	ELSE 	#{memStatus} 		END
-			<!-- ,MEM_INT1 		= CASE WHEN #{memInt1} 		IS NULL THEN MEM_INT1 		ELSE 	#{memInt1} 			END
-			,MEM_INT2		= CASE WHEN #{memInt2} 		IS NULL THEN MEM_INT2 		ELSE 	#{memInt2} 			END
-			,MEM_INT3		= CASE WHEN #{memInt3} 		IS NULL THEN MEM_INT3 		ELSE 	#{memInt3} 			END -->
-		<where>
+ 			
+ 			,MEM_INT1 		= CASE WHEN #{memInt1}=0 THEN MEM_INT1 		ELSE 	#{memInt1} 			END
+			,MEM_INT2		= CASE WHEN #{memInt2}=0 THEN MEM_INT2 		ELSE 	#{memInt2} 			END
+			,MEM_INT3		= CASE WHEN #{memInt3}=0 THEN MEM_INT3 		ELSE 	#{memInt3} 			END  
+			<!-- 
+  			,MEM_INT1 		= CASE WHEN #{memInt1} 		IS 0	THEN MEM_INT1 		ELSE 	#{memInt1} 			END
+			,MEM_INT2		= CASE WHEN #{memInt2} 		IS 0 	THEN MEM_INT2 		ELSE 	#{memInt2} 			END
+			,MEM_INT3		= CASE WHEN #{memInt3} 		IS 0 	THEN MEM_INT3 		ELSE 	#{memInt3} 			END   --> 
+		<!-- <where>
 		    <if test="memId != null and memId != '' ">
 		         MEM_ID = #{memId}
 		    </if>
 		    <if test="memEmail != null and memEmail != '' ">
 		         MEM_EMAIL = #{memEmail}
 		    </if>
-  		</where>
+  		</where> -->
+  		where mem_email = #{ memEmail }
 	
 	
 	</update>
