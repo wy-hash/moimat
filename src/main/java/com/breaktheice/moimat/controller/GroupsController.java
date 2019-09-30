@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/groups")
 public class GroupsController {
+	
 
 	@GetMapping("/{groupId}")
 	public String index(@PathVariable Long groupId) {
@@ -49,4 +50,7 @@ public class GroupsController {
 		return "groups/chat";
 
 	}
+	
+	
+	
 }

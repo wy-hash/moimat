@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <html lang="ko">
 
 <!-- HEAD -->
-<%@ include file="../includes/head.jsp"%>
-<title>Page Template | moim@</title>
+<%@ include file="/WEB-INF/views/includes/head.jsp"%>
 <link
 	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.css"
 	rel="stylesheet" type="text/css" />
@@ -14,6 +14,28 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.css.map"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.js"></script>
+
+<title>모임일정 - ${ team.teamName } | moim@</title>
+
+<style>
+@media screen and (max-width: 768px) {
+	.tab-base>ul {
+		display: none;
+	}
+	.tab-base>.btn-group {
+		display: inline-block;
+	}
+}
+
+@media screen and (min-width: 768px) {
+	.tab-base>ul {
+		display: block;
+	}
+	.tab-base>.btn-group {
+		display: none;
+	}
+}
+</style>
 </head>
 <!-- END HEAD -->
 
@@ -23,20 +45,19 @@
 	<div id="container" class="effect aside-float aside-bright mainnav-lg">
 
 		<!-- HEADER-NAVBAR -->
-		<%@ include file="../includes/header-navbar.jsp"%>
+		<%@ include file="/WEB-INF/views/includes/header-navbar.jsp"%>
 		<!-- END NAVBAR -->
 
 		<!-- BOXED -->
 		<div class="boxed">
 
 			<!-- MAIN-NAV -->
-			<%@ include file="../includes/main-nav.jsp"%>
+			<%@ include file="/WEB-INF/views/includes/main-nav.jsp"%>
 			<!-- END MAIN-NAV -->
 
 			<!-- ASIDE -->
 			<%-- <%@ include file="includes/aside.jsp" %> --%>
 			<!-- END ASIDE -->
-
 
 
 			<!--CONTENT CONTAINER-->
@@ -46,7 +67,7 @@
 				<!--Page Title-->
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<div id="page-title">
-					<h1 class="page-header text-overflow">Page Template</h1>
+					<h1 class="page-header text-overflow">{ _team.teamName_ }</h1>
 				</div>
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<!--End page title-->
@@ -57,14 +78,54 @@
 					<!-- #################################### -->
 					<!-- #### WRITE CODE BELOW THIS LINE #### -->
 					<!-- #################################### -->
-					<div class="container">
-						<!--Dark Panel-->
+
+
+					<!--Default Tabs (Left Aligned)-->
+					<!--===================================================-->
+					<div class="tab-base col-lg-10 col-lg-offset-1">
+
+						<!--Nav Tabs-->
+						<ul class="nav nav-tabs">
+							<li><a href="${ team.teamId }">홈</a></li>
+							<li><a href="${ team.teamId }/member">구성원</a></li>
+							<li class="active"><a href="${ team.teamId }/schedule">모임일정</a>
+							</li>
+							<li><a href="${ team.teamId }/photos">사진첩</a></li>
+							<li><a href="${ team.teamId }/posts">게시판</a></li>
+							<li><a href="${ team.teamId }/chat">채팅</a></li>
+							<li><a href="${ team.teamId }/settings">설정</a></li>
+						</ul>
+
+						<!--Default Dropdown button-->
+						<!--===================================================-->
+						<div class="btn-group">
+							<button class="btn btn-primary dropdown-toggle"
+								data-toggle="dropdown" type="button">
+								<i class="fa fa-bars"></i> 모임일정
+							</button>
+							<ul class="dropdown-menu dropdown-menu-left">
+								<li><a href="${ team.teamId }">홈</a></li>
+								<li><a href="${ team.teamId }/member">구성원</a></li>
+								<li class="active"><a href="${ team.teamId }/schedule">모임일정</a></li>
+								<li><a href="${ team.teamId }/photos">사진첩</a></li>
+								<li><a href="${ team.teamId }/posts">게시판</a></li>
+								<li><a href="${ team.teamId }/chat">채팅</a></li>
+								<li class="divider"></li>
+								<li><a href="${ team.teamId }/settings">설정</a></li>
+							</ul>
+						</div>
+						<!--===================================================-->
+
+						<!--Tabs Content-->
+						<div class="tab-content">
+							<div class="content-box">
+								<!--Dark Panel-->
 						<!--===================================================-->
 						<div class="panel panel-bordered panel-dark">
 							<div class="panel-heading">
 								<h3 class="panel-title">모임 등록</h3>
 							</div>
-							<form id="meetRegForm" class="form-horizontal" action="/groups/${groupId}/meetings/new" method="post">
+							<form id="meetRegForm" class="form-horizontal" action="/groups/${groupId}/schedule/new" method="post">
 								<input type="hidden" name="teamId" value="${groupId }">
 								<div class="panel-body">
 									<div class="form-group">
@@ -142,7 +203,13 @@
 						</div>
 						<!--===================================================-->
 						<!--End Dark Panel-->
+							</div>
+						</div>
 					</div>
+					<!--===================================================-->
+					<!--End Default Tabs (Left Aligned)-->
+
+
 				</div>
 				<!--===================================================-->
 				<!--End page content-->
@@ -158,7 +225,7 @@
 		<!-- END BOXED -->
 
 		<!-- FOOTER -->
-		<%@ include file="../includes/footer.jsp"%>
+		<%@ include file="/WEB-INF/views/includes/footer.jsp"%>
 		<!-- END FOOTER -->
 
 	</div>
@@ -168,9 +235,9 @@
 		var openWin;
 		
 		$('#selectmap').on('click',function(){
-			window.name = "/group/${groupId}/meetings/new";
+			window.name = "/group/${groupId}/schedule/new";
 			// window.open("open할 window", "자식창 이름", "팝업창 옵션");
-			openWin = window.open("/groups/map", "childForm",
+			openWin = window.open("/groups/${groupId}/schedule/map", "childForm",
 					"width=1200, height=600");
 		});
 		$("#meetTime").timepicker({

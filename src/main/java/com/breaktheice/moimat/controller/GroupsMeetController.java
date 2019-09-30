@@ -20,28 +20,36 @@ public class GroupsMeetController {
 	@Autowired
 	private MeetingService service;
 
-	@GetMapping("/{groupId}/meetings/new")
+	@GetMapping("/new")
 	public String meetingsNew(@PathVariable Long groupId) {
-		return "/groups/new";
+		return "/groups/schedule/new";
 	}
 
 	@GetMapping("/map")
 	public String map() {
-		return "/groups/selectmap";
+		return "/groups/schedule/selectmap";
 	}
 
-	@PostMapping("/{groupId}/meetings/new")
+	@PostMapping("/new")
 	public String meetingsNew2(MeetVO meetVO, @PathVariable Long groupId, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		Long id = Long.parseLong(session.getAttribute("id").toString());
 		service.createMeet(meetVO, groupId, id);
-		return "redirect:/groups/" + groupId + "/calendar";
+		return "redirect:/groups/" + groupId + "/schedule";
 	}
 
-	@PostMapping("/{groupId}/meetings/delete")
+	@PostMapping("/delete")
 	public String meetDelete(@PathVariable Long groupId, @RequestParam("meetId") Long meetId,
 			HttpServletRequest request) {
 		service.deleteMeet(meetId);
-		return "redirect:/groups/" + groupId + "/calendar";
+		return "redirect:/groups/" + groupId + "/schedule";
+	}
+	
+	@PostMapping("/modify")
+	public String meetModify(@PathVariable Long groupId,@RequestParam("meetId")Long meetId, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Long id = Long.parseLong(session.getAttribute("id").toString());
+		request.setAttribute("MeetVO", service.readMeet(meetId, groupId, id));
+		return "/groups/schedule/meetModify";
 	}
 }

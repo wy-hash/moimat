@@ -5,7 +5,7 @@
 <html lang="ko">
 
 <!-- HEAD -->
-<%@ include file="../includes/head.jsp"%>
+<%@ include file="/WEB-INF/views/includes/head.jsp"%>
 <link href="/resources/plugins/fullcalendar/fullcalendar.min.css"
 	rel="stylesheet">
 <link
@@ -25,14 +25,14 @@
 	<div id="container" class="effect aside-float aside-bright mainnav-lg">
 
 		<!-- HEADER-NAVBAR -->
-		<%@ include file="../includes/header-navbar.jsp"%>
+		<%@ include file="/WEB-INF/views/includes/header-navbar.jsp"%>
 		<!-- END NAVBAR -->
 
 		<!-- BOXED -->
 		<div class="boxed">
 
 			<!-- MAIN-NAV -->
-			<%@ include file="../includes/main-nav.jsp"%>
+			<%@ include file="/WEB-INF/views/includes/main-nav.jsp"%>
 			<!-- END MAIN-NAV -->
 
 			<!-- ASIDE -->
@@ -129,7 +129,7 @@
 		<!-- END BOXED -->
 
 		<!-- FOOTER -->
-		<%@ include file="../includes/footer.jsp"%>
+		<%@ include file="/WEB-INF/views/includes/footer.jsp"%>
 		<!-- END FOOTER -->
 
 	</div>
@@ -271,6 +271,7 @@
 				for(var i = 0, len = list.meetList.length||0; i<zxzx; i++){
 					setMap(list.meetList[i].meetArea,"map"+i)
 					dButtonEvent("mdButton"+i,"del"+i);
+					mButtonEvent("mdButton"+i,"mod"+i);
 				}
 				detailedMeet();
 				moimCEvent();
@@ -333,7 +334,14 @@
 					buttonForm.setAttribute("action","/groups/"+groupid+"/meetings/delete");
 					buttonForm.submit();
 				});
-				
+			}
+			function mButtonEvent(formid,buttonid){
+				var btn = document.querySelector('#'+buttonid);
+				btn.addEventListener('click',function(){
+					var buttonForm = document.querySelector('#'+formid);
+					buttonForm.setAttribute("action","/groups/"+groupid+"/meetings/modify");
+					buttonForm.submit();
+				});
 			}
 			function removeMoimatContent(){ //혹시몰라서 하나의 모달창을 돌려쓰니까... 내용을 다 비우고 넣을려고 제이쿼리면 안만들어도됬음... 더좋은방법?? 몰르르르르르
 				for(var i = 0, len = arguments.length||0; i<len; i++){
