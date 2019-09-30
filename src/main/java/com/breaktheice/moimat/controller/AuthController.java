@@ -180,11 +180,6 @@ public class AuthController {
 			member.setMemEmail(email);
 			member.setMemPassword(tmpHashPassword);
 			
-
-			log.info("interest01: " + member.getMemInt1());
-			log.info("interest02: " + member.getMemInt2());
-			log.info("interest03: " + member.getMemInt3());
-			
 			boolean result = authService.updateMember(member);
 			
 			if(result) {

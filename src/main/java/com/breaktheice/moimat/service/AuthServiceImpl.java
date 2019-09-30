@@ -170,17 +170,10 @@ public class AuthServiceImpl implements AuthService {
 	 */
 	public boolean updateMember(MemberDomain member) {
 
-		member.setMemInt1(3L);
-		member.setMemInt2(2L);
-		member.setMemInt3(1L);
-		
-		
 		log.info("취미01: " + member.getMemInt1());
 		log.info("취미02: " + member.getMemInt2());
 		log.info("취미03: " + member.getMemInt3());
 		
-		
-
 		int cnt = mapper.updateMember(member);
 		log.info("update result: " + member);
 		if (cnt == 1) {
