@@ -220,47 +220,41 @@
 				alert("인원이 작성되지 않았습니다.")
 				return false;
 			}else if(vaildDate(meetDay)){
-				inputDate = new Date();
-				nowDate = new Date();
-				var yy = meetDay.substring(0,4);
-				var MM = meetDay.substring(4,6)-1;
-				var dd = meetDay.substring(6,8);
-				var hh = $('#meetTime').timepicker("getTime").getHours();
-				var mi = $('#meetTime').timepicker("getTime").getMinutes();
-				inputDate.setFullYear(yy);
-				inputDate.setMonth(MM);
-				inputDate.setDate(dd);
-				inputDate.setHours(hh);
-				inputDate.setMinutes(mi);
-				if(inputDate-nowDate<0){
-					alert('과거에선 만날 수 없잖아요?')
-					return false;
-				}
 				$('#meetDate').val(inputDate);
 				$('#meetRegForm').submit();
 			};
 			
 		});
 		function vaildDate(meetDay){
+			inputDate = new Date();
+			nowDate = new Date();
+			var yy = Number(meetDay.substring(0,4));
+			var MM = Number(meetDay.substring(4,6));
+			var dd = Number(meetDay.substring(6,8));
+			var hh = $('#meetTime').timepicker("getTime").getHours();
+			var mi = $('#meetTime').timepicker("getTime").getMinutes();
+			maxDay = new Date(new Date(yy,MM,1) - 86400000).getDate();
+			inputDate.setFullYear(yy);
+			inputDate.setMonth(MM-1);
+			inputDate.setDate(dd);
+			inputDate.setHours(hh);
+			inputDate.setMinutes(mi);
 			function now(){
-				var date = new Date();
-				var yy = date.getFullYear();
-				var mm = date.getMonth()+1;
-				var dd = date.getHours();
-				
-				return [yy,(mm > 9 ? '' : '0')+mm,(dd > 9 ? '' : '0')+dd].join('');
+				var nYear = nowDate.getFullYear();
+				var nMounth = nowDate.getMonth()+1;
+				var nDay = nowDate.getDate();
+				return [nYear,(nMounth > 9 ? '' : '0')+nMounth,(nDay > 9 ? '' : '0')+nDay].join('');
 			}
-			if(meetDay.length != 8){
-				alert("날짜 형식이 맞지 않습니다.");
-				$('#meetDay').val('');
-				return false;
-			}else if(isNaN(meetDay) == true){
+			if(meetDay.length != 8||isNaN(meetDay) == true||MM<1||MM>12||dd<1||dd>maxDay){
 				alert("날짜 형식이 맞지 않습니다.");
 				$('#meetDay').val('');
 				return false;
 			}else if(meetDay-now()>10000){
 				alert("1년 이내의 날자로 입력해주세요!");
 				$('#meetDay').val('');
+				return false;
+			}else if(inputDate-nowDate<0){
+				alert('과거에선 만날 수 없잖아요?')
 				return false;
 			}
 			return true;
