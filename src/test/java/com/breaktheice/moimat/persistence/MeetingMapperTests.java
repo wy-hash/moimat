@@ -90,4 +90,9 @@ public class MeetingMapperTests {
 	public void countAttendTest() {
 		mapper.countMeetMember(12L);
 	}
+	
+	@Test
+	public void getEvent() {
+		mapper.getEvent(2L);
+	}
 }

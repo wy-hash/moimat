@@ -130,7 +130,6 @@
 												<!-- ============================================ -->
 												<div id='demo-calendar'></div>
 												<!-- ============================================ -->
-
 											</div>
 										</div>
 									</div>
@@ -210,8 +209,6 @@
 		src="/resources/plugins/fullcalendar/lib/jquery-ui.custom.min.js"></script>
 	<script src="/resources/plugins/fullcalendar/fullcalendar.min.js"></script>
 	<script type="text/javascript" src="/resources/js/meetlist.js"></script>
-	<!--Full Calendar [ SAMPLE ]-->
-	<script src="/resources/js/demo/misc-fullcalendar.js"></script>
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6213368344dd87ee3c46139e0d1df7cd&libraries=services"></script>
 	<script type="text/javascript"
@@ -445,7 +442,5 @@
 			
 		}
 	</script>
-
-	
 </body>
 </html>

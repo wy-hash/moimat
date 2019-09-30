@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.breaktheice.moimat.domain.CalendarEventVO;
 import com.breaktheice.moimat.domain.MeetMemberVO;
 import com.breaktheice.moimat.domain.MeetVO;
 
@@ -36,5 +37,7 @@ public interface MeetingMapper {
 	public boolean isWriter(@Param("groupId")Long groupId,@Param("memId")Long memId,@Param("tmemId")Long tmemId);
 	
 	public void deleteMeetMember(Long meetId);
+	
+	public List<CalendarEventVO> getEvent(Long groupId);
 	
 }

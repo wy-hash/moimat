@@ -39,4 +39,6 @@ public class GroupsMeetRestController {
 	public ResponseEntity<MeetingPageVO> get(@PathVariable("meetid")Long meetId,@PathVariable("groupid")Long groupId,@PathVariable("memberid")Long memberId){
 		return new ResponseEntity<>(service.readMeet(meetId,groupId,memberId),HttpStatus.OK);
 	}
+	
+	
 }
