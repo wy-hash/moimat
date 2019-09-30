@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <!DOCTYPE html>
 <html lang="ko">
 
 <!-- HEAD -->
-<%@ include file="../includes/head.jsp"%>
+<%@ include file="/WEB-INF/views/includes/head.jsp"%>
 <link href="/resources/plugins/fullcalendar/fullcalendar.min.css"
 	rel="stylesheet">
 <link
@@ -15,27 +14,8 @@
 <link href="/resources/plugins/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet">
 <link href="/resources/css/moimat.css" rel="stylesheet">
-<title>모임일정 - ${ team.teamName } | moim@</title>
+<title>Page Template | moim@</title>
 
-<style>
-@media screen and (max-width: 768px) {
-	.tab-base>ul {
-		display: none;
-	}
-	.tab-base>.btn-group {
-		display: inline-block;
-	}
-}
-
-@media screen and (min-width: 768px) {
-	.tab-base>ul {
-		display: block;
-	}
-	.tab-base>.btn-group {
-		display: none;
-	}
-}
-</style>
 </head>
 <!-- END HEAD -->
 
@@ -45,19 +25,20 @@
 	<div id="container" class="effect aside-float aside-bright mainnav-lg">
 
 		<!-- HEADER-NAVBAR -->
-		<%@ include file="../includes/header-navbar.jsp"%>
+		<%@ include file="/WEB-INF/views/includes/header-navbar.jsp"%>
 		<!-- END NAVBAR -->
 
 		<!-- BOXED -->
 		<div class="boxed">
 
 			<!-- MAIN-NAV -->
-			<%@ include file="../includes/main-nav.jsp"%>
+			<%@ include file="/WEB-INF/views/includes/main-nav.jsp"%>
 			<!-- END MAIN-NAV -->
 
 			<!-- ASIDE -->
 			<%-- <%@ include file="includes/aside.jsp" %> --%>
 			<!-- END ASIDE -->
+
 
 
 			<!--CONTENT CONTAINER-->
@@ -67,7 +48,7 @@
 				<!--Page Title-->
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<div id="page-title">
-					<h1 class="page-header text-overflow">{ _team.teamName_ }</h1>
+					<h1 class="page-header text-overflow">Page Template</h1>
 				</div>
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<!--End page title-->
@@ -79,112 +60,60 @@
 					<!-- #### WRITE CODE BELOW THIS LINE #### -->
 					<!-- #################################### -->
 
-
-					<!--Default Tabs (Left Aligned)-->
-					<!--===================================================-->
-					<div class="tab-base col-lg-10 col-lg-offset-1">
-
-						<!--Nav Tabs-->
-						<ul class="nav nav-tabs">
-							<li><a href="${ team.teamId }">홈</a></li>
-							<li><a href="${ team.teamId }/member">구성원</a></li>
-							<li class="active"><a href="${ team.teamId }/schedule">모임일정</a>
-							</li>
-							<li><a href="${ team.teamId }/photos">사진첩</a></li>
-							<li><a href="${ team.teamId }/posts">게시판</a></li>
-							<li><a href="${ team.teamId }/chat">채팅</a></li>
-							<li><a href="${ team.teamId }/settings">설정</a></li>
-						</ul>
-
-						<!--Default Dropdown button-->
-						<!--===================================================-->
-						<div class="btn-group">
-							<button class="btn btn-primary dropdown-toggle"
-								data-toggle="dropdown" type="button">
-								<i class="fa fa-bars"></i> 모임일정
-							</button>
-							<ul class="dropdown-menu dropdown-menu-left">
-								<li><a href="${ team.teamId }">홈</a></li>
-								<li><a href="${ team.teamId }/member">구성원</a></li>
-								<li class="active"><a href="${ team.teamId }/schedule">모임일정</a></li>
-								<li><a href="${ team.teamId }/photos">사진첩</a></li>
-								<li><a href="${ team.teamId }/posts">게시판</a></li>
-								<li><a href="${ team.teamId }/chat">채팅</a></li>
-								<li class="divider"></li>
-								<li><a href="${ team.teamId }/settings">설정</a></li>
-							</ul>
-						</div>
-						<!--===================================================-->
-
-						<!--Tabs Content-->
-						<div class="tab-content">
-							<div class="content-box">
-								<div class="container-fluid">
-									<div>
-										<div class="panel">
-											<div class="panel-heading">
-												<h3 class="panel-title">Calendar</h3>
-											</div>
-											<div class="panel-body">
-												<!-- Calendar placeholder-->
-												<!-- ============================================ -->
-												<div id='demo-calendar'></div>
-												<!-- ============================================ -->
-
-											</div>
-										</div>
-									</div>
+					<div class="container-fluid">
+						<div>
+							<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">Calendar</h3>
 								</div>
-								<!-- end ./panel panel-dafault -->
-								<!-- start container-fluid -->
-								<!-- meet list -->
-								<div class="container-fluid">
-									<div class="panel">
-										<div class="row panel-heading mar-no">
-											<div class="col-xs-8">
-												<h3>모임들</h3>
-											</div>
-											<div class="col-xs-4 btn-group my">
-												<button type="button" id="mRegBtn"
-													class="btn btn-info pull-right">모임 등록</button>
-											</div>
-										</div>
-										<div class="panel-body" id='meetList'></div>
-										<div class="panel-footer">
-											<!-- pagination button 들어갈 공간 -->
-											<button data-target="#moimat-modal" data-toggle="modal"
-												class="btn btn-warning">페이지 버튼 들어갈공간</button>
-										</div>
-									</div>
-								</div>
-								
-								
-					                        
-					                       
-					            </div>
-					            
-					        
-								<!-- modal -->
-								<div class="modal fade" tabindex="-1" style="display: none;"
-									id="moimat-modal">
-									<div class="modal-dialog modal-lg">
-										<div class="modal-content">
-											<div class="modal-header">
-												<button type="button" class="close" data-dismiss="modal">
-													<i class="pci-cross pci-circle"></i>
-												</button>
-												<h4 class="modal-title" id="moimat-modal-title">상세보기</h4>
-											</div>
-											<div class="modal-body" id="moimat-modal-body"></div>
-										</div>
-									</div>
+								<div class="panel-body">
+									<!-- Calendar placeholder-->
+									<!-- ============================================ -->
+									<div id='demo-calendar'></div>
+									<!-- ============================================ -->
+
 								</div>
 							</div>
 						</div>
-					<!--===================================================-->
-					<!--End Default Tabs (Left Aligned)-->
-
-
+					</div>
+					<!-- end ./panel panel-dafault -->
+					<!-- start container-fluid -->
+					<!-- meet list -->
+					<div class="container-fluid">
+						<div class="panel">
+							<div class="row panel-heading mar-no">
+								<div class="col-xs-8">
+									<h3> 모임들</h3>
+								</div>
+								<div class="col-xs-4 btn-group my">
+									<button type="button" id="mRegBtn" class="btn btn-info pull-right">모임 등록</button>
+								</div>
+							</div>
+							<div class="panel-body" id='meetList'></div>
+							<div class="panel-footer">
+								<!-- pagination button 들어갈 공간 -->
+								<button data-target="#moimat-modal" data-toggle="modal"
+									class="btn btn-warning">Large modal</button>
+							</div>
+						</div>
+					</div>
+					<!-- modal -->
+					<div class="modal fade" tabindex="-1" style="display: none;"
+						id="moimat-modal">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">
+										<i class="pci-cross pci-circle"></i>
+									</button>
+									<h4 class="modal-title" id="moimat-modal-title">상세보기</h4>
+								</div>
+								<div class="modal-body" id="moimat-modal-body">
+									
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 				<!--===================================================-->
 				<!--End page content-->
@@ -200,7 +129,7 @@
 		<!-- END BOXED -->
 
 		<!-- FOOTER -->
-		<%@ include file="../includes/footer.jsp"%>
+		<%@ include file="/WEB-INF/views/includes/footer.jsp"%>
 		<!-- END FOOTER -->
 
 	</div>
@@ -226,7 +155,7 @@
 			var memberid = '<c:out value="${id}"/>'
 			
 			mRegBtn.addEventListener('click',function(e){
-				self.location.href = '/groups/'+groupid+'/schedule/new'
+				self.location.href = '/groups/'+groupid+'/meetings/new'
 			})
 			
 			function setMap(area, idx) {geocoder.addressSearch(area,
@@ -255,9 +184,9 @@
 					var button = '';
 					var mdButton = '';
 					if(list.isAttend[list.meetList[i].meetId]){
-						button = '<button type="button" class="btn btn-danger pull-right cancelBtn" data-mid="'+list.meetList[i].meetId+'">불참하기</button>'
+						button = '<button type="button" class="btn btn-danger pull-right" value="'+list.meetList[i].meetId+'">불참하기</button>';
 					}else{
-						button = '<button type="button" class="btn btn-warning pull-right attendBtn" data-mid="'+list.meetList[i].meetId+'">참석하기</button>';
+						button = '<button type="button" class="btn btn-warning pull-right" value="'+list.meetList[i].meetId+'">참석하기</button>';
 					}
 					if(list.isWriter[list.meetList[i].meetId]){
 						mdButton += '<form id="mdButton'+i+'" method="Post">'
@@ -369,8 +298,6 @@
 				var meetContent = document.querySelectorAll(".meetContent");
 				var meetMember = document.querySelectorAll(".meetMember");
 				var meetArea = document.querySelectorAll(".meetArea");
-				var cancelBtn = document.querySelectorAll(".cancelBtn");
-				var attendBtn = document.querySelectorAll(".attendBtn");
 				meetContent.forEach(function(e){
 					e.addEventListener('click',function(){
 						removeMoimatContent(mmodalbody,mmodaltitle);
@@ -387,43 +314,24 @@
 						var mmhtml = '';
 						meetListService.meetRead(meetid,groupid,memberid,function(data){
 							console.log(data.memberList)
-							mmhtml += '<div class="list-group bg-trans">'
 							for(var i = 0, len = data.memberList.length||0; i<len; i++){
-								mmhtml += '<a href="#" class="list-group-item">'
-		                           	   +  	'<div class="media-left pos-rel">'
-		                               + 		'<img class="img-circle img-xs" src="/resources/img/profile-photos/2.png" alt="Profile Picture">'
-		                               + 		'<i class="badge badge-success badge-stat badge-icon pull-left"></i>'
-		                               + 	'</div>'
-		                               +	'<div class="media-body">'
-		                               +		'<p class="mar-no">'+data.memberList[i].mmemNickName+'</p>'
-		                               +		'<small class="text-muted">'+data.memberList[i].mmemEmail+'</small>'
-		                               +	'</div>'
-	                       		 	   +  '</a>'
-							} //추후 유저정보 조회하는 그걸로 올려야함 
-							mmhtml += '</div>'
+								mmhtml += '<p>'+data.memberList[i].mmemId+'</p>'
+									   +  '<p>'+data.memberList[i].meetId+'</p>'
+								       +  '<p>'+data.memberList[i].tmemId+'</p>'
+								       +  '<p>'+data.memberList[i].mmemNickName+'</p>'
+								       +  '<p>'+data.memberList[i].mmemEmail+'</p>'
+								//나중에 수정 ^^;
+							}
 							mmodalbody.innerHTML = mmhtml;
 						});
 					});
-					
-					cancelBtn.forEach(function(e){
-						e.addEventListener('click',function(){
-							var meetid = this.getAttribute("data-mid");
-							location.href = '/groups/'+groupid+'/schedule/cancel?meetid='+meetid;
-						})
-					})
-					attendBtn.forEach(function(e){
-						e.addEventListener('click',function(){
-							var meetid = this.getAttribute("data-mid");
-							location.href = '/groups/'+groupid+'/schedule/attend?meetid='+meetid;
-						})
-					})
 				});//end meetMember.forEach
 			}
 			function dButtonEvent(formid,buttonid){
 				var btn = document.querySelector('#'+buttonid);
 				btn.addEventListener('click',function(){
 					var buttonForm = document.querySelector('#'+formid);
-					buttonForm.setAttribute("action","/groups/"+groupid+"/schedule/delete");
+					buttonForm.setAttribute("action","/groups/"+groupid+"/meetings/delete");
 					buttonForm.submit();
 				});
 			}
@@ -431,7 +339,7 @@
 				var btn = document.querySelector('#'+buttonid);
 				btn.addEventListener('click',function(){
 					var buttonForm = document.querySelector('#'+formid);
-					buttonForm.setAttribute("action","/groups/"+groupid+"/schedule/modify");
+					buttonForm.setAttribute("action","/groups/"+groupid+"/meetings/modify");
 					buttonForm.submit();
 				});
 			}
@@ -445,7 +353,5 @@
 			
 		}
 	</script>
-
-	
 </body>
 </html>

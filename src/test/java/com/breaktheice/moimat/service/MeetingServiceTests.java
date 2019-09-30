@@ -11,14 +11,14 @@ import lombok.extern.log4j.Log4j;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
 @Log4j
-public class SampleServiceTests {
+public class MeetingServiceTests {
 
 	@Autowired
-	private SampleService service;
+	private MeetingService service;
 	
 	@Test
-	public void getListTest() {
-		log.info(service.getSampleDomain());
+	public void readMeetTest() {
+		service.readMeet(12L,2L, 1L);
 	}
 	
 }

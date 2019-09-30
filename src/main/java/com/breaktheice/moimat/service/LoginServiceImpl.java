@@ -40,11 +40,11 @@ public class LoginServiceImpl implements LoginService {
 		// 2. db에서 갖고옴(아직 mapper 안만듬)
 		MemberVO memberVO = mapper.login(vo);
 		
-		log.info("db의 패스워드" + memberVO.getPassword() + "길이:"+ memberVO.getPassword().length());
+		log.info("db의 패스워드" + memberVO.getMemPassword() + "길이:"+ memberVO.getMemPassword().length());
 		log.info("사용자의 패스워드" + inputPwd+"길이:" + inputPwd.length());
 				
 		// 3. 비교
-		if (memberVO != null && inputPwd.equals(memberVO.getPassword())) {
+		if (memberVO != null && inputPwd.equals(memberVO.getMemPassword())) {
 			
 			HttpSession session = request.getSession(true); // 세션 객체 얻고
 			session.setAttribute("memberVO", memberVO ); 	// 세션객체에 들어갈 사옹자 정보
