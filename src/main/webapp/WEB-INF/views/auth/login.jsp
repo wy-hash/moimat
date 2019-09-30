@@ -82,7 +82,7 @@
 
 								<div class="pad-all">
 									<a href="/auth/findPwd" class="btn-link mar-rgt">비밀번호 찾기</a> <a
-										href="/reg/join" class="btn-link mar-lft">회원가입</a>
+										href="/auth/join" class="btn-link mar-lft">회원가입</a>
 
 									<div class="media pad-top bord-top">
 										<div class="pull-right">

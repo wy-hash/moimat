@@ -17,8 +17,6 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import com.breaktheice.moimat.persistence.JoinMapper;
-
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 

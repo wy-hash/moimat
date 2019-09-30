@@ -57,7 +57,7 @@
 										<div class="row">
 											<div class="col-sm-6">
 												<div class="form-group">
-													<input type="text" class="form-control" id="memEmail" name= "emailId"
+													<input type="text" class="form-control" id="emailId" name= "memEmail"
 														placeholder="emailId" style="display: inline; width: 46%;" />
 													@ <input type="text" class="form-control" id="emailDomain"
 														placeholder="aaa.com" style="display: inline; width: 46%;" />
@@ -248,7 +248,7 @@
    		// 위의 검증이 완료되면 중복체크
    		$.ajax({
    			type : "POST",
-   			url : "/auth/checkEmail",
+   			url : "/auth/checkEmailJoin",
    			data: {email:email},
    			dataType : "json",
    			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
@@ -290,7 +290,7 @@
 	   	// 인증코드 검증
 	   	$.ajax({
    			type : "POST",
-   			url : "/reg/checkAuthCode",
+   			url : "/auth/checkAuthCode",
    			data: {code:code, email:email },
    			dataType : "json",
    			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
@@ -327,7 +327,7 @@
 
    	$.ajax({
    			type : "POST",
-   			url : "codeList",
+   			url : "/auth/codeList",
    			dataType : "json",
    			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
    			async : false,

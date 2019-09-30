@@ -2,11 +2,14 @@ package com.breaktheice.moimat.service;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.breaktheice.moimat.domain.CertDomain;
 import com.breaktheice.moimat.domain.MemberDomain;
 
-public interface JoinService {
+public interface AuthService {
 	
+	public boolean loginCheck(MemberDomain vo, HttpServletRequest request);
 	
 	/**
 	 * Interest테이블에 에서 코드목록 데이터 갖고오는  서비스
@@ -63,6 +66,5 @@ public interface JoinService {
 	 * @throws
 	 */
 	public boolean updateMember(MemberDomain member);
-	
 
 }

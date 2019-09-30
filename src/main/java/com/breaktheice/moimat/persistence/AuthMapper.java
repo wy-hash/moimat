@@ -5,8 +5,12 @@ import java.util.ArrayList;
 import com.breaktheice.moimat.domain.CertDomain;
 import com.breaktheice.moimat.domain.MemberDomain;
 
-
-public interface JoinMapper {
+public interface AuthMapper {
+	
+	public MemberDomain login(MemberDomain loginVO);
+	
+	
+	/* --------------------------------------------- */
 	
 	public int join(MemberDomain memberVo);
 	
@@ -23,5 +27,3 @@ public interface JoinMapper {
 	public int updateMember(MemberDomain member);
 	
 }
-
-
