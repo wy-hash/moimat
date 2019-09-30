@@ -6,25 +6,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.breaktheice.moimat.domain.PostTypeDomain;
+import com.breaktheice.moimat.domain.InterestDomain;
 
 import lombok.extern.log4j.Log4j;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
 @Log4j
-public class PostTypeTests {
+public class AdminInterestTests {
 
 	@Autowired
-	private PostTypeMapper mapper;
+	private InterestMapper mapper;
 	
 	@Test
 	public void addTest() {
 		log.info("시작 : addTest");
 		
-		PostTypeDomain domain = new PostTypeDomain();
-		domain.setKey("PO30");
-		domain.setValue("게시판 30");
+		InterestDomain domain = new InterestDomain();
+		domain.setIntKey("IN12");
+		domain.setIntName("관심사테스트12");
+		domain.setIntOrder(0L);
+		domain.setIntIsUse("Y");
 		
 		System.out.println(domain);
 		
@@ -49,11 +51,13 @@ public class PostTypeTests {
 	}
 
 	@Test
-	public void viewTest() {
+	public void view() {
 		log.info("시작 : view");
 		
-		PostTypeDomain domain = new PostTypeDomain();
-		domain.setSeq(21);
+		InterestDomain domain = new InterestDomain();
+
+		domain.setIntId(9L);
+
 		
 		try {
 			log.info("성공 : " + mapper.view(domain));
@@ -63,14 +67,15 @@ public class PostTypeTests {
 		}
 	}
 	@Test
-	public void updateTest() {
+	public void update() {
 		log.info("시작 : update");
 		
-		PostTypeDomain domain = new PostTypeDomain();
-		domain.setSeq(21);
-		domain.setKey("PO31");
-		domain.setValue("테스트코드");
-		
+		InterestDomain domain = new InterestDomain();
+		domain.setIntId(9L);
+		domain.setIntKey("IN99");
+		domain.setIntName("관심사 수정하였습니다12443");
+		domain.setIntOrder(33L);
+		domain.setIntIsUse("N");
 		try {
 			log.info("성공 : " + mapper.update(domain));
 			
@@ -80,11 +85,11 @@ public class PostTypeTests {
 	}
 
 	@Test
-	public void removeTest() {
+	public void remove() {
 		log.info("시작 : remove");
 		
-		PostTypeDomain domain = new PostTypeDomain();
-		domain.setSeq(21);
+		InterestDomain domain = new InterestDomain();
+		domain.setIntId(9L);
 		
 		try {
 			log.info("성공 : " + mapper.remove(domain));

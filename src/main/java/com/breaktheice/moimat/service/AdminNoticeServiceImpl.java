@@ -12,7 +12,7 @@ import lombok.extern.log4j.Log4j;
 
 @Log4j
 @Service
-public class NoticeServiceImpl implements NoticeService{
+public class AdminNoticeServiceImpl implements AdminNoticeService{
 	
 	@Autowired
 	private PostMapper mapper;
@@ -30,9 +30,9 @@ public class NoticeServiceImpl implements NoticeService{
 	}
 
 	@Override
-	public int add(PostDomain domain) {
+	public Long add(PostDomain domain) {
 		
-		int result = -1;// 결과값 : 정상등록 : 1, 실패 : -1
+		Long result = -1L;// 결과값 : 정상등록 : 1, 실패 : -1
 		
 		result = mapper.add(domain);
 		
@@ -46,13 +46,13 @@ public class NoticeServiceImpl implements NoticeService{
 	}
 
 	@Override
-	public int update(PostDomain domain) {
+	public Long update(PostDomain domain) {
 		
-		int result = -1;// 결과값 : 정상등록 : 1, 실패 : -1
+		Long result = -1L;// 결과값 : 정상등록 : 1, 실패 : -1
 
 		result = mapper.update(domain);// 게시글 수정
 		
-		if(result >= 1) {
+		if(result >= 1L) {
 			log.info("정상 수정 되었습니다.");
 		} else {
 			log.info("수정실패 / 에러");
@@ -62,13 +62,13 @@ public class NoticeServiceImpl implements NoticeService{
 	}
 
 	@Override
-	public int remove(PostDomain domain) {
+	public Long remove(PostDomain domain) {
 		
-		int result = -1;// 결과값 : 정상등록 : 1, 실패 : -1
+		Long result = -1L;// 결과값 : 정상등록 : 1, 실패 : -1
 
 		result = mapper.remove(domain);// 게시글 수정
 		
-		if(result >= 1) {
+		if(result >= 1L) {
 			log.info("정상 수정 되었습니다.");
 		} else {
 			log.info("수정실패 / 에러");

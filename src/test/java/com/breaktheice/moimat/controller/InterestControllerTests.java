@@ -42,9 +42,11 @@ public class InterestControllerTests {
 
 	@Test
 	public void testAdd() throws Exception {// 관심사 등록 테스트
-		String page = mockMvc.perform(MockMvcRequestBuilders.get("/admin/interest/add")
-				.param("key", "IN31")
-				.param("value", "관심사컨트롤러")
+		String page = mockMvc.perform(MockMvcRequestBuilders.get("/admin/interest/new")
+				.param("intKey", "IN31")
+				.param("intName", "관심사 테스트 중입니다.")
+				.param("intOrder","0")
+				.param("intIsUse", "Y")
 				).andReturn().getModelAndView().getViewName();
 		
 		log.info(page);
@@ -54,7 +56,7 @@ public class InterestControllerTests {
 	public void testView() throws Exception {// 관심사 상세 테스트
 		
 		String page = mockMvc.perform(MockMvcRequestBuilders.get("/admin/interest/view")
-				.param("seq", "2")
+				.param("intId", "11")
 				).andReturn().getModelAndView().getViewName();
 				
 		log.info(page);
@@ -62,17 +64,19 @@ public class InterestControllerTests {
 	
 	@Test
 	public void testUpdate() throws Exception {// 관심사 수정 테스트
-		String page = mockMvc.perform(MockMvcRequestBuilders.get("/admin/interest/update")
-				.param("seq","22")
-				.param("key","IN30")
-				.param("value","30번째 관심사")
+		String page = mockMvc.perform(MockMvcRequestBuilders.get("/admin/interest/edit")
+				.param("intId", "11")
+				.param("intKey", "IN32")
+				.param("intName", "관심사 테스트2 중입니다.")
+				.param("intOrder","0")
+				.param("intIsUse", "N")
 				).andReturn().getModelAndView().getViewName();
 		log.info(page);
 	}
 	@Test
 	public void testRemove() throws Exception {// 관심사 수정 테스트
-		String page = mockMvc.perform(MockMvcRequestBuilders.get("/admin/interest/remove")
-				.param("seq","30")
+		String page = mockMvc.perform(MockMvcRequestBuilders.get("/admin/interest/delete")
+				.param("intId","11")
 				).andReturn().getModelAndView().getViewName();
 		log.info(page);
 	}

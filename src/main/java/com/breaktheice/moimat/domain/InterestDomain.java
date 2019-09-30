@@ -8,8 +8,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class InterestDomain {
-	//interest Table : SEQ, KEY, VALUE
-	private int seq;
-	private String key;
-	private String value;
+	//interest Table : INT_ID, INT_KEY, INT_NAME, INT_ORDER, INT_IS_USE
+	
+	private Long intId;
+	private String intKey;
+	private String intName;
+	private Long intOrder;
+	private String intIsUse; 
+	
 }

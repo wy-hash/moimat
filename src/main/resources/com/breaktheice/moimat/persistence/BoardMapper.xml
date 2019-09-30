@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.breaktheice.moimat.persistence.BoardMapper">
+
+	<select id="list" resultType="com.breaktheice.moimat.domain.BoardDomain">
+		SELECT	brd_id, brd_key, brd_name, brd_order, brd_use
+		FROM	board
+		ORDER BY brd_order DESC, brd_id ASC
+	</select>
+	
+	<select id="view" resultType="com.breaktheice.moimat.domain.BoardDomain">
+		SELECT	brd_id, brd_key, brd_name, brd_order, brd_use
+		FROM	board
+		WHERE	brd_id = #{brdId}
+	</select>
+	
+	<insert id="add">
+		INSERT INTO	board(brd_id, brd_key, brd_name, brd_order, brd_use)
+		VALUES	(board_seq.nextval, UPPER(#{brdKey}), #{brdName}, #{brdOrder}, #{brdUse})
+	</insert>
+	
+	<update id="update">
+		UPDATE	board
+		SET		brd_key = UPPER(#{brdKey}),
+				brd_name = #{brdName},
+				brd_order = #{brdOrder},
+				brd_use = #{brdUse}
+		WHERE	brd_id = #{brdId}
+	</update>
+	
+	<delete id="remove">
+		DELETE FROM	board
+		WHERE	brd_id = #{brdId}
+	</delete>
+	
+	<select id="keyCheck" resultType="Long">
+		SELECT count(*)
+		FROM board
+		WHERE brd_key = UPPER(#{brdKey})
+	</select>
+</mapper>

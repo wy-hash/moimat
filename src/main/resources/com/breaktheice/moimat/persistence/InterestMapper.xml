@@ -3,30 +3,39 @@
 <mapper namespace="com.breaktheice.moimat.persistence.InterestMapper">
 
 	<select id="list" resultType="com.breaktheice.moimat.domain.InterestDomain">
-		SELECT SEQ, KEY, VALUE
-		FROM interest
+		SELECT	int_id, int_key, int_name, int_order, int_is_use
+		FROM	interest
+		ORDER BY int_order DESC, int_id ASC
 	</select>
 	
 	<select id="view" resultType="com.breaktheice.moimat.domain.InterestDomain">
-		SELECT SEQ, KEY, VALUE
-		FROM interest
-		WHERE SEQ = #{seq}
+		SELECT	int_id, int_key, int_name, int_order, int_is_use
+		FROM	interest
+		WHERE	int_id = #{intId}
 	</select>
 	
 	<insert id="add">
-		INSERT INTO interest(seq, key, value)
-		VALUES (interest_seq.nextval, #{key}, #{value})
+		INSERT INTO	interest(int_id, int_key, int_name, int_order, int_is_use)
+		VALUES	(interest_seq.nextval, UPPER(#{intKey}), #{intName}, #{intOrder}, #{intIsUse})
 	</insert>
 	
 	<update id="update">
-		UPDATE interest
-		SET key = #{key},
-		    value = #{value}
-		WHERE seq = #{seq}
+		UPDATE	interest
+		SET		int_key = UPPER(#{intKey}),
+				int_name = #{intName},
+				int_order = #{intOrder},
+				int_is_use = #{intIsUse}
+		WHERE	int_id = #{intId}
 	</update>
 	
 	<delete id="remove">
-		DELETE FROM interest
-		WHERE seq=#{seq}
+		DELETE FROM	interest
+		WHERE	int_id = #{intId}
 	</delete>
+	
+	<select id="keyCheck" resultType="Long">
+		SELECT count(*)
+		FROM interest
+		WHERE int_key = UPPER(#{intKey})
+	</select>
 </mapper>

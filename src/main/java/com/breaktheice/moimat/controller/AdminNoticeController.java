@@ -1,29 +1,35 @@
 package com.breaktheice.moimat.controller;
 
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.breaktheice.moimat.domain.PostDomain;
-import com.breaktheice.moimat.service.NoticeService;
-
-import lombok.extern.log4j.Log4j;
+import com.breaktheice.moimat.service.AdminNoticeService;
 
 @Controller
-@Log4j
+//@Log4j	
 @RequestMapping("/admin/notice")
-public class NoticeController {
+public class AdminNoticeController {
 	
 	@Autowired
-	private NoticeService service;
+	private AdminNoticeService service;
 	
 	// 공지사항 목록 출력 
 	@RequestMapping(value= {"","list"})
 	public String list(Model model, PostDomain domain) {
+		System.out.println("list() 호출");
+		domain.setBrdId(1L);//공지사항 조회
 		
 		
-		model.addAttribute("list", service.list(domain));
+		List<PostDomain> list = service.list(domain);
+		
+		System.out.println("list =>" +list);
+		model.addAttribute("list", list);
 		
 		return "/admin/notice/list";
 	}

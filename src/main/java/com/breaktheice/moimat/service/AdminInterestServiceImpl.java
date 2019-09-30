@@ -9,7 +9,7 @@ import com.breaktheice.moimat.domain.InterestDomain;
 import com.breaktheice.moimat.persistence.InterestMapper;
 
 @Service
-public class InterestServiceImpl implements InterestService {
+public class AdminInterestServiceImpl implements AdminInterestService {
 	
 	@Autowired
 	private InterestMapper mapper;
@@ -26,18 +26,30 @@ public class InterestServiceImpl implements InterestService {
 	}
 
 	@Override
-	public int add(InterestDomain domain) {
+	public Long add(InterestDomain domain) {
 		return mapper.add(domain);
 	}
 
 	@Override
-	public int update(InterestDomain domain) {
+	public Long update(InterestDomain domain) {
 		return mapper.update(domain);
 	}
 
 	@Override
-	public int remove(InterestDomain domain) {
+	public Long remove(InterestDomain domain) {
 		return mapper.remove(domain);
+	}
+	@Override
+	public boolean keyCheck(InterestDomain domain) {
+		
+		boolean result = true;
+		//중복 체크 후 결과 값 반환 중복 없으면 true 중복값 있으면 false
+		
+		if (mapper.keyCheck(domain) > 0L) {
+			result =  false;
+		}
+		
+		return result;
 	}
 
 }
