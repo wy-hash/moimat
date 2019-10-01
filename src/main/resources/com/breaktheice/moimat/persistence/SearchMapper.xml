@@ -2,85 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.breaktheice.moimat.persistence.SearchMapper">
 	
-	<sql id="search">
-		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
-			<foreach item='type' collection="typeArr">
-				<trim prefix="OR">
-					<choose>
-						<when test="type == 'M'.toString()">
-							team_name like '%'||#{keyword}||'%'
-						</when>
-						<when test="type == 'I'.toString()">
-							int_id in (select int_id from interest where int_name like '%'||#{keyword}||'%')
-						</when>
-					</choose>
-				</trim>
-			</foreach>
-		</trim>
-	</sql>
-	
-	<select id="list" resultType="com.breaktheice.moimat.domain.TeamDomain">
+	<select id="autocomplete" parameterType="string" resultType="com.breaktheice.moimat.domain.TeamDomain">
 		<![CDATA[
-			SELECT 	team_name, team_short_content 
-			FROM	(
-					SELECT	/*INDEX_DESC(team team_pk)*/
-							rownum rn, team_name, team_short_content
-					FROM 	team
-					WHERE
-		]]>
-		
-		<include refid="search"></include>
-		
-		<![CDATA[
-					rownum <= #{pageNum} * #{amount}
-					)
-			WHERE rn > (#{pageNum} -1) * #{amount}
+		SELECT	team_name, team_short_content,team_area from team
+		WHERE	int_id in
+					(SELECT	int_id
+		FROM		interest
+		WHERE		int_name like concat('%', concat(lower(#{keyword}),'%'))
+					or
+					int_name like concat('%', concat(upper(#{keyword}),'%')))
 		]]>
 	</select>
 	
-	<select id="totalPage" resultType="int">
-		SELECT	count(*)
-		FROM	team
-		WHERE	team_id > 0
-	</select>
 	
-	<select id="autocomplete" parameterType="string" resultType="com.breaktheice.moimat.domain.InterestDomain">
+	<select id="recommend" parameterType="string" resultType="com.breaktheice.moimat.domain.InterestDomain">
 		<![CDATA[
 		SELECT	int_name
 		FROM	interest
-		WHERE	int_name like concat('%', concat(lower(#{intName}),'%'))
-				or
-				int_name like concat('%', concat(upper(#{intName}),'%'))
+		WHERE	int_name like concat('%', concat(lower(#{keyword}),'%'))
 		]]>
 	</select>
 	
-	<select id="recommend" resultType="com.breaktheice.moimat.domain.InterestDomain">
-		<![CDATA[
-		SELECT	int_name
-		FROM	(
-				SELECT rownum, int_name
-				FROM interest
-				ORDER BY rownum desc
-				)
-		WHERE rownum <= 5
-		]]>
-	</select>
-	
-	<select id="recomResult" resultType="com.breaktheice.moimat.domain.TeamDomain">
-		<![CDATA[
-		SELECT team_name, team_short_content
-		FROM team
-		WHERE int_id in	(
-						SELECT int_id
-						
-						FROM	(
-								SELECT rownum, int_id
-								FROM interest
-								ORDER BY rownum desc
-								)
-								
-						WHERE rownum <= 5
-						)
-		]]>
-	</select>
 </mapper>

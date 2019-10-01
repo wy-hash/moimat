@@ -2,7 +2,6 @@ package com.breaktheice.moimat.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,9 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.breaktheice.moimat.domain.Criteria;
 import com.breaktheice.moimat.domain.InterestDomain;
-import com.breaktheice.moimat.domain.PageDomain;
 import com.breaktheice.moimat.service.SearchService;
 import com.google.gson.JsonArray;
 
@@ -34,19 +31,21 @@ public class SearchController {
 	private SearchService service;
 	
 	@GetMapping("/search")
-	public String search(Criteria cri, InterestDomain inte, Model model) {
+	public String search() {
 		
 		log.info("search controller 실행");
 		
-		int total = service.totalPage(cri);
+		return "result";
 		
-		model.addAttribute("list", service.list(cri));
-		model.addAttribute("pageMaker", new PageDomain(cri, total));
-		model.addAttribute("intName", inte);
-		model.addAttribute("recom", service.recommend());
-		model.addAttribute("result", service.recomResult());
+	}
+	
+	@PostMapping("/result")
+	public String result(@Param("keyword") String keyword, Model model) {
 		
-		return "search";
+		model.addAttribute("keyword", service.autocomplete(keyword));
+		
+		return "result";
+		
 	}
 	
 	@GetMapping("/template")
@@ -58,14 +57,16 @@ public class SearchController {
 	
 	@PostMapping("/search")
 	@ResponseBody
-	public void recommend(HttpServletRequest request,HttpServletResponse response,
-			InterestDomain inte) throws IOException {
+	public void recommend(HttpServletRequest request,HttpServletResponse response) throws IOException {
 		
 		log.info("recommend");
+		response.setContentType("text/html;charset=UTF-8");
+		String keyword = request.getParameter("term");
 		
-		String result = request.getParameter("term");
+		if(keyword.equals("")) {
+		}
 		
-		List<InterestDomain> list = service.autocomplete(result);
+		List<InterestDomain> list = service.recommend(keyword);
 		
 		JsonArray ja = new JsonArray();
 		

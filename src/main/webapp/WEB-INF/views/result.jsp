@@ -8,6 +8,7 @@
 <!-- HEAD -->
 <%@ include file="includes/head.jsp" %>
 	<title>Page Template | moim@</title>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 </head>
 <!-- END HEAD -->
 
@@ -65,13 +66,39 @@
 						                			
 				<div class="row pad-ver bg-trans-dark">     			
 					<div class="col-xs-12 col-sm-10 col-sm-offset-1 pad-hor">
-						<form id="searchForm" action="/home/search" method="get">
-						<input type="text" class="form-control" id="autocomplete" name="keyword" placeholder="Search.." autocomplete="on" >
+						<form id="searchForm" action="/home/result" method="post">
+						<input type="text" class="form-control input-sm" id="searchKeyword" name="keyword" placeholder="Search.."/>
 						</form>
 					</div>	                		 
            	    </div>
            			
            		
+           		<form id="searchResult" action="/home/result" method="post">
+           		<c:forEach items="${keyword}" var="teamDomain" varStatus="status" begin="0" end="2">
+           		<c:if test="${status.index eq 0}"/>
+           			<div class="col-xs-12">
+           			<div class="col-md-6 col-lg-4" style="margin-top:15px;">
+           				<div class="panel">
+       						<div class="pad-all">
+				                <div class="media mar-btm">
+				                    <div class="media-left">
+				                       <img src="/resources/img/bg-img/이미지캡처.PNG" class="img-md img-circle" alt="Avatar">
+				                    </div>
+				                    <div class="media-body">
+			                        	<p class="text-lg text-main text-semibold mar-no">${teamDomain.teamName}</p>
+				                        <p style="padding-top:10px;">${teamDomain.teamArea}</p>
+				                    </div>
+				                </div>
+				                	<blockquote class="bq-sm bq-open bq-close">${teamDomain.teamShortContent}</blockquote>
+				            </div>
+			            </div>
+		            </div>
+		            </div>
+	            <c:if test="${status.end eq 2}"/>
+	            </c:forEach> 
+           		</form>
+           		
+								
 					
                 </div>
                 <!--===================================================-->
@@ -93,10 +120,12 @@
 			
 	</div>
 	<!-- END CONTAINER -->
+	<script type="text/javascript" src="/resources/js/jquery-ui.min.js"></script>
+	 
 	<script type="text/javascript">
 	 	$(document).ready(function() {
 	 		
-	 		$('.autocomplete').autocomplete({
+	 		$('#searchKeyword').autocomplete({
 	 			
 	 			source:	function(request, response) {
 	 				
@@ -111,7 +140,6 @@
 	 		 				var result = data;
 	 		 				response(result);
 	 		 			},
-	 		 			
 	 		 			error: function(request, status, error) {
 	 		 				var msg = "ERROR : " + request.status + "<br>"
 	 		 			      msg +=  + "내용 : " + request.responseText + "<br>" + error;
