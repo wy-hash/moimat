@@ -186,13 +186,15 @@
   
    });
 	
+
+
    //이메일 중복체크
    function checkEmail(){
       	
 	   	let emailId = $('#emailId').val();
-		
-	   	//정규식...  han => 한글입력 패턴
+		//정규식...  han => 한글입력 패턴
        	var isHan = /[ㄱ-ㅎ가-힣]/g;
+     
 	   
    		// 이메일 id 공백 체크!
    		if (emailId == null || emailId == '') {
@@ -200,7 +202,7 @@
    			$('#emaiId').focus();
    			return;
    		}
-		
+
    		//이메일 id 길이체크
    		if ( (emailId.length < 5) || (emailId.length >= 15)) {
    			alert('이메일 id는 최소 5자이상 15자 미만입니다');
@@ -215,13 +217,13 @@
     	
    		let emailDomain = $('#emailDomain').val();
    		
-     	// 이메일 도메인 공백 체크!
+     // 이메일 도메인 공백 체크!
    		if (emailDomain == null || emailDomain == '') {
    			alert('이메일 도메인 항목을 확인해주세요');
    			$('#emailDomain').focus();
    			return;
    		}
-      	//이메일 도메인 길이체크
+      //이메일 도메인 길이체크
    		if ((emailDomain.length < 8) || (emailDomain.length >= 15)) {
    			alert('이메일 도메인 최소 8자이상 15자 미만입니다');
    			$('#emailDomain').focus();
@@ -243,25 +245,39 @@
           alert("이메일 주소 형식 다시 확인해주세요.");
           return;
       	}
-   		// 데이터 객체로 포장
-   	  	let data = {email:email};
-   	  	// ajax 요청
-   	  	resultData = callAjax(data,"/auth/checkEmailJoin","에러 발생 관리자에게 문의하세요")
-   	  	// 결과 메시지 발송
-   		alert(resultData.msg);
+   		
+   		// 위의 검증이 완료되면 중복체크
+   		$.ajax({
+   			type : "POST",
+   			url : "/auth/checkEmailJoin",
+   			data: {email:email},
+   			dataType : "json",
+   			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
+   			async : false,
+   			success : function(data, status, xhr) {
+   				console.log(data);
+   				alert(data.msg);
    				
-   		if(resultData.msgCode == 1){
-   			$('#emailCheck').html('인증코드확인');             // 버튼이름 변경(색상 변경하기)
-   			$('#emailCheck').removeAttr("onclick");			// 온클릭 속성 삭제
-   			$('#emailCheck').attr('onclick',"checkCode();") // 새로운 온클릭 속성 부여
-   			$("#emailId").attr("readonly",true);			// 이메일 아이디 readOnly
-   			$("#emailDomain").attr("readonly",true);		// 이메일 도메인 readOnly
-   		}
+   				if(data.msgCode == 1){
+   					
+   					$('#emailCheck').html('인증코드확인');             // 버튼이름 변경(색상 변경하기)
+   					$('#emailCheck').removeAttr("onclick");			// 온클릭 속성 삭제
+   					$('#emailCheck').attr('onclick',"checkCode();") // 새로운 온클릭 속성 부여
+   				 	$("#emailId").attr("readonly",true);			// 이메일 아이디 readOnly
+   					$("#emailDomain").attr("readonly",true);		// 이메일 도메인 readOnly
+   					
+   				}
+   										
+   			},
+   			error : function(jqXHR, textStatus, errorThrown) {
+   				alert(jqXHR.responseText);
+   			}
+   		}); 
+   	
    }
    
-   // 인증코드 입력확인
-   function checkCode(){												
-	   	let code = $('#emailCode').val() 								 // 이메일 인증 코드
+   function checkCode(){	// 인증코드 입력확인
+	   	let code = $('#emailCode').val() 								// 이메일 인증 코드
 	   	let email = $('#emailId').val() + '@' + $('#emailDomain').val(); //이메일 주소갖고온다
 	   
 	   	// 인증코드 유효성 검사(오로직 숫자만)
@@ -271,172 +287,188 @@
 	   		alert("인증코드형식이 맞지않습니다(숫자만)")
 	   		return;
 	   	}
-	   	// 객체로 포장
-	   	let data = {
-	   		certCode:code,
-	   		certEmail:email
+	   	
+	   	// 인증코드 검증
+	   	$.ajax({
+   			type : "POST",
+   			url : "/auth/checkAuthCodeJoin",
+   			data: {certCode:code, certEmail:email },
+   			dataType : "json",
+   			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
+   			async : false,
+   			success : function(data, status, xhr) {
+   				console.log(data);
+   				alert(data.msg);
+   				
+   				if(data.msgCode == 1){// 인증이 성공한경우
+   					// 인증코드 입력칸 닫아야됨
+   					$('#emailCode').attr("readOnly", true);
+   					// 인증코드 버튼기능 제거
+   					$('#emailCheck').removeAttr("onclick");	
+   					// 히든필드 인증체크 확인
+   					$("#checkEmailBox").attr("checked", true);
+   					// 히든필드에 메일 삽입
+   					$('#memEmail').val(email);
+   				}
+   				
+   										
+   			},
+   			error : function(jqXHR, textStatus, errorThrown) {
+   				alert(jqXHR.responseText);
+   			}
+   		}); 
+	   	
+		
+	   	
+				   
+   }
+
+   // 관심사 정보를 갖고오는 함수 
+   function requestCode(){
+
+   	$.ajax({
+   			type : "POST",
+   			url : "/auth/codeList",
+   			dataType : "json",
+   			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
+   			async : false,
+   			success : function(data, status, xhr) {
+
+   				console.log(data);
+   				let codeList = data.codeList;
+   				let option = "";
+   				
+   				for (let i = 0; i < codeList.length; i++) {
+   					option += "<option value='"+codeList[i].intId+"'>"+ codeList[i].intName + "</option>"					
+   				}
+   				
+   				$('#interest1').append(option);
+   				$('#interest2').append(option);
+   				$('#interest3').append(option);
+
+   			},
+   			// 에러 발생시 여길로 떨어짐
+   			error : function(jqXHR, textStatus, errorThrown) {
+   				alert("codeList를 가져올수 없습니다. 관리자에게 문의하세요");
+   			}
+   		});
+
+   	}
+
+   	// 최종 유효성 검사후 전송기능 함수
+   	function checkAndSubmit() {
+   		   		  		
+   		//emailId + '@' + emailDomain 합쳐서  email hidden 태그에 넣기
+   		var str = ''; // 임시로 받는 변수
+   		str += $('#emailId').val() + '@' + $('#emailDomain').val();
+   		$('#email').val(str)
+
+   		//인증코드 
+   		if($("#checkEmailBox").is(":checked") != true){
+   			alert("이메일 인증을 확인하세요");
+   			return;
+   		}
+   		
+   		//pwd 빈칸
+   		if ($('#pwd').val() == null || $('#pwd').val() == '') {
+   			alert('패스워드 항목을 확인해주세요');
+   			$('#pwd').focus();
+   			return;
+   		}
+
+   		//pwd길이체크
+   		if ($('#pwd').val().length < 8 || $('#pwd').val().length > 15) {
+   			alert('비밀번호 최소 8자이상 15자 미만입니다');
+   			$('#pwd').focus();
+   			return;
+   		}
+
+   		//PWD연속성 금지(추후에...)
+   		//PWD중복 숫자 금지(추후에...)
+
+   		//name 빈칸 방지
+   		if ($('#name').val() == null || $('#name').val() == '') {
+   			alert('이름 항목을 확인해주세요');
+   			$('#name').focus();
+   			return;
+   		}
+
+   		//name 길이 제한
+   		if ($('#name').val().length <= 2 || $('#name').val().length > 8) {
+   			alert('이름 최소 2자이상 8자 미만입니다');
+   			$('#name').focus();
+   			return;
+   		}
+   		
+   		// name 특수문자 필터링
+
+   		//birthday 빈칸 방지
+   		if ($('#birthday').val() == null || $('#birthday').val() == '') {
+   			alert('생일 항목을 확인해주세요');
+   			$('#birthday').focus();
+   			return;
+   		}
+   		
+   		// 생일 유효성 검사(오로직 숫자만)
+	   	var regType1 = /^[0-9]{8}$/; //{8} :8자리
+	   	
+	 	if(!regType1.test($('#birthday').val())){
+	   		alert("생일 형식이 맞지않습니다(숫자만)")
+	   		return;
 	   	}
-	   	// ajax 모듈에 전송
-	   	let resultData = callAjax(data,"/auth/checkAuthCodeJoin","에러가발생하였습니다. 관리자에게 문의" )
-	   
-	   	// 결과 메시지
-	  	alert(resultData.msg);
-
-	   	if (resultData.msgCode == 1) {// 인증이 성공한경우
-			$('#emailCode').attr("readOnly", true); 	// 인증코드 입력칸 닫아야됨
-			$('#emailCheck').removeAttr("onclick");		// 인증코드 버튼기능 제거
-			$("#checkEmailBox").attr("checked", true);	// 히든필드 인증체크 확인
-			$('#memEmail').val(email);					// 히든필드에 메일 삽입
-		}
-	}
-
-	// 관심사 정보를 갖고오는 함수 
-	function requestCode() {
-
-		let data = callAjax(null, "/auth/codeList",
-				"codeList를 가져올수 없습니다. 관리자에게 문의하세요")
-		let codeList = data.codeList;
-		let option = "";
-
-		for (let i = 0; i < codeList.length; i++) {
-			option += "<option value='"+codeList[i].intId+"'>"
-					+ codeList[i].intName + "</option>"
-		}
-
-		$('#interest1').append(option);
-		$('#interest2').append(option);
-		$('#interest3').append(option);
-	}
-
-	// 최종 유효성 검사후 전송기능 함수
-	function checkAndSubmit() {
-
-		//emailId + '@' + emailDomain 합쳐서  email hidden 태그에 넣기
-		var str = ''; // 임시로 받는 변수
-		str += $('#emailId').val() + '@' + $('#emailDomain').val();
-		$('#email').val(str)
-
-		//인증코드 
-		if ($("#checkEmailBox").is(":checked") != true) {
-			alert("이메일 인증을 확인하세요");
-			return;
-		}
 		
-		if(nul_chk($('#pwd'),'패스워드',8,15)){ return; }	//pwd 빈칸 및 길이
+   		//gender 빈칸방지
+   		if ($('#gender').val() == null || $('#gender').val() == '') {
+   			alert('gender 항목을 확인해주세요');
+   			$('#gender').focus();
+   			return;
+   		}
 
-		if(nul_chk($('#name'),'이름',2,10)){ return; }	//name 빈칸 및 길이
+   		// 이름 체크
+   		if ($('#name').val() == null || $('#name').val() == '') {
+   			alert('이름 항목을 확인해주세요');
+   			$('#name').focus();
+   			return;
+   		}
+   		if ($('#name').val() == null || $('#name').val() == '') {
+   			alert('이름 항목을 확인해주세요');
+   			$('#name').focus();
+   			return;
+   		}
+   		
+   		// 지역 빈칸 검증
+   		if ($('#area').val() == null || $('#area').val() == '') {
+   			alert('지역 빈칸 확인해주세요');
+   			$('#area').focus();
+   			return;
+   		}
+
+   		// 지역 길이체크
+   		if ($('#area').val().length < 2 || $('#area').val().length > 5) {
+   			alert('지역 길이체크 최소 2자이상 5자 미만입니다');
+   			$('#area').focus();
+   			return;
+   		}
+
+   		//관심사1 빈칸 검증
+   		if ($('#interest1').val() == null || $("#interest1").val() == '') {
+   			alert('interest 항목을 확인해주세요');
+   			$('#interest1').focus();
+   			return;
+   		}
+   		
+   		if($("#demo-form-checkbox").is(":checked") != true){
+   			alert("가입동의에 체크해주세요");
+   			return;
+   		}
 		
-		//birthday 빈칸 방지
-		if ($('#birthday').val() == null || $('#birthday').val() == '') {
-			alert('생일 항목을 확인해주세요');
-			$('#birthday').focus();
-			return;
-		}
-
-		// 생일 유효성 검사(오로직 숫자만)
-		var regType1 = /^[0-9]{8}$/; //{8} :8자리
-
-		if (!regType1.test($('#birthday').val())) {
-			alert("생일 형식이 맞지않습니다(숫자만)")
-			return;
-		}
-
-		//gender 빈칸방지
-		if ($('#gender').val() == null || $('#gender').val() == '') {
-			alert('gender 항목을 확인해주세요');
-			$('#gender').focus();
-			return;
-		}
-
-		// 이름 체크
-		if ($('#name').val() == null || $('#name').val() == '') {
-			alert('이름 항목을 확인해주세요');
-			$('#name').focus();
-			return;
-		}
-		if ($('#name').val() == null || $('#name').val() == '') {
-			alert('이름 항목을 확인해주세요');
-			$('#name').focus();
-			return;
-		}
-
-		// 지역 빈칸 검증
-		if ($('#area').val() == null || $('#area').val() == '') {
-			alert('지역 빈칸 확인해주세요');
-			$('#area').focus();
-			return;
-		}
-
-		// 지역 길이체크
-		if ($('#area').val().length < 2 || $('#area').val().length > 5) {
-			alert('지역 길이체크 최소 2자이상 5자 미만입니다');
-			$('#area').focus();
-			return;
-		}
-
-		//관심사1 빈칸 검증
-		if ($('#interest1').val() == null || $("#interest1").val() == '') {
-			alert('interest 항목을 확인해주세요');
-			$('#interest1').focus();
-			return;
-		}
-
-		if ($("#demo-form-checkbox").is(":checked") != true) {
-			alert("가입동의에 체크해주세요");
-			return;
-		}
-
-		// 최종적으로 submit()
-		if (confirm("가입하시겠습니까?")) {
-			$('#regForm').submit()
-
-		}
-	}
-	// ajax 호출 코드
-	function callAjax(data, url, error) {
-
-		let resultData = null;
-
-		$.ajax({
-			type : "POST",
-			url : url,
-			data : data,
-			dataType : "json",
-			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
-			async : false,
-			success : function(data, status, xhr) {
-				console.log(data);
-				resultData = data;
-			},
-			error : function(jqXHR, textStatus, errorThrown) {
-				alert(error);
-			}
-		});
-
-		return resultData
-	}
-	
-	// 문자 공백 없애기
-	function is_trim(str){
-		var strValue = new String(str)
-		return strValue.replace(/(^ +)|( +$)/g,'')
-	}
-	
-	// 널 또는 빈문자열 및 길이 체크
-	function nul_chk(obj, lbl,start,end){
-		if(is_trim(obj.val()) == '' )
-		{
-			alert(lbl + ' 입력 하세요.');
-			obj.focus();
-			return true;
-		}else if(obj.val().length <=start || obj.val().length > end ){
-			alert(lbl + '는 최소 '+start+'이상 '+end+'이하입니다.');
-			obj.focus();
-			return true;
-		}
-		return false;
-	}
-	
+   		// 최종적으로 submit()
+   		if(confirm("가입하시겠습니까?")){
+   			$('#regForm').submit()   			
+   			
+   		}		
+		
+   	}
 </script>
 </body>
 </html>
