@@ -71,13 +71,12 @@
 														placeholder="인증코드입력" style="display: inline; width: 58%;" />
 													<button class="btn btn-primary btn-block" type="button" id="emailCheck"
 													  onclick="checkEmail();" style="display: inline; width: 40%;">이메일인증</button>
-													 <input type="checkBox" id="checkEmailBox" hidden
-														style="display: inline; width: 46%;"  /> 
+													 <input type="checkBox" id="checkEmailBox" hidden  /> 
 												</div>
 											</div>
 											<div class="col-sm-6">
 												<div class="form-group">
-													<input type="text" class="form-control" placeholder="Pwd" id="pwd"	name="memPassword">
+													<input type="password" class="form-control" placeholder="Pwd" id="pwd"	name="memPassword">
 												</div>
 											</div>
 											<div class="col-sm-6">
