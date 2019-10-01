@@ -145,7 +145,9 @@ public class AuthServiceImpl implements AuthService {
 	 * @param @return @throws
 	 */
 	public boolean selectAuthCode(CertDomain auth) {
-
+		
+		log.info(auth);
+		
 		CertDomain tmp = mapper.selectCode(auth);
 
 		// 인증오케이

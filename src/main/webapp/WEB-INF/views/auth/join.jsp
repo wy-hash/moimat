@@ -53,7 +53,7 @@
 										<h3 class="h4 mar-no">회원가입 페이지</h3>
 										<p class="text-muted"></p>
 									</div>
-									<form id="regForm" action="/joinAction" method="post">
+									<form id="regForm" action="/auth/join" method="post">
 										<div class="row">
 											<div class="col-sm-6">
 												<div class="form-group">
@@ -186,6 +186,8 @@
    		requestCode();
   
    });
+	
+
 
    //이메일 중복체크
    function checkEmail(){
@@ -290,8 +292,8 @@
 	   	// 인증코드 검증
 	   	$.ajax({
    			type : "POST",
-   			url : "/auth/checkAuthCode",
-   			data: {code:code, email:email },
+   			url : "/auth/checkAuthCodeJoin",
+   			data: {certCode:code, certEmail:email },
    			dataType : "json",
    			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
    			async : false,
@@ -338,7 +340,7 @@
    				let option = "";
    				
    				for (let i = 0; i < codeList.length; i++) {
-   					option += "<option value='"+codeList[i].intKey+"'>"+ codeList[i].intName + "</option>"					
+   					option += "<option value='"+codeList[i].intId+"'>"+ codeList[i].intName + "</option>"					
    				}
    				
    				$('#interest1').append(option);

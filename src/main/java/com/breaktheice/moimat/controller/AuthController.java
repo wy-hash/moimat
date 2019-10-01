@@ -204,6 +204,16 @@ public class AuthController {
 		return resultJson;	
 	}
 	
+	////////////////////////////////////////////////////////////////
+	
+	/**
+	 * 회원정보 페이지
+	 * 
+	 * @param
+	 * @return String
+	 * @throws Exception
+	 */
+	
 	@GetMapping("/join")
 	public String join(HttpServletRequest request) {
 		 log.info("joinPage 호출.... "); 
@@ -211,18 +221,41 @@ public class AuthController {
 	 	return "auth/join";
 	}
 	
-
 	/**
-	 * POST 방식으로 값을 전달
+	 * 회원정보등록
 	 * 
 	 * @param
 	 * @return String
 	 * @throws Exception
 	 */
 	
+	@PostMapping("/join")
+	public String join(MemberDomain vo) throws Exception {
+	
+		log.info("joinAction 호출..");
+		log.info("vo :" +vo);
+		
+		if(authService.joinMember(vo)) {
+			log.info("성공");
+			return "index";	// 회원가입 완료 페이지
+		}
+		
+		log.info("실패");
+		
+		return "fail";	// 실패 페이지
+	}
+		
+
+	/**
+	 * 회원등록 페이지 - 관심사 코드 갖고오기
+	 * @param
+	 * @return String
+	 * @throws Exception
+	 */
+	
 	@RequestMapping(value = "/codeList", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8") // produces = "text/plain;charset=UTF-8: 한글
-	@ResponseBody // ajax 데이터 전송
-	public String makeCodeList() throws Exception {
+	@ResponseBody 				
+	public String makeCodeList() throws Exception { // ajax 데이터 전송
 	
 		log.info("makeCodeList 호출..");
 		
@@ -269,7 +302,7 @@ public class AuthController {
 			String setText ="인증번호는"+code+"입니다.";
 					
 			// 2-2) 인증번호 메일 발송  --> 
-			mailService.simpleMailSend(setFrom,setTo,setSubject,setText);
+			//mailService.simpleMailSend(setFrom,setTo,setSubject,setText);
 			
 			// 3. 인증코드 테이블에 추가
 			CertDomain auth = new CertDomain();
@@ -334,32 +367,5 @@ public class AuthController {
 		
 		return resultJson;	//json 형식으로 전송
 	}
-	
-	
-	/**
-	 * 회원정보등록
-	 * 
-	 * @param
-	 * @return String
-	 * @throws Exception
-	 */
-	/*
-	@PostMapping("/joinAction")
-	public String joinAction(MemberDomain vo) throws Exception {
-	
-		log.info("joinAction 호출..");
-		log.info("vo :" +vo);
-		
-		if(joinService.joinMember(vo)) {
-			log.info("성공");
-			return "index";	// 회원가입 완료 페이지
-		}
-		
-		log.info("실패");
-		
-		return "fail";	// 실패 페이지
-	}
-	
-	*/
 	
 }
