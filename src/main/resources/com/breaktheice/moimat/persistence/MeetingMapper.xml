@@ -140,6 +140,24 @@
 			meet_Id = #{meetId}
 	</delete>
 	
+	<select id="getEvent" resultType="com.breaktheice.moimat.domain.CalendarEventVO">
+		select * from
+			(select
+				meet_title as title,
+				meet_date as "start",
+				'mint' as className 
+			from meet
+				where team_id = #{groupId}
+				UNION ALL
+			select 
+				tmem_nickname as title,
+				tmem_birthday as "start",
+				'pink' as className
+			from team_member
+				where team_id = #{groupId})
+		
+	</select>
+	
 	<sql id="getTmemId">
 	(select
 		tmem_id

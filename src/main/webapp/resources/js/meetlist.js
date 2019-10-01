@@ -1,6 +1,8 @@
 /**
  * 
  */
+
+//=========================
 var meetListService = (function(){
 	function getList(groupid,memberid,callback,error){
 		$.getJSON("/meet/getList/"+groupid+"/"+memberid+".json",
@@ -45,5 +47,30 @@ var meetListService = (function(){
 		parseDate : parseDate,
 		meetRead : meetRead
 	};
+})();
+
+var CalendarEvent = (function(){
+	function getEvent(calendarid, groupid,error){
+		$.get("/meet/getEvent/"+groupid+".json",
+				function(data){
+			$(calendarid).fullCalendar({
+				header: {
+					left: 'prev,next today',
+					center: 'title',
+					right: 'month,agendaWeek,agendaDay'
+				},
+				editable: false,
+				droppable: false, // this allows things to be dropped onto the calendar
+				defaultDate: new Date(),
+				eventLimit: true, // allow "more" link when too many events
+				events: data
+			});
+		}).fail(function(xhr,status,err){
+			if(error){
+				error();
+			}
+		});
+	}
+	return {getEvent : getEvent};
 })();
 

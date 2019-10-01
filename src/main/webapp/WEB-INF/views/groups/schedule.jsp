@@ -128,9 +128,8 @@
 											<div class="panel-body">
 												<!-- Calendar placeholder-->
 												<!-- ============================================ -->
-												<div id='demo-calendar'></div>
+												<div id='meet-calendar'></div>
 												<!-- ============================================ -->
-
 											</div>
 										</div>
 									</div>
@@ -210,8 +209,6 @@
 		src="/resources/plugins/fullcalendar/lib/jquery-ui.custom.min.js"></script>
 	<script src="/resources/plugins/fullcalendar/fullcalendar.min.js"></script>
 	<script type="text/javascript" src="/resources/js/meetlist.js"></script>
-	<!--Full Calendar [ SAMPLE ]-->
-	<script src="/resources/js/demo/misc-fullcalendar.js"></script>
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6213368344dd87ee3c46139e0d1df7cd&libraries=services"></script>
 	<script type="text/javascript"
@@ -222,8 +219,10 @@
 			var meetListStr = '';
 			var geocoder = new kakao.maps.services.Geocoder();
 			var mRegBtn = document.querySelector("#mRegBtn");
-			var groupid = '<c:out value="${groupId}"/>'
-			var memberid = '<c:out value="${id}"/>'
+			var groupid = '<c:out value="${groupId}"/>';
+			var memberid = '<c:out value="${id}"/>';
+			
+			CalendarEvent.getEvent('#meet-calendar',groupid);
 			
 			mRegBtn.addEventListener('click',function(e){
 				self.location.href = '/groups/'+groupid+'/schedule/new'
@@ -445,7 +444,5 @@
 			
 		}
 	</script>
-
-	
 </body>
 </html>
