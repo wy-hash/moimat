@@ -29,6 +29,7 @@
 			<!-- ASIDE -->
 			<%-- <%@ include file="includes/aside.jsp" %> --%>
 			<!-- END ASIDE -->
+			
 
 
 
@@ -51,13 +52,6 @@
 					<!-- #### WRITE CODE BELOW THIS LINE #### -->
 					<!-- #################################### -->
 					
-
-
-
-
-
-
-
 
 
 				</div>

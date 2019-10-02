@@ -6,6 +6,13 @@ import org.springframework.stereotype.Component;
 
 // 암호화 전용 클래스
 public class SHA256 {
+	public static void main(String[] args) {
+		
+		
+		System.out.println(encrypt("password2"));
+	}
+	
+	
 	public static String encrypt(String planText) {
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA-256");

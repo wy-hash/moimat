@@ -99,6 +99,21 @@
 <!-- END HEAD -->
 
 <body>
+	<h2>sample domain info.</h2>
+		
+	<c:choose>
+	    <c:when test="${empty loginVO }">
+	    	<a href="loginPage">로그인</a>
+	    </c:when>
+	 
+	    <c:when test="${empty loginVO}">
+	    
+	    	id: ${loginVO.memEmail}<br>
+			name: ${loginVO.memId}<br>
+	     	 <a href="logoutAction">로그아웃</a>
+	    </c:when>
+	</c:choose>
+
 	<!--TIPS-->
 	<!--You may remove all ID or Class names which contain "demo-", they are only used for demonstration. -->
 	<div id="container" class="effect aside-float aside-bright mainnav-lg">
@@ -126,9 +141,6 @@
                 
                 <!--Page Title-->
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-
-
-
 
                 <!-- 
                 <div id="page-title">
