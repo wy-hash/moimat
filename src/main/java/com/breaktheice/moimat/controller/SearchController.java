@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.breaktheice.moimat.domain.Criteria;
 import com.breaktheice.moimat.domain.InterestDomain;
 import com.breaktheice.moimat.service.SearchService;
 import com.google.gson.JsonArray;
@@ -40,9 +41,11 @@ public class SearchController {
 	}
 	
 	@PostMapping("/result")
-	public String result(@Param("keyword") String keyword, Model model) {
+	public String result(Criteria cri, Model model) {
 		
-		model.addAttribute("keyword", service.autocomplete(keyword));
+		log.info(cri.getKeyword());
+		
+		model.addAttribute("keyword", service.recommend(cri));
 		
 		return "result";
 		
@@ -63,18 +66,16 @@ public class SearchController {
 		response.setContentType("text/html;charset=UTF-8");
 		String keyword = request.getParameter("term");
 		
-		if(keyword.equals("")) {
-		}
+		JsonArray json = new JsonArray();
 		
-		List<InterestDomain> list = service.recommend(keyword);
+		List<InterestDomain> list = service.autocomplete(keyword);
 		
-		JsonArray ja = new JsonArray();
 		
 		for(int i = 0; i < list.size(); i++) {
-			ja.add(list.get(i).getIntName());
+			json.add(list.get(i).getIntName());
 		}
 		
 		PrintWriter out = response.getWriter();
-		out.print(ja.toString());
+		out.print(json.toString());
 	}
 }

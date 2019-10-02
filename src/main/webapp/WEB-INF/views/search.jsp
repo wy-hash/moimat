@@ -55,18 +55,10 @@
             	    
             	    
             	    
-             			<%-- <c:forEach items="${last}" var="teamDomain" varStatus="status">
-             			<c:if test="${status.index eq 0}">
-             				<p><c:out value="${teamDomain.teamName}"/></p>
-              			<p><c:out value="${teamDomain.teamArea}"/></p>
-              			<p><c:out value="${teamDomain.teamShortContent}"/></p> 
-            				</c:if>
-						</c:forEach> --%>
-						                			
+             							                			
 				<div class="row pad-ver bg-trans-dark">     			
 					<div class="col-xs-12 col-sm-10 col-sm-offset-1 pad-hor">
 						<form id="searchForm" action="/home/search" method="get">
-						<input type="text" class="form-control" id="autocomplete" name="keyword" placeholder="Search.." autocomplete="on" >
 						</form>
 					</div>	                		 
            	    </div>
@@ -95,6 +87,12 @@
 	<!-- END CONTAINER -->
 	<script type="text/javascript">
 	 	$(document).ready(function() {
+	 		
+	 		$('#searchForm').submit(function(){
+	 			if(('#keyword').val() == "") {
+	 			return false;
+	 			};
+	 		});
 	 		
 	 		$('.autocomplete').autocomplete({
 	 			

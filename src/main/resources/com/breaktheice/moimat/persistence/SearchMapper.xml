@@ -1,25 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.breaktheice.moimat.persistence.SearchMapper">
-	
-	<select id="autocomplete" parameterType="string" resultType="com.breaktheice.moimat.domain.TeamDomain">
+
+<sql id="criteria">
+	<trim prefix="(" suffix=")" prefixOverrides="OR">
+		<foreach item='type' collection="typeArr">
+			<trim prefix="OR">
+				<choose>
+					<when test="type == 'R'.toString()">
+						int_id in(select int_id from interest where int_name like ('%'||#{keyword}||'%'))
+					</when>
+					<when test="type == 'M'.toString()">
+						team_name like ('%'||#{keyword}||'%')
+					</when>
+					<when test="type == 'A'.toString()">
+						team_area like ('%'||#{keyword}||'%')
+					</when>
+				</choose>
+			</trim>
+		</foreach>
+	</trim>
+</sql>
+
+	<select id="recommend" resultType="com.breaktheice.moimat.domain.TeamDomain">
 		<![CDATA[
-		SELECT	team_name, team_short_content,team_area from team
-		WHERE	int_id in
-					(SELECT	int_id
-		FROM		interest
-		WHERE		int_name like concat('%', concat(lower(#{keyword}),'%'))
-					or
-					int_name like concat('%', concat(upper(#{keyword}),'%')))
+		SELECT	team_name, team_short_content,team_area
+		FROM 	team
+		WHERE	
 		]]>
+		<include refid="criteria"></include>
 	</select>
 	
-	
-	<select id="recommend" parameterType="string" resultType="com.breaktheice.moimat.domain.InterestDomain">
+	<select id="autocomplete" parameterType="string" resultType="com.breaktheice.moimat.domain.InterestDomain">
 		<![CDATA[
 		SELECT	int_name
 		FROM	interest
-		WHERE	int_name like concat('%', concat(lower(#{keyword}),'%'))
+		WHERE	int_name like ('%'||#{keyword}||'%')
 		]]>
 	</select>
 	

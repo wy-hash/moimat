@@ -9,6 +9,29 @@
 <%@ include file="includes/head.jsp" %>
 	<title>Page Template | moim@</title>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<style>
+
+.row {
+	margin: 7.5px;
+}
+
+.media-left {
+	padding-right: 20px;
+}
+
+.ui-autocomplete {
+	border: 1px solid #42a5f5;
+	width: 120px;
+	border-radius: 3px;
+	overflow: hidden;
+	background: #eeeeee;
+}
+
+.form-control {
+	height: 32px;
+}
+
+</style>
 </head>
 <!-- END HEAD -->
 
@@ -53,51 +76,103 @@
                 	<!-- #### WRITE CODE BELOW THIS LINE #### -->
             	    <!-- #################################### -->
             	    
-            	    
-            	    
-            	    
-             			<%-- <c:forEach items="${last}" var="teamDomain" varStatus="status">
-             			<c:if test="${status.index eq 0}">
-             				<p><c:out value="${teamDomain.teamName}"/></p>
-              			<p><c:out value="${teamDomain.teamArea}"/></p>
-              			<p><c:out value="${teamDomain.teamShortContent}"/></p> 
-            				</c:if>
-						</c:forEach> --%>
-						                			
-				<div class="row pad-ver bg-trans-dark">     			
-					<div class="col-xs-12 col-sm-10 col-sm-offset-1 pad-hor">
-						<form id="searchForm" action="/home/result" method="post">
-						<input type="text" class="form-control input-sm" id="searchKeyword" name="keyword" placeholder="Search.."/>
+  	    		
+  	    		<div class="row pad-ver bg-trans-dark">
+  	    			<div class="col-xs-12 col-sm-10 col-sm-offset-1 pad-hor">
+  	    				<form id="searchForm" action="/home/result" class="form-inline" method="post">
+				    	<div class="form-group">
+			      			<span>
+		      				<select name="type" class="form-control"> 
+	      						<option value="R">관심사</option>
+      							<option value="M">모임</option>
+	      						<option value="A">지역</option> 
+   	 	 					</select>
+		      	  			</span>
+				      		<input type="text" class="form-control" id="searchKeyword" name="keyword" placeholder="Search...">
+		      				<button class="btn btn-default" type="submit">
+		      					<i class="glyphicon glyphicon-search"></i>
+		      				</button>
+				    	</div>
 						</form>
-					</div>	                		 
-           	    </div>
+					</div>
+				</div>		
            			
+           		<form id="resultForm" action="/home/result" method="post">
+	           		<div class="row">
+	   					<c:forEach items="${keyword}" var="teamDomain" varStatus="status">
+						<c:if test="${status.index eq 0}">
+	           			<div class="col-md-6 col-lg-4">
+	           				<div class="panel">
+	           					<div class="pad-all">
+	           						<div class="media mar-btm">
+	          							<div class="media-left">
+	          								<img src="/resources/img/bg-img/이미지캡처.PNG" class="img-md img-circle" alt="Avatar">
+	          							</div>
+	          							<div class="media-body">
+	          							<p class="text-lg text-main text-semibold mar-no">${teamDomain.teamName}</p>
+	          							<p>${teamDomain.teamArea}</p>
+	          							</div>
+	           						</div>
+	       							<blockquote class="bq-sm bq-open bq-close">${teamDomain.teamShortContent}</blockquote>
+	           					</div>
+	           				</div>
+	           			</div>
+						</c:if>
+						</c:forEach>
+	           		</div>
            		
-           		<form id="searchResult" action="/home/result" method="post">
-           		<c:forEach items="${keyword}" var="teamDomain" varStatus="status" begin="0" end="2">
-           		<c:if test="${status.index eq 0}"/>
-           			<div class="col-xs-12">
-           			<div class="col-md-6 col-lg-4" style="margin-top:15px;">
-           				<div class="panel">
-       						<div class="pad-all">
-				                <div class="media mar-btm">
-				                    <div class="media-left">
-				                       <img src="/resources/img/bg-img/이미지캡처.PNG" class="img-md img-circle" alt="Avatar">
-				                    </div>
-				                    <div class="media-body">
-			                        	<p class="text-lg text-main text-semibold mar-no">${teamDomain.teamName}</p>
-				                        <p style="padding-top:10px;">${teamDomain.teamArea}</p>
-				                    </div>
-				                </div>
-				                	<blockquote class="bq-sm bq-open bq-close">${teamDomain.teamShortContent}</blockquote>
-				            </div>
-			            </div>
-		            </div>
-		            </div>
-	            <c:if test="${status.end eq 2}"/>
-	            </c:forEach> 
-           		</form>
            		
+           		
+	           		<div class="row">
+	  					<c:forEach items="${keyword}" var="teamDomain" varStatus="status">
+						<c:if test="${status.index eq 1}">
+	           			<div class="col-md-6 col-lg-4">
+	           				<div class="panel">
+	      						<div class="pad-all">
+	           						<div class="media mar-btm">
+	          							<div class="media-left">
+	          								<img src="/resources/img/bg-img/이미지캡처.PNG" class="img-md img-circle" alt="Avatar">
+	          							</div>
+	          							<div class="media-body">
+	          							<p class="text-lg text-main text-semibold mar-no">${teamDomain.teamName}</p>
+	          							<p>${teamDomain.teamArea}</p>
+	          							</div>
+	       							</div>
+	       								<blockquote class="bq-sm bq-open bq-close">${teamDomain.teamShortContent}</blockquote>
+	       						</div>
+	           				</div>
+	           			</div>
+						</c:if>
+						</c:forEach>
+	           		</div>
+           		
+           		
+           		
+	           		<div class="row">
+	  					<c:forEach items="${keyword}" var="teamDomain" varStatus="status">
+						<c:if test="${status.index eq 2}">
+	           			<div class="col-md-6 col-lg-4">
+	           				<div class="panel">
+	           					<div class="pad-all">
+	           						<div class="media mar-btm">
+	          							<div class="media-left">
+	          								<img src="/resources/img/bg-img/이미지캡처.PNG" class="img-md img-circle" alt="Avatar">
+	          							</div>
+	          							<div class="media-body">
+	          							<p class="text-lg text-main text-semibold mar-no">${teamDomain.teamName}</p>
+	          							<p>${teamDomain.teamArea}</p>
+	          							</div>
+	           						</div>
+	       							<blockquote class="bq-sm bq-open bq-close">${teamDomain.teamShortContent}</blockquote>
+	           					</div>
+	           				</div>
+	           			</div>
+						</c:if>
+						</c:forEach>
+	  				</div>
+				</form>
+								
+								
 								
 					
                 </div>
@@ -125,8 +200,28 @@
 	<script type="text/javascript">
 	 	$(document).ready(function() {
 	 		
-	 		$('#searchKeyword').autocomplete({
+	 		$("#searchForm").submit(function(){
 	 			
+	 			var search = $('#searchKeyword').val();
+	 			
+	 			if($.trim(search).length < 1) {
+	 				
+	 				$("#searchKeyword").focus();
+	 				
+	 				alert("검색어를 입력해주세요.")
+	 				return false;
+	 			}
+ 			});
+	 		
+	 		 $('#searchKeyword').keyup(function(){
+	 			 
+	 			var value = $('#searchKeyword').val();
+	 			 console.log(value.length);
+	 		 });
+	 		 
+	 		
+	 		$('#searchKeyword').autocomplete({
+ 				
 	 			source:	function(request, response) {
 	 				
 	 				$.ajax({
@@ -147,7 +242,7 @@
 	 		 			}
 	 		 		});
 	 			}
- 			});
+ 			}); 
 	 	});
 	 </script>
 	 
