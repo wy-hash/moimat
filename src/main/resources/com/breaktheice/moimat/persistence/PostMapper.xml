@@ -3,55 +3,67 @@
 <mapper namespace="com.breaktheice.moimat.persistence.PostMapper">
 
 	<update id="viewCount">
-	    UPDATE  post
-	    SET     count = count+1
-	    WHERE   seq = #{seq}
+        UPDATE  post
+	    SET     post_hit = post_hit + 1
+	    WHERE   post_id = ${postId}
 	</update>
 	
-	<select id="memberCheck" resultType="int">
-		SELECT member_seq 
+	<select id="memberCheck" resultType="Long">
+		SELECT mem_id
     	FROM post 
-    	WHERE seq = ${seq}
+    	WHERE post_id= ${postId}
 	</select>
 
 	<select id="list" resultType="com.breaktheice.moimat.domain.PostDomain">
-		SELECT  p.seq seq, p.post_type_seq post_type_seq, p.title title, p.content content, p.regdate regdate, p.updatedate updatedate,
-		        p.count count, p.member_seq member_seq, p.orgin orgin, p.priority priority, p.depth depth, m.name name
-		FROM 	post p, member m
-		WHERE 	p.member_seq = m.seq
-		AND 	post_type_seq = #{postTypeSeq}
-		ORDER BY seq
+		SELECT  post_id, post_num, brd_id, post_title, post_content,
+		        mem_id, post_nickname, post_email, post_regdate, post_update,
+		        post_hit, post_reply, post_origin, post_depth
+		FROM 	post
+		WHERE 	brd_id =  #{brdId}
+		ORDER BY post_num DESC, post_id DESC
 	</select>
 	
+
+	
 	<select id="view" resultType="com.breaktheice.moimat.domain.PostDomain">
-		SELECT  p.seq seq, p.post_type_seq post_type_seq, p.title title, p.content content, p.regdate regdate, p.updatedate updatedate,
-        		p.count count, p.member_seq member_seq, p.orgin orgin, p.priority priority, p.depth depth, m.name name
-		FROM 	post p, member m
-		WHERE 	p.member_seq = m.seq
-		AND 	post_type_seq = #{postTypeSeq}
-		AND 	p.seq = #{seq}
-		ORDER BY seq
+       	SELECT  post_id, post_num, brd_id, post_title, post_content,
+		        mem_id, post_nickname, post_email, post_regdate, post_update,
+		        post_hit, post_reply, post_origin, post_depth
+		FROM 	post
+		WHERE 	post_id = #{postId}
 	</select>
 	
 	<insert id="add">
-		INSERT INTO post(
-        		seq, post_type_seq, title, content, regdate, updatedate,
-        		count, member_seq, orgin, priority, depth)
-		VALUES  (post_seq.nextval, #{postTypeSeq}, #{title}, #{content}, sysdate, sysdate,
-        		0, #{memberSeq}, post_seq.currval, #{priority}, #{depth})
+		INSERT INTO post
+		(
+			post_id, post_num, brd_id, post_title, post_content,
+			mem_id, post_nickname, post_email, post_regdate, post_update,
+			post_hit, post_reply, post_origin, post_depth
+		)
+		VALUES
+		(
+			post_seq.nextval, #{postNum}, #{brdId}, #{postTitle}, #{postContent},
+			#{memId}, #{postNickname}, #{postEmail}, sysdate, sysdate,
+			0, #{postReply}, post_seq.currval, #{postDepth}
+		)
 	</insert>
 	
 	<update id="update">
 	    UPDATE  post
-	    SET     post_type_seq = #{postTypeSeq},
-	            title = #{title},
-	            content = #{content},
-	            updatedate = sysdate
-	    WHERE   seq = #{seq}
+	    SET     post_num 	  =  #{postNum}, 
+                brd_id 		  =  #{brdId}, 
+                post_title 	  =  #{postTitle}, 
+                post_content  =  #{postContent}, 
+                mem_id 		  =  #{memId}, 
+                post_nickname =  #{postNickname}, 
+                post_email 	  =  #{postEmail}, 
+                post_reply 	  =  #{postReply},
+                post_update   =  sysdate
+        WHERE   post_id 	  =  #{postId}
 	</update>
 	
 	<delete id="remove">
 	    DELETE FROM post
-    	WHERE seq = #{seq}
+    	WHERE post_id = #{postId}
 	</delete>
 </mapper>

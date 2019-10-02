@@ -20,4 +20,5 @@ public class SampleServiceTests {
 	public void getListTest() {
 		log.info(service.getSampleDomain());
 	}
+	
 }

@@ -14,28 +14,32 @@
 
 
     <!--Bootstrap Stylesheet [ REQUIRED ]-->
-    <link href="../resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
 
 
     <!--Nifty Stylesheet [ REQUIRED ]-->
-    <link href="../resources/css/nifty.min.css" rel="stylesheet">
+    <link href="/resources/css/nifty.min.css" rel="stylesheet">
 
 
     <!--Nifty Premium Icon [ DEMONSTRATION ]-->
-    <link href="../resources/css/demo/nifty-demo-icons.min.css" rel="stylesheet">
+    <link href="/resources/css/demo/nifty-demo-icons.min.css" rel="stylesheet">
 
 
     <!--Demo [ DEMONSTRATION ]-->
-    <link href="../resources/css/demo/nifty-demo.min.css" rel="stylesheet">
+    <link href="/resources/css/demo/nifty-demo.min.css" rel="stylesheet">
 
 
         
     <!--Morris.js [ OPTIONAL ]-->
-    <link href="../resources/plugins/morris-js/morris.min.css" rel="stylesheet">
+    <link href="/resources/plugins/morris-js/morris.min.css" rel="stylesheet">
 
 
     <!--Magic Checkbox [ OPTIONAL ]-->
-    <link href="../resources/plugins/magic-check/css/magic-check.min.css" rel="stylesheet">
+    <link href="/resources/plugins/magic-check/css/magic-check.min.css" rel="stylesheet">
+    
+    
+    <!-- Font Awsome icon [User added] -->
+    <link href="/resources/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
 
 
@@ -46,20 +50,20 @@
     <!--=================================================-->
 
     <!--Pace - Page Load Progress Par [OPTIONAL]-->
-    <link href="../resources/plugins/pace/pace.min.css" rel="stylesheet">
-    <script src="../resources/plugins/pace/pace.min.js"></script>
+    <link href="/resources/plugins/pace/pace.min.css" rel="stylesheet">
+    <script src="/resources/plugins/pace/pace.min.js"></script>
 
 
     <!--jQuery [ REQUIRED ]-->
-    <script src="../resources/js/jquery-2.2.4.min.js"></script>
+    <script src="/resources/js/jquery-2.2.4.min.js"></script>
 
 
     <!--BootstrapJS [ RECOMMENDED ]-->
-    <script src="../resources/js/bootstrap.min.js"></script>
+    <script src="/resources/js/bootstrap.min.js"></script>
 
 
     <!--NiftyJS [ RECOMMENDED ]-->
-    <script src="../resources/js/nifty.min.js"></script>
+    <script src="/resources/js/nifty.min.js"></script>
 
 
 
@@ -69,12 +73,20 @@
     <!--=================================================-->
     
     <!--Morris.js [ OPTIONAL ]-->
-    <script src="../resources/plugins/morris-js/morris.min.js"></script>
-	<script src="../resources/plugins/morris-js/raphael-js/raphael.min.js"></script>
+    <script src="/resources/plugins/morris-js/morris.min.js"></script>
+	<script src="/resources/plugins/morris-js/raphael-js/raphael.min.js"></script>
 
 
     <!--Sparkline [ OPTIONAL ]-->
-    <script src="../resources/plugins/sparkline/jquery.sparkline.min.js"></script>
+    <script src="/resources/plugins/sparkline/jquery.sparkline.min.js"></script>
+
+
+    <!-- common - 공통 스크립트 -->
+	<script src="/resources/js/common.js"></script>
+
+
+    <!-- common - 공통 스크립트 -->
+	<script src="/resources/js/common.js"></script>
 
 
 
