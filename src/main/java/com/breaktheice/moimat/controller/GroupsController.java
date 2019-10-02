@@ -30,7 +30,7 @@ public class GroupsController {
 	@GetMapping("/{groupId}/photos")
 	public String photos(@PathVariable Long groupId) {
 		
-		return "groups/photos";
+		return "groups/photos/list";
 	}
 	
 	@GetMapping("/{groupId}/posts")
