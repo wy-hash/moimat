@@ -1,32 +1,35 @@
 -- 테이블 순서는 관계를 고려하여 한 번에 실행해도 에러가 발생하지 않게 정렬되었습니다.
 
--- interest Table Create SQL
-CREATE TABLE interest
+--  Table Create SQL
+CREATE TABLE area
 (
-    int_id        NUMBER          NOT NULL, 
-    int_key       VARCHAR2(20)    NOT NULL, 
-    int_name      VARCHAR2(40)    NOT NULL, 
-    int_order     NUMBER          NOT NULL, 
-    int_is_use    CHAR(1)         NOT NULL, 
-    CONSTRAINT INTEREST_PK PRIMARY KEY (int_id)
+    area_id             NUMBER          NOT NULL, 
+    area_key            VARCHAR2(40)    NOT NULL, 
+    area_name           VARCHAR2(40)    NOT NULL, 
+    area_region_key     VARCHAR2(40)    NOT NULL, 
+    area_region_name    VARCHAR2(40)    NOT NULL, 
+    CONSTRAINT AREA_PK PRIMARY KEY (area_id)
 );
-COMMENT ON TABLE interest IS '관심사 관리 테이블[ -- 약어 : int ]';
-COMMENT ON COLUMN interest.int_id IS 'PK';
-COMMENT ON COLUMN interest.int_key IS '게시판 그룹 코드';
-COMMENT ON COLUMN interest.int_name IS '게시판 그룹 이름(ex: 메인/ 모임)';
-COMMENT ON COLUMN interest.int_order IS '정렬 순서';
-COMMENT ON COLUMN interest.int_is_use IS '사용 유무( 사용 :Y, 사용 안함 :N )';
+COMMENT ON TABLE area IS '지역 관리 테이블 [ -- 약어 : area ]';
+COMMENT ON COLUMN area.area_id IS 'PK';
+COMMENT ON COLUMN area.area_key IS '지역의 코드';
+COMMENT ON COLUMN area.area_name IS '지역의 이름';
+COMMENT ON COLUMN area.area_region_key IS '상세 지역의 코드';
+COMMENT ON COLUMN area.area_region_name IS '상세 지역의 이름';
 
--- interest Table Create SQL
+ALTER TABLE area
+    ADD CONSTRAINT UC_area_region_key UNIQUE (area_region_key);
+
+--  Table Create SQL
 CREATE TABLE member
 (
     mem_id           NUMBER           NOT NULL, 
     mem_email        VARCHAR2(40)     NOT NULL, 
     mem_password     VARCHAR2(400)    NOT NULL, 
     mem_nickname     VARCHAR2(40)     NOT NULL, 
-    mem_birthday     VARCHAR2(40)     NOT NULL, 
+    mem_birthday     DATE             NOT NULL, 
     mem_gender       CHAR(1)          NOT NULL, 
-    mem_area         VARCHAR2(40)     NOT NULL, 
+    area_id          NUMBER           NOT NULL, 
     mem_regdate      DATE             NOT NULL, 
     mem_update       DATE             NOT NULL, 
     mem_lastlogin    DATE             NOT NULL, 
@@ -46,7 +49,7 @@ COMMENT ON COLUMN member.mem_password IS '회원 패스워드';
 COMMENT ON COLUMN member.mem_nickname IS '회원 닉네임';
 COMMENT ON COLUMN member.mem_birthday IS '생일';
 COMMENT ON COLUMN member.mem_gender IS '성별 (female : F,  male : M)';
-COMMENT ON COLUMN member.mem_area IS '관심지역';
+COMMENT ON COLUMN member.area_id IS '관심지역의 PK';
 COMMENT ON COLUMN member.mem_regdate IS '회원 등록일';
 COMMENT ON COLUMN member.mem_update IS '회원 최근 수정일';
 COMMENT ON COLUMN member.mem_lastlogin IS '최근 로그인 시간';
@@ -58,20 +61,39 @@ COMMENT ON COLUMN member.mem_int1 IS '관심사 1';
 COMMENT ON COLUMN member.mem_int2 IS '관심사 2';
 COMMENT ON COLUMN member.mem_int3 IS '관심사 3';
 ALTER TABLE member
-    ADD CONSTRAINT FK_member_mem_int1_interest_in FOREIGN KEY (mem_int1)
-        REFERENCES interest (int_id);
+    ADD CONSTRAINT FK_member_area_id_area_area_id FOREIGN KEY (area_id)
+        REFERENCES area (area_id);
 ALTER TABLE member
     ADD CONSTRAINT UC_mem_email UNIQUE (mem_email);
 
--- interest Table Create SQL
+--  Table Create SQL
+CREATE TABLE interest
+(
+    int_id       NUMBER           NOT NULL, 
+    int_key      VARCHAR2(40)     NOT NULL, 
+    int_name     VARCHAR2(400)    NOT NULL, 
+    int_order    NUMBER           NOT NULL, 
+    int_use      CHAR(1)          NOT NULL, 
+    CONSTRAINT INTEREST_PK PRIMARY KEY (int_id)
+);
+COMMENT ON TABLE interest IS '관심사 관리 테이블[ -- 약어 : int ]';
+COMMENT ON COLUMN interest.int_id IS 'PK';
+COMMENT ON COLUMN interest.int_key IS '관심사 그룹 코드';
+COMMENT ON COLUMN interest.int_name IS '관심사 그룹 이름(ex: 메인/ 모임)';
+COMMENT ON COLUMN interest.int_order IS '정렬 순서';
+COMMENT ON COLUMN interest.int_use IS '사용 유무( 사용 :Y, 사용 안함 :N )';
+ALTER TABLE interest
+    ADD CONSTRAINT UC_int_key UNIQUE (int_key);
+
+--  Table Create SQL
 CREATE TABLE team
 (
     team_id               NUMBER            NOT NULL, 
     int_id                NUMBER            NOT NULL, 
     team_name             VARCHAR2(40)      NOT NULL, 
-    team_short_content    VARCHAR2(400)     NOT NULL, 
-    team_content          VARCHAR2(4000)    NOT NULL, 
-    team_area             VARCHAR2(40)      NOT NULL, 
+    team_short_content    VARCHAR2(4000)    NOT NULL, 
+    team_content          CLOB              NOT NULL, 
+    area_id               NUMBER            NOT NULL, 
     team_regdate          DATE              NOT NULL, 
     team_max              NUMBER            NOT NULL, 
     mem_id                NUMBER            NOT NULL, 
@@ -83,7 +105,7 @@ COMMENT ON COLUMN team.int_id IS '모임의 주된 관심사 PK';
 COMMENT ON COLUMN team.team_name IS '모임의 이름';
 COMMENT ON COLUMN team.team_short_content IS '모임의 짧은 소개글';
 COMMENT ON COLUMN team.team_content IS '모임의 소개글';
-COMMENT ON COLUMN team.team_area IS '모임의 주 활동 지역';
+COMMENT ON COLUMN team.area_id IS '모임의 주 활동 지역의 PK';
 COMMENT ON COLUMN team.team_regdate IS '모임 생성일';
 COMMENT ON COLUMN team.team_max IS '모임의 최대인원';
 COMMENT ON COLUMN team.mem_id IS '모임 생성한 회원 PK';
@@ -93,21 +115,25 @@ ALTER TABLE team
 ALTER TABLE team
     ADD CONSTRAINT FK_team_mem_id_member_mem_id FOREIGN KEY (mem_id)
         REFERENCES member (mem_id);
+ALTER TABLE team
+    ADD CONSTRAINT FK_team_area_id_area_area_id FOREIGN KEY (area_id)
+        REFERENCES area (area_id);
 
--- interest Table Create SQL
+--  Table Create SQL
 CREATE TABLE team_member
 (
-    tmem_id           NUMBER           NOT NULL, 
-    team_id           NUMBER           NOT NULL, 
-    mem_id            NUMBER           NOT NULL, 
-    tmem_level        NUMBER           NOT NULL, 
-    tmem_content      VARCHAR2(400)    NOT NULL, 
-    tmem_nickname     VARCHAR2(40)     NOT NULL, 
-    tmem_email        VARCHAR2(40)     NOT NULL, 
-    tmem_lastvisit    DATE             NOT NULL, 
-    tmem_regdate      DATE             NOT NULL, 
-    tmem_birthday     VARCHAR2(40)     NOT NULL, 
-    tmem_gender       CHAR(1)          NOT NULL, 
+    tmem_id           NUMBER            NOT NULL, 
+    team_id           NUMBER            NOT NULL, 
+    mem_id            NUMBER            NOT NULL, 
+    tmem_level        NUMBER            NOT NULL, 
+    tmem_content      VARCHAR2(4000)    NOT NULL, 
+    tmem_nickname     VARCHAR2(40)      NOT NULL, 
+    tmem_email        VARCHAR2(40)      NOT NULL, 
+    tmem_lastvisit    DATE              NOT NULL, 
+    tmem_regdate      DATE              NOT NULL, 
+    tmem_birthday     DATE              NOT NULL, 
+    tmem_gender       CHAR(1)           NOT NULL, 
+    tmem_photo        VARCHAR2(400)     NOT NULL, 
     CONSTRAINT TEAM_MEMBER_PK PRIMARY KEY (tmem_id)
 );
 COMMENT ON TABLE team_member IS '모임에 가입한 회원 관리 테이블[ -- 약어 : tmem ]';
@@ -122,6 +148,7 @@ COMMENT ON COLUMN team_member.tmem_lastvisit IS '모임 최근 방문일';
 COMMENT ON COLUMN team_member.tmem_regdate IS '모임에 가입한 날짜';
 COMMENT ON COLUMN team_member.tmem_birthday IS '모임에 가입한 회원의 생일';
 COMMENT ON COLUMN team_member.tmem_gender IS '모임에 가입한 회원의 성별';
+COMMENT ON COLUMN team_member.tmem_photo IS '모임에 가입한 회원의 사진';
 ALTER TABLE team_member
     ADD CONSTRAINT FK_team_member_team_id_team_te FOREIGN KEY (team_id)
         REFERENCES team (team_id);
@@ -129,14 +156,14 @@ ALTER TABLE team_member
     ADD CONSTRAINT FK_team_member_mem_id_member_m FOREIGN KEY (mem_id)
         REFERENCES member (mem_id);
 
--- interest Table Create SQL
+--  Table Create SQL
 CREATE TABLE board
 (
-    brd_id       NUMBER          NOT NULL, 
-    brd_key      VARCHAR2(20)    NOT NULL, 
-    brd_name     VARCHAR2(40)    NOT NULL, 
-    brd_order    NUMBER          NOT NULL, 
-    brd_use      CHAR(1)         NOT NULL, 
+    brd_id       NUMBER           NOT NULL, 
+    brd_key      VARCHAR2(40)     NOT NULL, 
+    brd_name     VARCHAR2(400)    NOT NULL, 
+    brd_order    NUMBER           NOT NULL, 
+    brd_use      CHAR(1)          NOT NULL, 
     CONSTRAINT BOARD_PK PRIMARY KEY (brd_id)
 );
 COMMENT ON TABLE board IS '게시판 관리 테이블[ -- 약어 : brd ]';
@@ -145,24 +172,26 @@ COMMENT ON COLUMN board.brd_key IS '게시판 코드';
 COMMENT ON COLUMN board.brd_name IS '게시판 이름';
 COMMENT ON COLUMN board.brd_order IS '정렬 순서';
 COMMENT ON COLUMN board.brd_use IS '사용 유무( 사용 :Y, 사용 안함 :N )';
+ALTER TABLE board
+    ADD CONSTRAINT UC_brd_key UNIQUE (brd_key);
 
--- interest Table Create SQL
+--  Table Create SQL
 CREATE TABLE post
 (
-    post_id          NUMBER            NOT NULL, 
-    post_num         NUMBER            NULL, 
-    brd_id           NUMBER            NOT NULL, 
-    post_title       VARCHAR2(40)      NOT NULL, 
-    post_content     VARCHAR2(4000)    NOT NULL, 
-    mem_id           NUMBER            NOT NULL, 
-    post_nickname    VARCHAR2(40)      NOT NULL, 
-    post_email       VARCHAR2(40)      NOT NULL, 
-    post_regdate     DATE              NOT NULL, 
-    post_update      DATE              NOT NULL, 
-    post_hit         NUMBER            NOT NULL, 
-    post_reply       CHAR(1)           NULL, 
-    post_origin      NUMBER            NULL, 
-    post_depth       NUMBER            NULL, 
+    post_id          NUMBER           NOT NULL, 
+    post_num         NUMBER           NULL, 
+    brd_id           NUMBER           NOT NULL, 
+    post_title       VARCHAR2(400)    NOT NULL, 
+    post_content     CLOB             NOT NULL, 
+    mem_id           NUMBER           NOT NULL, 
+    post_nickname    VARCHAR2(40)     NOT NULL, 
+    post_email       VARCHAR2(40)     NOT NULL, 
+    post_regdate     DATE             NOT NULL, 
+    post_update      DATE             NOT NULL, 
+    post_hit         NUMBER           NOT NULL, 
+    post_reply       CHAR(1)          NULL, 
+    post_origin      NUMBER           NULL, 
+    post_depth       NUMBER           NULL, 
     CONSTRAINT POST_PK PRIMARY KEY (post_id)
 );
 COMMENT ON TABLE post IS '게시물 관리 테이블[ -- 약어 : post ]';
@@ -187,24 +216,24 @@ ALTER TABLE post
     ADD CONSTRAINT FK_post_mem_id_member_mem_id FOREIGN KEY (mem_id)
         REFERENCES member (mem_id);
 
--- interest Table Create SQL
+--  Table Create SQL
 CREATE TABLE team_post
 (
-    post_id            NUMBER            NOT NULL, 
-    post_num           NUMBER            NULL, 
-    team_id            NUMBER            NOT NULL, 
-    brd_id             NUMBER            NOT NULL, 
-    post_title         VARCHAR2(40)      NOT NULL, 
-    post_content       VARCHAR2(4000)    NOT NULL, 
-    tmem_id            NUMBER            NOT NULL, 
-    post_tmem_level    NUMBER            NOT NULL, 
-    post_nickname      VARCHAR2(40)      NOT NULL, 
-    post_email         VARCHAR2(40)      NOT NULL, 
-    post_regdate       DATE              NOT NULL, 
-    post_update        DATE              NOT NULL, 
-    post_hit           NUMBER            NOT NULL, 
-    post_like          NUMBER            NULL, 
-    post_dislike       NUMBER            NULL, 
+    post_id            NUMBER           NOT NULL, 
+    post_num           NUMBER           NULL, 
+    team_id            NUMBER           NOT NULL, 
+    brd_id             NUMBER           NOT NULL, 
+    post_title         VARCHAR2(400)    NOT NULL, 
+    post_content       CLOB             NOT NULL, 
+    tmem_id            NUMBER           NOT NULL, 
+    post_tmem_level    NUMBER           NOT NULL, 
+    post_nickname      VARCHAR2(40)     NOT NULL, 
+    post_email         VARCHAR2(40)     NOT NULL, 
+    post_regdate       DATE             NOT NULL, 
+    post_update        DATE             NOT NULL, 
+    post_hit           NUMBER           NOT NULL, 
+    post_like          NUMBER           NULL, 
+    post_dislike       NUMBER           NULL, 
     CONSTRAINT TEAM_POST_PK PRIMARY KEY (post_id)
 );
 COMMENT ON TABLE team_post IS '모임 게시물 관리 테이블[ -- 약어 : post ]';
@@ -233,13 +262,13 @@ ALTER TABLE team_post
     ADD CONSTRAINT FK_team_post_tmem_id_team_memb FOREIGN KEY (tmem_id)
         REFERENCES team_member (tmem_id);
 
--- interest Table Create SQL
+--  Table Create SQL
 CREATE TABLE meet
 (
     meet_id          NUMBER            NOT NULL, 
     team_id          NUMBER            NOT NULL, 
     meet_title       VARCHAR2(400)     NOT NULL, 
-    meet_content     VARCHAR2(4000)    NOT NULL, 
+    meet_content     CLOB              NOT NULL, 
     meet_date        DATE              NOT NULL, 
     meet_regdate     DATE              NOT NULL, 
     meet_max         NUMBER            NOT NULL, 
@@ -247,6 +276,8 @@ CREATE TABLE meet
     tmem_id          NUMBER            NOT NULL, 
     meet_nickname    VARCHAR2(40)      NOT NULL, 
     meet_email       VARCHAR2(40)      NOT NULL, 
+    meet_area        VARCHAR2(400)     NOT NULL, 
+    meet_photo       VARCHAR2(4000)    NOT NULL, 
     CONSTRAINT MEET_PK PRIMARY KEY (meet_id)
 );
 COMMENT ON TABLE meet IS '모임 정모 관리 테이블[ -- 약어 : meet ]';
@@ -261,6 +292,8 @@ COMMENT ON COLUMN meet.meet_pay IS '정모 회비';
 COMMENT ON COLUMN meet.tmem_id IS '정모 등록한 회원의 PK';
 COMMENT ON COLUMN meet.meet_nickname IS '정모 등록한 회원의 닉네임';
 COMMENT ON COLUMN meet.meet_email IS '정모 등록한 회원의 이메일';
+COMMENT ON COLUMN meet.meet_area IS '정모 지역';
+COMMENT ON COLUMN meet.meet_photo IS '정모 등록한 회원의 사진';
 ALTER TABLE meet
     ADD CONSTRAINT FK_meet_team_id_team_team_id FOREIGN KEY (team_id)
         REFERENCES team (team_id);
@@ -268,21 +301,21 @@ ALTER TABLE meet
     ADD CONSTRAINT FK_meet_tmem_id_team_member_tm FOREIGN KEY (tmem_id)
         REFERENCES team_member (tmem_id);
 
--- interest Table Create SQL
+--  Table Create SQL
 CREATE TABLE post_file
 (
-    pfi_id            NUMBER           NOT NULL, 
-    post_id           NUMBER           NOT NULL, 
-    brd_id            NUMBER           NOT NULL, 
-    mem_id            NUMBER           NOT NULL, 
-    pfi_originname    VARCHAR2(400)    NOT NULL, 
-    pfi_filename      VARCHAR2(400)    NOT NULL, 
-    pfi_filesize      NUMBER           NULL, 
-    pfi_width         NUMBER           NULL, 
-    pfi_height        NUMBER           NULL, 
-    pfi_type          VARCHAR2(10)     NULL, 
-    pfi_is_image      NUMBER           NULL, 
-    pfi_regdate       DATE             NOT NULL, 
+    pfi_id            NUMBER            NOT NULL, 
+    post_id           NUMBER            NOT NULL, 
+    brd_id            NUMBER            NOT NULL, 
+    mem_id            NUMBER            NOT NULL, 
+    pfi_originname    VARCHAR2(4000)    NOT NULL, 
+    pfi_filename      VARCHAR2(4000)    NOT NULL, 
+    pfi_filesize      NUMBER            NULL, 
+    pfi_width         NUMBER            NULL, 
+    pfi_height        NUMBER            NULL, 
+    pfi_type          VARCHAR2(10)      NULL, 
+    pfi_is_image      NUMBER            NULL, 
+    pfi_regdate       DATE              NOT NULL, 
     CONSTRAINT POST_FILE_PK PRIMARY KEY (pfi_id)
 );
 COMMENT ON TABLE post_file IS '첨부파일 관리 테이블[ -- 약어 : pfi ]';
@@ -308,7 +341,7 @@ ALTER TABLE post_file
     ADD CONSTRAINT FK_post_file_mem_id_member_mem FOREIGN KEY (mem_id)
         REFERENCES member (mem_id);
 
--- interest Table Create SQL
+--  Table Create SQL
 CREATE TABLE sns_info
 (
     mem_id              NUMBER           NOT NULL, 
@@ -327,19 +360,19 @@ ALTER TABLE sns_info
 ALTER TABLE sns_info
     ADD CONSTRAINT UC_sns_id UNIQUE (sns_id);
 
--- interest Table Create SQL
+--  Table Create SQL
 CREATE TABLE comments
 (
-    cmt_id          NUMBER           NOT NULL, 
-    post_id         NUMBER           NOT NULL, 
-    brd_id          NUMBER           NOT NULL, 
-    cmt_num         NUMBER           NULL, 
-    cmt_content     VARCHAR2(400)    NOT NULL, 
-    mem_id          NUMBER           NOT NULL, 
-    cmt_nickname    VARCHAR2(40)     NOT NULL, 
-    cmt_email       VARCHAR2(40)     NOT NULL, 
-    cmt_regdate     DATE             NOT NULL, 
-    cmt_update      DATE             NOT NULL, 
+    cmt_id          NUMBER            NOT NULL, 
+    post_id         NUMBER            NOT NULL, 
+    brd_id          NUMBER            NOT NULL, 
+    cmt_num         NUMBER            NULL, 
+    cmt_content     VARCHAR2(4000)    NOT NULL, 
+    mem_id          NUMBER            NOT NULL, 
+    cmt_nickname    VARCHAR2(400)     NOT NULL, 
+    cmt_email       VARCHAR2(400)     NOT NULL, 
+    cmt_regdate     DATE              NOT NULL, 
+    cmt_update      DATE              NOT NULL, 
     CONSTRAINT COMMENTS_PK PRIMARY KEY (cmt_id)
 );
 COMMENT ON TABLE comments IS '댓글 관리 테이블[ -- 약어 : cmt ]';
@@ -363,16 +396,16 @@ ALTER TABLE comments
     ADD CONSTRAINT FK_comments_mem_id_member_mem_ FOREIGN KEY (mem_id)
         REFERENCES member (mem_id);
 
--- interest Table Create SQL
+--  Table Create SQL
 CREATE TABLE message
 (
-    msg_id          NUMBER           NOT NULL, 
-    send_mem_id     NUMBER           NOT NULL, 
-    recv_mem_id     NUMBER           NOT NULL, 
-    msg_title       VARCHAR2(40)     NOT NULL, 
-    msg_content     VARCHAR2(400)    NOT NULL, 
-    msg_regdate     DATE             NOT NULL, 
-    msg_readdate    DATE             NULL, 
+    msg_id          NUMBER            NOT NULL, 
+    send_mem_id     NUMBER            NOT NULL, 
+    recv_mem_id     NUMBER            NOT NULL, 
+    msg_title       VARCHAR2(400)     NOT NULL, 
+    msg_content     VARCHAR2(4000)    NOT NULL, 
+    msg_regdate     DATE              NOT NULL, 
+    msg_readdate    DATE              NULL, 
     CONSTRAINT MESSAGE_PK PRIMARY KEY (msg_id)
 );
 COMMENT ON TABLE message IS '메세지 관리 테이블[ -- 약어 : msg ]';
@@ -390,7 +423,7 @@ ALTER TABLE message
     ADD CONSTRAINT FK_message_recv_mem_id_member_ FOREIGN KEY (recv_mem_id)
         REFERENCES member (mem_id);
 
--- interest Table Create SQL
+--  Table Create SQL
 CREATE TABLE team_chat
 (
     chat_id         NUMBER           NOT NULL, 
@@ -413,14 +446,15 @@ ALTER TABLE team_chat
     ADD CONSTRAINT FK_team_chat_tmem_id_team_memb FOREIGN KEY (tmem_id)
         REFERENCES team_member (tmem_id);
 
--- interest Table Create SQL
+--  Table Create SQL
 CREATE TABLE meet_member
 (
-    mmem_id          NUMBER          NOT NULL, 
-    meet_id          NUMBER          NOT NULL, 
-    tmem_id          NUMBER          NOT NULL, 
-    mmem_nickname    VARCHAR2(40)    NOT NULL, 
-    mmem_email       VARCHAR2(40)    NOT NULL, 
+    mmem_id          NUMBER           NOT NULL, 
+    meet_id          NUMBER           NOT NULL, 
+    tmem_id          NUMBER           NOT NULL, 
+    mmem_nickname    VARCHAR2(40)     NOT NULL, 
+    mmem_email       VARCHAR2(40)     NOT NULL, 
+    mmem_photo       VARCHAR2(400)    NOT NULL, 
     CONSTRAINT MEET_MEMBER_PK PRIMARY KEY (mmem_id)
 );
 COMMENT ON TABLE meet_member IS '정모에 참여하는 모임원 관리 테이블[ -- 약어 : mmem ]';
@@ -429,28 +463,32 @@ COMMENT ON COLUMN meet_member.meet_id IS '정모의 PK';
 COMMENT ON COLUMN meet_member.tmem_id IS '정모 참여하는 모임원의 PK';
 COMMENT ON COLUMN meet_member.mmem_nickname IS '정모 참여하는 모임원의 닉네임';
 COMMENT ON COLUMN meet_member.mmem_email IS '정모 참여하는 모임원의 이메일';
+COMMENT ON COLUMN meet_member.mmem_photo IS '정모 참여하는 모임원의 사진';
 ALTER TABLE meet_member
     ADD CONSTRAINT FK_meet_member_meet_id_meet_me FOREIGN KEY (meet_id)
         REFERENCES meet (meet_id);
 ALTER TABLE meet_member
     ADD CONSTRAINT FK_meet_member_tmem_id_team_me FOREIGN KEY (tmem_id)
         REFERENCES team_member (tmem_id);
+-- meet_member Table -> (정모 PK, 모임원의 PK) Unique 제약조건 추가 (동일한 정모에 한하여 같은 모임원 등록 불가하도록) 
+ALTER TABLE meet_member
+    ADD CONSTRAINT UC_meet_id_tmem_id UNIQUE (meet_id, tmem_id);
 
--- interest Table Create SQL
+--  Table Create SQL
 CREATE TABLE team_post_file
 (
-    pfi_id            NUMBER           NOT NULL, 
-    post_id           NUMBER           NOT NULL, 
-    brd_id            NUMBER           NOT NULL, 
-    tmem_id           NUMBER           NOT NULL, 
-    pfi_originname    VARCHAR2(400)    NOT NULL, 
-    pfi_filename      VARCHAR2(400)    NOT NULL, 
-    pfi_filesize      NUMBER           NULL, 
-    pfi_width         NUMBER           NULL, 
-    pfi_height        NUMBER           NULL, 
-    pfi_type          VARCHAR2(10)     NULL, 
-    pfi_is_image      NUMBER           NULL, 
-    pfi_regdate       DATE             NOT NULL, 
+    pfi_id            NUMBER            NOT NULL, 
+    post_id           NUMBER            NOT NULL, 
+    brd_id            NUMBER            NOT NULL, 
+    tmem_id           NUMBER            NOT NULL, 
+    pfi_originname    VARCHAR2(4000)    NOT NULL, 
+    pfi_filename      VARCHAR2(4000)    NOT NULL, 
+    pfi_filesize      NUMBER            NULL, 
+    pfi_width         NUMBER            NULL, 
+    pfi_height        NUMBER            NULL, 
+    pfi_type          VARCHAR2(10)      NULL, 
+    pfi_is_image      NUMBER            NULL, 
+    pfi_regdate       DATE              NOT NULL, 
     CONSTRAINT TEAM_POST_FILE_PK PRIMARY KEY (pfi_id)
 );
 COMMENT ON TABLE team_post_file IS '첨부파일 관리 테이블[ -- 약어 : pfi ]';
@@ -476,21 +514,21 @@ ALTER TABLE team_post_file
     ADD CONSTRAINT FK_team_post_file_tmem_id_team FOREIGN KEY (tmem_id)
         REFERENCES team_member (tmem_id);
 
--- interest Table Create SQL
+--  Table Create SQL
 CREATE TABLE team_comments
 (
-    cmt_id          NUMBER           NOT NULL, 
-    post_id         NUMBER           NOT NULL, 
-    brd_id          NUMBER           NOT NULL, 
-    cmt_num         NUMBER           NULL, 
-    cmt_content     VARCHAR2(400)    NOT NULL, 
-    tmem_id         NUMBER           NOT NULL, 
-    cmt_nickname    VARCHAR2(40)     NOT NULL, 
-    cmt_email       VARCHAR2(40)     NOT NULL, 
-    cmt_regdate     DATE             NOT NULL, 
-    cmt_update      DATE             NOT NULL, 
-    cmt_like        NUMBER           NULL, 
-    cmt_dislike     NUMBER           NULL, 
+    cmt_id          NUMBER            NOT NULL, 
+    post_id         NUMBER            NOT NULL, 
+    brd_id          NUMBER            NOT NULL, 
+    cmt_num         NUMBER            NULL, 
+    cmt_content     VARCHAR2(4000)    NOT NULL, 
+    tmem_id         NUMBER            NOT NULL, 
+    cmt_nickname    VARCHAR2(40)      NOT NULL, 
+    cmt_email       VARCHAR2(40)      NOT NULL, 
+    cmt_regdate     DATE              NOT NULL, 
+    cmt_update      DATE              NOT NULL, 
+    cmt_like        NUMBER            NULL, 
+    cmt_dislike     NUMBER            NULL, 
     CONSTRAINT TEAM_COMMENTS_PK PRIMARY KEY (cmt_id)
 );
 COMMENT ON TABLE team_comments IS '댓글 관리 테이블[ -- 약어 : cmt ]';
@@ -516,7 +554,7 @@ ALTER TABLE team_comments
     ADD CONSTRAINT FK_team_comments_tmem_id_team_ FOREIGN KEY (tmem_id)
         REFERENCES team_member (tmem_id);
 
--- interest Table Create SQL
+--  Table Create SQL
 CREATE TABLE team_note
 (
     tno_id          NUMBER           NOT NULL, 
@@ -542,4 +580,19 @@ ALTER TABLE team_note
 ALTER TABLE team_note
     ADD CONSTRAINT FK_team_note_tmem_id_team_memb FOREIGN KEY (tmem_id)
         REFERENCES team_member (tmem_id);
+
+--  Table Create SQL
+CREATE TABLE cert
+(
+    cert_id         NUMBER          NOT NULL, 
+    cert_code       VARCHAR2(40)    NOT NULL, 
+    cert_email      VARCHAR2(40)    NOT NULL, 
+    cert_regdate    DATE            NOT NULL, 
+    CONSTRAINT CERT_PK PRIMARY KEY (cert_id)
+);
+COMMENT ON TABLE cert IS '이메일 인증 관리 테이블[ -- 약어 : cert ]';
+COMMENT ON COLUMN cert.cert_id IS 'PK';
+COMMENT ON COLUMN cert.cert_code IS '인증코드';
+COMMENT ON COLUMN cert.cert_email IS '이메일';
+COMMENT ON COLUMN cert.cert_regdate IS '등록일';
 
