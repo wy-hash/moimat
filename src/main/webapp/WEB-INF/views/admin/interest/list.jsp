@@ -90,7 +90,7 @@
 												data-seq="${list.intId }">${list.intKey}</a></td>
 											<td>${list.intName}</td>
 											<td>${list.intOrder}</td>
-											<td>${list.intIsUse}</td>
+											<td>${list.intUse}</td>
 										</tr>
 									</c:forEach>
 								</tbody>

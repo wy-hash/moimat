@@ -2,6 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.breaktheice.moimat.persistence.PostMapper">
 
+	<select id="totalCount" resultType="Long">
+	<![CDATA[		
+		SELECT  count(*)
+		FROM 	
+		(	
+			SELECT  rownum rn, post_id, post_num, brd_id, post_title, post_content,
+			        mem_id, post_nickname, post_email, post_regdate, post_update,
+			        post_hit, post_reply, post_origin, post_depth
+			FROM post
+			WHERE 
+		]]>
+<!-- 		검색조건 -->
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<choose>
+					<when test="type == 'T'.toString()">
+						post_title like '%'||#{keyword}||'%'
+					</when>				
+				</choose>
+			</foreach>
+		</trim>
+		<![CDATA[
+			brd_id =  #{brdId}
+		)
+		]]>
+	
+	</select>
+
 	<update id="viewCount">
         UPDATE  post
 	    SET     post_hit = post_hit + 1
@@ -15,12 +43,44 @@
 	</select>
 
 	<select id="list" resultType="com.breaktheice.moimat.domain.PostDomain">
-		SELECT  post_id, post_num, brd_id, post_title, post_content,
+	<![CDATA[		
+		SELECT  rownum rn, post_id, post_num, brd_id, post_title, post_content,
 		        mem_id, post_nickname, post_email, post_regdate, post_update,
 		        post_hit, post_reply, post_origin, post_depth
-		FROM 	post
-		WHERE 	brd_id =  #{brdId}
+		FROM 	
+		(	
+			SELECT  rownum rn, post_id, post_num, brd_id, post_title, post_content,
+			        mem_id, post_nickname, post_email, post_regdate, post_update,
+			        post_hit, post_reply, post_origin, post_depth
+			FROM post
+			WHERE 
+		]]>
+<!-- 		검색조건 -->
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+			<trim prefix="OR">
+				<choose>
+					<when test="type == 'T'.toString()">
+						post_title like '%'||#{keyword}||'%'
+					</when>	
+					<when test="type == 'C'.toString()">
+						post_content like '%'||#{keyword}||'%'
+					</when>	
+					<when test="type == 'W'.toString()">
+						post_nickname like '%'||#{keyword}||'%'
+					</when>				
+				</choose>
+			</trim>
+			</foreach>
+		</trim>
+		<![CDATA[
+			brd_id =  #{brdId} and
+			rownum <= #{pageNum} * #{amount}
+		)
+		WHERE rn > (#{pageNum} -1 )* #{amount}
 		ORDER BY post_num DESC, post_id DESC
+		]]>
+	
 	</select>
 	
 

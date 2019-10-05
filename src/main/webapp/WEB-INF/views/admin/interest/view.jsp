@@ -75,38 +75,38 @@
 				<input type="hidden" id="intId" name="intId" value="${view.intId }" />
                 <!-- 관심사 코드-->
                 <div class="form-group">
-                    <label class="col-md-3 control-label" for="intKey"><strong>관심사 코드</strong></label>
-                    <div class="col-md-9">
+                    <label class="col-md-2 control-label" for="intKey"><strong>관심사 코드</strong></label>
+                    <div class="col-md-10">
                         <p class="form-control-static">${view.intKey}</p>
                     </div>
                 </div>
 
                 <!--관심사 이름-->
                 <div class="form-group">
-                    <label class="col-md-3 control-label" for="intName"><strong>관심사 이름</strong></label>
-                    <div class="col-md-9">
+                    <label class="col-md-2 control-label" for="intName"><strong>관심사 이름</strong></label>
+                    <div class="col-md-10">
                         <p class="form-control-static">${view.intName}</p>
                     </div>
                 </div>
 
                 <!--관심사 정렬순서-->
                 <div class="form-group">
-                    <label class="col-md-3 control-label" for="intOrder"><strong>관심사 정렬순서</strong></label>
-                    <div class="col-md-9">
+                    <label class="col-md-2 control-label" for="intOrder"><strong>관심사 정렬순서</strong></label>
+                    <div class="col-md-10">
                         <p class="form-control-static">${view.intOrder}</p>
                     </div>
                 </div>
 
                 <!--관심사 사용 여부-->
                 <div class="form-group">
-                    <label class="col-md-3 control-label" for="intIsUse"><strong>관심사 사용 여부</strong></label>
-                    <div class="col-md-9">
+                    <label class="col-md-2 control-label" for="intUse"><strong>관심사 사용 여부</strong></label>
+                    <div class="col-md-10">
                  <p class="form-control-static">
                  	<c:choose>
-                 		<c:when test="${'Y' eq view.intIsUse }">
+                 		<c:when test="${'Y' eq view.intUse }">
                  			사용
                  		</c:when>
-          		        <c:when test="${'N' eq view.intIsUse }">
+          		        <c:when test="${'N' eq view.intUse }">
                  			미사용
                  		</c:when> 
                  	</c:choose>

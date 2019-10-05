@@ -15,6 +15,6 @@ public class InterestDomain {
 	private String intKey;
 	private String intName;
 	private Long intOrder;
-	private String intIsUse;
+	private String intUse;
 	
 }
