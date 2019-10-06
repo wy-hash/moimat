@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.breaktheice.moimat.domain.CertDomain;
 import com.breaktheice.moimat.domain.MemberDomain;
@@ -47,7 +48,7 @@ public class AuthController {
 	}
 	
 	@PostMapping("/login") // 로그인 처리... post로 받았기 때문에 PostMapping으로 처리
-	public String login(Model model, MemberDomain loginVo, HttpServletRequest request) {
+	public String login(Model model, MemberDomain loginVo, HttpServletRequest request, RedirectAttributes rttr) {
 
 		log.info("loginAction 호출.... ");
 		log.info("login.." + loginVo.toString());
@@ -58,7 +59,8 @@ public class AuthController {
 		if (result) { // 성공한 경우 세션성립 후 성공시 로그인 성공 페이지l
 			return "index";			//
 		} else { // 실패의 경우 실패시 로그인 페이지와 메시지 전송 			
-			model.addAttribute("msg", "아이디 또는 비밀번호를 다시 확인하세요.");
+			rttr.addFlashAttribute("loginErrorMsg", "아이디 또는 비밀번호를 다시 확인하세요.");
+			
 			return "redirect:/auth/login";
 		}
 	}
