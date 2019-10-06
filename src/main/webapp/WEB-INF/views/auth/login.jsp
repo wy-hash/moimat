@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -22,6 +22,15 @@
 		                <h3 class="h4 mar-no">로그인</h3>
 		                <p class="text-muted">등록하신 메일주소로 로그인하세요</p>
 		            </div>
+		            
+		            <c:if test="${ loginErrorMsg != null }">
+		                <!-- Danger Alert -->
+		                <div class="alert alert-danger">
+		                    <strong>로그인 실패: </strong> ${ loginErrorMsg }
+		                </div>
+		                <!-- //Danger Alert -->
+	                </c:if>
+	                
 		            <form id="loginForm" action="login" method="post">
 		                <div class="form-group">
 		                    <input type="text" id="memEmail" name="memEmail" class="form-control" placeholder="이메일" autofocus>
