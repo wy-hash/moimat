@@ -58,13 +58,13 @@
 					
 					            <!-- BASIC FORM ELEMENTS -->
 					            <!--===================================================-->
-					            <form class="panel-body form-horizontal form-padding">
+					            <form class="panel-body form-horizontal form-padding" action="/user/{id}/edit" method="post" id="userForm">
 					
 					                <!--Static-->
 					                <div class="form-group">
 					                    <label class="col-md-3 control-label">닉네임</label>
 					                    <div class="col-md-9">
-					                    	<input type="text" id="memNickname" class="form-control"  readOnly>
+					                    	<input type="text" id="memNickname" name="memNickname" class="form-control"  readOnly>
 					                    </div>
 					                </div>
 					                
@@ -72,15 +72,33 @@
 					                <div class="form-group">
 					                    <label class="col-md-3 control-label" for="demo-email-input">이메일</label>
 					                    <div class="col-md-9">
-					                        <input type="email" id="memEmail" class="form-control" readOnly>
+					                        <input type="email" id="memEmail" name="memEmail" class="form-control" readOnly>
 					                    </div>
 					                </div>
 					
-					                <!-- 비밀번호 -->
+					                <!-- 현재 비비밀번호 -->
 					                <div class="form-group">
 					                    <label class="col-md-3 control-label" for="demo-text-input">비밀번호</label>
 					                    <div class="col-md-9">
-					                        <input type="password" id="memPassword" name="memPassword" class="form-control" placeholder="Text">
+					                        <input type="password" id="memPassword" class="form-control" placeholder="Text">
+					                        <small class="help-block">This is a help text</small>
+					                    </div>
+					                </div>
+					                
+					                 <!-- 신규 비밀번호 -->
+					                <div class="form-group">
+					                    <label class="col-md-3 control-label" for="demo-text-input">비밀번호</label>
+					                    <div class="col-md-9">
+					                        <input type="password" id="newPassword" class="form-control" placeholder="Text">
+					                        <small class="help-block">This is a help text</small>
+					                    </div>
+					                </div>
+					                
+					                   <!-- 신규 비밀번호 확인 -->
+					                <div class="form-group">
+					                    <label class="col-md-3 control-label" for="demo-text-input">비밀번호</label>
+					                    <div class="col-md-9">
+					                        <input type="password" id="newPasswordCheck" class="form-control" placeholder="Text">
 					                        <small class="help-block">This is a help text</small>
 					                    </div>
 					                </div>
@@ -89,7 +107,7 @@
 					                <div class="form-group">
 					                    <label class="col-md-3 control-label" for="demo-readonly-input">생일</label>
 					                    <div class="col-md-9">
-					                        <input type="text" id="memBirthday" class="form-control" placeholder="숫자 8자리 YYYYMMDD ex)19910215" >
+					                        <input type="text" id="memBirthday" name="memBirthday" class="form-control" placeholder="숫자 8자리 YYYYMMDD ex)19910215" >
 					                    </div>
 					                </div>
 									
@@ -98,12 +116,12 @@
 					                    <label class="col-md-3 control-label">성별</label>
 					                    <div class="col-md-9">
 					                        <div>
-					                            <input class="magic-radio" type="radio" name="aaa" id="yyy">
-					                            <label for="yyy">남성</label>
+					                            <input class="magic-radio" type="radio" name="memGender" value="M" id="mem">
+					                            <label for="mem">남성</label>
 					                        </div>
 					                        <div>
-					                            <input class="magic-radio" type="radio" name="aaa" id="xxxx">
-					                            <label for="xxxx">여성</label>
+					                            <input class="magic-radio" type="radio" name="memGender" value="W" id="women">
+					                            <label for="women">여성</label>
 					                        </div>
 					                    </div>
 					                </div>
@@ -143,8 +161,12 @@
 					                        <div class="radio interest" id="interest3">
 					                          
 					                        </div>
-					                    </div> 
+					                    </div>
 					                </div>
+					                
+					               <div class="panel-footer text-right">
+					                    	<button class="btn btn-success" type="button" onclick="checkAndsubmit();">정보수정</button>
+					               </div>
 					            </form>
 					            <!--===================================================-->
 					            <!-- END BASIC FORM ELEMENTS -->
@@ -180,17 +202,56 @@
 
 $(document).ready(function(){
 	 getInterest();
+	 getMyInfo();
 	
 });
+
+function checkAndsubmit(){
+	// 정규식(길이,패턴) 체크 ~ 이것도 나중에
+	
+	// 비밀번호 체크 ~ 이건 나중에
+	
+	
+	// 전송
+	if (confirm("회원정보를 수정하시겠습니까?")) {	$('#userForm').submit() }	
+	
+}
+
+
 
 // 개인정보를 갖고와서 찍기
 function getMyInfo(){
 	
 	let data = null;
-	let url = "/auth/codeList";
+	let url = "/user/selectUser";
 	let error="에러가발생했습니다. 다시시작해 주세요";
 	
+	let resultData = callAjax(data, url, error);
 	
+	console.log(resultData);
+	
+	// 여기서 부터 화면에 찍는로직
+	let user = resultData.user;	// user 정보만 갖고오고
+	
+	var array = new Array();	// arrayList생성 (키만 담을ㄹ고)
+	for (var key in user) {
+	      $('#'+key).val(user[key]);	
+	      
+	      if(key == "memGender"){
+	    	  $('input:radio[name="memGender"][value="'+user[key]+'"]').prop('checked', true);
+	      
+	      }else if(key == "memInt1"){
+	    	  $('input:radio[name="memInt1"][value="'+user[key]+'"]').prop('checked', true);
+	    	  
+	      }else if(key == "memInt2"){
+	    	  $('input:radio[name="memInt2"][value="'+user[key]+'"]').prop('checked', true);
+	    	  
+	      }else if(key == "memInt3"){
+	    	  $('input:radio[name="memInt3"][value="'+user[key]+'"]').prop('checked', true);
+	      }
+	}
+	
+	console.log(array);
 	
 }
 

@@ -2,8 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.breaktheice.moimat.persistence.UserMapper">
 	
-	<select id="selectSampleDomain" resultType="com.breaktheice.moimat.domain.SampleDomain">
-		select * from sampletable
+	<select id="selectMember" parameterType="String" resultType="com.breaktheice.moimat.domain.MemberDomain">
+		SELECT
+			MEM_EMAIL
+			,MEM_NICKNAME
+			,MEM_GENDER
+			,MEM_BIRTHDAY
+			,MEM_AREA
+			,MEM_INT1
+			,MEM_INT2
+			,MEM_INT3
+		FROM
+			MEMBER
+		
+		WHERE
+			MEM_EMAIL = #{memEmail}
+			
 	</select>
 	
 </mapper>
