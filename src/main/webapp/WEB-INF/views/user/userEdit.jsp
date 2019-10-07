@@ -52,7 +52,7 @@
 					    <div class="col-lg-6">
 					        <div class="panel">
 					            <div class="panel-heading">
-					                <h3 class="panel-title">회원정보</h3>
+					                <h3 class="panel-title">회원정보수정</h3>
 					            </div>
 					
 					
@@ -64,7 +64,7 @@
 					                <div class="form-group">
 					                    <label class="col-md-3 control-label">닉네임</label>
 					                    <div class="col-md-9">
-					                    	<input type="text" id="memNickname" name="memNickname" class="form-control" readOnly>
+					                    	<input type="text" id="memNickname" name="memNickname" class="form-control" >
 					                    </div>
 					                </div>
 					                
@@ -75,12 +75,39 @@
 					                        <input type="email" id="memEmail" name="memEmail" class="form-control" readOnly>
 					                    </div>
 					                </div>
-										             		
+					
+					                <!-- 현재 비밀번호 -->
+					                <div class="form-group">
+					                    <label class="col-md-3 control-label" for="demo-text-input">기존 비밀번호</label>
+					                    <div class="col-md-9">
+					                        <input type="password" id="memPassword" class="form-control" placeholder="Text" >
+					                        <small class="help-block"></small>
+					                    </div>
+					                </div>
+					                
+					                 <!-- 신규 비밀번호 -->
+					                <div class="form-group">
+					                    <label class="col-md-3 control-label" for="demo-text-input">신규비밀 번호</label>
+					                    <div class="col-md-9">
+					                        <input type="password" id="newPassword" class="form-control" placeholder="Text" >
+					                    </div>
+					                </div>
+					                
+					                 <!-- 신규 비밀번호 확인 -->
+					                <div class="form-group">
+					                    <label class="col-md-3 control-label" for="demo-text-input">비밀번호 다시 입력확인</label>
+					                    <div class="col-md-9">
+					                        <input type="password" id="newPasswordCheck" class="form-control" placeholder="Text" >
+					                        <small id="passMsg" class="help-block">This is a help text</small>
+					                        <button class="btn btn-success" type="button" onclick="changePassword();">비밀번호 변경</button>
+					                    </div>
+					                </div>
+					
 					                <!--생일-->
 					                <div class="form-group">
 					                    <label class="col-md-3 control-label" for="demo-readonly-input">생일</label>
 					                    <div class="col-md-9">
-					                        <input type="text" id="memBirthday" name="memBirthday" class="form-control" placeholder="숫자 8자리 YYYYMMDD ex)19910215" readOnly >
+					                        <input type="text" id="memBirthday" name="memBirthday" class="form-control" placeholder="숫자 8자리 YYYYMMDD ex)19910215"  >
 					                    </div>
 					                </div>
 									
@@ -138,7 +165,7 @@
 					                </div>
 					                
 					               <div class="panel-footer text-right">
-					                    	<a class="btn btn-success" href="/user/ggg/edit/">회원정보수정</a>
+					                    	<button class="btn btn-success" type="button" onclick="checkAndsubmit();">수정완료</button>
 					               </div>
 					            </form>
 					            <!--===================================================-->
@@ -147,6 +174,9 @@
 					
 					        </div>
 					    </div>
+					
+
+
 				</div>
 				<!--===================================================-->
 				<!--End page content-->
@@ -174,9 +204,103 @@ $(document).ready(function(){  //onload 함수
 	 getInterest();
 	 getMyInfo();
 	
+	 $('#newPassword').blur(newPasswordCheck);		// 이벤트등록 (신규비밀 번호)
+	 $('#newPasswordCheck').blur(rePasswordCheck);	// 이벤트등록 (비밀번호 다시 입력확인)
 });
 
+function changePassword(){
+	
+	// 유효성 검사 : 신규비밀번호, 비밀번호 확인
+	if(newPasswordCheck()){ return; }
+	if(rePasswordCheck()){ return; }
+	
+	// 기존비밀번호 검사
+	if(passwordCheck()){ return; }
+	
+	// 기존비밀번호 서버로 보내서 비밀번호가 맞는지 확인
+	let memPassword = $('#memPassword').val();
+	let memEmail = $('#memEmail').val()
+	
+	let url = '/user/checkPassword';
+	let data = { memPassword : memPassword, 
+				memEmail : memEmail   
+				};
+	let error= "에러가 발생하였습니다. 관리자에게 문의하세요"
 
+	// ajax로 데이터 전송
+	let resultData = callAjax(data, url, error)
+	
+	// 결과값 확인
+	if(resultData.msgCode == 0){
+		$('#passMsg').text("비밀번호가 다름니다.").css('color','red');
+		return;
+	}
+	
+	// 비밀번호 변경
+	memPassword = $('#newPassword').val()
+	url = '/user/changePassword';
+	data = { memPassword : memPassword, 
+				memEmail : memEmail   
+		};
+	
+	// ajax로 데이터 전송 - 비밀번호 변경
+	resultData = callAjax(data, url, error);
+	
+	// 결과값 확인
+	alert(resultData.msg);
+	
+	// 기존 신규 다 비우기
+	$('#memPassword').val('');
+	$('#newPasswordCheck').val('');
+	$('#newPassword').val('');
+
+}
+
+function checkAndsubmit(){
+	// 정규식(길이,패턴) 체크 ~ 이것도 나중에
+	// 1) 생일 유효성 체크(길이, 숫자만)
+	
+	// 전송
+	if (confirm("회원정보를 수정하시겠습니까?")) {	$('#userForm').submit() }	
+	
+}
+
+//기존 비밀번호 유효성 검사
+function passwordCheck(){
+	if(nul_chk($('#memPassword'),8,15)){
+		$('#passMsg').text("기존 패스워드는 8자이상 15자 미만입니다").css('color','red');
+		alert("dfu")
+		return true;
+	}else{
+		$('#passMsg').text("").css('color','black');
+	}
+}
+
+// 신규 패스워드 검사
+function newPasswordCheck(){
+	if(nul_chk($('#newPassword'), 8,15)){	// 빈문자,길이체크:  nul_chk("검사할 객체, 최소길이, 최대길이") 리턴 true and false
+		$('#passMsg').text("신규 패스워드는 8자이상 15자 미만입니다").css('color','red');
+		return true;
+	}else{
+		$('#passMsg').text("").css('color','black');
+		return false;
+	}
+}
+
+//신규 패스워드 확인 검사
+function rePasswordCheck(){
+	 let newPassword = $('#newPassword').val()
+	 let rePassword = $('#newPasswordCheck').val()
+	 
+	 if(newPasswordCheck()){ return false; }
+	 
+	 if(newPassword != rePassword){
+		 $('#passMsg').text("신규 비밀번호가 일치하지 않습니다.").css('color','red');
+		 return true;
+	 }else{
+		 $('#passMsg').text("").css('color','black');
+	 }
+}
 
 // 개인정보를 갖고와서 찍기
 function getMyInfo(){
@@ -259,6 +383,27 @@ function callAjax(data, url, error) {
 
 	return resultData
 }
+
+//문자 공백 없애기
+function is_trim(str){
+	var strValue = new String(str)
+	return strValue.replace(/(^ +)|( +$)/g,'')
+}
+
+//널 또는 빈문자열 및 길이 체크
+function nul_chk(obj, start,end){
+	if(is_trim(obj.val()) == '' )
+	{
+		//obj.focus();
+		return true;
+	}else if(obj.val().length <start || obj.val().length > end ){
+		//obj.focus();
+		return true;
+	}
+	return false;
+}
+
+
 
 </script>	
 	

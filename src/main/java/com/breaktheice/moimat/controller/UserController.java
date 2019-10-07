@@ -33,11 +33,11 @@ public class UserController {
 	
 	@Autowired
 	AuthService authService;
-
-	@GetMapping("/{id}/edit")
+	
+	@GetMapping("/{id}/")
 	public String users(Model model, HttpServletRequest request) {
 		
-		log.info("get : /users/{id}/edit..호출");
+		log.info("get : /users/{id}..호출");
 		
 		HttpSession session = request.getSession(false);
 		
@@ -50,6 +50,23 @@ public class UserController {
 		
 		return "user/user";
 	}
+
+	@GetMapping("/{id}/edit")
+	public String userEdit(Model model, HttpServletRequest request) {
+		
+		log.info("get : /users/{id}/edit..호출");
+		
+		HttpSession session = request.getSession(false);
+		
+		if(session == null) { return "redirect:/auth/login"; }				// 세션이 없을시 로그인페이지
+		MemberDomain member = (MemberDomain)session.getAttribute("loginVO");
+		
+		if(member == null) { return "redirect:/auth/login"; }
+		
+		log.info("인증");
+		
+		return "user/userEdit";
+	}
 	
 	@PostMapping("/{id}/edit")
 	public String template(MemberDomain user) {
@@ -57,7 +74,7 @@ public class UserController {
 		
 		authService.updateMember(user);
 		
-		return "template";
+		return "index";
 	}
 	
 	/**
