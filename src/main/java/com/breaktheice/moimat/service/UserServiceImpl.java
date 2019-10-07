@@ -40,8 +40,35 @@ public class UserServiceImpl implements UserService {
 		log.info(member);
 		if(password.equals(member.getMemPassword())) {
 			return true;
-		}
+		}	
 		
+		return false;
+		
+	}
+	
+	public boolean updateMember(MemberDomain member) {
+
+		int cnt = userMapper.updateMember(member);
+		
+		log.info("update result: " + member);
+		if (cnt == 1) {
+			return true;
+		}
+
+		return false;
+
+	}
+	
+	public boolean withdrawMember(MemberDomain member) {
+		
+		member.setMemStatus(2L);	// 2: 탈퇴??
+		
+		log.info("withdrawMember: " + member);
+		int cnt = userMapper.updateMemStatus(member);
+		if (cnt == 1) {
+			return true;
+		}
+
 		return false;
 		
 	}

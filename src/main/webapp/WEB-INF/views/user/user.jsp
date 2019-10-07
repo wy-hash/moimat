@@ -6,7 +6,7 @@
 
 <!-- HEAD -->
 <%@ include file="../includes/head.jsp"%>
-<title>Page Template | moim@</title>
+<title>마이페이지 | moim@</title>
 </head>
 <!-- END HEAD -->
 

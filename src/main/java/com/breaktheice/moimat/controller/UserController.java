@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.service.AuthService;
@@ -25,7 +26,7 @@ import lombok.extern.log4j.Log4j;
 
 @Controller
 @Log4j
-@RequestMapping("/user")
+@RequestMapping("/myPage")
 public class UserController {
 
 	@Autowired
@@ -34,10 +35,10 @@ public class UserController {
 	@Autowired
 	AuthService authService;
 	
-	@GetMapping("/{id}/")
+	@GetMapping("/") // user/
 	public String users(Model model, HttpServletRequest request) {
 		
-		log.info("get : /users/{id}..호출");
+		log.info("get : /myPage/..호출");
 		
 		HttpSession session = request.getSession(false);
 		
@@ -51,10 +52,10 @@ public class UserController {
 		return "user/user";
 	}
 
-	@GetMapping("/{id}/edit")
-	public String userEdit(Model model, HttpServletRequest request) {
+	@GetMapping("/edit")
+	public String userEditPage(Model model, HttpServletRequest request) {
 		
-		log.info("get : /users/{id}/edit..호출");
+		log.info("get : /users/edit..호출");
 		
 		HttpSession session = request.getSession(false);
 		
@@ -68,9 +69,9 @@ public class UserController {
 		return "user/userEdit";
 	}
 	
-	@PostMapping("/{id}/edit")
-	public String template(MemberDomain user) {
-		log.info("post : /users/{id}/edit..호출");
+	@PostMapping("/edit")
+	public String userEdit(MemberDomain user) {
+		log.info("post : /users/edit..호출");
 		
 		authService.updateMember(user);
 		
@@ -191,4 +192,43 @@ public class UserController {
 		
 		return resultJson;	//json 형식으로 전송
 	}
+
+	@GetMapping("/withdraw")
+	public String withdrawPage(Model model, HttpServletRequest request) {
+		
+		log.info("get : /users/withdrawPage ..호출");
+		
+		// 인터셉터 처리해서 세션감지
+		HttpSession session = request.getSession(false);
+		
+		if(session == null) { return "redirect:/auth/login"; }					// 세션이 없을시 로그인페이지
+		MemberDomain member = (MemberDomain)session.getAttribute("loginVO");	
+		if(member == null) { return "redirect:/auth/login"; }
+		
+		
+		return "user/withdraw";
+	}
+	
+	@PostMapping("/withdraw")
+	public String withdraw(Model model, HttpServletRequest request, RedirectAttributes reAttr) {
+		
+		log.info("get : /users/withdraw ..호출");
+		
+		// 인터셉터 처리해서 세션감지
+		HttpSession session = request.getSession(false);
+		if(session == null) { return "redirect:/auth/login"; }					// 세션이 없을시 로그인페이지
+		MemberDomain member = (MemberDomain)session.getAttribute("loginVO");	
+		if(member == null) { return "redirect:/auth/login"; }
+		
+		boolean result = userService.withdrawMember(member);
+		
+		if(result) {
+			session.invalidate();    		// 세션끊기
+			return "redirect:/auth/login";
+		}
+		reAttr.addFlashAttribute("msg", "에러가 발생하였습니다. 다시 시도해주세요");
+		
+		return "redirect:/auth/login";
+	}
+	
 }

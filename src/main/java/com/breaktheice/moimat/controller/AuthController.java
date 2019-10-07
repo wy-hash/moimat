@@ -20,6 +20,7 @@ import com.breaktheice.moimat.domain.CertDomain;
 import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.service.AuthService;
 import com.breaktheice.moimat.service.MailSenderService;
+import com.breaktheice.moimat.service.UserService;
 import com.breaktheice.moimat.util.SHA256;
 import com.google.gson.Gson;
 
@@ -32,6 +33,9 @@ public class AuthController {
 
 	@Autowired
 	AuthService authService; 
+	
+	@Autowired
+	UserService userService; 
 	
 	@Autowired
 	MailSenderService mailService;
@@ -182,7 +186,7 @@ public class AuthController {
 			member.setMemEmail(email);
 			member.setMemPassword(tmpHashPassword);
 			
-			boolean result = authService.updateMember(member);
+			boolean result = userService.updateMember(member);
 			
 			if(result) {
 				map.put("msg", "임시비밀번호를 발송하였습니다");
