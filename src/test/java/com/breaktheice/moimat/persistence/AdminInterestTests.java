@@ -26,7 +26,7 @@ public class AdminInterestTests {
 		domain.setIntKey("IN12");
 		domain.setIntName("관심사테스트12");
 		domain.setIntOrder(0L);
-		domain.setIntIsUse("Y");
+		domain.setIntUse("Y");
 		
 		System.out.println(domain);
 		
@@ -75,7 +75,7 @@ public class AdminInterestTests {
 		domain.setIntKey("IN99");
 		domain.setIntName("관심사 수정하였습니다12443");
 		domain.setIntOrder(33L);
-		domain.setIntIsUse("N");
+		domain.setIntUse("N");
 		try {
 			log.info("성공 : " + mapper.update(domain));
 			

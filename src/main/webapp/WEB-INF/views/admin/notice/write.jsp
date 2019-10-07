@@ -9,21 +9,21 @@
 <%@ include file="../../includes/head.jsp"%>
 
 <!--Bootstrap Table [ OPTIONAL ]-->
-<link href="/resources/plugins/bootstrap-table/bootstrap-table.min.css"
-	rel="stylesheet">
+<link href="/resources/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
 
 
 <!--X-editable [ OPTIONAL ]-->
-<link href="/resources/plugins/x-editable/css/bootstrap-editable.css"
-	rel="stylesheet">
+<link href="/resources/plugins/x-editable/css/bootstrap-editable.css" rel="stylesheet">
+<!-- 썸머노트 css-->
+<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
 <style>
-.mt-20 {
-	margin-top: 20px;
-}
+	.mt-20 {
+		margin-top: 20px;
+	}
 
-.color {
-	color: yellowgreen;
-}
+	.color {
+		color: yellowgreen;
+	}
 </style>
 
 <title>Page Template | moim@</title>
@@ -59,7 +59,7 @@
 				<!--Page Title-->
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<div id="page-title">
-					<h1 class="page-header text-overflow">게시판 관리</h1>
+					<h1 class="page-header text-overflow">공지사항 관리</h1>
 				</div>
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<!--End page title-->
@@ -74,65 +74,49 @@
 					<!--===================================================-->
 					<div class="panel">
 						<div class="panel-heading">
-							<h3 class="panel-title">게시판 코드 추가</h3>
+							<h3 class="panel-title">공지사항 작성</h3>
 						</div>
-
-						<form id="boardForm" name="boardForm"
-							action="/admin/board/new"
+						<form id="noticeForm" name="noticeForm" action="/admin/notice/new"
 							class="panel-body form-horizontal form-padding" method="post">
+							<input type="hidden" id="postId" name="brdId" value="1"><!-- 추후 el태그로 이용할 예정 -->
+							<input type="hidden" id="memId" name="memId" value="1"><!-- 추후 세션으로 이용할 예정 -->
+							<input type="hidden" id="postNickname" name="postNickname" value="관리자"><!-- 추후 세션으로 이용할 예정 -->
+							<input type="hidden" id="postEmail" name="postEmail" value="moimMaster@master.com"><!-- 추후 세션으로 이용할 예정 -->
+							<input type="hidden" id="postReply" name="postReply" value="">
+							<input type="hidden" id="postDepth" name="postDepth" value="0">
 
-							<!-- 게시판 코드-->
+							<!--게시글 정렬순서-->
 							<div class="form-group">
-								<label class="col-md-3 control-label" for="brdKey"><strong>게시판
-										코드</strong></label>
-								<div class="col-md-9">
-									<input type="text" id="brdKey" name="brdKey"
-										class="form-control"
-										placeholder="게시판 코드를 입력해 주세요. (ex)영어 2자리 + 숫자 2자리 => IN01"
-										maxlength="4"> <small class="help-block"
-										id="brdKeyHint"></small>
+								<label class="col-md-2 control-label" for="postNum"><strong>게시글 정렬순서</strong></label>
+								<div class="col-md-10">
+									<input type="text" id="postNum" name="postNum" class="form-control"
+										placeholder="공지사항을 상단에 먼저 보이게 하려면 숫자를 높게 설정하세요. 숫자만 입력 가능합니다.">
+									<small class="help-block" id="postNumHint"></small>
 								</div>
 							</div>
 
-							<!--게시판 이름-->
+							<!-- 제목 -->
 							<div class="form-group">
-								<label class="col-md-3 control-label" for="brdName"><strong>게시판
-										이름</strong></label>
-								<div class="col-md-9">
-									<input type="text" id="brdName" name="brdName"
-										class="form-control" placeholder="게시판 이름을 입력해 주세요"> <small
-										class="help-block" id="brdNameHint"></small>
+								<label class="col-md-2 control-label" for="postTitle"><strong>제목 </strong></label>
+								<div class="col-md-10">
+									<input type="text" id="postTitle" name="postTitle" class="form-control" placeholder="제목을 입력해 주세요. ">
+									<small class="help-block" id="postTitleHint"></small>
 								</div>
 							</div>
 
-							<!--게시판 정렬순서-->
+							<!-- 내용 -->
 							<div class="form-group">
-								<label class="col-md-3 control-label" for="brdOrder"><strong>게시판
-										정렬순서</strong></label>
-								<div class="col-md-9">
-									<input type="text" id="brdOrder" name="brdOrder"
-										class="form-control"
-										placeholder="게시판를 먼저 보이게 하려면 숫자를 높게 설정하세요"> <small
-										class="help-block" id="brdOrderHint"></small>
+								<label class="col-md-2 control-label" for="postContent"><strong>내용</strong></label>
+								<div class="col-md-10">
+									<textarea id="postContent" name="postContent" class="form-control"></textarea>
+									<small class="help-block" id="postContentHint"></small>
 								</div>
 							</div>
 
-							<!--게시판 사용 여부-->
-							<div class="form-group">
-								<label class="col-md-3 control-label" for="brdUse"><strong>게시판
-										사용 여부</strong></label>
-								<div class="col-md-9">
-									<label class="radio-inline"> <input type="radio"
-										id="brdUse_Y" name="brdUse" value="Y" checked> 사용
-									</label> <label class="radio-inline"> <input type="radio"
-										id="brdUse_N" name="brdUse" value="N"> 미사용
-									</label>
-								</div>
-							</div>
+
 							<div class="row pull-right">
-								<button type="button" id="brdSubmit"
-									class="btn btn-success  mt-20">확인</button>
-								<button type="button" id="brdCansel" class="btn btn-danger  mt-20">취소</button>
+								<button type="button" id="postSubmit" class="btn btn-success  mt-20">확인</button>
+								<button type="button" id="postCansel" class="btn btn-danger  mt-20">취소</button>
 							</div>
 						</form>
 						<!--===================================================-->
@@ -170,8 +154,7 @@
 
 
 	<!--X-editable [ OPTIONAL ]-->
-	<script
-		src="/resources/plugins/x-editable/js/bootstrap-editable.min.js"></script>
+	<script src="/resources/plugins/x-editable/js/bootstrap-editable.min.js"></script>
 
 
 	<!--Bootstrap Table [ OPTIONAL ]-->
@@ -179,128 +162,93 @@
 
 
 	<!--Bootstrap Table Extension [ OPTIONAL ]-->
-	<script
-		src="/resources/plugins/bootstrap-table/extensions/editable/bootstrap-table-editable.js"></script>
+	<script src="/resources/plugins/bootstrap-table/extensions/editable/bootstrap-table-editable.js"></script>
+	
+	
+	<!-- 썸머노트 JS -->
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
 
 	<script>
-		$(document).ready(function() {
-			validation();
-			$('#brdSubmit').on('click', submitCheck);
+		$(document).ready(function () {
+			// 썸머노트 실행
+			$('#postContent').summernote({
+		        placeholder: '내용을 입력해 주세요.',
+		        tabsize: 2,
+		        height: 400
+			});
 			
-			$('#brdCansel').on('click', function(){
-				let url = location.origin+'/admin/board/list';
+			// 각 유효성 검사 이벤트 등록
+			validation();
+			
+			$('#postSubmit').on('click', submitCheck);
+			$('#postCansel').on('click', function () {
+				let url = location.origin + '/admin/notice/list';
 				location.href = url;
 			});
+			
+			
 		});
 
 		function validation() {
-			// 유효성 검사
+			// 유효성 검사 이벤트 등록
 
-			// 게시판 코드 
-			$('#brdKey').on(
-					'keyup',
-					function() {
-
-						$("#brdKey").val(
-								$("#brdKey").val().replace(/[^a-z0-9]/gi, ''));
-						let brdKeyVal = $("#brdKey").val();
-
-						if (brdKeyVal.length == 4) {
-							$.ajax({
-								method : "POST",
-								url : "/admin/board/keyCheck",
-								data : {
-									brdKey : brdKeyVal
-								}
-							}).done(
-									function(result) {
-										if (result === "true") {
-											$('#brdKeyHint').css('color',
-													'yellowgreen');
-											$('#brdKeyHint')
-													.data('isUse', true);
-											$('#brdKeyHint').html(
-													'사용 가능한 코드입니다.');
-										} else {
-											$('#brdKeyHint')
-													.css('color', 'red');
-											$('#brdKeyHint').data('isUse',
-													false);
-											$('#brdKeyHint').html(
-													'사용 불가능한 코드입니다.');
-										}
-									});
-						} else {
-							$('#brdKeyHint').css('color', 'black');
-							$('#brdKeyHint').data('isUse', false);
-							$('#brdKeyHint').html('');
-						}
-					});
-
-			// 게시판 정렬 우선순위 숫자만 입력받기. 정규식 사용
-			$('#brdOrder').on(
-					'keyup',
-					function() {//키를 뗄 때
-						$('#brdOrder').val(
-								$('#brdOrder').val().replace(/[^0-9]/g, ""));
-					});
-
+			// 공지사항 정렬 우선순위 숫자만 입력받기. 정규식 사용
+			$('#postNum').on('keyup', function () { //키를 뗄 때
+					$('#postNum').val($('#postNum').val().replace(/[^0-9]/g, ""));
+				});
 		}
 
 		function submitCheck() {
-
+		
 			let result = true;
 
-			let brdKey = $('#brdKey').val();
-			let brdKeyHint = $('#brdKeyHint');
+			let postNum= $('#postNum').val();
+			let postNumHint = $('#postNumHint');
+			
+			let postTitle = $('#postTitle').val();
+			let postTitleHint = $('#postTitleHint');
 
-			let brdName = $('#brdName').val();
-			let brdNameHint = $('#brdNameHint');
-
-			let brdOrder = $('#brdOrder').val();
-			let brdOrderHint = $('#brdOrderHint');
+			let postContent = $('#postContent').val();
+			let postContentHint = $('#postContentHint');
 
 			// 폼 입력 체크
-			if (brdKey === '' || brdKey.length !== 4) {
-
-				$('#brdKey').focus();
-
-				brdKeyHint.css('color', 'red');
-				brdKeyHint.data('isUse', false);
-				brdKeyHint.html('게시판 코드를 입력해 주세요.');
+			
+			if (postNum === '' || postNum.length === 0) {
+				$('#postNum').focus();
+				postNumHint.css('color', 'red');
+				postNumHint.html('게시글의 정렬 순서를 입력해 주세요. 숫자만 입력 가능합니다.');
 				result = false;
-			} else {
-				if (!brdKeyHint.data('isUse')) {
-					brdKeyHint.css('color', 'red');
-					brdKeyHint.data('isUse', false);
-					brdKeyHint.html('올바른 게시판 코드를 입력해 주세요.');
-					result = false;
-				}
+			}else{
+				postNumHint.html('');
 			}
-			if (brdName === '' || brdName.length === 0) {
-
-				$('#brdName').focus();
-				brdNameHint.css('color', 'red');
-				brdNameHint.html('게시판 이름을 입력해 주세요.');
-
+			if (postTitle === '' || postTitle.length === 0) {
+				$('#postTitle').focus();
+				postTitleHint.css('color', 'red');
+				postTitleHint.html('제목을 입력해 주세요.');
 				result = false;
+			}else{
+				postTitleHint.html('');
 			}
-			if (brdOrder === '' || brdOrder.length === 0) {
+			if (postContent === '' || postContent.length === 0) {
 
-				$('#brdOrder').focus();
-				brdOrderHint.css('color', 'red');
-				brdOrderHint.html('게시판 우선순위를 입력해 주세요.');
+// 				$('#postContent').focus();
+				$('#note-editable').focus();
+				postContentHint.css('color', 'red');
+				postContentHint.html('내용을 입력해 주세요.');
 
 				result = false;
+			}else{
+				postContentHint.html('');
 			}
 
 			// 모든 조건이 올바르게 입력되었다면 폼 전송
 			if (result) {
-				$('#boardForm').submit();
+				$('#noticeForm').submit();
 			}
 
 		}
 	</script>
 
 </body>
+
 </html>

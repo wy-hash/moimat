@@ -42,9 +42,9 @@ public class AuthServiceImpl implements AuthService {
 		// 2. db에서 갖고옴(아직 mapper 안만듬)
 		MemberDomain loginVo = mapper.login(vo);
 
-		log.info(loginVo);
-		log.info("db의 패스워드" + loginVo.getMemPassword());
-		log.info("사용자의 패스워드" + inputPwd);
+		//log.info(loginVo);
+		//log.info("db의 패스워드" + loginVo.getMemPassword());
+		//log.info("사용자의 패스워드" + inputPwd);
 
 		// 3. 비교
 		if (loginVo != null && inputPwd.equals(loginVo.getMemPassword())) {

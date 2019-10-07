@@ -75,9 +75,9 @@
 							<input type="hidden" id="brdKeyPrev" value="${view.brdKey }" />
 							<!-- 게시판 코드-->
 							<div class="form-group">
-								<label class="col-md-3 control-label" for="brdKey"><strong>게시판
+								<label class="col-md-2 control-label" for="brdKey"><strong>게시판
 										코드</strong></label>
-								<div class="col-md-9">
+								<div class="col-md-10">
 									<input type="text" id="brdKey" name="brdKey" class="form-control" value="${view.brdKey }" 
 										placeholder="게시판 코드를 입력해 주세요. (ex)영어 2자리 + 숫자 2자리 => BO01" maxlength="4"> <small class="help-block"
 										id="brdKeyHint"></small>
@@ -86,9 +86,9 @@
 
 							<!--게시판 이름-->
 							<div class="form-group">
-								<label class="col-md-3 control-label" for="brdName"><strong>게시판
+								<label class="col-md-2 control-label" for="brdName"><strong>게시판
 										이름</strong></label>
-								<div class="col-md-9">
+								<div class="col-md-10">
 									<input type="text" id="brdName" name="brdName" class="form-control" value="${view.brdName }" placeholder="게시판 이름을 입력해 주세요">
 									<small class="help-block" id="brdNameHint"></small>
 								</div>
@@ -96,9 +96,9 @@
 
 							<!--게시판 정렬순서-->
 							<div class="form-group">
-								<label class="col-md-3 control-label" for="brdOrder"><strong>게시판
+								<label class="col-md-2 control-label" for="brdOrder"><strong>게시판
 										정렬순서</strong></label>
-								<div class="col-md-9">
+								<div class="col-md-10">
 									<input type="text" id="brdOrder" name="brdOrder" class="form-control" value="${view.brdOrder }"
 										placeholder="게시판를 먼저 보이게 하려면 숫자를 높게 설정하세요"> <small class="help-block" id="brdOrderHint"></small>
 								</div>
@@ -106,9 +106,9 @@
 
 							<!--게시판 사용 여부-->
 							<div class="form-group">
-								<label class="col-md-3 control-label" for="brdUse"><strong>게시판
+								<label class="col-md-2 control-label" for="brdUse"><strong>게시판
 										사용 여부</strong></label>
-								<div class="col-md-9">
+								<div class="col-md-10">
 									<label class="radio-inline"> <input type="radio" id="brdUse_Y" name="brdUse" value="Y" <c:if test="${'Y' eq view.brdUse }"> checked</c:if>> 사용
 									</label> <label class="radio-inline"> <input type="radio" id="brdUse_N" name="brdUse" value="N" <c:if test="${'N' eq view.brdUse }"> checked</c:if>>
 										미사용

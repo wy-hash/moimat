@@ -83,9 +83,9 @@
 
 							<!-- 게시판 코드-->
 							<div class="form-group">
-								<label class="col-md-3 control-label" for="brdKey"><strong>게시판
+								<label class="col-md-2 control-label" for="brdKey"><strong>게시판
 										코드</strong></label>
-								<div class="col-md-9">
+								<div class="col-md-10">
 									<input type="text" id="brdKey" name="brdKey"
 										class="form-control"
 										placeholder="게시판 코드를 입력해 주세요. (ex)영어 2자리 + 숫자 2자리 => IN01"
@@ -96,9 +96,9 @@
 
 							<!--게시판 이름-->
 							<div class="form-group">
-								<label class="col-md-3 control-label" for="brdName"><strong>게시판
+								<label class="col-md-2 control-label" for="brdName"><strong>게시판
 										이름</strong></label>
-								<div class="col-md-9">
+								<div class="col-md-10">
 									<input type="text" id="brdName" name="brdName"
 										class="form-control" placeholder="게시판 이름을 입력해 주세요"> <small
 										class="help-block" id="brdNameHint"></small>
@@ -107,9 +107,9 @@
 
 							<!--게시판 정렬순서-->
 							<div class="form-group">
-								<label class="col-md-3 control-label" for="brdOrder"><strong>게시판
+								<label class="col-md-2 control-label" for="brdOrder"><strong>게시판
 										정렬순서</strong></label>
-								<div class="col-md-9">
+								<div class="col-md-10">
 									<input type="text" id="brdOrder" name="brdOrder"
 										class="form-control"
 										placeholder="게시판를 먼저 보이게 하려면 숫자를 높게 설정하세요"> <small
@@ -119,9 +119,9 @@
 
 							<!--게시판 사용 여부-->
 							<div class="form-group">
-								<label class="col-md-3 control-label" for="brdUse"><strong>게시판
+								<label class="col-md-2 control-label" for="brdUse"><strong>게시판
 										사용 여부</strong></label>
-								<div class="col-md-9">
+								<div class="col-md-10">
 									<label class="radio-inline"> <input type="radio"
 										id="brdUse_Y" name="brdUse" value="Y" checked> 사용
 									</label> <label class="radio-inline"> <input type="radio"

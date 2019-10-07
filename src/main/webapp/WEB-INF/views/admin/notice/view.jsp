@@ -67,56 +67,44 @@
 					<!--===================================================-->
           <div class="panel">
             <div class="panel-heading">
-                <h3 class="panel-title">공지사항 코드 상세보기</h3>
+                <h3 class="panel-title">게시글 상세 보기</h3>
             </div>
-            <form id="boardForm" name="boardForm" class="panel-body form-horizontal form-padding" action="/admin/board/delete" method="post">
+            <form id="noticeForm" name="noticeForm" class="panel-body form-horizontal form-padding">
 				<input type="hidden" id="postId" name="postId" value="${view.postId }" />
+				<input type="hidden" name="type" value ="${pageMaker.cri.brdId }">
+	        	<input type="hidden" name="keyword" value="${pageMaker.cri.keyword }">
+				<input type="hidden" name="brdId" value ="${pageMaker.cri.brdId }">
+				<input type="hidden" name="pageNum" value ="${pageMaker.cri.pageNum }">
+				<input type="hidden" name="amount" value ="${pageMaker.cri.amount }">
+				
                 <!-- 공지사항 코드-->
                 <div class="form-group">
-                    <label class="col-md-3 control-label" for="postKey"><strong>공지사항 코드</strong></label>
-                    <div class="col-md-9">
-                        <p class="form-control-static">${view.postKey}</p>
+                    <label class="col-md-2 control-label" for="postTitle"><strong>게시글 제목</strong></label>
+                    <div class="col-md-10">
+                        <p class="form-control-static">${view.postTitle}</p>
                     </div>
                 </div>
 
                 <!--공지사항 이름-->
                 <div class="form-group">
-                    <label class="col-md-3 control-label" for="postName"><strong>공지사항 이름</strong></label>
-                    <div class="col-md-9">
-                        <p class="form-control-static">${view.postName}</p>
+                    <label class="col-md-2 control-label" for="postContent"><strong>게시글 내용</strong></label>
+                    <div class="col-md-10">
+
+                        	${view.postContent}
                     </div>
                 </div>
 
-                <!--공지사항 정렬순서-->
-                <div class="form-group">
-                    <label class="col-md-3 control-label" for="postOrder"><strong>공지사항 정렬순서</strong></label>
-                    <div class="col-md-9">
-                        <p class="form-control-static">${view.postOrder}</p>
-                    </div>
-                </div>
-
-                <!--공지사항 사용 여부-->
-                <div class="form-group">
-                    <label class="col-md-3 control-label" for="postUse"><strong>공지사항 사용 여부</strong></label>
-                    <div class="col-md-9">
-                 <p class="form-control-static">
-                 	<c:choose>
-                 		<c:when test="${'Y' eq view.postUse }">
-                 			사용
-                 		</c:when>
-          		        <c:when test="${'N' eq view.postUse }">
-                 			미사용
-                 		</c:when> 
-                 	</c:choose>
-                 </p>
+    
 
 <!--                         <small class="help-block">Please enter password</small> -->
+           	<div class="row pull-right  mt-20">
+                	<button type="button" id="edit" class="btn btn-success"> 수정</button>
+                	<button type="button" id="delete" class="btn btn-danger"> 삭제</button>
+                </div>
                     </div>
+    
                 </div>
-                <div class="row pull-right">
-                	<button type="button" id="edit" class="btn btn-success  mt-20"> 수정</button>
-                	<button type="button" id="delete" class="btn btn-danger  mt-20"> 삭제</button>
-                </div>
+
             </form>
             <!--===================================================-->
             <!-- END BASIC FORM ELEMENTS -->
@@ -141,7 +129,7 @@
 		<!-- END BOXED -->
 		
 		<!-- FOOTER -->
-		<%@ include file="../../includes/footer.jsp" %>
+<%-- 		<%@ include file="../../includes/footer.jsp" %> --%>
 		<!-- END FOOTER -->
 		
 			
@@ -165,19 +153,29 @@
 
 	<script>
 		$(document).ready(function(){
+
 			
-			let id = $('#postId').val();
-			
+			$('#edit').on('click',   formSubmit);
 			$('#delete').on('click', formSubmit);
 			
-			$('#edit').on('click', function(){
-				let url = location.origin+'/admin/board/edit/'+id;
-				location.href = url;
-			});
 		});
 		
 		function formSubmit(){
-			$('#boardForm').submit();
+			
+			const id = $('#postId').val();
+			const uri = '/admin/notice/'
+			
+			const action = $(this).attr('id');
+			
+			if(action === 'edit'){
+				$('#noticeForm').attr('method','get');
+				$('#noticeForm').attr('action',uri+action+'/'+id);
+				$('#noticeForm').submit();
+			}else if(action ==='delete'){
+				$('#noticeForm').attr('method','post');
+				$('#noticeForm').attr('action',uri+action);
+				$('#noticeForm').submit();
+			}
 		}
 	</script>
 

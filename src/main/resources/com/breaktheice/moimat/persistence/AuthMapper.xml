@@ -40,7 +40,7 @@
 			,#{memNickname}
 			,#{memBirthday}	 
 			,#{memGender}	
-			,#{memArea}
+			,#{areaId}
 			,SYSDATE
 			,SYSDATE
 			,SYSDATE
@@ -115,7 +115,7 @@
 			,MEM_BIRTHDAY 	= CASE WHEN #{memBirthday} 	IS NULL THEN MEM_BIRTHDAY 	ELSE 	#{memBirthday} 		END
 			,MEM_NICKNAME 	= CASE WHEN #{memNickname} 	IS NULL THEN MEM_NICKNAME 	ELSE 	#{memNickname} 		END
 			,MEM_GENDER 	= CASE WHEN #{memGender} 	IS NULL THEN MEM_GENDER 	ELSE 	#{memGender} 		END
-			,MEM_AREA 		= CASE WHEN #{memArea} 		IS NULL THEN MEM_AREA 		ELSE 	#{memArea} 			END
+			,AREA_ID 		= CASE WHEN #{areaId} 		= 0 THEN AREA_ID 		ELSE 	#{areaId} 			END
 			,MEM_UPDATE 	= SYSDATE
 			,MEM_CONTENT 	= CASE WHEN #{memContent} 	IS NULL THEN MEM_CONTENT 	ELSE 	#{memContent} 		END
 			,MEM_PHOTO		= CASE WHEN #{memPhoto} 	IS NULL THEN MEM_PHOTO 		ELSE 	#{memPhoto} 		END

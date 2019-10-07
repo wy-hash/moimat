@@ -75,9 +75,9 @@
 							<input type="hidden" id="intKeyPrev" value="${view.intKey }" />
 							<!-- 관심사 코드-->
 							<div class="form-group">
-								<label class="col-md-3 control-label" for="intKey"><strong>관심사
+								<label class="col-md-2 control-label" for="intKey"><strong>관심사
 										코드</strong></label>
-								<div class="col-md-9">
+								<div class="col-md-10">
 									<input type="text" id="intKey" name="intKey" class="form-control" value="${view.intKey }" 
 										placeholder="관심사 코드를 입력해 주세요. (ex)영어 2자리 + 숫자 2자리 => IN01" maxlength="4"> <small class="help-block"
 										id="intKeyHint"></small>
@@ -86,9 +86,9 @@
 
 							<!--관심사 이름-->
 							<div class="form-group">
-								<label class="col-md-3 control-label" for="intName"><strong>관심사
+								<label class="col-md-2 control-label" for="intName"><strong>관심사
 										이름</strong></label>
-								<div class="col-md-9">
+								<div class="col-md-10">
 									<input type="text" id="intName" name="intName" class="form-control" value="${view.intName }" placeholder="관심사 이름을 입력해 주세요">
 									<small class="help-block" id="intNameHint"></small>
 								</div>
@@ -96,9 +96,9 @@
 
 							<!--관심사 정렬순서-->
 							<div class="form-group">
-								<label class="col-md-3 control-label" for="intOrder"><strong>관심사
+								<label class="col-md-2 control-label" for="intOrder"><strong>관심사
 										정렬순서</strong></label>
-								<div class="col-md-9">
+								<div class="col-md-10">
 									<input type="text" id="intOrder" name="intOrder" class="form-control" value="${view.intOrder }"
 										placeholder="관심사를 먼저 보이게 하려면 숫자를 높게 설정하세요"> <small class="help-block" id="intOrderHint"></small>
 								</div>
@@ -106,11 +106,11 @@
 
 							<!--관심사 사용 여부-->
 							<div class="form-group">
-								<label class="col-md-3 control-label" for="intIsUse"><strong>관심사
+								<label class="col-md-2 control-label" for="intUse"><strong>관심사
 										사용 여부</strong></label>
-								<div class="col-md-9">
-									<label class="radio-inline"> <input type="radio" id="intIsUse_Y" name="intIsUse" value="Y" <c:if test="${'Y' eq view.intIsUse }"> checked</c:if>> 사용
-									</label> <label class="radio-inline"> <input type="radio" id="intIsUse_N" name="intIsUse" value="N" <c:if test="${'N' eq view.intIsUse }"> checked</c:if>>
+								<div class="col-md-10">
+									<label class="radio-inline"> <input type="radio" id="intUse_Y" name="intUse" value="Y" <c:if test="${'Y' eq view.intUse }"> checked</c:if>> 사용
+									</label> <label class="radio-inline"> <input type="radio" id="intUse_N" name="intUse" value="N" <c:if test="${'N' eq view.intUse }"> checked</c:if>>
 										미사용
 									</label>
 								</div>

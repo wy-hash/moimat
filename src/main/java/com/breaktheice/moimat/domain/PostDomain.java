@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class PostDomain {
+public class PostDomain{
 	
 // POST_ID, POST_NUM, BRD_ID, POST_TITLE, POST_CONTENT,
 // MEM_ID, POST_NICKNAME, POST_EMAIL, POST_REGDATE, POST_UPDATE,
@@ -27,5 +27,7 @@ public class PostDomain {
 	private String postReply;		// 게시물의 답글 여부 (QnA 게시판용 질문글 Q 답변글 A)
 	private Long postOrigin;		// 원글의 PK번호
 	private Long postDepth;			// 답글 1 원글 0
+	
+	private String src;				//이미지의 썸네일
 
 }
