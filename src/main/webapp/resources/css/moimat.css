@@ -1,0 +1,50 @@
+.my{
+	display: flex;
+	height : 100%;
+	align-items: center;
+	justify-content: flex-end;
+	overflow: hidden;
+}
+.meetTitle, .meetContent, .meetMember {
+	cursor: pointer;
+}
+
+div .moimat-m {
+	min-width: 200px;
+	height: 300px;
+}
+
+div .moimat-m>div {
+	height: 100%;
+}
+
+div .moimat-mc {
+	height: 250px;
+}
+div .moimat-mc> *{
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+}
+div .moimat-mc>.panel>.panel-heading>* {
+	height: 100%;
+}
+div .moimat-mc>.panel>.panel-body {
+	max-height: 200px;
+}
+
+.moimat-ellipsis{
+  max-height: 3.6em;
+  overflow: hidden;
+} 
+.moimat-ellipsis>*{
+	white-space: normal; 
+	line-height: 1.2; 
+	text-align: left; 
+	word-wrap: break-word; 
+	display: -webkit-box; 
+	-webkit-line-clamp: 3; 
+	-webkit-box-orient: vertical;
+}
+
+
