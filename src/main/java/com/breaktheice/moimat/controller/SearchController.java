@@ -7,7 +7,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,8 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.breaktheice.moimat.domain.Criteria;
 import com.breaktheice.moimat.domain.InterestDomain;
+import com.breaktheice.moimat.domain.TeamDomain;
 import com.breaktheice.moimat.service.SearchService;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import lombok.extern.log4j.Log4j;
 
@@ -41,7 +42,7 @@ public class SearchController {
 	}
 	
 	@PostMapping("/result")
-	public String result(Criteria cri, Model model) {
+	public String result(Criteria cri, InterestDomain inte, Model model) {
 		
 		log.info(cri.getKeyword());
 		
@@ -57,6 +58,17 @@ public class SearchController {
 		return "template";
 	}
 	
+	@PostMapping("/btn")
+	@ResponseBody
+	public void btn(HttpServletRequest request,HttpServletResponse response) throws IOException {
+		
+		JsonArray js = new JsonArray();
+		
+		js.add("농구");
+		js.add("축구");
+		
+	}
+	
 	
 	@PostMapping("/search")
 	@ResponseBody
@@ -64,15 +76,36 @@ public class SearchController {
 		
 		log.info("recommend");
 		response.setContentType("text/html;charset=UTF-8");
+		
 		String keyword = request.getParameter("term");
 		
 		JsonArray json = new JsonArray();
 		
 		List<InterestDomain> list = service.autocomplete(keyword);
 		
-		
 		for(int i = 0; i < list.size(); i++) {
 			json.add(list.get(i).getIntName());
+		}
+		
+		PrintWriter out = response.getWriter();
+		out.print(json.toString());
+	}
+	
+	@PostMapping("/searchInterest")
+	@ResponseBody
+	public void searchInterest(HttpServletRequest request,HttpServletResponse response) throws IOException {
+		
+		log.info("recommend");
+		response.setContentType("text/html;charset=UTF-8");
+		
+		String keyword = request.getParameter("term");
+		
+		JsonArray json = new JsonArray();
+		
+		List<TeamDomain> list = service.autocomplete2(keyword);
+		
+		for(int i = 0; i < list.size(); i++) {
+			json.add(list.get(i).getTeamName());
 		}
 		
 		PrintWriter out = response.getWriter();

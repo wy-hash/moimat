@@ -12,5 +12,7 @@ public interface SearchService {
 	
 	public List<InterestDomain> autocomplete(String keyword);
 	
+	public List<TeamDomain> autocomplete2(String keyword);
+	
 	public List<TeamDomain> recommend(Criteria cri);
 }

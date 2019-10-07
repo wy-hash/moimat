@@ -24,7 +24,7 @@
 
 	<select id="recommend" resultType="com.breaktheice.moimat.domain.TeamDomain">
 		<![CDATA[
-		SELECT	team_name, team_short_content,team_area
+		SELECT	team_name, team_short_content
 		FROM 	team
 		WHERE	
 		]]>
@@ -36,6 +36,14 @@
 		SELECT	int_name
 		FROM	interest
 		WHERE	int_name like ('%'||#{keyword}||'%')
+		]]>
+	</select>
+	
+	<select id="autocomplete2" parameterType="string" resultType="com.breaktheice.moimat.domain.TeamDomain">
+		<![CDATA[
+		SELECT	team_name
+		FROM	team
+		WHERE	team_name like ('%'||#{keyword}||'%')
 		]]>
 	</select>
 	

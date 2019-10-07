@@ -36,4 +36,10 @@ public class SearchServiceImpl implements SearchService {
 
 		return mapper.autocomplete(keyword);
 	}
+
+	@Override
+	public List<TeamDomain> autocomplete2(String keyword) {
+		
+		return mapper.autocomplete2(keyword);
+	}
 }

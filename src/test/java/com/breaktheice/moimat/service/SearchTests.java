@@ -29,34 +29,6 @@ public class SearchTests {
 	private SearchMapper mapper;
 	
 	@Test
-	public void searchTest() {
-		
-		Criteria cri = new Criteria();
-		cri.setKeyword("test");
-		cri.setType("M");
-		
-//		List<TeamDomain> list = mapper.list()
-	}
-	
-	@Test
-	public void testPaging() {
-		
-		Criteria cri = new Criteria();
-		cri.setPageNum(3);
-		cri.setAmount(10);
-		
-		List<TeamDomain> list = mapper.list(cri);
-		
-		list.forEach(team -> log.info(team));
-	}
-	
-	@Test
-	public void testGetList() {
-		
-		service.list(new Criteria(1, 10)).forEach(team -> log.info(team));
-	}
-	
-	@Test
 	public void testIntList() {
 		
 		service.intList().forEach(interest -> log.info(interest));
@@ -83,8 +55,8 @@ public class SearchTests {
 	@Test
 	public void testAutocomplete() {
 		
-		String name = "te";
 		
-		log.info(service.autocomplete(name));
+		
+		log.info(service.autocomplete("name"));
 	}
 }
