@@ -1,4 +1,4 @@
-1<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -158,18 +158,15 @@
                 	<!-- #################################### -->
                 	<!-- #### WRITE CODE BELOW THIS LINE #### -->
             	    <!-- #################################### -->
-            	  <form method="post" action="boardwrite" enctype="multipart/form-data">
-            	 
-					<input type="hidden" name="team_id" value="${teamId}">
-					<input type="hidden" name="brd_id" value="${brdId}">
-					<input type="hidden" name="tmem_id" value="${tmemId}">
-					<input type="hidden" name="post_tmem_level" value="${postTmemLevel}">
-					<input type="hidden" name="post_nickname" value="${postNickname}">
-					<input type="hidden" name="post_email" value="${postEmail}">
+            	  <form name="myForm" action="boardwrite" method="POST">        	 
+					<input type="hidden" name="teamId" value="${list.teamId}">
+					<input type="hidden" name="brdId" value="${list.brdId}">
+					<input type="hidden" name="tmemId" value="${list.tmemId}">
+					<input type="hidden" name="postTmemLevel" value="${list.postTmemLevel}">
+					<input type="hidden" name="postNickname" value="${list.postNickname}">
+					<input type="hidden" name="postEmail" value="${list.postEmail}">
 				
-					
-					
-					
+			
 					 
             	 <div class="panel">
 					    <div class="panel-heading">
@@ -177,7 +174,7 @@
 					    </div>
 					    <div class="panel-body">
 					
-					        <!--Dropzonejs using Bootstrap theme-->
+		 			        <!--Dropzonejs using Bootstrap theme-->
 					        <!--===================================================-->
 					        <p>This is a bootstrap theme of Dropzone.js with a completely different user experience.</p>
 					
@@ -185,13 +182,15 @@
 					            <!-- The fileinput-button span is used to style the file input field as button -->
 					            <span class="btn btn-success">
 					                <i class="fa fa-plus"></i>
-					                <a onclick="location.href='boardlist' ">확인</a>					                
+					              
+				                <a onclick="javascript:document.myForm.submit();">확인</a>
+										
+										
+					                			                
 					            </span>
 					           <span class="btn btn-danger">
 					                <i class="fa fa-plus"></i>
 					               <a onclick="location.href='boardlist' ">돌아가기</a>		
-					           <input type="hidden" onClick="location.href='boardlist'">
-	                
 					            </span>
 												           
                             </div>
@@ -223,33 +222,31 @@
 					                </div>
 					            </div>
                             </div>
-
+							
 							<div class="panel">
 							
-									<label for="exampleInputEmail1"></label> <input name="postTitle" type="text"
-										class="form-control" id="exampleInputEmail1"
-										placeholder="게시물 제목을 입력하세요">
+									<label for="exampleInputEmail1"></label> 
+									<input size="60"name="postTitle" type="text">
+										
+										
 							
 								<div class="panel-body">
 
 									<!--Summernote-->
 									<!--===================================================-->
 									<textarea id="demo-summernote" name="postContent">
-                                        <h4>
-											<span
-												style="line-height: 1.1;">내용을 입력 해주세요</span><br>
-										</h4>
-										<h4>
-											<font color="#9c9c94"></font>
-										</h4>
+									 
                                     </textarea>
-                                    </form>
+                                  
+                                    
+                                    
 									
                                     <!--===================================================-->
                                     <!-- End Summernote -->
                             
                                 </div>
                             </div>
+                             </form>
 					        <!--===================================================-->
 					        <!--End Dropzonejs using Bootstrap theme-->
 					

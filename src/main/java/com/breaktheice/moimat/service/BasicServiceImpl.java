@@ -32,6 +32,10 @@ public class BasicServiceImpl implements BasicService{
 	
 		return mapper.selectBoardList();
 	}
+	public List<BasicDomain> selectReplyList(BasicDomain domain){
+		
+		return mapper.selectReplyList(domain);
+	}
 	
 	//게시물 상세보기
 	public BasicDomain selectBoardOne(int postId) {

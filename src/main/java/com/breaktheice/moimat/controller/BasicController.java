@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.breaktheice.moimat.domain.BasicDomain;
 import com.breaktheice.moimat.page.Criteria;
@@ -39,55 +40,94 @@ public class BasicController {
 		
 		return "boardlist";
 	}
-	@RequestMapping("/boardcontentview")	
-	public String cont(
-			Model model,HttpServletRequest request,BasicDomain domain) {	
-//		
-//		domain.setTeamId(8);
-//		domain.setBrdId(28);
-//		domain.setTmemId(6);
-//		domain.setPostHit(0);
-//		domain.setPostNickname("test");
-
-		int postId = Integer.parseInt(request.getParameter("postId"));
-		System.out.println("테스트"+postId);
-		model.addAttribute("list", service.selectBoardOne(postId));
 	
-		return "boardcontentview";
+	@PostMapping("/boardmodify")	
+	public String cont2(
+			Model model,HttpServletRequest request,BasicDomain domain) {	
+			System.out.println("modifyddddddddddddddddddddd");
+		
+			int postId = Integer.parseInt(request.getParameter("postId"));
+			System.out.println(postId);
+			model.addAttribute("list", service.selectBoardOne(postId));
+				System.out.println("테스트"+postId);
+				
+		return "boardmodify";
+	}  
+	
+	@PostMapping("/boardmodifywrite")	
+	public String cont22(
+			Model model,HttpServletRequest request,BasicDomain domain) {	
+		
+			service.modifyBoard(domain);
+				
+		return "redirect:/boardlist";
 	}
 
-	@RequestMapping(value="/boardwrite", method= RequestMethod.GET)	
-	public String test2( BasicDomain domain) {
+	@RequestMapping(value="/boardwriteview", method= RequestMethod.GET)	
+	public String test2(BasicDomain domain, Model model,HttpServletRequest request) {
 		System.out.println("/boardwrite GET");
+		
 		domain.setTeamId(8);
 		domain.setBrdId(28);
 		domain.setTmemId(6);
 		domain.setPostTmemLevel(1);
 		domain.setPostNickname("testNi");
-		domain.setPostEmail("Email");
-		
-		
-		
+		domain.setPostEmail("Email");	
+
+		model.addAttribute("list",domain);
+			
 		return "boardwrite";
 	}
 	@RequestMapping(value="/boardwrite", method= RequestMethod.POST)	
 	public String test22(
-			Model model,BasicDomain domain) {
+			BasicDomain domain,Model model) {
 		System.out.println("/boardwrite POST");
 	
-		
-		service.insertBoard(domain);
+		service.insertBoard(domain);	
+		System.out.println(domain);
 		return "redirect:/boardlist";
 	}
-	// 게시물 수정
-	@PostMapping("/boardmodify")
-	public String modify(BasicDomain domain, @PathVariable String groupid, @PathVariable String photoid, Model model) {
-		System.out.println("modify");
+	@GetMapping("/deleteboard")
+	public String delete(Model model,
+			HttpServletRequest request, BasicDomain domain) throws Exception {
+		System.out.println("delete");
+//		model.addAttribute("write_view",boardService.selectBoardOne(bId));
+	
+
+		service.deleteBoard(domain);
+		return "redirect:boardlist";
+	}
+	@RequestMapping("/boardcontentview")	
+	public String cont(
+			Model model, BasicDomain domain) {	
+//		int postId = Integer.parseInt(request.getParameter("postId"));
+		System.out.println("테스트"+domain);
 		
+		int postId = domain.getPostId();
+		// 게시글 목록 
+		model.addAttribute("list", service.selectBoardOne(postId));
+		// 게시글의 덧글 목록
+		model.addAttribute("list2",service.selectReplyList(domain));
 		
-		service.modifyBoard(domain);
+		System.out.println("테스트"+postId);
 		
-		return "redirect:list";
+	
+		return "boardcontentview";
+	}
+	@PostMapping("/reply")
+	public String reply_view(BasicDomain domain,
+			Model model, HttpServletRequest request, RedirectAttributes rttr) throws Exception {
+		int postId = Integer.parseInt(request.getParameter("postId"));
+		System.out.println(postId);
+		domain.setBrdId(28);
+		domain.setCmtNickname("testNickname");
+		domain.setCmtEmail("testEmail");
+		domain.setTmemId(6);
+		service.replyBoard(domain);
+		
+		rttr.addFlashAttribute(domain);
+
+		return "redirect:/boardcontentview";
 	}
 
 	@RequestMapping("/list22")
@@ -139,36 +179,6 @@ public class BasicController {
 	}
 
 
-	@GetMapping("/groups/{groupid}/photos/{photoid}/edit55")
-	public String delete(@PathVariable String groupid, @PathVariable String photoid, Model model,
-			HttpServletRequest request, BasicDomain domain) throws Exception {
-		System.out.println("delete");
-//		model.addAttribute("write_view",boardService.selectBoardOne(bId));
-		int test = Integer.parseInt(photoid);
-
-		service.deleteBoard(domain);
-
-//		딜리티 메서드 팀 포스트 
-//		딜리트 어태치 총 3개만들어서 각각 삭제되게 해야함 맵퍼와 서비스도 3개 선언 구현해야함
-
-		return "redirect:list";
-	}
-
-
-
-	@GetMapping("/group/{groupid}/photos/{photoid}/edit77")
-	public String reply_view(BasicDomain domain, @PathVariable String groupid, @PathVariable String photoid,
-			Model model, HttpServletRequest request) throws Exception {
-		System.out.println("reply_view()");
-
-		String gid = request.getParameter("groupid");
-		String pid = request.getParameter("photoid");
-
-		//model.addAttribute("reply_view", service.selectBoardOne(gid));
-		//model.addAttribute("reply_view", service.selectBoardOne(pid));
-
-		return "reply_view";
-	}
 
 	@GetMapping("/groups/{groupid}/photos/{photoid}/replies/new1")
 	public String replyBoard(BasicDomain domain, @PathVariable String groupid, Model model,

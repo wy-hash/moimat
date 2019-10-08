@@ -13,6 +13,8 @@ public interface BasicMapper {
 	
 	public List<BasicDomain> selectBoardList();
 	public BasicDomain selectBoardOne(int postId);
+	
+	public List<BasicDomain> selectReplyList(BasicDomain domain);
 
 	//파일업로드
 	public int selectAllBoard() throws Exception;

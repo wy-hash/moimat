@@ -146,8 +146,6 @@
 					                <tr>
 					                <form action="boardmodify?postId=${list.postId}" method="post">
 					                <input type="hidden" name=tmemId value="${list.tmemId}">
-					                  <input type="hidden" name=brdId value="${list.brdId}">
-					                  <input type="hidden" name=cmtEmail value="${list.cmtEmail}">
 					                  
 					                   	<td>${list.postId}</td>					                   	
 					                    <td>${list.postTitle}</td>			                    
@@ -160,120 +158,33 @@
 					                
 					            </tbody>
 					        
-					        	
+					         <table align="center" width="800" height="500" cell5ding="0" cellspacing="0" border="1">
+					         <tbody align="center">
+							        <div>
+							            <td>${list.postContent}</td>
+							           
+							        </div>
+    
+								
 								
 							<input type="submit" value="수정"> &nbsp;&nbsp; <a href="boardlist">목록보기</a> &nbsp;&nbsp;
 							 <a href="deleteboard?postId=${list.postId}&tmemId=${list.tmemId}">삭제</a> &nbsp;&nbsp; <a href="replyboard?postId=${list.postId}">답변</a></td>
 								</form>
 								</table>
-								<p>
-									<br>
-									
-								</p>
-								<p>
-									<br>
-									
-								</p>
-								<p>
-									<br>
-									
-								</p>
-								<p>
-									<br>
-									
-								</p>
-								
-								
-								<div class="tbody m-tcol-c" id="tbody">
-								<p> ${list.postContent}</p>
-<!-- 								</div>		   -->
-					    </div>
-					  		  <p>
-					  		 		 <br>
-									<br>
-									<br>
-								</p>
-								<p>
-									<br>
-									<br>
-									<br>
-								</p>
-								<p>
-									<br>	
-									<br>
-									<br>
-								</p>
-								<p>
-									<br>
-									<br>
-									<br>
-								</p>
-								<p>
-									<br>
-									<br>
-									<br>
-								</p>
-								<div style="background:DarkGray;opacity:0.4;display: block;font-size:1.1em;
-								 font-weight: bold ; color: black;"class="box-reply2 bg-color u_cbox">
-								
-								 
-								<form action="reply?postId=${list.postId}" method="post">
-								<input type="hidden" name=brdId value="${list.brdId}">
-								<c:forEach items="${list2}" var="post">								
-								${post.cmtNickname}
-								<td>
-								${post.cmtRegdate}
-								</td>
-<!-- 										다른사람 댓글 작성시간 닉네임 대댓글 달수있는거 뿌려줘야함		
-						 -->
-						 	 
-								
-								
-								<p>							
-								<span>
-								
-								${post.cmtContent}
-								
-<!-- 								다른사람댓글뿌려주는곳 -->
-								</span>
-								</p>
-								</c:forEach>
-								<table cellspacing="0">
-								<tbody>
-								<tr>
-								<td>
-								
-								<div>
-								
-								<textarea cols="50" rows="2" maxlength="6000" style="overflow:hidden; line-height: 14px;
-								height: 41px; resize: none; title="댓글입력" name="cmtContent">
-								</textarea>
-								
-								
-								</div>
-								
-								
-								<td>
-								 <button type="submit" width="60" class="btn btn-lg btn-default">등록</button>
-								</td>
-								</form>
 								</tbody>
-								
-								
-								</table>
-								
-							
-								</div>
-								  
-				  
+					    </div>
 					</div>
-
 				
+				  
+				
+				
+						</div>
 					
 					</div>
 					<!--===================================================-->
 					<!--End Default Accordion-->
 
+				</div>
 				
 				<!--===================================================-->
 				<!--End page content-->

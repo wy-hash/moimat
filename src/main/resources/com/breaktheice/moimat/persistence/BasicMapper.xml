@@ -23,12 +23,19 @@
 <!--    </select>  -->
 <select id="selectBoardList" parameterType="com.breaktheice.moimat.domain.BasicDomain" resultType="com.breaktheice.moimat.domain.BasicDomain"><!-- id는 함수호출 -->
    <!--    select bId, bName, bTitle, bContent, bDate, bHit, bGroup, bStep, bIndent from mvc_board order by bGroup desc, bStep asc -->
-      select post_id, post_title, POST_NICKNAME, POST_HIT, POST_REGDATE from team_post order by post_id desc 
+      select post_id, post_title, POST_NICKNAME, POST_HIT, TMEM_ID, POST_REGDATE from team_post order by post_id desc 
 </select>
+<select id="selectReplyList" parameterType="com.breaktheice.moimat.domain.BasicDomain" resultType="com.breaktheice.moimat.domain.BasicDomain">
+
+	select cmt_id, post_id, brd_id, cmt_content, cmt_nickname, cmt_email, cmt_regdate, cmt_update 
+	from  team_comments
+	where post_id=#{postId}
+	 order by cmt_id desc
+	</select>
 <select id="selectBoardOne" parameterType="com.breaktheice.moimat.domain.BasicDomain" resultType="com.breaktheice.moimat.domain.BasicDomain"><!-- id는 함수호출 -->
-	SELECT POST_ID, post_title, post_nickname, post_hit, post_regdate
+	SELECT POST_ID, post_title, post_nickname, post_hit, post_regdate, post_content, TMEM_ID
 	from team_post
-	where post_id = #{postId}
+	where post_id=#{postId}
 	
    </select> 
  		<!-- 페이징  -->
@@ -42,8 +49,8 @@
    		insert into team_post (post_id, team_id, brd_id, post_title, post_content, tmem_id, 
    		post_tmem_level, post_nickname, post_email, post_regdate, post_update, post_hit)
    	
-   		values (team_post_seq.nextval,#{teamId}, #{brdId}, #{postTitle} #{postContent}, #{tmemId}, #{postTmemLevel}
-   		, #{postNickname}, #{postEmail}, sysdate, sysdate,0) 
+   		values (team_post_seq.nextval, #{teamId}, #{brdId}, #{postTitle}, #{postContent}, #{tmemId}, #{postTmemLevel},
+   		#{postNickname}, #{postEmail}, sysdate, sysdate,0) 
 	</insert>
 	
 	<!-- 게시물삭제 -->
@@ -53,8 +60,8 @@
 	
 	<!-- 게시물 수정 -->
 	<update id="modifyBoard" parameterType="com.breaktheice.moimat.domain.BasicDomain">
-		update team_post set POST_TITLE = #{postTitle},
-		POST_CONTENT = #{postContent},POST_UPDATE = sysdate
+		update team_post set POST_TITLE =#{postTitle},          
+		POST_CONTENT =#{postContent},POST_regdate = sysdate
 		where post_id=#{postId} and tmem_id=#{tmemId}
 	</update>
 	
@@ -66,10 +73,11 @@
    
    <!-- 댓글생성 -->
 	<insert id="replyBoard" parameterType="com.breaktheice.moimat.domain.BasicDomain">
-		insert into team_comments (CMT_ID,POST_ID,BRD_ID,CMT_CONTENT,TMEM_ID,CMT_NICKNAME,
-		CMT_EMAIL,CMT_REGDATE,CMT_UPDATE)
-		values (team_comments_seq.nextval, #{postId}, #{brdId}, #{cmtContent}, #{teamId},
-		#{cmtNickname}, #{cmtEmail}, sysdate, sysdate)
+	insert into team_comments(CMT_ID, POST_ID, BRD_ID, CMT_CONTENT,
+	TMEM_ID, CMT_NICKNAME, CMT_EMAIL, CMT_REGDATE, CMT_UPDATE)
+	values
+	(team_comments_seq.nextval, #{postId}, #{brdId}, #{cmtContent}, #{tmemId},
+	#{cmtNickname}, #{cmtEmail}, sysdate, sysdate)
 	</insert>
 	
 	<!-- 댓글 삭제 -->

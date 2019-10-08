@@ -20,6 +20,15 @@ public class BasicDomain {
 	private Timestamp postRegdate;
 	private Timestamp postUpdate;
 	private int postHit;
+	
+	//team_comments 댓글 테이블
+	private int cmtId;
+	private String cmtContent;
+	private String cmtNickname;
+	private String cmtEmail;
+	private Timestamp cmtRegdate;
+	private Timestamp cmtUpdate;
+	 
 
 	
 		

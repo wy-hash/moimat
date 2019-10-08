@@ -138,7 +138,7 @@
 					    </div>
 					
 					    <div id="demo-custom-toolbar2" class="table-toolbar-left">
-					        <button type="button" onclick="location.href='boardwrite' " id="demo-dt-addrow-btn" class="btn btn-primary">글쓰기</button>
+					        <button type="button" onclick="location.href='boardwriteview' " id="demo-dt-addrow-btn" class="btn btn-primary">글쓰기</button>
 					    </div>
 					
 					    <div class="panel-body">
@@ -154,7 +154,8 @@
 					                </tr>
 					            </thead>
 					            <tbody>
-					            <c:forEach items="${list}" var="post">
+					            <c:forEach items="${list}" var="post">				             
+					                        
 					                <tr>
 					                    <td>${post.postId}</td>
 					                    
@@ -163,7 +164,8 @@
   					                   <a href="boardcontentview?postId=${post.postId}" style="
  										color: blue;font-weight: bold;">${post.postTitle}</a>	 
  										              													
-										</td>           	
+										</td>  
+										<input type="hidden" name=tmemId value="${post.tmemId}">         	
 					                    <td>${post.postNickname}</td>
 					                    <td>${post.postHit}</td>
 					                    <td>${post.postRegdate}</td>

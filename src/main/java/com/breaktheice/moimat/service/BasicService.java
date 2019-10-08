@@ -13,6 +13,7 @@ public interface BasicService {
 	public void deleteBoard(BasicDomain domain);
 	public void modifyBoard(BasicDomain domain);
 	
+	public List<BasicDomain> selectReplyList(BasicDomain domain);
 	
 	public void replyUPBoard(BasicDomain domain);
 	public void replyBoard(BasicDomain domain);
