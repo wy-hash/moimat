@@ -58,8 +58,16 @@
 					
 					            <!-- BASIC FORM ELEMENTS -->
 					            <!--===================================================-->
-					            <form class="panel-body form-horizontal form-padding" action="/user/{id}/edit" method="post" id="userForm">
-					
+					            <form class="panel-body form-horizontal form-padding" action="/myPage/edit" method="post" enctype="multipart/form-data" id="userForm">
+									 
+									 <div class="form-group">
+					                    <label class="col-md-3 control-label">사진</label>
+					                    <div class="col-md-9">
+					                    	<img src="https://picsum.photos/seed/picsum/200/200" alt="샘플사진" />
+					                    	<input type="file" name="photoFile">
+					                    </div>
+					                </div>
+					                
 					                <!--Static-->
 					                <div class="form-group">
 					                    <label class="col-md-3 control-label">닉네임</label>
@@ -201,7 +209,7 @@
 <script>
 
 $(document).ready(function(){  //onload 함수
-	 getInterest();
+	// getInterest();
 	 getMyInfo();
 	
 	 $('#newPassword').blur(newPasswordCheck);		// 이벤트등록 (신규비밀 번호)

@@ -12,5 +12,5 @@ public interface UserService {
 	
 	public boolean withdrawMember(MemberDomain member);			//	회원탈퇴
 	
-	
+//	public boolean updateMember(MemberDomain memPhoto);			// 회원 
 }

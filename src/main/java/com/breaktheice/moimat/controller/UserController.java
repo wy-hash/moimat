@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.service.AuthService;
+import com.breaktheice.moimat.service.FileUploadService;
 import com.breaktheice.moimat.service.UserService;
 import com.breaktheice.moimat.util.SHA256;
 import com.google.gson.Gson;
@@ -34,6 +36,9 @@ public class UserController {
 	
 	@Autowired
 	AuthService authService;
+	
+	@Autowired
+	FileUploadService fileUploadService;
 	
 	@GetMapping("/") // user/
 	public String users(Model model, HttpServletRequest request) {
@@ -70,10 +75,14 @@ public class UserController {
 	}
 	
 	@PostMapping("/edit")
-	public String userEdit(MemberDomain user) {
+	public String userEdit(MemberDomain user, MultipartFile photoFile) {
 		log.info("post : /users/edit..호출");
 		
-		authService.updateMember(user);
+		//log.info(photoFile.getName());
+		
+		fileUploadService.restore(photoFile);
+		
+		//authService.updateMember(user);
 		
 		return "index";
 	}
@@ -230,5 +239,23 @@ public class UserController {
 		
 		return "redirect:/auth/login";
 	}
+	
+	/*@GetMapping("/photo")
+	public String withdrawPage(Model model, HttpServletRequest request) {
+		
+		log.info("get : /photo ..호출");
+		
+			
+		return "user/photo";
+	}
+	
+	@PostMapping("/photo")
+	public String withdraw(Model model, HttpServletRequest request, RedirectAttributes reAttr) {
+		
+		log.info("get : /photo ..호출");
+		
+		
+		return "redirect:/photo";
+	}*/
 	
 }
