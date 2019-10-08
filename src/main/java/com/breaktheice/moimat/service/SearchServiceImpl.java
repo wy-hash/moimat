@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.breaktheice.moimat.domain.Criteria;
-import com.breaktheice.moimat.domain.InterestDomain;
-import com.breaktheice.moimat.domain.TeamDomain;
+import com.breaktheice.moimat.domain.SearchDomain;
 import com.breaktheice.moimat.persistence.SearchMapper;
 
 
@@ -16,30 +15,24 @@ public class SearchServiceImpl implements SearchService {
 
 	@Autowired
 	private SearchMapper mapper;
-	//관심사 리스트
-	@Override
-	public List<InterestDomain> intList() {
-		
-		return mapper.intList();
-	}
 	
 	//관심사 기반 모임 찾기
 	@Override
-	public List<TeamDomain> recommend(Criteria cri) {
+	public List<SearchDomain> recommend(Criteria cri) {
 		
 		return mapper.recommend(cri);
 	}
 	
 	//자동 완성 관심사 리스트
 	@Override
-	public List<InterestDomain> autocomplete(String keyword) {
+	public List<SearchDomain> autocomplete(Criteria cri) {
 
-		return mapper.autocomplete(keyword);
+		return mapper.autocomplete(cri);
 	}
 
 	@Override
-	public List<TeamDomain> autocomplete2(String keyword) {
+	public List<SearchDomain> autocomplete2(Criteria cri) {
 		
-		return mapper.autocomplete2(keyword);
+		return mapper.autocomplete2(cri);
 	}
 }

@@ -6,7 +6,7 @@
 <html lang="ko">
 
 <!-- HEAD -->
-<%@ include file="includes/head.jsp" %>
+<%@ include file="../includes/head.jsp" %>
 	<title>Page Template | moim@</title>
 </head>
 <!-- END HEAD -->
@@ -17,18 +17,18 @@
 	 <div id="container" class="effect aside-float aside-bright mainnav-lg">
 	
 		<!-- HEADER-NAVBAR -->
-		<%@ include file="includes/header-navbar.jsp" %>
+		<%@ include file="../includes/header-navbar.jsp" %>
 		<!-- END NAVBAR -->
 		
 		<!-- BOXED -->
 		 <div class="boxed">
 		
 			<!-- MAIN-NAV -->
-			<%@ include file="includes/main-nav.jsp" %>
+			<%@ include file="../includes/main-nav.jsp" %>
 			<!-- END MAIN-NAV -->
 			
 			<!-- ASIDE -->
-			<%-- <%@ include file="includes/aside.jsp" %> --%>
+			<%-- <%@ include file="../includes/aside.jsp" %> --%>
 			<!-- END ASIDE -->
 			
 			
@@ -80,46 +80,16 @@
 		<!-- END BOXED -->
 		
 		<!-- FOOTER -->
-		<%@ include file="includes/footer.jsp" %>
+		<%@ include file="../includes/footer.jsp" %>
 		<!-- END FOOTER -->
 			
 	</div>
 	<!-- END CONTAINER -->
-	<script type="text/javascript">
-	 	$(document).ready(function() {
-	 		
-	 		$('#searchForm').submit(function(){
-	 			if(('#keyword').val() == "") {
-	 			return false;
-	 			};
-	 		});
-	 		
-	 		$('.autocomplete').autocomplete({
-	 			
-	 			source:	function(request, response) {
-	 				
-	 				$.ajax({
-	 		 			url:		"/home/search",
-	 	 				type:		"POST",
-	 	 				dataType:	"json",
-	 		 			data:		request,
-	 		 			success:	function(data) {
-	 		 				console.log(data);
-	 		 				
-	 		 				var result = data;
-	 		 				response(result);
-	 		 			},
-	 		 			
-	 		 			error: function(request, status, error) {
-	 		 				var msg = "ERROR : " + request.status + "<br>"
-	 		 			      msg +=  + "내용 : " + request.responseText + "<br>" + error;
-	 		 			      console.log(msg);
-	 		 			}
-	 		 		});
-	 			}
- 			});
-	 	});
-	 </script>
-	 
+	
+	 <%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 </body>
 </html>

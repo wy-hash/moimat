@@ -3,16 +3,13 @@ package com.breaktheice.moimat.persistence;
 import java.util.List;
 
 import com.breaktheice.moimat.domain.Criteria;
-import com.breaktheice.moimat.domain.InterestDomain;
-import com.breaktheice.moimat.domain.TeamDomain;
+import com.breaktheice.moimat.domain.SearchDomain;
 
 public interface SearchMapper {
 	
-	public List<InterestDomain> intList();
+	public List<SearchDomain> autocomplete(Criteria cri);
 	
-	public List<InterestDomain> autocomplete(String keyword);
+	public List<SearchDomain> autocomplete2(Criteria cri);
 	
-	public List<TeamDomain> autocomplete2(String keyword);
-	
-	public List<TeamDomain> recommend(Criteria cri);
+	public List<SearchDomain> recommend(Criteria cri);
 }

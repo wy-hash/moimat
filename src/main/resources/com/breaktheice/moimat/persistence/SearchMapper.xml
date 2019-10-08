@@ -8,13 +8,15 @@
 			<trim prefix="OR">
 				<choose>
 					<when test="type == 'R'.toString()">
-						int_id in(select int_id from interest where int_name like ('%'||#{keyword}||'%'))
+						 t.int_id in (select int_id from interest where int_name like ('%'||#{keyword}||'%'))
 					</when>
 					<when test="type == 'M'.toString()">
-						team_name like ('%'||#{keyword}||'%')
+						t.team_name like ('%'||#{keyword}||'%')
 					</when>
 					<when test="type == 'A'.toString()">
-						team_area like ('%'||#{keyword}||'%')
+						a.area_region_name like ('%'||#{keyword}||'%')
+						or
+						a.area_name like ('%'||#{keyword}||'%')
 					</when>
 				</choose>
 			</trim>
@@ -22,29 +24,30 @@
 	</trim>
 </sql>
 
-	<select id="recommend" resultType="com.breaktheice.moimat.domain.TeamDomain">
+	<select id="recommend" resultType="com.breaktheice.moimat.domain.SearchDomain">
 		<![CDATA[
-		SELECT	team_name, team_short_content
-		FROM 	team
-		WHERE	
+		SELECT	t.team_name, t.team_short_content, a.area_region_name
+		FROM 	team t, area a
+		WHERE	t.area_id = a.area_id and
 		]]>
 		<include refid="criteria"></include>
 	</select>
 	
-	<select id="autocomplete" parameterType="string" resultType="com.breaktheice.moimat.domain.InterestDomain">
+	<select id="autocomplete" parameterType="string" resultType="com.breaktheice.moimat.domain.SearchDomain">
 		<![CDATA[
-		SELECT	int_name
+		SELECT	DISTINCT int_name
 		FROM	interest
 		WHERE	int_name like ('%'||#{keyword}||'%')
 		]]>
 	</select>
 	
-	<select id="autocomplete2" parameterType="string" resultType="com.breaktheice.moimat.domain.TeamDomain">
+	<select id="autocomplete2" parameterType="string" resultType="com.breaktheice.moimat.domain.SearchDomain">
 		<![CDATA[
-		SELECT	team_name
-		FROM	team
-		WHERE	team_name like ('%'||#{keyword}||'%')
+		SELECT	DISTINCT area_region_name
+		FROM	area
+		WHERE	area_region_name like ('%'||#{keyword}||'%')
 		]]>
 	</select>
+	
 	
 </mapper>

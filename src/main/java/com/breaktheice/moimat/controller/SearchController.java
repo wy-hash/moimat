@@ -16,11 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.breaktheice.moimat.domain.Criteria;
-import com.breaktheice.moimat.domain.InterestDomain;
-import com.breaktheice.moimat.domain.TeamDomain;
+import com.breaktheice.moimat.domain.SearchDomain;
 import com.breaktheice.moimat.service.SearchService;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import lombok.extern.log4j.Log4j;
 
@@ -37,40 +35,22 @@ public class SearchController {
 		
 		log.info("search controller 실행");
 		
-		return "result";
+		return "search/result";
 		
 	}
 	
 	@PostMapping("/result")
-	public String result(Criteria cri, InterestDomain inte, Model model) {
+	public String result(Criteria cri, Model model) {
 		
 		log.info(cri.getKeyword());
 		
 		model.addAttribute("keyword", service.recommend(cri));
 		
-		return "result";
+		return "search/result";
 		
 	}
 	
-	@GetMapping("/template")
-	public String template() {
-		
-		return "template";
-	}
-	
-	@PostMapping("/btn")
-	@ResponseBody
-	public void btn(HttpServletRequest request,HttpServletResponse response) throws IOException {
-		
-		JsonArray js = new JsonArray();
-		
-		js.add("농구");
-		js.add("축구");
-		
-	}
-	
-	
-	@PostMapping("/search")
+	@PostMapping("/searchautocomplete")
 	@ResponseBody
 	public void recommend(HttpServletRequest request,HttpServletResponse response) throws IOException {
 		
@@ -78,10 +58,12 @@ public class SearchController {
 		response.setContentType("text/html;charset=UTF-8");
 		
 		String keyword = request.getParameter("term");
+		Criteria cri = new Criteria();
+		cri.setKeyword(keyword);
 		
 		JsonArray json = new JsonArray();
 		
-		List<InterestDomain> list = service.autocomplete(keyword);
+		List<SearchDomain> list = service.autocomplete(cri);
 		
 		for(int i = 0; i < list.size(); i++) {
 			json.add(list.get(i).getIntName());
@@ -91,7 +73,7 @@ public class SearchController {
 		out.print(json.toString());
 	}
 	
-	@PostMapping("/searchInterest")
+	@PostMapping("/search")
 	@ResponseBody
 	public void searchInterest(HttpServletRequest request,HttpServletResponse response) throws IOException {
 		
@@ -99,13 +81,15 @@ public class SearchController {
 		response.setContentType("text/html;charset=UTF-8");
 		
 		String keyword = request.getParameter("term");
+		Criteria cri = new Criteria();
+		cri.setKeyword(keyword);
 		
 		JsonArray json = new JsonArray();
 		
-		List<TeamDomain> list = service.autocomplete2(keyword);
+		List<SearchDomain> list = service.autocomplete2(cri);
 		
 		for(int i = 0; i < list.size(); i++) {
-			json.add(list.get(i).getTeamName());
+			json.add(list.get(i).getAreaRegionName());
 		}
 		
 		PrintWriter out = response.getWriter();
