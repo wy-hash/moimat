@@ -59,8 +59,14 @@
 					            <!-- BASIC FORM ELEMENTS -->
 					            <!--===================================================-->
 					            <form class="panel-body form-horizontal form-padding" action="/user/{id}/edit" method="post" id="userForm">
-					
-					                <!--Static-->
+									<!--  사진 -->
+									 <div class="form-group">
+					                    <label class="col-md-3 control-label">사진</label>
+					                    <div class="col-md-9">
+					                    	<img id="memPhoto" src="https://picsum.photos/seed/picsum/200/200" alt="샘플사진" />
+					                    </div>
+					                </div>
+					                <!--닉네임-->
 					                <div class="form-group">
 					                    <label class="col-md-3 control-label">닉네임</label>
 					                    <div class="col-md-9">
@@ -138,7 +144,7 @@
 					                </div>
 					                
 					               <div class="panel-footer text-right">
-					                    	<a class="btn btn-success" href="/user/ggg/edit/">회원정보수정</a>
+					                    	<a class="btn btn-success" href="/myPage/edit/">회원정보수정</a>
 					               </div>
 					            </form>
 					            <!--===================================================-->
@@ -171,7 +177,7 @@
 <script>
 
 $(document).ready(function(){  //onload 함수
-	 getInterest();
+	// getInterest();
 	 getMyInfo();
 	
 });
@@ -182,7 +188,7 @@ $(document).ready(function(){  //onload 함수
 function getMyInfo(){
 	
 	let data = null;
-	let url = "/user/selectUser";
+	let url = "/myPage/selectUser";
 	let error="에러가발생했습니다. 다시시작해 주세요";
 	
 	let resultData = callAjax(data, url, error);
@@ -207,7 +213,12 @@ function getMyInfo(){
 	    	  
 	      }else if(key == "memInt3"){
 	    	  $('input:radio[name="memInt3"][value="'+user[key]+'"]').prop('checked', true);
-	      }
+	      }else if(key == "memPhoto"){
+	    	  // 자바스크립에서 contextPath(localhost:8080/moimat 구하는 방법 : 위와 동일
+		    	 // var ctx = window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
+		    		//alert(window.location.pathname);
+		    	  $('#memPhoto').attr("src", '${pageContext.request.contextPath}' + user[key]);
+		      }
 	}
 }
 

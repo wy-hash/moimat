@@ -26,6 +26,9 @@ public class FileUploadServiceImpl implements FileUploadService {
 		public String restore(MultipartFile multipartFile) {
 			String url = null;
 			
+			log.info(multipartFile.getOriginalFilename());
+			if(multipartFile.getOriginalFilename().equals("")) { return null; }
+			
 			try {
 				// 파일 정보
 				String originFilename = multipartFile.getOriginalFilename();
@@ -50,7 +53,7 @@ public class FileUploadServiceImpl implements FileUploadService {
 				// throw new FileUploadException();	
 				throw new RuntimeException(e);
 			}
-			return url;
+			return url;	// 파일경로 리턴
 		}
 		
 		

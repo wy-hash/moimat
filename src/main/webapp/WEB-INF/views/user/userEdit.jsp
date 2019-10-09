@@ -54,21 +54,19 @@
 					            <div class="panel-heading">
 					                <h3 class="panel-title">회원정보수정</h3>
 					            </div>
-					
-					
 					            <!-- BASIC FORM ELEMENTS -->
 					            <!--===================================================-->
 					            <form class="panel-body form-horizontal form-padding" action="/myPage/edit" method="post" enctype="multipart/form-data" id="userForm">
-									 
+									 <!--  사진 -->
 									 <div class="form-group">
 					                    <label class="col-md-3 control-label">사진</label>
 					                    <div class="col-md-9">
-					                    	<img src="https://picsum.photos/seed/picsum/200/200" alt="샘플사진" />
+					                    	<img id="memPhoto" src="https://picsum.photos/seed/picsum/200/200" alt="샘플사진" />
 					                    	<input type="file" name="photoFile">
 					                    </div>
 					                </div>
 					                
-					                <!--Static-->
+					                <!--닉네임-->
 					                <div class="form-group">
 					                    <label class="col-md-3 control-label">닉네임</label>
 					                    <div class="col-md-9">
@@ -314,7 +312,7 @@ function rePasswordCheck(){
 function getMyInfo(){
 	
 	let data = null;
-	let url = "/user/selectUser";
+	let url = "/myPage/selectUser";
 	let error="에러가발생했습니다. 다시시작해 주세요";
 	
 	let resultData = callAjax(data, url, error);
@@ -339,6 +337,11 @@ function getMyInfo(){
 	    	  
 	      }else if(key == "memInt3"){
 	    	  $('input:radio[name="memInt3"][value="'+user[key]+'"]').prop('checked', true);
+	      }else if(key == "memPhoto"){
+	    	  // 자바스크립에서 contextPath(localhost:8080/moimat 구하는 방법 : 위와 동일
+	    	 // var ctx = window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
+	    		//alert(window.location.pathname);
+	    	  $('#memPhoto').attr("src", '${pageContext.request.contextPath}' + user[key]);
 	      }
 	}
 }
@@ -410,8 +413,6 @@ function nul_chk(obj, start,end){
 	}
 	return false;
 }
-
-
 
 </script>	
 	
