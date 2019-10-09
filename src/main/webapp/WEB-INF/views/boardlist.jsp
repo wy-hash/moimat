@@ -161,11 +161,11 @@
 					                    
 					                    <td>
 					                    
-  					                   <a href="boardcontentview?postId=${post.postId}" style="
+  					                   <a href="boardcontentview?postId=${post.postId}&tmemId=${post.tmemId}" style="
  										color: blue;font-weight: bold;">${post.postTitle}</a>	 
  										              													
 										</td>  
-										<input type="hidden" name=tmemId value="${post.tmemId}">         	
+<%-- 										<input type="hidden" name=tmemId value="${post.tmemId}">         	 --%>
 					                    <td>${post.postNickname}</td>
 					                    <td>${post.postHit}</td>
 					                    <td>${post.postRegdate}</td>

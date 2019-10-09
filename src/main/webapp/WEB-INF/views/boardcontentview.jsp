@@ -161,9 +161,9 @@
 					            </tbody>
 					        
 					        	
-								
+<!-- 								댓글때매 게시글 삭제안됨 해결해야함 -->
 							<input type="submit" value="수정"> &nbsp;&nbsp; <a href="boardlist">목록보기</a> &nbsp;&nbsp;
-							 <a href="deleteboard?postId=${list.postId}&tmemId=${list.tmemId}">삭제</a> &nbsp;&nbsp; <a href="replyboard?postId=${list.postId}">답변</a></td>
+							 <a href="deleteboard?postId=${list.postId}&tmemId=${list.tmemId}">삭제</a>
 								</form>
 								</table>
 								<p>
@@ -213,21 +213,29 @@
 									<br>
 									<br>
 								</p>
-								<div style="background:DarkGray;opacity:0.4;display: block;font-size:1.1em;
-								 font-weight: bold ; color: black;"class="box-reply2 bg-color u_cbox">
+								<div style="background:DarkGray;opacity:0.4;display: block;
+								"class="box-reply2 bg-color u_cbox">
 								
 								 
-								<form action="reply?postId=${list.postId}" method="post">
+								<form style="font-weight: bold;font-size:1.1em;color: black;"action="reply?postId=${list.postId}" method="post">
 								<input type="hidden" name=brdId value="${list.brdId}">
+								<input type="hidden" name=cmtId value="${list.cmtId}">
+							
 								<c:forEach items="${list2}" var="post">								
 								${post.cmtNickname}
 								<td>
 								${post.cmtRegdate}
 								</td>
-<!-- 										다른사람 댓글 작성시간 닉네임 대댓글 달수있는거 뿌려줘야함		
-						 -->
-						 	 
 								
+								
+								
+								<p align="right">
+ 								 <a href="replymodify?cmtId=${post.cmtId}">수정</a>
+								 <a href="replydelete?cmtId=${post.cmtId}&tmemId=${list.tmemId}">삭제</a>
+								</p> 
+<!-- 										다른사람 댓글 작성시간 닉네임 대댓글 달수있는거 뿌려줘야함		
+					댓글 수정하는 뷰를 보여줘야함
+						 -->					
 								
 								<p>							
 								<span>
@@ -236,6 +244,7 @@
 								
 <!-- 								다른사람댓글뿌려주는곳 -->
 								</span>
+								
 								</p>
 								</c:forEach>
 								<table cellspacing="0">

@@ -23,64 +23,109 @@
     <!--=================================================-->
 
     <!--Open Sans Font [ OPTIONAL ]-->
+   <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+
+<!-- include summernote css/js -->
+<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.js"></script>
+
+ 	<!--Summernote [ OPTIONAL ]-->
+     <link href="/resources/plugins/summernote/summernote.min.css" rel="stylesheet">
+    
+   <!--Summernote [ OPTIONAL ]-->
+    <script src="/resources/plugins/summernote/summernote.min.js"></script>
+    
+      <!--Demo script [ DEMONSTRATION ]-->
+    <script src="/resources/js/demo/nifty-demo.min.js"></script>
+    
+        <!--Form File Upload [ SAMPLE ]-->
+    <script src="/resources/js/demo/form-text-editor.js"></script>
+
+    <!--Form File Upload [ SAMPLE ]-->
+    <script src="/resources/js/demo/form-file-upload.js"></script>
+
+      <!--Dropzone [ OPTIONAL ]-->
+    <link href="/resources/plugins/dropzone/dropzone.min.css" rel="stylesheet">
+
+    <!--Dropzone [ OPTIONAL ]-->
+    <script src="/resources/plugins/dropzone/dropzone.min.js"></script>
+    
+    <!--STYLESHEET-->
+    <!--=================================================-->
+
+    <!--Open Sans Font [ OPTIONAL ]-->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
 
 
     <!--Bootstrap Stylesheet [ REQUIRED ]-->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
 
 
     <!--Nifty Stylesheet [ REQUIRED ]-->
-    <link href="css/nifty.min.css" rel="stylesheet">
+    <link href="/resources/css/nifty.min.css" rel="stylesheet">
 
 
     <!--Nifty Premium Icon [ DEMONSTRATION ]-->
-    <link href="css/demo/nifty-demo-icons.min.css" rel="stylesheet">
+    <link href="/resources/css/demo/nifty-demo-icons.min.css" rel="stylesheet">
 
 
     <!--Demo [ DEMONSTRATION ]-->
-    <link href="css/demo/nifty-demo.min.css" rel="stylesheet">
-
-
+    <link href="/resources/css/demo/nifty-demo.min.css" rel="stylesheet">
         
-    <!--DataTables [ OPTIONAL ]-->
-    <link href="plugins/datatables/media/css/dataTables.bootstrap.css" rel="stylesheet">
-	<link href="plugins/datatables/extensions/Responsive/css/dataTables.responsive.css" rel="stylesheet">
+    <!--Dropzone [ OPTIONAL ]-->
+    <link href="/resources/plugins/dropzone/dropzone.min.css" rel="stylesheet">
+
+ 	<!--Summernote [ OPTIONAL ]-->
+    <link href="/resources/plugins/summernote/summernote.min.css" rel="stylesheet">
+
+
+
+
     
     <!--JAVASCRIPT-->
     <!--=================================================-->
 
     <!--Pace - Page Load Progress Par [OPTIONAL]-->
-    <link href="plugins/pace/pace.min.css" rel="stylesheet">
-    <script src="plugins/pace/pace.min.js"></script>
+    <link href="/resources/plugins/pace/pace.min.css" rel="stylesheet">
+    <script src="/resources/plugins/pace/pace.min.js"></script>
 
 
     <!--jQuery [ REQUIRED ]-->
-    <script src="js/jquery-2.2.4.min.js"></script>
+    <script src="/resources/js/jquery-2.2.4.min.js"></script>
 
 
     <!--BootstrapJS [ RECOMMENDED ]-->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="/resources/js/bootstrap.min.js"></script>
 
 
     <!--NiftyJS [ RECOMMENDED ]-->
-    <script src="js/nifty.min.js"></script>
+    <script src="/resources/js/nifty.min.js"></script>
+
+
+
+
+
 
     <!--=================================================-->
     
     <!--Demo script [ DEMONSTRATION ]-->
-    <script src="js/demo/nifty-demo.min.js"></script>
+    <script src="/resources/js/demo/nifty-demo.min.js"></script>
 
     
-    <!--DataTables [ OPTIONAL ]-->
-    <script src="plugins/datatables/media/js/jquery.dataTables.js"></script>
-	<script src="plugins/datatables/media/js/dataTables.bootstrap.js"></script>
-	<script src="plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
+    <!--Summernote [ OPTIONAL ]-->
+    <script src="/resources/plugins/summernote/summernote.min.js"></script>
+    
+    
+    <!--Dropzone [ OPTIONAL ]-->
+    <script src="/resources/plugins/dropzone/dropzone.min.js"></script>
 
+    <!--Form File Upload [ SAMPLE ]-->
+    <script src="/resources/js/demo/form-text-editor.js"></script>
 
-    <!--DataTables Sample [ SAMPLE ]-->
-    <script src="js/demo/tables-datatables.js"></script>
-
+    <!--Form File Upload [ SAMPLE ]-->
+    <script src="/resources/js/demo/form-file-upload.js"></script>
 </head>
 <!-- END HEAD -->
 

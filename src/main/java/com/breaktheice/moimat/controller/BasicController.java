@@ -91,25 +91,29 @@ public class BasicController {
 	public String delete(Model model,
 			HttpServletRequest request, BasicDomain domain) throws Exception {
 		System.out.println("delete");
-//		model.addAttribute("write_view",boardService.selectBoardOne(bId));
-	
 
-		service.deleteBoard(domain);
+		service.deleteBoard(domain); 
 		return "redirect:boardlist";
 	}
+	
 	@RequestMapping("/boardcontentview")	
 	public String cont(
 			Model model, BasicDomain domain) {	
-//		int postId = Integer.parseInt(request.getParameter("postId"));
+
 		System.out.println("테스트"+domain);
 		
 		int postId = domain.getPostId();
+		int tmemId = domain.getTmemId();
+		
 		// 게시글 목록 
 		model.addAttribute("list", service.selectBoardOne(postId));
+		
 		// 게시글의 덧글 목록
-		model.addAttribute("list2",service.selectReplyList(domain));
+		model.addAttribute("list2",service.selectReplyList(domain)); 
+	
 		
 		System.out.println("테스트"+postId);
+		System.out.println("테트"+tmemId);
 		
 	
 		return "boardcontentview";
@@ -123,13 +127,41 @@ public class BasicController {
 		domain.setCmtNickname("testNickname");
 		domain.setCmtEmail("testEmail");
 		domain.setTmemId(6);
+		System.out.println(domain);
 		service.replyBoard(domain);
 		
 		rttr.addFlashAttribute(domain);
 
 		return "redirect:/boardcontentview";
 	}
+	@GetMapping("/replydelete")
+	public String BasicReplydeleteBoard(BasicDomain domain,Model model,
+			HttpServletRequest request,RedirectAttributes rttr) {
+		
+//		int cmtId = Integer.parseInt(request.getParameter("cmtId"));
+//		int tmemId = Integer.parseInt(request.getParameter("tmemId"));
 
+		service.replydeleteBoard(domain);
+		rttr.addFlashAttribute(domain);
+		System.out.println(domain);
+		System.out.println("reply()"+domain);
+//		삭제는 되는대 삭제하고 바로 contentview 보여줘야하는데 이부분이 구현안됨
+		return "redirect:/boardlist";
+	}
+	//수정부분 구현안되있음 contentreply.jsp에 그부분있음 
+	@GetMapping("/replymodify")
+	public String reply(BasicDomain domain,
+			Model model, HttpServletRequest request, RedirectAttributes rttr) throws Exception {
+	
+		int cmtId = domain.getCmtId();
+		System.out.println("cmtID테스트"+cmtId);
+		service.replyUPBoard(domain);
+		
+		rttr.addFlashAttribute(domain);
+
+		return "redirect:/boardcontentview";
+	}
+		
 	@RequestMapping("/list22")
 	public void list3(Criteria criteria, Model model) throws Exception {
 		System.out.println("list2()");
@@ -192,15 +224,7 @@ public class BasicController {
 	}
 	
 
-	@GetMapping("/replydelete1")
-	public String BasicReplydeleteBoard(BasicDomain domain, @PathVariable String groupid, Model model,
-			HttpServletRequest request) {
-		System.out.println("reply()");
-
-		service.replydeleteBoard(domain);
-
-		return "redirect:list";
-	}
+	
 
 
 

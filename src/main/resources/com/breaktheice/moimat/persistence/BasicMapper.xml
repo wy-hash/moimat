@@ -55,7 +55,7 @@
 	
 	<!-- 게시물삭제 -->
 	<delete id="deleteBoard" parameterType="com.breaktheice.moimat.domain.BasicDomain">
-		delete from team_post where post_id=#{postId} and tmem_id=#{tmemId}
+		delete from team_post where post_id=#{postId}
 	</delete>
 	
 	<!-- 게시물 수정 -->
@@ -67,7 +67,7 @@
 	
 	<!-- 댓글수정 -->
 	<update id="replyUPBoard" parameterType="com.breaktheice.moimat.domain.BasicDomain">
-   		update team_comments set CMT_CONTENT = #{cmtContent}, UPDATE = sysdate
+   		update team_comments set CMT_CONTENT = #{cmtContent}, cmt_regdate = sysdate
    		 where cmt_id =#{cmtId} and tmem_id =#{tmemId}
    </update>
    
