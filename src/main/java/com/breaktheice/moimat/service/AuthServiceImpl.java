@@ -1,6 +1,7 @@
 package com.breaktheice.moimat.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -8,9 +9,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.breaktheice.moimat.domain.AreaDomain;
 import com.breaktheice.moimat.domain.CertDomain;
+import com.breaktheice.moimat.domain.InterestDomain;
 import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.persistence.AuthMapper;
+import com.breaktheice.moimat.persistence.InterestMapper;
 import com.breaktheice.moimat.util.SHA256;
 
 import lombok.AllArgsConstructor;
@@ -23,6 +27,9 @@ public class AuthServiceImpl implements AuthService {
 
 	@Autowired
 	AuthMapper mapper;
+	
+	@Autowired
+	InterestMapper interestMapper;
 
 	@Autowired
 	SHA256 sha256;
@@ -54,6 +61,8 @@ public class AuthServiceImpl implements AuthService {
 			session.setAttribute("loginVO", loginVo); // 세션객체에 들어갈 사옹자 정보
 
 			log.info("로그인 성공.... ");
+			log.info(loginVo);
+			log.info(loginVo.getAreaDomain().toString());
 
 			// 여기서 true반환
 			return true;
@@ -89,6 +98,11 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	public boolean joinMember(MemberDomain vo) {
 
+		vo.setMemLevel(1L);
+		vo.setMemStatus(1L);
+		
+		vo.setMemPassword(sha256.encrypt(vo.getMemPassword()));
+		
 		int success = mapper.join(vo); // Member테이블 삽입
 
 		// 회원정보 등록 성공!
@@ -106,19 +120,17 @@ public class AuthServiceImpl implements AuthService {
 	 * @param @return @throws
 	 */
 	@Override
-	public boolean checkEmail(String email) {
+	public boolean isValidEmail(String email) {
 
-		// db에서 회원정보 갖고온다
+		// 디비에 메일 조건으로 뽑아옴
 		String result = mapper.checkMemberEmail(email);
 
-		log.info("result :" + result);
-
-		// email중복이 있는경우 있는경우(중복)
-		if (result != null && !result.equals("")) {
-			return true;
+		// 디비에 메일 없으면
+		if (result == null || result.equals("")) {
+			return true; // 사용가능
 		}
 
-		return false; // 중복 없는 경우
+		return false;
 	}
 
 	/**
@@ -127,23 +139,31 @@ public class AuthServiceImpl implements AuthService {
 	 * @param @return @throws
 	 */
 	@Override
-	public boolean insertCode(CertDomain auth) {
+	public boolean insertCode(String email) {
 
-		int result = mapper.insertCode(auth);
-
-		if (result == 1) {
+		CertDomain cert = new CertDomain();
+		int code = (int)(Math.random()*1000000000);
+		
+		cert.setCertCode(code + "");
+		cert.setCertEmail(email);
+		
+		if (mapper.insertCode(cert) == 1) {
+			log.info("insertCode() is successed. cert: " + cert);
 			return true;
 		}
-
+		
 		return false;
-
 	}
 
 	/**
 	 * 인증코드 확인
 	 * 
 	 * @param @return @throws
+	 * 
+	 * TODO: mapper.deleteCode() 가입 완료될때 실행되게 변경.
 	 */
+	
+	//mapper.deleteCode()는 가입 완료버튼일때 실행하도록 바꿔야함
 	public boolean selectAuthCode(CertDomain auth) {
 		
 		log.info(auth);
@@ -154,7 +174,7 @@ public class AuthServiceImpl implements AuthService {
 		if (tmp != null && tmp.getCertCode().equals(auth.getCertCode())) {
 
 			// 기능 추가(해당 인증로우 삭제)
-			mapper.deleteCode(auth);
+			//mapper.deleteCode(auth); // ** TARGET
 
 			return true;
 
@@ -185,5 +205,36 @@ public class AuthServiceImpl implements AuthService {
 		return false;
 
 	}
+
+	@Override
+	public List<AreaDomain> getAllAreas() {
+		// TODO Auto-generated method stub
+		
+		return mapper.selectAllAreas();
+	}
+
+	@Override
+	public List<InterestDomain> getAllInterest() {
+		// TODO Auto-generated method stub
+		return mapper.selectAllInterest();
+	}
+
+	@Override
+	public Long getInterestKey(String intKey) {
+		// TODO Auto-generated method stub
+		
+		return interestMapper.selectInterestId(intKey);
+	}
+
+	@Override
+	public Long getAreaId(String areaRegionKey) {
+		// TODO Auto-generated method stub
+		
+		return mapper.selectAreaId(areaRegionKey);
+	}
+	
+	
+	
+	
 
 }

@@ -1,8 +1,11 @@
 package com.breaktheice.moimat.persistence;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import com.breaktheice.moimat.domain.AreaDomain;
 import com.breaktheice.moimat.domain.CertDomain;
+import com.breaktheice.moimat.domain.InterestDomain;
 import com.breaktheice.moimat.domain.MemberDomain;
 
 public interface AuthMapper {
@@ -25,5 +28,13 @@ public interface AuthMapper {
 	public int deleteCode(CertDomain auth);
 	
 	public int updateMember(MemberDomain member);
+
+
+	public List<AreaDomain> selectAllAreas();
+
+
+	public List<InterestDomain> selectAllInterest();
+	
+	public Long selectAreaId(String areaRegionKey);
 	
 }
