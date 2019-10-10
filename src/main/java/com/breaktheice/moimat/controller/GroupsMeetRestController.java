@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.breaktheice.moimat.domain.CalendarEventVO;
+import com.breaktheice.moimat.domain.Criteria;
 import com.breaktheice.moimat.domain.MeetListVO;
 import com.breaktheice.moimat.domain.MeetingPageVO;
 import com.breaktheice.moimat.service.MeetingService;
@@ -33,6 +34,15 @@ public class GroupsMeetRestController {
 			})
 	public ResponseEntity<MeetListVO> getList(@PathVariable("groupid")Long a,@PathVariable("memberid")Long b){
 		return new ResponseEntity<>(service.getMeetList(a, b),HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/getList/{groupid}/{page}/{memberid}",
+			produces = {
+					MediaType.APPLICATION_JSON_UTF8_VALUE
+			})
+	public ResponseEntity<MeetListVO> getListWithPasing(@PathVariable("groupid")Long groupId,@PathVariable("page")int page,@PathVariable("memberid")Long memberId){
+		Criteria cri = new Criteria(page,3);
+		return new ResponseEntity<>(service.meetWithPaging(groupId, memberId, cri),HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/detailedmeet/{meetid}/{groupid}/{memberid}",

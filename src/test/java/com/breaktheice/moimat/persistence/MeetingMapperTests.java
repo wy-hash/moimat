@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.breaktheice.moimat.domain.Criteria;
 import com.breaktheice.moimat.domain.MeetVO;
 
 import lombok.Setter;
@@ -94,5 +95,16 @@ public class MeetingMapperTests {
 	@Test
 	public void getEvent() {
 		mapper.getEvent(2L);
+	}
+	
+	@Test
+	public void listWithPagingTest() {
+		Criteria cri = new Criteria(1,3);
+		mapper.meetWithPaging(2L, cri);
+	}
+	
+	@Test
+	public void getTotalTest() {
+		mapper.getTotalMeet(2L);
 	}
 }

@@ -3,6 +3,7 @@ package com.breaktheice.moimat.service;
 import java.util.List;
 
 import com.breaktheice.moimat.domain.CalendarEventVO;
+import com.breaktheice.moimat.domain.Criteria;
 import com.breaktheice.moimat.domain.MeetListVO;
 import com.breaktheice.moimat.domain.MeetVO;
 import com.breaktheice.moimat.domain.MeetingPageVO;
@@ -24,4 +25,6 @@ public interface MeetingService {
 	public void cancelAttend(Long meetId,Long groupId,Long memId);
 	//달력에 날짜 찍기
 	public List<CalendarEventVO> getEvent(Long groupId);
+	
+	public MeetListVO meetWithPaging(Long teamId,Long memId, Criteria cri);
 }
