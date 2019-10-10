@@ -11,11 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/groups")
 public class GroupsController {
+	
+	@GetMapping("")
+	public String index() {
+		
+		return "groups/index";
+	}
 
 	@GetMapping("/{groupId}")
-	public String index(@PathVariable Long groupId) {
+	public String groupMain(@PathVariable Long groupId) {
 
-		return "groups/index";
+		return "groups/group-main";
 	}
 
 	@GetMapping("/{groupId}/member")

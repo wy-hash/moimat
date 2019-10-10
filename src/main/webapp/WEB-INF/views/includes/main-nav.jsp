@@ -77,22 +77,12 @@
 						            
 						            <!--Menu list item-->
 						            <li>
-						                <a href="#">
+						                <a href="/groups">
 						                    <i class="fa fa-group"></i>
 						                    <span class="menu-title">
-												<strong>나의 모임</strong>
+												<strong>내 모임</strong>
 											</span>
-											<i class="arrow"></i>
 						                </a>
-						                
-						                <!-- Submenu -->
-						                <ul class="collapse">
-						                	<li><a href="#">이런모임</a></li>
-						                	<li><a href="#">저런모임</a></li>
-						                	<li><a href="#">그런모임</a></li>
-						                	<li><a href="#">이상한모임</a></li>
-						                	<li><a href="#">재밌는모임</a></li>
-						                </ul>
 						            </li>
 						            
 						            <!-- Category name -->
