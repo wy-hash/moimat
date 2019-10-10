@@ -112,15 +112,14 @@
 	
 	</select>
 	
-	<delete id="deleteCode" parameterType="com.breaktheice.moimat.domain.CertDomain">
+	<delete id="deleteCode">
 		
 		DELETE 
 				
 		FROM
 				CERT
 		WHERE 
-					CERT_CODE = #{certCode}
-				and CERT_EMAIL = #{certEmail}
+				CERT_EMAIL = #{memEmail}
 	
 	</delete>
 	

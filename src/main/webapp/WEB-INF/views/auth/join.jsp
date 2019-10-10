@@ -330,6 +330,8 @@
 		                $('#demo-bv-wz').find('.next').hide();
 		                $('#demo-bv-wz').find('.finish').show();
 		                $('#demo-bv-wz').find('.finish').prop('disabled', false);
+		                //하단 텍스트 감춤
+		                $('.panel-footer .pull-left').css('display', 'none');
 		            } else {
 		                $('#demo-bv-wz').find('.next').show();
 		                $('#demo-bv-wz').find('.finish').hide().prop('disabled', true);

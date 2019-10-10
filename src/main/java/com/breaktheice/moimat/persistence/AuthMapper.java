@@ -25,7 +25,7 @@ public interface AuthMapper {
 	
 	public CertDomain selectCode(CertDomain auth);
 	
-	public int deleteCode(CertDomain auth);
+	public int deleteCode(String string);
 	
 	public int updateMember(MemberDomain member);
 

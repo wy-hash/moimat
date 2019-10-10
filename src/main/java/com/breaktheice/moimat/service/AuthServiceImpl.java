@@ -104,6 +104,8 @@ public class AuthServiceImpl implements AuthService {
 		vo.setMemPassword(sha256.encrypt(vo.getMemPassword()));
 		
 		int success = mapper.join(vo); // Member테이블 삽입
+		
+		mapper.deleteCode(vo.getMemEmail());
 
 		// 회원정보 등록 성공!
 		if (success == 1) {
