@@ -56,7 +56,7 @@
 					            </div>
 					            <!-- BASIC FORM ELEMENTS -->
 					            <!--===================================================-->
-					            <form class="panel-body form-horizontal form-padding" action="/myPage/edit" method="post" enctype="multipart/form-data" id="userForm">
+					            <form class="panel-body form-horizontal form-padding" action="/mypage/edit" method="post" enctype="multipart/form-data" id="userForm">
 									 <!--  사진 -->
 									 <div class="form-group">
 					                    <label class="col-md-3 control-label">사진</label>
@@ -312,7 +312,7 @@ function rePasswordCheck(){
 function getMyInfo(){
 	
 	let data = null;
-	let url = "/myPage/selectUser";
+	let url = "/mypage/selectUser";
 	let error="에러가발생했습니다. 다시시작해 주세요";
 	
 	let resultData = callAjax(data, url, error);

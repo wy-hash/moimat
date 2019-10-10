@@ -144,7 +144,7 @@
 					                </div>
 					                
 					               <div class="panel-footer text-right">
-					                    	<a class="btn btn-success" href="/myPage/edit/">회원정보수정</a>
+					                    	<a class="btn btn-success" href="/mypage/edit/">회원정보수정</a>
 					               </div>
 					            </form>
 					            <!--===================================================-->
@@ -188,7 +188,7 @@ $(document).ready(function(){  //onload 함수
 function getMyInfo(){
 	
 	let data = null;
-	let url = "/myPage/selectUser";
+	let url = "/mypage/selectUser";
 	let error="에러가발생했습니다. 다시시작해 주세요";
 	
 	let resultData = callAjax(data, url, error);

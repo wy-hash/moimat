@@ -28,7 +28,7 @@ import lombok.extern.log4j.Log4j;
 
 @Controller
 @Log4j
-@RequestMapping("/myPage")
+@RequestMapping("/mypage")
 public class UserController {
 
 	@Autowired
@@ -43,7 +43,7 @@ public class UserController {
 	@GetMapping("/") // user/
 	public String users(Model model, HttpServletRequest request) {
 		
-		log.info("get : /myPage/..호출");
+		log.info("get : /mypage/..호출");
 		
 		HttpSession session = request.getSession(false);
 		
@@ -78,13 +78,23 @@ public class UserController {
 	public String userEdit(MemberDomain user, MultipartFile photoFile) {
 		log.info("post : /users/edit..호출");
 		
-		//log.info(photoFile.getName());
+		// 작업순서(원리)
+		// 1. 파일을 저장한다
+		// 2. 저장한 파일경로를 받아서 db에 저장(member 테이블의 photo)... db에는 파일저장경로만!!!
+		// ex.) upload/파일명.확장자
+		// 저장은 c하위폴더에 upload폴더
 		
-		fileUploadService.restore(photoFile);
+		// 파일을 저장한뒤
+		String fileUrl = fileUploadService.restore(photoFile);
 		
-		//authService.updateMember(user);
+		// 파일경로명 찾아서 updateMember하기
+		user.setMemPhoto(fileUrl);
 		
-		return "index";
+				
+		//  회원정보 수정
+		userService.updateMember(user);
+		
+		return "redirect:/mypage/";
 	}
 	
 	/**
@@ -181,7 +191,7 @@ public class UserController {
 		// 평문으로 들어가기때문에 비밀번호를 암호화 해줌
 		memberDomain.setMemPassword(SHA256.encrypt(memberDomain.getMemPassword()));
 		
-		boolean result = authService.updateMember(memberDomain);
+		boolean result = userService.updateMember(memberDomain);
 		
 		// 성공인 경우
 		if(result) {
