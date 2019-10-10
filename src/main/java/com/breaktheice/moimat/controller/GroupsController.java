@@ -21,7 +21,7 @@ public class GroupsController {
 	@GetMapping("/{groupId}")
 	public String groupMain(@PathVariable Long groupId) {
 
-		return "groups/group-main";
+		return "groups/group-home";
 	}
 
 	@GetMapping("/{groupId}/member")
