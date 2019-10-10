@@ -83,7 +83,7 @@
 
 					<!--Default Tabs (Left Aligned)-->
 					<!--===================================================-->
-					<div class="tab-base col-lg-10 col-lg-offset-1">
+					<div class="tab-base col-lg-12">
 
 						<!--Nav Tabs-->
 						<ul class="nav nav-tabs">
