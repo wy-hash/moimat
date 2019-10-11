@@ -28,142 +28,9 @@ public class BasicController {
 
 	@Autowired
 	private BasicService service;
-
-	@RequestMapping("/boardlist")	
-	public String file(
-			Model model,HttpServletRequest request,BasicDomain domain) {	
-		System.out.println(domain);
-		 
-		model.addAttribute("list", service.selectBoardList());
-		System.out.println(service.selectBoardList());
-		
-		
-		return "boardlist";
-	}
-	
-	@PostMapping("/boardmodify")	
-	public String cont2(
-			Model model,HttpServletRequest request,BasicDomain domain) {	
-			System.out.println("modifyddddddddddddddddddddd");
-		
-			int postId = Integer.parseInt(request.getParameter("postId"));
-			System.out.println(postId);
-			model.addAttribute("list", service.selectBoardOne(postId));
-				System.out.println("테스트"+postId);
-				
-		return "boardmodify";
-	}  
-	
-	@PostMapping("/boardmodifywrite")	
-	public String cont22(
-			Model model,HttpServletRequest request,BasicDomain domain) {	
-		
-			service.modifyBoard(domain);
-				
-		return "redirect:/boardlist";
-	}
-
-	@RequestMapping(value="/boardwriteview", method= RequestMethod.GET)	
-	public String test2(BasicDomain domain, Model model,HttpServletRequest request) {
-		System.out.println("/boardwrite GET");
-		
-		domain.setTeamId(8);
-		domain.setBrdId(28);
-		domain.setTmemId(6);
-		domain.setPostTmemLevel(1);
-		domain.setPostNickname("testNi");
-		domain.setPostEmail("Email");	
-
-		model.addAttribute("list",domain);
-			
-		return "boardwrite";
-	}
-	@RequestMapping(value="/boardwrite", method= RequestMethod.POST)	
-	public String test22(
-			BasicDomain domain,Model model) {
-		System.out.println("/boardwrite POST");
-	
-		service.insertBoard(domain);	
-		System.out.println(domain);
-		return "redirect:/boardlist";
-	}
-	@GetMapping("/deleteboard")
-	public String delete(Model model,
-			HttpServletRequest request, BasicDomain domain) throws Exception {
-		System.out.println("delete");
-
-		service.deleteBoard(domain); 
-		return "redirect:boardlist";
-	}
-	
-	@RequestMapping("/boardcontentview")	
-	public String cont(
-			Model model, BasicDomain domain) {	
-
-		System.out.println("테스트"+domain);
-		
-		int postId = domain.getPostId();
-		int tmemId = domain.getTmemId();
-		
-		// 게시글 목록 
-		model.addAttribute("list", service.selectBoardOne(postId));
-		
-		// 게시글의 덧글 목록
-		model.addAttribute("list2",service.selectReplyList(domain)); 
-	
-		
-		System.out.println("테스트"+postId);
-		System.out.println("테트"+tmemId);
-		
-	
-		return "boardcontentview";
-	}
-	@PostMapping("/reply")
-	public String reply_view(BasicDomain domain,
-			Model model, HttpServletRequest request, RedirectAttributes rttr) throws Exception {
-		int postId = Integer.parseInt(request.getParameter("postId"));
-		System.out.println(postId);
-		domain.setBrdId(28);
-		domain.setCmtNickname("testNickname");
-		domain.setCmtEmail("testEmail");
-		domain.setTmemId(6);
-		System.out.println(domain);
-		service.replyBoard(domain);
-		
-		rttr.addFlashAttribute(domain);
-
-		return "redirect:/boardcontentview";
-	}
-	@GetMapping("/replydelete")
-	public String BasicReplydeleteBoard(BasicDomain domain,Model model,
-			HttpServletRequest request,RedirectAttributes rttr) {
-		
-//		int cmtId = Integer.parseInt(request.getParameter("cmtId"));
-//		int tmemId = Integer.parseInt(request.getParameter("tmemId"));
-
-		service.replydeleteBoard(domain);
-		rttr.addFlashAttribute(domain);
-		System.out.println(domain);
-		System.out.println("reply()"+domain);
-//		삭제는 되는대 삭제하고 바로 contentview 보여줘야하는데 이부분이 구현안됨
-		return "redirect:/boardlist";
-	}
-	//수정부분 구현안되있음 contentreply.jsp에 그부분있음 
-	@GetMapping("/replymodify")
-	public String reply(BasicDomain domain,
-			Model model, HttpServletRequest request, RedirectAttributes rttr) throws Exception {
-	
-		int cmtId = domain.getCmtId();
-		System.out.println("cmtID테스트"+cmtId);
-		service.replyUPBoard(domain);
-		
-		rttr.addFlashAttribute(domain);
-
-		return "redirect:/boardcontentview";
-	}
-		
-	@RequestMapping("/list22")
-	public void list3(Criteria criteria, Model model) throws Exception {
+	//처음화면 boardlist.jsp 연동  page 패키지 페이징 연동
+	@RequestMapping("/boardlist")
+	public String boardlist(Criteria criteria, Model model) throws Exception {
 		System.out.println("list2()");
 
 		PageMaker pageMaker = new PageMaker();
@@ -178,54 +45,134 @@ public class BasicController {
 		pageMaker.setTotalCount(totalCount);
 
 		List<BasicDomain> boardList = service.selectBoardListPage(criteria);
-
+		model.addAttribute("list", service.selectBoardList());
 		model.addAttribute("list", boardList);
 		model.addAttribute("pageMaker", pageMaker);
 
-		// return "redirect:list";
+		 return "boardlist";
 	}
-	// 사진첩 목록
-	@GetMapping("/groups/{groupid}/photos11")
-	public String list(@PathVariable String groupid, Model model) {
-
-		System.out.println("list()호출");
-
-//		model.addAttribute("domain", service.selectBoardList());
-
-		return "list";
+	//모임 게시물 수정 화면 보여주는역할
+	@PostMapping("/boardmodify")	
+	public String boardmodify(
+			Model model,HttpServletRequest request,BasicDomain domain) {	
+			System.out.println("modifyddddddddddddddddddddd");
+		
+			int postId = Integer.parseInt(request.getParameter("postId"));
+			System.out.println(postId);
+			model.addAttribute("list", service.selectBoardOne(postId));
+				System.out.println("테스트"+postId);
+				
+		return "boardmodify";
+	}  
+	// 게시물 수정 된 글작성 
+	@PostMapping("/boardmodifywrite")	
+	public String boardmodifywrite(
+			Model model,HttpServletRequest request,BasicDomain domain) {	
+		
+			service.modifyBoard(domain);
+				
+		return "redirect:/boardlist";
 	}
+	//글쓰는 화면 보여줌 필요한 더미데이터 domain.set으로 일단 넣었음
+	@RequestMapping(value="/boardwriteview", method= RequestMethod.GET)	
+	public String boardwriteview(BasicDomain domain, Model model,HttpServletRequest request) {
+		System.out.println("/boardwrite GET");
+		
+		domain.setTeamId(8);
+		domain.setBrdId(28);
+		domain.setTmemId(6);
+		domain.setPostTmemLevel(1);
+		domain.setPostNickname("testNi");
+		domain.setPostEmail("Email");	
 
-	@GetMapping("/groups/{groupid}/photos22")
-	public String content_view(@PathVariable String groupid, Model model, HttpServletRequest request) throws Exception {
-
-		//model.addAttribute("content_view", service.selectBoardOne(groupid));
-
-		return "content_view";
+		model.addAttribute("list",domain);
+			
+		return "boardwrite";
 	}
-
-	@GetMapping("/groups/{groupid}/photos33")
-	public String write_view(@PathVariable String groupid, Model model, HttpServletRequest request) throws Exception {
-		System.out.println("write_view()");
-
-		return "write_view";
+	//게시물 생성
+	@RequestMapping(value="/boardwrite", method= RequestMethod.POST)	
+	public String boardwrite(
+			BasicDomain domain,Model model) {
+		System.out.println("/boardwrite POST");
+	
+		service.insertBoard(domain);	
+		System.out.println(domain);
+		return "redirect:/boardlist";
 	}
+	//게시물 삭제
+	@GetMapping("/deleteboard")
+	public String deleteboard(Model model,
+			HttpServletRequest request, BasicDomain domain) throws Exception {
+		System.out.println("delete");
 
+		service.deleteBoard(domain); 
+		return "redirect:boardlist";
+	}
+	//게시물 상세 확인 댓글 list와 댓글 등록까지
+	@RequestMapping("/boardcontentview")	
+	public String boardcontentview(
+			Model model, BasicDomain domain) {	
 
-
-	@GetMapping("/groups/{groupid}/photos/{photoid}/replies/new1")
-	public String replyBoard(BasicDomain domain, @PathVariable String groupid, Model model,
-			HttpServletRequest request) {
-		System.out.println("reply()");
-
-		service.replyUPBoard(domain);
+		System.out.println("테스트"+domain);
+		
+		long postId = domain.getPostId();
+		long tmemId = domain.getTmemId();
+		//조회수 올려주는 메서드
+		service.updateViewCnt(domain);
+		// 게시글 목록 
+		model.addAttribute("list", service.selectBoardOne(postId));
+		
+		// 게시글의 덧글 목록
+		model.addAttribute("list2",service.selectReplyList(domain)); 
+		
+		
+		System.out.println("테스트"+postId);
+		System.out.println("테트"+tmemId);
+		
+	
+		return "boardcontentview";
+	}
+	//댓글 생성
+	@PostMapping("/reply")
+	public String reply(BasicDomain domain,
+			Model model, HttpServletRequest request, RedirectAttributes rttr) throws Exception {
+		int postId = Integer.parseInt(request.getParameter("postId"));
+		System.out.println(postId);
+		domain.setBrdId(28);
+		domain.setCmtNickname("testNickname");
+		domain.setCmtEmail("testEmail");
+		domain.setTmemId(6);
+		System.out.println(domain);
 		service.replyBoard(domain);
+		
+		rttr.addFlashAttribute(domain);
 
-		return "redirect:list";
+		return "redirect:/boardcontentview";
 	}
+	//댓글삭제
+	@GetMapping("/replydelete")
+	public String replydelete(BasicDomain domain,Model model,
+			HttpServletRequest request,RedirectAttributes rttr) {
+		System.out.println("replydelete()");
+		service.replydeleteBoard(domain);
+		rttr.addFlashAttribute(domain);
+		System.out.println(domain);
+		System.out.println("reply()"+domain);
+//		삭제는 되는대 삭제하고 바로 contentview 보여줘야하는데 이부분이 구현안됨
+		return "redirect:/boardcontentview";
+	}
+	@GetMapping("/replymodify")
+	public String replymodify(BasicDomain domain,
+			Model model, HttpServletRequest request, RedirectAttributes rttr) throws Exception {
 	
+		long cmtId = domain.getCmtId();
+		System.out.println("cmtID테스트"+cmtId);
+		service.replyUPBoard(domain);
+		
+		rttr.addFlashAttribute(domain);
 
-	
-
+		return "redirect:/boardcontentview";
+	}
 
 
 }

@@ -7,7 +7,7 @@ import com.breaktheice.moimat.page.Criteria;
 
 public interface BasicService {
 	
-	public BasicDomain selectBoardOne(int postId);
+	public BasicDomain selectBoardOne(long postId);
 	public List<BasicDomain> selectBoardList();
 	public void insertBoard(BasicDomain domain);
 	public void deleteBoard(BasicDomain domain);
@@ -19,9 +19,9 @@ public interface BasicService {
 	public void replyBoard(BasicDomain domain);
 	public void replydeleteBoard(BasicDomain domain);
 	
-	
+	public void updateViewCnt(BasicDomain domain);
 
-	//파일업로드
+	
 	public int selectAllBoard() throws Exception;
 	
 	  public List<BasicDomain> selectBoardListPage(Criteria criteria) throws Exception;

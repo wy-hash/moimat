@@ -1,26 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.breaktheice.moimat.persistence.BasicMapper">
-	<!-- 게시물 상세보기 -->
-<!-- 	<select id="selectBoardOne" parameterType="com.breaktheice.moimat.domain.BasicDomain" resultType="com.breaktheice.moimat.domain.BasicDomain">id는 함수호출 -->
-<!-- 	SELECT POST_ID, -->
-<!-- 	POST_NUM, -->
-<!-- 	TEAM_ID, -->
-<!-- 	BRD_ID, -->
-<!-- 	POST_TITLE, -->
-<!-- 	POST_CONTENT, -->
-<!-- 	TMEM_ID, -->
-<!-- 	POST_TMEM_LEVEL, -->
-<!-- 	POST_NICKNAME, -->
-<!-- 	POST_EMAIL, -->
-<!-- 	POST_REGDATE, -->
-<!-- 	POST_UPDATE, -->
-<!-- 	POST_HIT, -->
-<!-- 	POST_LIKE, -->
-<!-- 	POST_DISLIKE -->
 
-<!-- 	where post_id = #{postId} -->
-<!--    </select>  -->
+<update id="updateViewCnt" parameterType="com.breaktheice.moimat.domain.BasicDomain">
+
+        update team_post
+
+        set post_hit = post_hit + 1
+
+        where post_id = #{postId}
+
+ </update>
+ 
+	<!--page=2&perPageNum=10 -->
+    <select id="selectBoardListPage" resultType="com.breaktheice.moimat.domain.BasicDomain" parameterType="com.breaktheice.moimat.page.Criteria">
+	<![CDATA[
+	SELECT * FROM
+	(
+        SELECT
+            A.*,
+            ROWNUM AS RNUM,
+            COUNT(*) OVER() AS TOTCNT
+        FROM
+            (
+                SELECT
+                    *
+                FROM
+                    team_post
+                ORDER BY post_id desc
+             
+            ) A
+    )WHERE RNUM >= #{startNum} AND RNUM <= #{endNum}
+  	]]>
+	</select>
 <select id="selectBoardList" parameterType="com.breaktheice.moimat.domain.BasicDomain" resultType="com.breaktheice.moimat.domain.BasicDomain"><!-- id는 함수호출 -->
    <!--    select bId, bName, bTitle, bContent, bDate, bHit, bGroup, bStep, bIndent from mvc_board order by bGroup desc, bStep asc -->
       select post_id, post_title, POST_NICKNAME, POST_HIT, TMEM_ID, POST_REGDATE from team_post order by post_id desc 
@@ -39,7 +51,7 @@
 	
    </select> 
  		<!-- 페이징  -->
-	<select id="selectAllBoard" parameterType="com.breaktheice.moimat.domain.BasicDomain">
+	<select id="selectAllBoard" resultType="Integer">
 		select count(*) from team_post
 	</select>
 		
@@ -55,8 +67,15 @@
 	
 	<!-- 게시물삭제 -->
 	<delete id="deleteBoard" parameterType="com.breaktheice.moimat.domain.BasicDomain">
-		delete from team_post where post_id=#{postId}
+		DELETE FROM team_post 
+		WHERE 		post_id = #{postId}
 	</delete>
+	<!-- 게시물의 덧글삭제 -->
+	<delete id="deleteBoardComment" parameterType="com.breaktheice.moimat.domain.BasicDomain">
+		DELETE FROM team_comments 
+		WHERE 		post_id = #{postId}
+	</delete>
+	
 	
 	<!-- 게시물 수정 -->
 	<update id="modifyBoard" parameterType="com.breaktheice.moimat.domain.BasicDomain">

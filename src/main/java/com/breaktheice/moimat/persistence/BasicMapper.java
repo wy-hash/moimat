@@ -12,7 +12,7 @@ import com.breaktheice.moimat.page.Criteria;
 public interface BasicMapper {
 	
 	public List<BasicDomain> selectBoardList();
-	public BasicDomain selectBoardOne(int postId);
+	public BasicDomain selectBoardOne(long postId);
 	
 	public List<BasicDomain> selectReplyList(BasicDomain domain);
 
@@ -21,6 +21,7 @@ public interface BasicMapper {
 	
 	public void insertBoard(BasicDomain domain);
 	public void deleteBoard(BasicDomain domain);
+	public void deleteBoardComment(BasicDomain domain);
 	public void modifyBoard(BasicDomain domain);
 
 	public void replyUPBoard(BasicDomain domain);
@@ -29,6 +30,9 @@ public interface BasicMapper {
 	
 	
 	public void replydeleteBoard(BasicDomain domain);
+	public List<BasicDomain> selectBoardListPage(Criteria criteria);
+	public void updateViewCnt(BasicDomain domain);
+
 	
 
 //	

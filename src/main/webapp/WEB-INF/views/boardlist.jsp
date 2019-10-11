@@ -112,7 +112,7 @@
 				<!--Page Title-->
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<div id="page-title">
-					<h1 class="page-header text-overflow">게시판</h1>
+					<h1 align="center" "page-header text-overflow">모임 게시판</h1>
 					 <!--Searchbox-->
                     <div class="searchbox">
                         <div class="input-group custom-search-form">
@@ -174,38 +174,52 @@
 					               			               
 					            </tbody>
 					        </table>
+					       
+					       
+<!-- 					       페이징 view 부분  -->
+				<div id="paginationBox">
+		<ul class="pagination">
+					        <c:if test="${pageMaker.prev}">
+			<a  href="boardlist${pageMaker.makeQuery(pageMaker.startPage - 1) }">«</a>
+		</c:if>
+
+		<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">
+			<c:out value="${pageMaker.cri.page == idx?'':''}" />
+			<a href="boardlist${pageMaker.makeQuery(idx)}">${idx}</a>
+			</c:forEach>
+			<c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+				<a href="boardlist${pageMaker.makeQuery(pageMaker.endPage +1) }"> » </a>
+			</c:if> <br>
+			</ul>
+			</div>
 					    </div>
 					</div>
-				
-				
-				
-				
-						</div>
+				</div>
 					
 					</div>
 					<!--===================================================-->
 					<!--End Default Accordion-->
-
+					
 				</div>
 				
 				<!--===================================================-->
 				<!--End page content-->
 
 
-			</div>
+			
 			<!--===================================================-->
 			<!--END CONTENT CONTAINER-->
 
 
 
-		</div>
+		
 		<!-- END BOXED -->
 
 		<!-- FOOTER -->
 		<%@ include file="includes/footer.jsp"%>
 		<!-- END FOOTER -->
 
-	</div>
+	
 	<!-- END CONTAINER -->
 
 

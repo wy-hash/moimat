@@ -15,16 +15,20 @@ public class BasicServiceImpl implements BasicService{
 	
 	private BasicMapper mapper;
 	
-//	//페이징
-//	  public List<BasicDomain> selectBoardListPage(Criteria criteria) throws Exception {
-//			return mapper.selectBoardListPage(criteria);
-//	    }
-//	
-	//파일업로드
+//페이징
+	  public List<BasicDomain> selectBoardListPage(Criteria criteria) throws Exception {
+			return mapper.selectBoardListPage(criteria);
+	    }
+	
+	
 	public int selectAllBoard() throws Exception {
 		
 		return mapper.selectAllBoard();
     }
+	public void updateViewCnt(BasicDomain domain) {
+		
+		mapper.updateViewCnt(domain);
+	}
 
 
 	//게시물 리스트
@@ -38,7 +42,7 @@ public class BasicServiceImpl implements BasicService{
 	}
 	
 	//게시물 상세보기
-	public BasicDomain selectBoardOne(int postId) {
+	public BasicDomain selectBoardOne(long postId) {
 		
 		return mapper.selectBoardOne(postId);
 	}
@@ -50,6 +54,11 @@ public class BasicServiceImpl implements BasicService{
 	}
 	//게시물 삭제
 	public void deleteBoard(BasicDomain domain) {
+		
+		// 덧글이 있는지 확인
+//		select count(*) from team_comments where post_id = 28;
+		//
+		mapper.deleteBoardComment(domain);
 		mapper.deleteBoard(domain);
 	}
 	//게시물수정
@@ -73,33 +82,5 @@ public class BasicServiceImpl implements BasicService{
 		mapper.replydeleteBoard(domain);
 //		mapper.replydeleteBoard2(domain);
 	}
-//	public void photodeleteBoard(BasicDomain domain) {
-//
-//		mapper.photodeleteBoard(domain);
-//}
-//	public void photoUPBoard(BasicDomain domain) {
-//		
-//		mapper.photoUPBoard(domain);
-//		
-//	}
-//	//사진및 파일 첨부
-//	public void photoinsertBoard(BasicDomain domain) {
-//		
-//		mapper.photoinsertBoard(domain);
-//	}
 
-	@Override
-	public List<BasicDomain> selectBoardListPage(Criteria criteria) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-
-//	@Override
-//	public List<BasicDomain> selectBoardList() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 }

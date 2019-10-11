@@ -145,9 +145,9 @@
 					            <tbody>
 					                <tr>
 					                <form action="boardmodify?postId=${list.postId}" method="post">
-					                <input type="hidden" name=tmemId value="${list.tmemId}">
-					                  <input type="hidden" name=brdId value="${list.brdId}">
-					                  <input type="hidden" name=cmtEmail value="${list.cmtEmail}">
+					                <input type="hidden" name="tmemId" value="${list.tmemId}">
+					                  <input type="hidden" name="brdId" value="${list.brdId}">
+					                  <input type="hidden" name="cmtEmail" value="${list.cmtEmail}">
 					                  
 					                   	<td>${list.postId}</td>					                   	
 					                    <td>${list.postTitle}</td>			                    
@@ -161,7 +161,7 @@
 					            </tbody>
 					        
 					        	
-<!-- 								댓글때매 게시글 삭제안됨 해결해야함 -->
+
 							<input type="submit" value="수정"> &nbsp;&nbsp; <a href="boardlist">목록보기</a> &nbsp;&nbsp;
 							 <a href="deleteboard?postId=${list.postId}&tmemId=${list.tmemId}">삭제</a>
 								</form>
@@ -218,8 +218,8 @@
 								
 								 
 								<form style="font-weight: bold;font-size:1.1em;color: black;"action="reply?postId=${list.postId}" method="post">
-								<input type="hidden" name=brdId value="${list.brdId}">
-								<input type="hidden" name=cmtId value="${list.cmtId}">
+								<input type="hidden" name="brdId" value="${list.brdId}">
+								<input type="hidden" name="cmtId" value="${list.cmtId}">
 							
 								<c:forEach items="${list2}" var="post">								
 								${post.cmtNickname}
@@ -231,9 +231,17 @@
 								
 								<p align="right">
  								 <a href="replymodify?cmtId=${post.cmtId}">수정</a>
-								 <a href="replydelete?cmtId=${post.cmtId}&tmemId=${list.tmemId}">삭제</a>
-								</p> 
-<!-- 										다른사람 댓글 작성시간 닉네임 대댓글 달수있는거 뿌려줘야함		
+ 								 
+								 <%-- <a href="replydelete?cmtId=${post.cmtId}&tmemId=${list.tmemId}">삭제</a> --%>
+								<a href="javascript:fn_deleteReply()">삭제</a>
+								<!-- <a href="javascript:void(0)" onclick="fn_updateReply(' + rid + ', \'' + reg_id + '\')" style="padding-right:5px">저장</a>';
+ -->
+
+
+								</p>
+<!-- 							 
+https://freehoon.tistory.com/121 댓글 수정 삭제 ajax 참고사이트-->
+<!-- 										다른사람 댓글 작성시간 닉네임 뿌려줘야함		
 					댓글 수정하는 뷰를 보여줘야함
 						 -->					
 								
@@ -306,4 +314,61 @@
 
 
 </body>
+
+<script type="text/javascript">
+	function fn_deleteReply(){	
+		alert("안녕");
+		//cmtId=${post.cmtId}
+		//tmemId=${list.tmemId}
+		//1. id로 값을 받거나, 2.class  ,3.name으로 값을 받거나 
+		//1. $('#태그의 아이디')  2. $('.클래스의 이름')  3. $('태그[name=이름]')
+		console.log($('input[name=cmtId]'));
+		console.log($('input[name=tmemId]'));
+		var paramData = {	"cmtId"  : $('input[name=cmtId]'),
+							"tmemId" : $('input[name=tmemId]')};	
+	
+		$.ajax({
+	
+			//url: "/replydelete"//"${deleteReplyURL}"	"replydelete?cmtId=${post.cmtId}&tmemId=${list.tmemId}
+			url: "<%=path%>/replydelete"
+			, data : paramData
+			, type : 'GET'	
+			, dataType : 'text'	
+			, success: function(result){
+				console.log("성공  fn_deleteReply");
+				showList();	
+			}
+	
+			, error: function(error){	
+				console.log("에러 : " + error);
+	
+			}	
+		});
+	
+	}
+	
+	function showList(){	
+		
+		$.ajax({
+	
+			url: "/boardcontentview"	
+			, data : paramData	
+			, type : 'POST'	
+			, dataType : 'text'	
+			, success: function(result){	
+				console.log("성공 ");
+			}
+	
+			, error: function(error){	
+				console.log("에러 : " + error);
+	
+			}
+	
+		});
+	
+	}
+</script>
+
+
+
 </html>
