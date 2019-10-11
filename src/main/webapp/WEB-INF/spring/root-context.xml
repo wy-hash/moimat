@@ -11,10 +11,10 @@
 
 	<!-- HikariCP configuration -->
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE"></property>
-		<property name="username" value="breaktheice"></property>
-		<property name="password" value="breaktheice"></property>
+		<property name="driverClassName" value="${database.driverClassName}"></property>
+		<property name="jdbcUrl" value="${database.jdbcUrl}"></property>
+		<property name="username" value="${database.username}"></property>
+		<property name="password" value="${database.password}"></property>
 	</bean>
 	
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
@@ -49,6 +49,8 @@
 	<context:component-scan base-package="com.breaktheice.moimat.service"></context:component-scan>
 	
 	<bean id="sha256" class="com.breaktheice.moimat.util.SHA256" /> 
+	
+	<context:property-placeholder location="classpath:database.properties"/>
 		
 	
 </beans>

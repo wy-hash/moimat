@@ -1,6 +1,9 @@
 # Created by https://www.gitignore.io/api/vim,git,osx,jenv,java,maven,windows,eclipse,java-web,intellij+all,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=vim,git,osx,jenv,java,maven,windows,eclipse,java-web,intellij+all,visualstudiocode
 
+# user custom
+database.properties
+
 ### Eclipse ###
 .metadata
 bin/
