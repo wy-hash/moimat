@@ -12,7 +12,7 @@
 
 	<resultMap type="com.breaktheice.moimat.domain.MemberDomain" id="MemberDomain">
 		
-		<result column="mem_result" property="memresult"></result>
+		<result column="mem_id" property="memId"></result>
 		<result column="mem_email" property="memEmail"></result>
 		<result column="mem_password" property="memPassword"></result>
 		<result column="mem_nickname" property="memNickname"></result>
