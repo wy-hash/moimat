@@ -145,10 +145,10 @@
 					            <tbody>
 					                <tr>
 					                <form action="boardmodify?postId=${list.postId}" method="post">
-					                <input type="hidden" name="tmemId" value="${list.tmemId}">
-					                  <input type="hidden" name="brdId" value="${list.brdId}">
-					                  <input type="hidden" name="cmtEmail" value="${list.cmtEmail}">
-					                  
+					                <input type="hidden" id="tmemId" name="tmemId" value="${list.tmemId}">
+					                <input type="hidden" name="brdId" value="${list.brdId}">
+					                 <input type="hidden" name="cmtEmail" value="${list.cmtEmail}">
+					                   <input type="hidden" id="postId" name="postId" value="${list.postId}">
 					                   	<td>${list.postId}</td>					                   	
 					                    <td>${list.postTitle}</td>			                    
 					                    <td>${list.postNickname}</td>
@@ -216,12 +216,14 @@
 								<div style="background:DarkGray;opacity:0.4;display: block;
 								"class="box-reply2 bg-color u_cbox">
 								
-								 
+								 		
+								
 								<form style="font-weight: bold;font-size:1.1em;color: black;"action="reply?postId=${list.postId}" method="post">
+								<c:forEach items="${list2}" var="post">
 								<input type="hidden" name="brdId" value="${list.brdId}">
-								<input type="hidden" name="cmtId" value="${list.cmtId}">
+								<input type="hidden" id="cmtId" name="cmtId" value="${post.cmtId}">
 							
-								<c:forEach items="${list2}" var="post">								
+														
 								${post.cmtNickname}
 								<td>
 								${post.cmtRegdate}
@@ -317,18 +319,26 @@ https://freehoon.tistory.com/121 댓글 수정 삭제 ajax 참고사이트-->
 
 <script type="text/javascript">
 	function fn_deleteReply(){	
-		alert("안녕");
+	
 		//cmtId=${post.cmtId}
 		//tmemId=${list.tmemId}
 		//1. id로 값을 받거나, 2.class  ,3.name으로 값을 받거나 
 		//1. $('#태그의 아이디')  2. $('.클래스의 이름')  3. $('태그[name=이름]')
-		console.log($('input[name=cmtId]'));
-		console.log($('input[name=tmemId]'));
-		var paramData = {	"cmtId"  : $('input[name=cmtId]'),
-							"tmemId" : $('input[name=tmemId]')};	
+		//alert($('#cmtId').val());
+		
+		var cmt = $('#cmtId').val();
+		
+ 	 	var paramData = {	"cmtId"  : String(cmt),
+							"tmemId" : String($('#tmemId').val()),
+							"postId" : String($('#postId').val())
+
+						}; 	 
+		
+	 	//alert($('#tmemId').val());
+		/* , data : paramData */
 	
 		$.ajax({
-	
+			//?cmtId=$('#cmtId').val()&tmemId=$('#tmemId').val()
 			//url: "/replydelete"//"${deleteReplyURL}"	"replydelete?cmtId=${post.cmtId}&tmemId=${list.tmemId}
 			url: "<%=path%>/replydelete"
 			, data : paramData
@@ -336,7 +346,7 @@ https://freehoon.tistory.com/121 댓글 수정 삭제 ajax 참고사이트-->
 			, dataType : 'text'	
 			, success: function(result){
 				console.log("성공  fn_deleteReply");
-				showList();	
+				//showList();	
 			}
 	
 			, error: function(error){	
@@ -346,27 +356,9 @@ https://freehoon.tistory.com/121 댓글 수정 삭제 ajax 참고사이트-->
 		});
 	
 	}
+
 	
-	function showList(){	
-		
-		$.ajax({
 	
-			url: "/boardcontentview"	
-			, data : paramData	
-			, type : 'POST'	
-			, dataType : 'text'	
-			, success: function(result){	
-				console.log("성공 ");
-			}
-	
-			, error: function(error){	
-				console.log("에러 : " + error);
-	
-			}
-	
-		});
-	
-	}
 </script>
 
 

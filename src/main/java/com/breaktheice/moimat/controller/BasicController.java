@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.breaktheice.moimat.domain.BasicDomain;
@@ -125,11 +126,9 @@ public class BasicController {
 		// 게시글의 덧글 목록
 		model.addAttribute("list2",service.selectReplyList(domain)); 
 		
-		
 		System.out.println("테스트"+postId);
 		System.out.println("테트"+tmemId);
 		
-	
 		return "boardcontentview";
 	}
 	//댓글 생성
@@ -152,15 +151,44 @@ public class BasicController {
 	//댓글삭제
 	@GetMapping("/replydelete")
 	public String replydelete(BasicDomain domain,Model model,
-			HttpServletRequest request,RedirectAttributes rttr) {
+			HttpServletRequest request, RedirectAttributes rttr) {
+		
 		System.out.println("replydelete()");
 		service.replydeleteBoard(domain);
 		rttr.addFlashAttribute(domain);
+		
 		System.out.println(domain);
-		System.out.println("reply()"+domain);
-//		삭제는 되는대 삭제하고 바로 contentview 보여줘야하는데 이부분이 구현안됨
-		return "redirect:/boardcontentview";
+		System.out.println("reply()"+domain);		
+		
+		rttr.addAttribute("tmemId",domain.getTmemId());
+		rttr.addAttribute("cmtId",domain.getCmtId());
+		rttr.addAttribute("postId",domain.getPostId());
+		
+		return "redirect:/boardcontentdelete";
 	}
+	
+	//게시물 상세 확인 댓글 list와 댓글 등록까지
+	@RequestMapping("/boardcontentdelete")	
+	public String boardcontentviewToDelete(
+			Model model,@RequestParam("tmemId") long tmemId,
+						@RequestParam("cmtId") long cmtId,
+						@RequestParam("postId") long postId) {	
+		
+		System.out.println(tmemId);
+		System.out.println(cmtId);
+		System.out.println(postId);
+		
+		// 게시글 목록 
+		model.addAttribute("list", service.selectBoardOne(postId));		
+		
+		BasicDomain domain = new BasicDomain();
+		domain.setPostId(postId);
+		// 게시글의 덧글 목록
+		model.addAttribute("list2",service.selectReplyList(domain)); 
+		
+		return "boardcontentview";
+	}
+	
 	@GetMapping("/replymodify")
 	public String replymodify(BasicDomain domain,
 			Model model, HttpServletRequest request, RedirectAttributes rttr) throws Exception {
