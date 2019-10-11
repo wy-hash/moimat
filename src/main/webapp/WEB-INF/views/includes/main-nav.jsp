@@ -32,7 +32,7 @@
 	                                          			<i class="dropdown-caret"></i>
 	                                      			</span>
 	                                      			<p class="mnp-name">${ loginVO.memNickname }</p>
-	                                    			<span class="mnp-desc">@ ${ loginVO.areaDomain.areaName } ${ loginVO.areaDomain.areaRegionName }</span>
+	                                    			<span class="mnp-desc">@ ${ areaVO.areaName } ${ areaVO.areaRegionName }</span>
 	                                  			</a>
 	                              			</div>
 	                              			<div id="profile-nav" class="collapse list-group bg-trans">
