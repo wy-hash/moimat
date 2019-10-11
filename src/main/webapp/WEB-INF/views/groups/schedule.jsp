@@ -215,7 +215,7 @@
 	<script>
 		window.onload = function() {
 			var meetList = document.getElementById("meetList");
-			var meetListStr = '';
+			
 			var geocoder = new kakao.maps.services.Geocoder();
 			var mRegBtn = document.querySelector("#mRegBtn");
 			var groupid = '<c:out value="${groupId}"/>';
@@ -249,6 +249,7 @@
 
 			function showMeetList(page){
 				meetListService.getList(groupid,page,memberid,function(list){
+					var meetListStr = '';
 					for(var i = 0, len = list.meetList.length||0; i<len; i++){ //일단 3개만(페이징 완성되면 수정할 부분)
 						var button = '';
 						var mdButton = '';
@@ -343,6 +344,15 @@
 						dButtonEvent("mdButton"+i,"del"+i);
 						mButtonEvent("mdButton"+i,"mod"+i);
 					}
+					var paginationBtn = document.querySelectorAll(".page-link");
+					paginationBtn.forEach(function(e){
+						e.addEventListener('click',function(e){
+							e.preventDefault();
+							var targetPageNum = this.getAttribute('href');
+							pageNum = targetPageNum;
+							showMeetList(pageNum);
+						});
+					});
 					detailedMeet();
 					moimCEvent();
 				});
@@ -364,7 +374,7 @@
 					next = true;
 				}
 				
-				var paginationBtn  = "<div><ul class='pagination pull-right mar-no'>";
+				var paginationBtn  = "<div id='paginationBtn'><ul class='pagination pull-right mar-no'>";
 				
 				if(prev){
 					paginationBtn += "<li class='page-item'><a class='page-link' href='"+(startNum -1)+"'>Previous</a></li>";
@@ -384,6 +394,7 @@
 				
 				return paginationBtn;
 			}
+			
 			function detailedMeet(){
 				var meetTitle = document.querySelectorAll(".meetTitle");
 				var meetid = '';
