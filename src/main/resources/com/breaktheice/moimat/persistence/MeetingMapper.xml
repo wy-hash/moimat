@@ -187,7 +187,19 @@
 	</select>
 	
 	<select id="getTotalMeet" resultType="int">
-		select count(team_id) from meet where team_id = #{teamId}
+		select 
+			count(team_id) 
+		from
+			(
+			select
+				meet.*,
+				meet_date-sysdate
+			from meet
+			where 
+				team_id = #{teamId} 
+			and meet_date-sysdate > 0 
+			order by meet_date-sysdate
+			)	
 	</select>
 	
 	<sql id="getTmemId">

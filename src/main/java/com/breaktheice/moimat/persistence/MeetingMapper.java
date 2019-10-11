@@ -5,15 +5,15 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.breaktheice.moimat.domain.CalendarEventVO;
-import com.breaktheice.moimat.domain.Criteria;
 import com.breaktheice.moimat.domain.MeetMemberVO;
 import com.breaktheice.moimat.domain.MeetVO;
+import com.breaktheice.moimat.util.AdminCriteria;
 
 public interface MeetingMapper {
 	//정모 목록
 	public List<MeetVO> getMeetList(Long teamId);
 	//정모 목록 + 페이징
-	public List<MeetVO> meetWithPaging(@Param("teamId") Long teamId,@Param("cri") Criteria cri);
+	public List<MeetVO> meetWithPaging(@Param("teamId") Long teamId,@Param("cri") AdminCriteria cri);
 	//정모 조회 MeetVO의 Long seq;
 	public MeetVO getMeet(Long meetId);
 	//정모 등록(register meeting)

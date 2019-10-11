@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.breaktheice.moimat.domain.CalendarEventVO;
-import com.breaktheice.moimat.domain.Criteria;
 import com.breaktheice.moimat.domain.MeetListVO;
 import com.breaktheice.moimat.domain.MeetMemberVO;
 import com.breaktheice.moimat.domain.MeetVO;
 import com.breaktheice.moimat.domain.MeetingPageVO;
 import com.breaktheice.moimat.persistence.MeetingMapper;
+import com.breaktheice.moimat.util.AdminCriteria;
 
 @Service
 public class MeetingServiceImpl implements MeetingService{
@@ -88,7 +88,7 @@ public class MeetingServiceImpl implements MeetingService{
 	}
 
 	@Override
-	public MeetListVO meetWithPaging(Long teamId,Long memId, Criteria cri) {
+	public MeetListVO meetWithPaging(Long teamId,Long memId, AdminCriteria cri) {
 		List<MeetVO> list = mapper.meetWithPaging(teamId,cri);
 		int totalCount = mapper.getTotalMeet(teamId);
 		HashMap<Long,Integer> countMeetMember = new HashMap<Long, Integer>();

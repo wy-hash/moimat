@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.breaktheice.moimat.domain.Criteria;
 import com.breaktheice.moimat.domain.MeetVO;
+import com.breaktheice.moimat.util.AdminCriteria;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -99,7 +99,7 @@ public class MeetingMapperTests {
 	
 	@Test
 	public void listWithPagingTest() {
-		Criteria cri = new Criteria(1,3);
+		AdminCriteria cri = new AdminCriteria(1L,3L);
 		mapper.meetWithPaging(2L, cri);
 	}
 	
