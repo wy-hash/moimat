@@ -126,7 +126,7 @@
 									<div class="panel-heading">
 										<div class="panel-control">
 											<ul class="nav nav-tabs" id="moimTab">
-												
+
 											</ul>
 										</div>
 										<h3 class="panel-title">Panel With tabs</h3>
@@ -147,25 +147,39 @@
 															</tr>
 														</thead>
 														<tbody id="memberList">
-
 														</tbody>
 													</table>
 												</div>
 											</div>
 											<div class="tab-pane fade" id="demo-tabs-box-2">
-												<select id="select">
-													<option value="member">멤버보기</option>
-													<option value="waiting">가입대기인원</option>
-													<option value="block">차단멤버보기</option>
-												</select>
-
+													<div class="table-toolbar-right pad-no">
+														<select id=serchtype>
+															<option value="">--</option>
+															<option value="E">이메일</option>
+															<option value="N">별명</option>
+														</select>
+														<div class="form-group">
+															<input type="text" class="form-control" id="serchKeyword" />
+														</div>
+														<button type="button" class="btn btn-dark">
+															<i class="fa fa-search"> </i>
+														</button>
+													</div>
+													<div>
+														<select id="select">
+															<option value="member">멤버보기</option>
+															<option value="manager">운영진보기</option>
+															<option value="waiting">가입대기인원</option>
+															<option value="block">차단멤버보기</option>
+														</select>
+													</div>
 												<div class="table-responsive">
 													<table class="table table-striped">
 														<thead>
 															<tr>
 																<th class="col-md-1 text-center">
-																	<p class="text-xs">전체선택</p>
-																	<input type="checkbox" id="chkall">
+																	<p class="text-xs">전체선택</p> <input type="checkbox"
+																	id="chkall">
 																</th>
 																<th class="col-md-1 text-center">#</th>
 																<th class="col-md-1">Photo</th>
@@ -187,6 +201,9 @@
 															class="btn btn-default btn-hover-danger">삭제하기</button>
 													</p>
 												</div>
+												<div id="paginationBtn">
+												
+												</div>
 											</div>
 										</div>
 									</div>
@@ -197,7 +214,7 @@
 					<!--===================================================-->
 					<!--End Default Tabs (Left Aligned)-->
 					<!-- modal -->
-					<div class="modal" tabindex="-1" style="display: none;"
+					<div class="modal" id="memberModal" tabindex="-1" style="display: none;"
 						id="moimat-modal">
 						<div class="modal-dialog modal-sm">
 							<div class="modal-content">
@@ -218,9 +235,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="modal-footer centerm" id="buttonBox">
-									
-								</div>
+								<div class="modal-footer centerm" id="buttonBox"></div>
 							</div>
 						</div>
 					</div>
@@ -251,6 +266,9 @@
 			var groupId = '<c:out value="${groupId}"/>';
 			var memberId = '<c:out value="${id}"/>';
 			var teamName = '임시 모임명';
+			var pageNum = 1;
+			var type = "";
+			var keyword = "";
 			
 			teamMember.isAdmin(groupId,memberId,function(a){
 				var test = '';
@@ -272,8 +290,9 @@
 			});
 			
 			
-			function showList(tabid,keyword,withcheck){
-				teamMember.getList(groupId,keyword,function(data){
+			function showList(tabid,status,pageNum,withcheck){
+				var param = {"groupId" : groupId,"status" : status, "pageNum" : pageNum,"type":type, "keyword":keyword};
+				teamMember.getList(param,function(data){
 					var listHtml = '';
 					var checkbox = '';
 					for(var i = 0, len = data.getMember.length||0; i<len; i++){
@@ -313,15 +332,17 @@
 				});
 			}
 			
-			showList('memberList','member',false);
+			showList('memberList','member',pageNum,false);
 			
 			$("#moimTab").on('show.bs.tab','#memberTab',function(){ // 다시 멤버탭으로 돌아왔을때 갱신이 필요함 .. 흠 ...
-				showList('memberList','member',false);
+				pageNum = 1;
+				showList('memberList','member',pageNum,false);
 			});
 			
-			$("#moimTab").on('shown.bs.tab','#adminonly',function(){ 
+			$("#moimTab").on('shown.bs.tab','#adminonly',function(){
+				pageNum = 1;
 				var selected = $("#select").val();
-				showList('adminList',selected,true);
+				showList('adminList',selected,pageNum,true);
 			});
 			$("#adminList").on("click",".memclick",function(){
 				var gradeBox = '';
@@ -377,11 +398,11 @@
 									 + '</select>';
 							}
 							buttonBox = '<button id="modalUpdateBtn" type="button"'
-								  +		'class="btn btn-default btn-hover-info">등급조정</button>'
-								  +	'<button id="modalBlockBtn" type="button"'
-								  +	'class="btn btn-default btn-hover-warning">차단하기</button>'
-								  + '<button id="modalDeleteBtn" type="button"'
-								  + 	'class="btn btn-default btn-hover-danger">삭제하기</button>';
+									  +		'class="btn btn-default btn-hover-info">등급조정</button>'
+									  +	'<button id="modalBlockBtn" type="button"'
+									  +		'class="btn btn-default btn-hover-warning">차단하기</button>'
+									  + '<button id="modalDeleteBtn" type="button"'
+									  + 	'class="btn btn-default btn-hover-danger">삭제하기</button>';
 						}
 						$("#gradeBox").html(gradeBox);
 						$("#buttonBox").html(buttonBox);
@@ -391,10 +412,11 @@
 					$("#modalMNickName").text(e.tmemNickName);
 					$("#modalMId").text(e.tmemEmail);
 				});
-				$(".modal").modal("show");
+				$("#memberModal").modal("show");
 			});
 			$('#select').on('change',function(e){
-				showList('adminList',$(this).val(),true);
+				pageNum = 1;
+				showList('adminList',$(this).val(),pageNum,true);
 				var btnhtml = ''
 				if($(this).val()=='member'){
 					btnhtml = '<p> 선택한 회원을'
@@ -443,7 +465,7 @@
 				            		data : JSON.stringify(teamData),
 				            		contentType : "application/json; charset=utf-8",
 				            		success : function(result){
-				            			showList('adminList',$('#select').val(),true);
+				            			showList('adminList',$('#select').val(),pageNum,true);
 				            		}
 				            	});
 				            	$.niftyNoty({
@@ -486,7 +508,7 @@
 				            		data : JSON.stringify(teamData),
 				            		contentType : "application/json; charset=utf-8",
 				            		success : function(result){
-				            			showList('adminList',$('#select').val(),true);
+				            			showList('adminList',$('#select').val(),pageNum,true);
 				            		}
 				            	});
 				            	$.niftyNoty({
@@ -530,7 +552,7 @@
 				            		data : JSON.stringify(teamData),
 				            		contentType : "application/json; charset=utf-8",
 				            		success : function(result){
-				            			showList('adminList',$('#select').val(),true);
+				            			showList('adminList',$('#select').val(),pageNum,true);
 				            		}
 				            	});
 				            	$.niftyNoty({
@@ -573,7 +595,7 @@
 				            		data : JSON.stringify(teamData),
 				            		contentType : "application/json; charset=utf-8",
 				            		success : function(result){
-				            			showList('adminList',$('#select').val(),true);
+				            			showList('adminList',$('#select').val(),pageNum,true);
 				            		}
 				            	});
 				            	$.niftyNoty({
@@ -602,7 +624,7 @@
 			 
 			
 			$("#buttonBox").on("click","#modalUpdateBtn",function(){
-				$(".modal").modal("hide");
+				$("#memberModal").modal("hide");
 				var mNickName = $("#modalMNickName").text();
 				var mGrade = $("#modalSelect option:selected").attr("name");
 				var modalData = {};
@@ -636,7 +658,7 @@
 				                    container : 'floating',
 				                    timer : 5000
 				                });
-				                $(".modal").modal("show");
+				                $("#memberModal").modal("show");
 				            };
 
 				        });
@@ -651,7 +673,7 @@
 				            		data : JSON.stringify(modalData),
 				            		contentType : "application/json; charset=utf-8",
 				            		success : function(result){
-						            	showList('adminList',$('#select').val(),true);
+						            	showList('adminList',$('#select').val(),pageNum,true);
 				            		}
 				            	});
 				            	$.niftyNoty({
@@ -661,7 +683,7 @@
 				                    container : 'floating',
 				                    timer : 5000
 				                });
-				            	$(".modal").modal("show"); //왠진 모르겠지만 여기 말고 success에 넣으면 이상하게 작동함??
+				            	$("#memberModal").modal("show"); //왠진 모르겠지만 여기 말고 success에 넣으면 이상하게 작동함??
 				            }else{
 				                $.niftyNoty({
 				                    type: 'danger',
@@ -670,7 +692,7 @@
 				                    container : 'floating',
 				                    timer : 5000
 				                });
-				                $(".modal").modal("show");
+				                $("#memberModal").modal("show");
 				            };
 
 				        });
@@ -678,7 +700,7 @@
 			});
 			
 			$('#buttonBox').on('click','#modalBlockBtn',function(){
-				$(".modal").modal("hide");
+				$("#memberModal").modal("hide");
 				var mNickName = $("#modalMNickName").text();
 				var confirmText = mNickName + " 님을 차단하시겠습니까?";
 				var modalData = {"tmemIds" : [$('#modalTmemId').val()], "teamName" : teamName, "memberId" : memberId, "tmemLevel" : 0 };
@@ -691,7 +713,7 @@
 		            		data : JSON.stringify(modalData),
 		            		contentType : "application/json; charset=utf-8",
 		            		success : function(result){
-		            			showList('adminList',$('#select').val(),true);
+		            			showList('adminList',$('#select').val(),pageNum,true);
 		            		}
 		            	});
 		            	$.niftyNoty({
@@ -711,13 +733,13 @@
 		                    timer : 5000
 		                });
 		                
-		                $(".modal").modal("show");
+		                $("#memberModal").modal("show");
 		            };
 				})
 			});
 			
 			$('#buttonBox').on('click','#modalDeleteBtn',function(){
-				$(".modal").modal("hide");
+				$("#memberModal").modal("hide");
 				var mNickName = $("#modalMNickName").text();
 				var confirmText = mNickName + " 님을 강제탈퇴 하시겠습니까?";
 				var modalData = {"tmemIds" : [$('#modalTmemId').val()], "teamName" : teamName, "memberId" : memberId};
@@ -730,7 +752,7 @@
 		            		data : JSON.stringify(modalData),
 		            		contentType : "application/json; charset=utf-8",
 		            		success : function(result){
-		            			showList('adminList',$('#select').val(),true);
+		            			showList('adminList',$('#select').val(),pageNum,true);
 		            		}
 		            	});
 		            	$.niftyNoty({
@@ -749,13 +771,12 @@
 		                    container : 'floating',
 		                    timer : 5000
 		                });
-		                
-		                $(".modal").modal("show");
+		                $("#memberModal").modal("show");
 		            };
 				})
 			});
 			$('#gradeBox').on('click','#modalReleseBtn',function(){
-				$(".modal").modal("hide");
+				$("#memberModal").modal("hide");
 				var mNickName = $("#modalMNickName").text();
 				var confirmText = mNickName + " 님을 차단해제 하시겠습니까?";
 				var modalData = {"tmemIds" : [$('#modalTmemId').val()], "teamName" : teamName, "memberId" : memberId,"tmemLevel" : 2};
@@ -768,7 +789,7 @@
 		            		data : JSON.stringify(modalData),
 		            		contentType : "application/json; charset=utf-8",
 		            		success : function(result){
-		            			showList('adminList',$('#select').val(),true);
+		            			showList('adminList',$('#select').val(),pageNum,true);
 		            		}
 		            	});
 		            	$.niftyNoty({
@@ -786,13 +807,13 @@
 		                    container : 'floating',
 		                    timer : 5000
 		                });
-		                $(".modal").modal("show");
+		                $("#memberModal").modal("show");
 		            };
 				})
 			});
 			
 			$('#gradeBox').on('click','#modalAdmissionBtn',function(){
-				$(".modal").modal("hide");
+				$("#memberModal").modal("hide");
 				var mNickName = $("#modalMNickName").text();
 				var confirmText = mNickName + " 님을 가입승인 하시겠습니까?";
 				var modalData = {"tmemIds" : [$('#modalTmemId').val()], "teamName" : teamName, "memberId" : memberId,"tmemLevel" : 2};
@@ -805,7 +826,7 @@
 		            		data : JSON.stringify(modalData),
 		            		contentType : "application/json; charset=utf-8",
 		            		success : function(result){
-		            			showList('adminList',$('#select').val(),true);
+		            			showList('adminList',$('#select').val(),pageNum,true);
 		            		}
 		            	});
 		            	$.niftyNoty({
@@ -824,10 +845,46 @@
 		                    container : 'floating',
 		                    timer : 5000
 		                });
-		                $(".modal").modal("show");
+		                $("#memberModal").modal("show");
 		            };
-				})
+				});
 			});
+			
+			function memberPageBtn(memberCount){
+				var endNum = Math.ceil(pageNum/10.0) * 10;
+				var startNum = endNum - 9;
+				
+				var prev = startNum != 1;
+				var next = false;
+				
+				if(endNum * 10 > meetCount){
+					endNum = Math.ceil(meetCount/10.0);
+				}
+				
+				if(endNum * 10 < meetCount){
+					next = true;
+				}
+				
+				var paginationBtn  = "<ul class='pagination pull-right mar-no'>";
+				
+				if(prev){
+					paginationBtn += "<li class='page-item'><a class='page-link' href='"+(startNum -1)+"'>Previous</a></li>";
+				}
+				
+				for(var i = startNum ; i <= endNum; i++){
+					var active = pageNum == i ? "active" : "";
+					
+					paginationBtn += "<li class='page-item "+active+"'><a class='page-link' href='"+i+"'>"+i+"</a></li>";
+				}
+				
+				if(next){
+					paginationBtn += "<li class='page-item'><a class='page-link' href='" + (endNum + 1) +"'>Next</a></li>'";
+				}
+				
+				paginationBtn += "</ul>"
+				
+				return paginationBtn;
+			}
 		});
 	</script>
 </body>
