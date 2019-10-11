@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.breaktheice.moimat.util.AdminCriteria;
+
 import lombok.extern.log4j.Log4j;
 
 
@@ -22,7 +24,10 @@ public class TeamMemberMapperTests {
 	
 	@Test
 	public void getMemberTest() { 
-		log.info(tmm.getMemberList(2L,"block"));
+		AdminCriteria cri = new AdminCriteria(1L,10L);
+		cri.setKeyword("asD");
+		cri.setType("EN");
+		log.info(tmm.getMemberList(2L,"member",cri));
 	}
 	
 	@Test
