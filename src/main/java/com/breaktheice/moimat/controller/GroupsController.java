@@ -12,16 +12,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/groups")
 public class GroupsController {
 	
-
-	@GetMapping("/{groupId}")
-	public String index(@PathVariable Long groupId) {
-
+	@GetMapping("")
+	public String index() {
+		
 		return "groups/index";
 	}
 
-	@GetMapping("/{groupId}/member")
-	public String member(@PathVariable Long groupId) {
+	@GetMapping("/{groupId}")
+	public String groupMain(@PathVariable Long groupId) {
 
+		return "groups/group-home";
+	}
+
+	@GetMapping("/{groupId}/member")
+	public String member(@PathVariable Long groupId, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.setAttribute("id", 4); // 모임원관리임시용 (모임장 아이디가 1이라고 가정)
 		return "groups/member";
 	}
 
@@ -50,7 +56,5 @@ public class GroupsController {
 		return "groups/chat";
 
 	}
-	
-	
 	
 }
