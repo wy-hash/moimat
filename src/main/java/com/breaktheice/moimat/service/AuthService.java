@@ -1,10 +1,13 @@
 package com.breaktheice.moimat.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.breaktheice.moimat.domain.AreaDomain;
 import com.breaktheice.moimat.domain.CertDomain;
+import com.breaktheice.moimat.domain.InterestDomain;
 import com.breaktheice.moimat.domain.MemberDomain;
 
 public interface AuthService {
@@ -37,7 +40,7 @@ public interface AuthService {
 	 * @return 
 	 * @throws
 	 */
-	public boolean checkEmail(String email);
+	public boolean isValidEmail(String email);
 	
 	
 	/**
@@ -47,7 +50,7 @@ public interface AuthService {
 	 * @return 
 	 * @throws
 	 */
-	public boolean insertCode(CertDomain auth);
+	public boolean insertCode(String email);
 	
 	/**
 	 * 인증코드 확인
@@ -66,5 +69,13 @@ public interface AuthService {
 	 * @throws
 	 */
 	public boolean updateMember(MemberDomain member);
+
+	public List<AreaDomain> getAllAreas();
+
+	public List<InterestDomain> getAllInterest();
+	
+	public Long getInterestKey(String interestKey);
+	
+	public Long getAreaId(String areaRegionKey);
 
 }

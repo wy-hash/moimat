@@ -11,5 +11,6 @@ public interface InterestMapper {
 	public Long update(InterestDomain domain);			// 관심사 코드 수정하기
 	public Long remove(InterestDomain domain);			// 관심사 코드 삭제하기
 	public Long keyCheck(InterestDomain domain);			// 관심사 코드 중복체크
+	public Long selectInterestId(String intKey);
 }
  
