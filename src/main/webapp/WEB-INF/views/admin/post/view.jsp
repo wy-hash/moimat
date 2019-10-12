@@ -46,7 +46,7 @@
                 <!--Page Title-->
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <div id="page-title">
-                    <h1 class="page-header text-overflow">공지사항 관리</h1>
+                    <h1 class="page-header text-overflow">게시글 관리</h1>
                 </div>
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <!--End page title-->
@@ -63,15 +63,16 @@
             <div class="panel-heading">
                 <h3 class="panel-title">게시글 상세 보기</h3>
             </div>
-            <form id="noticeForm" name="noticeForm" class="panel-body form-horizontal form-padding">
+            <form id="postForm" name="postForm" class="panel-body form-horizontal form-padding">
 				<input type="hidden" id="postId" name="postId" value="${view.postId }" />
+				<input type="hidden" id="postOrigin" name="postOrigin" value="${view.postOrigin }" />
 				<input type="hidden" name="type" value ="${pageMaker.cri.brdId }">
 	        	<input type="hidden" name="keyword" value="${pageMaker.cri.keyword }">
 				<input type="hidden" name="brdId" value ="${pageMaker.cri.brdId }">
 				<input type="hidden" name="pageNum" value ="${pageMaker.cri.pageNum }">
 				<input type="hidden" name="amount" value ="${pageMaker.cri.amount }">
 				
-                <!-- 공지사항 코드-->
+                <!-- 게시글 이름-->
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="postTitle"><strong>게시글 제목</strong></label>
                     <div class="col-md-10">
@@ -79,7 +80,7 @@
                     </div>
                 </div>
 
-                <!--공지사항 이름-->
+                <!--게시글 내용-->
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="postContent"><strong>게시글 내용</strong></label>
                     <div class="col-md-10">
@@ -88,23 +89,22 @@
                     </div>
                 </div>
 
-    
-
-<!--                         <small class="help-block">Please enter password</small> -->
-           	<div class="row pull-right  mt-20">
-                	<button type="button" id="edit" class="btn btn-success"> 수정</button>
-                	<button type="button" id="delete" class="btn btn-danger"> 삭제</button>
+           		<div class="row mar-top">
+           			<c:if test="${view.postDepth ==0 and view.postReply eq 'Q'}">
+					<span>
+						<button type="button" id="reply" class="btn btn-success">답변</button>
+					</span>
+					</c:if>
+           			<span class="pull-right">
+	                	<button type="button" id="edit" class="btn btn-success"> 수정</button>
+	                	<button type="button" id="delete" class="btn btn-danger"> 삭제</button>
+               		</span>
                 </div>
-    
-
             </form>
-                </div>
-            <!--===================================================-->
-            <!-- END BASIC FORM ELEMENTS -->
+                    </div>
 
-					<!--===================================================-->    
-                
-					
+            <!--===================================================-->
+			
                 </div>
                 <!--===================================================-->
                 <!--End page content-->
@@ -120,9 +120,7 @@
 		<!-- END BOXED -->
 		
 		<!-- FOOTER -->
-<!-- 		<div class="row mar-hor-220"> -->
-			<%@ include file="../../includes/footer.jsp" %>
-<!-- 		</div> -->
+<%-- 		<%@ include file="../../includes/footer.jsp" %> --%>
 		<!-- END FOOTER -->
 		
 			
@@ -148,26 +146,31 @@
 		$(document).ready(function(){
 
 			
-			$('#edit').on('click',   formSubmit);
-			$('#delete').on('click', formSubmit);
+			$('#reply').on('click',  formSubmit);	// 게시글 답변
+			$('#edit').on('click',   formSubmit);	// 게시글 수정
+			$('#delete').on('click', formSubmit);	// 게시글 삭제
 			
 		});
 		
 		function formSubmit(){
 			
 			const id = $('#postId').val();
-			const uri = '/admin/notice/'
+			const uri = '/admin/post/'
 			
 			const action = $(this).attr('id');
 			
 			if(action === 'edit'){
-				$('#noticeForm').attr('method','get');
-				$('#noticeForm').attr('action',uri+action+'/'+id);
-				$('#noticeForm').submit();
+				$('#postForm').attr('method','get');
+				$('#postForm').attr('action',uri+'/'+id+'/'+action);
+				$('#postForm').submit();
 			}else if(action ==='delete'){
-				$('#noticeForm').attr('method','post');
-				$('#noticeForm').attr('action',uri+action);
-				$('#noticeForm').submit();
+				$('#postForm').attr('method','post');
+				$('#postForm').attr('action',uri+action);
+				$('#postForm').submit();
+			}else if(action ==='reply'){
+				$('#postForm').attr('method','get');
+				$('#postForm').attr('action',uri+'/'+id+'/'+action);
+				$('#postForm').submit();
 			}
 		}
 	</script>
