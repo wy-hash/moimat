@@ -1,5 +1,7 @@
 package com.breaktheice.moimat.domain;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +9,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class BoardDomain {
+public class BoardDomain implements Serializable{
+	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// Board Table : BRD_ID, BRD_KEY, BRD_NAME, BRD_ORDER, BRD_USE
 
 	private Long brdId;		// PK
