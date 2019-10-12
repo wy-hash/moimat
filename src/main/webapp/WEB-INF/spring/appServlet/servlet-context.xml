@@ -24,6 +24,17 @@
 
 	<context:component-scan base-package="com.breaktheice.moimat"></context:component-scan>
 	
+	<!-- Interceptor -->	
+	<interceptors>
+		<interceptor>
+			<mapping path="/**"></mapping>
+			<exclude-mapping path="/resources/**"></exclude-mapping>
+			<exclude-mapping path="/"></exclude-mapping>
+			<exclude-mapping path="/auth/**"></exclude-mapping>
+			<beans:bean class="com.breaktheice.moimat.util.AuthInterceptor"></beans:bean>
+		</interceptor>
+	</interceptors>
+	
 	
 	
 </beans:beans>
