@@ -53,15 +53,27 @@
             	    <!-- #################################### -->
             	    
             	    
-            	    
-            	    
-             							                			
-				<div class="row pad-ver bg-trans-dark">     			
-					<div class="col-xs-12 col-sm-10 col-sm-offset-1 pad-hor">
-						<form id="searchForm" action="/home/search" method="get">
+				<div class="row pad-ver bg-trans-dark">
+           	    		<div class="col-xs-12 col-sm-10 col-sm-offset-1 pad-hor">
+           	    		<form id="searchForm" action="/home/result" method="post">
+       	    				<div class="col-sm-2">
+           	    				<select id="selectType" name="type" class="form-control"> 
+			      					<option value="R">관심사</option>
+		      						<option value="M">모임명</option>
+			      					<option value="A">지역</option> 
+		   	 	 				</select>
+       	    				</div>
+            	    		<div class="col-xs-9">
+	    						<input type="text" class="form-control" id="searchKeyword" name="keyword" placeholder="Search...">
+	    					</div>
+	    					<div class="col-sm-1">
+	    						<button class="btn btn-default btn-icon" type="submit">
+			      				<i class="glyphicon glyphicon-search"></i>
+		      					</button>
+		      				</div>
 						</form>
-					</div>	                		 
-           	    </div>
+						</div>
+					</div>
            			
            		
 					

@@ -15,8 +15,6 @@
 					</when>
 					<when test="type == 'A'.toString()">
 						a.area_region_name like ('%'||#{keyword}||'%')
-						or
-						a.area_name like ('%'||#{keyword}||'%')
 					</when>
 				</choose>
 			</trim>
@@ -33,7 +31,7 @@
 		<include refid="criteria"></include>
 	</select>
 	
-	<select id="autocomplete" parameterType="string" resultType="com.breaktheice.moimat.domain.SearchDomain">
+	<select id="autocompleteInte" parameterType="string" resultType="com.breaktheice.moimat.domain.SearchDomain">
 		<![CDATA[
 		SELECT	DISTINCT int_name
 		FROM	interest
@@ -41,7 +39,7 @@
 		]]>
 	</select>
 	
-	<select id="autocomplete2" parameterType="string" resultType="com.breaktheice.moimat.domain.SearchDomain">
+	<select id="autocompleteArea" parameterType="string" resultType="com.breaktheice.moimat.domain.SearchDomain">
 		<![CDATA[
 		SELECT	DISTINCT area_region_name
 		FROM	area
@@ -49,5 +47,11 @@
 		]]>
 	</select>
 	
+	<select id="list" parameterType="string" resultType="com.breaktheice.moimat.domain.InterestDomain">
+		<![CDATA[
+		SELECT	int_id, int_key, int_name
+		FROM	interest
+		]]>
+	</select>
 	
 </mapper>

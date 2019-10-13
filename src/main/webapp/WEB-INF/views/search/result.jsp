@@ -107,8 +107,9 @@
 		      				</div>
 						</form>
 						</div>
-					</div>
+					</div> 
 					
+					<form action="/home/result" method="post">
 					<div class="row">
 						<div class="col-sm-4 eq-box-sm">
 			            	<div class="panel">
@@ -116,24 +117,16 @@
 				                    <h3 class="panel-title">관심사 카테고리</h3>
 					                </div>
 					                <div class="panel-body demo-nifty-btn">
-					                    <!--===================================================-->
-					                    <input type="button" class="btn btn-primary btn-rounded" name="category" value="스포츠">
-					                    <input type="button" class="btn btn-info btn-rounded" name="category" value="여행" > 
-					                    <input type="button" class="btn btn-success btn-rounded" name="category" value="운동">
-					                    <input type="button" class="btn btn-mint btn-rounded" name="category" value="직무">
-					                    <input type="button" class="btn btn-warning btn-rounded" name="category" value="요리"> 
-					                    <input type="button" class="btn btn-danger btn-rounded" name="category" value="차"> 
-					                    <input type="button" class="btn btn-pink btn-rounded" name="category" value="게임"> 
-					                    <input type="button" class="btn btn-purple btn-rounded" name="category" value="반려동물"> 
-					                    <input type="button" class="btn btn-dark btn-rounded" name="category" value="자유주제"> 
-					                    <!--===================================================-->
-										<div id="interest"></div>
-					             </div>
+					                <input type="hidden" class="btn btn-default btn-rounded" name="interest"/>
+				                    <div id="upperInner"></div>
+				                    <div id="lowerInner"></div>
+					             	</div>
 					          </div>
 					     </div>	
-					 </div>	
-           			
-           			 <form id="resultForm" action="/home/result" method="post">
+					 </div>
+           			 </form>
+           			 
+           			 <form action="/home/result" method="post">
 	           		 <div class="row">
 	   					<c:forEach items="${keyword}" var="searchDomain" varStatus="status">
 						<c:if test="${status.index eq 0}">
