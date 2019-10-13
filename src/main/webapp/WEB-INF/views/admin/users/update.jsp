@@ -1,12 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="ko">
 
 <!-- HEAD -->
-<%@ include file="../../includes/head.jsp"%>
+<%@ include file="../../includes/head.jsp" %>
 
 <!--Bootstrap Table [ OPTIONAL ]-->
 <link href="/resources/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
@@ -14,6 +13,7 @@
 
 <!--X-editable [ OPTIONAL ]-->
 <link href="/resources/plugins/x-editable/css/bootstrap-editable.css" rel="stylesheet">
+
 <!-- 썸머노트 css-->
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
 
@@ -27,14 +27,14 @@
 	<div id="container" class="effect aside-float aside-bright mainnav-lg">
 
 		<!-- HEADER-NAVBAR -->
-		<%@ include file="../../includes/header-navbar.jsp"%>
+		<%@ include file="../../includes/header-navbar.jsp" %>
 		<!-- END NAVBAR -->
 
 		<!-- BOXED -->
 		<div class="boxed">
 
 			<!-- MAIN-NAV -->
-			<%@ include file="../../includes/main-nav.jsp"%>
+			<%@ include file="../../includes/main-nav.jsp" %>
 			<!-- END MAIN-NAV -->
 
 			<!-- ASIDE -->
@@ -52,7 +52,7 @@
 				<div id="page-title">
 					<h1 class="page-header text-overflow">게시글 관리</h1>
 				</div>
-				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!-- 				~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 				<!--End page title-->
 
 				<!--Page content-->
@@ -65,23 +65,24 @@
 					<!--===================================================-->
 					<div class="panel">
 						<div class="panel-heading">
-							<h3 class="panel-title">게시글 작성</h3>
+							<h3 class="panel-title">게시글 수정</h3>
 						</div>
-						<form id="postForm" name="postForm" action="/admin/post/new"
+							<form id="postForm" name="postForm" action="/admin/post/edit"
 							class="panel-body form-horizontal form-padding" method="post">
-							<input type="hidden" id="postId" name="brdId" value="${pageMaker.cri.brdId}"><!-- 추후 el태그로 이용할 예정 -->
-							<input type="hidden" id="memId" name="memId" value="1"><!-- 추후 세션으로 이용할 예정 -->
-							<input type="hidden" id="postNickname" name="postNickname" value="관리자"><!-- 추후 세션으로 이용할 예정 -->
-							<input type="hidden" id="postEmail" name="postEmail" value="moimMaster@master.com"><!-- 추후 세션으로 이용할 예정 -->
-							<input type="hidden" id="postReply" name="postReply" value="">
-							<input type="hidden" id="postDepth" name="postDepth" value="0">
+							<input type="hidden" id="postId" name="postId" value="${view.postId}"><!-- 추후 el태그로 이용할 예정 -->
+							<input type="hidden" id="brdId" name="brdId" value="${view.brdId}"><!-- 추후 el태그로 이용할 예정 -->
+							<input type="hidden" id="memId" name="memId" value="${view.memId }"><!-- 추후 세션으로 이용할 예정 -->
+							<input type="hidden" id="postNickname" name="postNickname" value="${view.postNickname}"><!-- 추후 세션으로 이용할 예정 -->
+							<input type="hidden" id="postEmail" name="postEmail" value="${view.postEmail }"><!-- 추후 세션으로 이용할 예정 -->
+							<input type="hidden" id="postReply" name="postReply" value="${view.postReply }">
+							<input type="hidden" id="postDepth" name="postDepth" value="${view.postDepth }">
 
 							<!--게시글 정렬순서-->
 							<div class="form-group">
 								<label class="col-md-2 control-label" for="postNum"><strong>게시글 정렬순서</strong></label>
 								<div class="col-md-10">
 									<input type="text" id="postNum" name="postNum" class="form-control"
-										placeholder="게시글를 상단에 먼저 보이게 하려면 숫자를 높게 설정하세요. 숫자만 입력 가능합니다.">
+										placeholder="게시글를 상단에 먼저 보이게 하려면 숫자를 높게 설정하세요. 숫자만 입력 가능합니다." value="${view.postNum}">
 									<small class="help-block" id="postNumHint"></small>
 								</div>
 							</div>
@@ -90,7 +91,7 @@
 							<div class="form-group">
 								<label class="col-md-2 control-label" for="postTitle"><strong>제목 </strong></label>
 								<div class="col-md-10">
-									<input type="text" id="postTitle" name="postTitle" class="form-control" placeholder="제목을 입력해 주세요. ">
+									<input type="text" id="postTitle" name="postTitle" class="form-control" placeholder="제목을 입력해 주세요. " value="${view.postTitle}">
 									<small class="help-block" id="postTitleHint"></small>
 								</div>
 							</div>
@@ -99,7 +100,7 @@
 							<div class="form-group">
 								<label class="col-md-2 control-label" for="postContent"><strong>내용</strong></label>
 								<div class="col-md-10">
-									<textarea id="postContent" name="postContent" class="form-control"></textarea>
+									<textarea id="postContent" name="postContent" class="form-control" >${view.postContent}</textarea>
 									<small class="help-block" id="postContentHint"></small>
 								</div>
 							</div>
@@ -110,6 +111,7 @@
 								<button type="button" id="postCansel" class="btn btn-danger mar-top">취소</button>
 							</div>
 						</form>
+
 						<!--===================================================-->
 						<!-- END BASIC FORM ELEMENTS -->
 
@@ -133,7 +135,7 @@
 		<!-- END BOXED -->
 
 		<!-- FOOTER -->
-		<%@ include file="../../includes/footer.jsp"%>
+		<%@ include file="../../includes/footer.jsp" %>
 		<!-- END FOOTER -->
 
 
@@ -239,6 +241,8 @@
 
 		}
 	</script>
+
+
 
 </body>
 

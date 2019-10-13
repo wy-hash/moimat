@@ -65,7 +65,7 @@
 					<!--===================================================-->
 					<div class="panel">
 						<div class="panel-heading">
-							<h3 class="panel-title">게시글 작성</h3>
+							<h3 class="panel-title">게시글 작성</h3><!-- 닉네임, 이메일, 생일, 성별, 등급, 상태, 소개 -->
 						</div>
 						<form id="postForm" name="postForm" action="/admin/post/new"
 							class="panel-body form-horizontal form-padding" method="post">
