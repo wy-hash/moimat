@@ -22,9 +22,27 @@
             <!--Modal footer-->
             <div class="modal-footer">
                 <button data-dismiss="modal" class="btn btn-default" type="button">취소</button>
-                <button class="btn btn-warning">로그아웃</button>
+               	<button class="btn btn-warning btn-call-logout">로그아웃</button>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+	$(document).ready(function() {
+		$('.btn-call-logout').on('click', function() {
+			$.ajax({
+				url: '/auth/logout',
+				type: 'DELETE',
+				dataType: 'json',
+				success: function(data) {
+					if (data.result) {
+						window.location.href = data.redirectURL;
+					}
+				}
+			});
+		});
+	});
+</script>
+
 <!-- //modal for logout -->

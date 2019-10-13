@@ -38,4 +38,10 @@
 		FROM interest
 		WHERE int_key = UPPER(#{intKey})
 	</select>
+	
+	<select id="selectInterestId" resultType="Long">
+		select int_id
+		from interest
+		where int_key = #{ intKey }
+	</select>
 </mapper>
