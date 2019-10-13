@@ -86,7 +86,7 @@
 		</trim>
 		<choose>
 			<when test = "memLevel == null || memLevel == 0">
-				mem_level > 0 and
+				mem_level >= 0 and
 			</when>
 			<otherwise>
 				mem_level = #{memLevel} and
@@ -95,7 +95,7 @@
 		
 		<choose>
 			<when test = "memStatus == null || memStatus == 2">
-			<![CDATA[	mem_status < 2 and ]]>
+			<![CDATA[	mem_status <= 2 and ]]>
 			</when>
 			<otherwise>
 				mem_status = #{memStatus} and

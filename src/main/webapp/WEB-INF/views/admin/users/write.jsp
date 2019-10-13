@@ -50,7 +50,7 @@
 				<!--Page Title-->
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<div id="page-title">
-					<h1 class="page-header text-overflow">게시글 관리</h1>
+					<h1 class="page-header text-overflow">회원 관리</h1>
 				</div>
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<!--End page title-->
@@ -65,49 +65,76 @@
 					<!--===================================================-->
 					<div class="panel">
 						<div class="panel-heading">
-							<h3 class="panel-title">게시글 작성</h3><!-- 닉네임, 이메일, 생일, 성별, 등급, 상태, 소개 -->
+							<h3 class="panel-title">회원 등록</h3>
 						</div>
-						<form id="postForm" name="postForm" action="/admin/post/new"
+						<form id="memForm" name="memForm" action="/admin/users/new"
 							class="panel-body form-horizontal form-padding" method="post">
-							<input type="hidden" id="postId" name="brdId" value="${pageMaker.cri.brdId}"><!-- 추후 el태그로 이용할 예정 -->
-							<input type="hidden" id="memId" name="memId" value="1"><!-- 추후 세션으로 이용할 예정 -->
-							<input type="hidden" id="postNickname" name="postNickname" value="관리자"><!-- 추후 세션으로 이용할 예정 -->
-							<input type="hidden" id="postEmail" name="postEmail" value="moimMaster@master.com"><!-- 추후 세션으로 이용할 예정 -->
-							<input type="hidden" id="postReply" name="postReply" value="">
-							<input type="hidden" id="postDepth" name="postDepth" value="0">
+							<input type="hidden" id="memLevel" name="memLevel" value="${pageMaker.cri.memLevel }" />
+							<input type="hidden" id="memStatus" name="memStatus" value="${pageMaker.cri.memStatus }" />
+							<input type="hidden" name="type" value ="${pageMaker.cri.type }">
+				        	<input type="hidden" name="keyword" value="${pageMaker.cri.keyword }">
+							<input type="hidden" name="pageNum" value ="${pageMaker.cri.pageNum }">
+							<input type="hidden" name="amount" value ="${pageMaker.cri.amount }">
 
-							<!--게시글 정렬순서-->
+							<!-- 닉네임 -->
 							<div class="form-group">
-								<label class="col-md-2 control-label" for="postNum"><strong>게시글 정렬순서</strong></label>
+								<label class="col-md-2 control-label" for="memNickname"><strong>닉네임</strong></label>
 								<div class="col-md-10">
-									<input type="text" id="postNum" name="postNum" class="form-control"
-										placeholder="게시글를 상단에 먼저 보이게 하려면 숫자를 높게 설정하세요. 숫자만 입력 가능합니다.">
-									<small class="help-block" id="postNumHint"></small>
+									<input type="text" id="memNickname" name="memNickname" class="form-control"
+										placeholder="닉네임을 작성해 주세요">
+									<small class="help-block" id="memNicknameHint"></small>
 								</div>
 							</div>
 
-							<!-- 제목 -->
+							<!-- 이메일 -->
 							<div class="form-group">
-								<label class="col-md-2 control-label" for="postTitle"><strong>제목 </strong></label>
+								<label class="col-md-2 control-label" for="memEmail"><strong>이메일 </strong></label>
 								<div class="col-md-10">
-									<input type="text" id="postTitle" name="postTitle" class="form-control" placeholder="제목을 입력해 주세요. ">
-									<small class="help-block" id="postTitleHint"></small>
+									<input type="text" id="memEmail" name="memEmail" class="form-control" placeholder="이메일">
+									<small class="help-block" id="memEmailHint"></small>
 								</div>
 							</div>
 
-							<!-- 내용 -->
+
+							<!-- 이메일 -->
 							<div class="form-group">
-								<label class="col-md-2 control-label" for="postContent"><strong>내용</strong></label>
+								<label class="col-md-2 control-label" for="memPassword"><strong>비밀번호 </strong></label>
 								<div class="col-md-10">
-									<textarea id="postContent" name="postContent" class="form-control"></textarea>
-									<small class="help-block" id="postContentHint"></small>
+									<input type="password" id="memPassword" name="memPassword" class="form-control" placeholder="비밀번호">
+									<small class="help-block" id="memPasswordHint"></small>
 								</div>
 							</div>
-
+							<!-- 생일 -->
+							<div class="form-group">
+								<label class="col-md-2 control-label" for="memBirthday"><strong>생일</strong></label>
+								<div class="col-md-10">
+									<textarea id="memBirthday" name="memBirthday" class="form-control"></textarea>
+									<small class="help-block" id="memBirthdayHint"></small>
+								</div>
+							</div>
+							<!-- 소개 -->
+							<div class="form-group">
+								<label class="col-md-2 control-label" for="memContent"><strong>자기소개</strong></label>
+								<div class="col-md-10">
+									<textarea id="memContent" name="memContent" class="form-control"></textarea>
+									<small class="help-block" id="memContentHint"></small>
+								</div>
+							</div>
+							<!-- 성별 -->
+							<div class="form-group">
+								<label class="col-md-2 control-label" for="memGender"><strong>성별</strong></label>
+								<div class="col-md-10">
+									<label class="radio-inline"> <input type="radio"
+										id="memGender_M" name="memGender" value="M" checked> 남
+									</label> <label class="radio-inline"> <input type="radio"
+										id="memGender_F" name="memGender" value="F"> 여
+									</label>
+								</div>
+							</div>
 
 							<div class="row pull-right">
-								<button type="button" id="postSubmit" class="btn btn-success mar-top">확인</button>
-								<button type="button" id="postCansel" class="btn btn-danger mar-top">취소</button>
+								<button type="button" id="memSubmit" class="btn btn-success mar-top">확인</button>
+								<button type="button" id="memCansel" class="btn btn-danger mar-top">취소</button>
 							</div>
 						</form>
 						<!--===================================================-->
@@ -161,80 +188,88 @@
 
 	<script>
 		$(document).ready(function () {
-			// 썸머노트 실행
-			$('#postContent').summernote({
-		        placeholder: '내용을 입력해 주세요.',
-		        tabsize: 2,
-		        height: 400
-			});
-			
-			// 각 유효성 검사 게시글 등록
-			validation();
-			
-			$('#postSubmit').on('click', submitCheck);
-			$('#postCansel').on('click', function () {
-				let url = location.origin + '/admin/post/list';
+
+			$('#memSubmit').on('click', submitCheck);
+			$('#memCansel').on('click', function () {
+				let url = location.origin + '/admin/users/list';
 				location.href = url;
 			});
 			
 			
 		});
 
-		function validation() {
-			// 유효성 검사 게시글 등록
 
-			// 게시글 정렬 우선순위 숫자만 입력받기. 정규식 사용
-			$('#postNum').on('keyup', function () { //키를 뗄 때
-					$('#postNum').val($('#postNum').val().replace(/[^0-9]/g, ""));
-				});
-		}
-
-		function submitCheck() {
+		function submitCheck() {//전송 전 입력체크
 		
 			let result = true;
 
-			let postNum= $('#postNum').val();
-			let postNumHint = $('#postNumHint');
+			let memNickname= $('#memNickname').val();
+			let memNicknameHint = $('#memNicknameHint');
 			
-			let postTitle = $('#postTitle').val();
-			let postTitleHint = $('#postTitleHint');
+			let memEmail = $('#memEmail').val();
+			let memEmailHint = $('#memEmailHint');
 
-			let postContent = $('#postContent').val();
-			let postContentHint = $('#postContentHint');
+			let memBirthday = $('#memBirthday').val();
+			let memBirthdayHint = $('#memBirthdayHint');
 
+			let memContent = $('#memContent').val();
+			let memContentHint = $('#memContentHint');
+
+			let memPassword = $('#memPassword').val();
+			let memPasswordHint = $('#memPasswordHint');
+			
 			// 폼 입력 체크
 			
-			if (postNum === '' || postNum.length === 0) {
-				$('#postNum').focus();
-				postNumHint.css('color', 'red');
-				postNumHint.html('게시글의 정렬 순서를 입력해 주세요. 숫자만 입력 가능합니다.');
+			if (memNickname === '' || memNickname.length === 0) {// 닉네임
+				$('#memNickname').focus();
+				memNicknameHint.css('color', 'red');
+				memNicknameHint.html('닉네임을 입력해 주세요.');
 				result = false;
 			}else{
-				postNumHint.html('');
+				memNicknameHint.html('');
 			}
-			if (postTitle === '' || postTitle.length === 0) {
-				$('#postTitle').focus();
-				postTitleHint.css('color', 'red');
-				postTitleHint.html('제목을 입력해 주세요.');
-				result = false;
-			}else{
-				postTitleHint.html('');
-			}
-			if (postContent === '' || postContent.length === 0) {
 
-// 				$('#postContent').focus();
-				$('#note-editable').focus();
-				postContentHint.css('color', 'red');
-				postContentHint.html('내용을 입력해 주세요.');
+			if (memEmail === '' || memEmail.length === 0) {// 이메일
+				$('#memEmail').focus();
+				memEmailHint.css('color', 'red');
+				memEmailHint.html('이메일을 입력해주세요.');
+				result = false;
+			}else{
+				memEmailHint.html('');
+			}
+			if (memPassword === '' || memPassword.length === 0) {// 이메일
+				$('#memPassword').focus();
+				memPasswordHint.css('color', 'red');
+				memPasswordHint.html('이메일을 입력해주세요.');
+				result = false;
+			}else{
+				memPasswordHint.html('');
+			}
+			if (memBirthday === '' || memBirthday.length === 0) {// 생일
+
+				$('#memBirthday').focus();
+				memBirthdayHint.css('color', 'red');
+				memBirthdayHint.html('생일을 입력해 주세요.');
 
 				result = false;
 			}else{
-				postContentHint.html('');
+				memBirthdayHint.html('');
 			}
+			if (memContent === '' || memContent.length === 0) {// 자기소개
+
+				$('#memContent').focus();
+				memContentHint.css('color', 'red');
+				memContentHint.html('자기소개를 입력해 주세요.');
+
+				result = false;
+			}else{
+				memContentHint.html('');
+			}
+
 
 			// 모든 조건이 올바르게 입력되었다면 폼 전송
 			if (result) {
-				$('#postForm').submit();
+				$('#memForm').submit();
 			}
 
 		}

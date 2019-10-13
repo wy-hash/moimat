@@ -93,7 +93,16 @@ public class AdminMemberController {
 	@PostMapping("new")
 	public String addQuery(Model model, MemberDomain domain, AdminCriteria cri, RedirectAttributes rttr) {
 		System.out.println("add POST()");
+		
+		domain.setAreaId(1L);
+		domain.setMemLevel(1L);
+		domain.setMemStatus(1L);
+		domain.setMemInt1(1L);
+		domain.setMemInt2(2L);
+		domain.setMemInt3(3L);
 		System.out.println(domain);
+		
+		s
 		
 		// 회원 등록 성공시 1이상 반환
 		Long result = service.add(domain);
