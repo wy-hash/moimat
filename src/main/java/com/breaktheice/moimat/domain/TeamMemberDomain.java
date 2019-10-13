@@ -11,13 +11,13 @@ public class TeamMemberDomain {
 	private Long tmemId;//teamMemberId
 	private Long teamId;//teamId;
 	private Long memId;//memberId;
-	private int teamLevel;//role
+	private int tmemLevel;//role
 	private String tmemContent;
 	private String tmemNickName;
 	private String tmemEmail;
 	private Date tmemLastVisit;
 	private Date tmemRegDate;
-	private String tmemBirthDay;// 이거 캘린더에 추가해야겟당 ㅎㅎ(기억용)
+	private String tmemBirthDay;// 
 	private char tmemGender;
 	private String tmemPhoto;
 	

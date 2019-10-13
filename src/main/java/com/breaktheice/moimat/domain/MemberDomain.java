@@ -23,6 +23,4 @@ public class MemberDomain {
 	private Long memInt2 = 0L;
 	private Long memInt3 = 0L;
 	
-	
-	
 }

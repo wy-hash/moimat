@@ -10,14 +10,8 @@
     <!--Bootstrap Table [ OPTIONAL ]-->
     <link href="/resources/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
 
-
     <!--X-editable [ OPTIONAL ]-->
     <link href="/resources/plugins/x-editable/css/bootstrap-editable.css" rel="stylesheet">
-    <style>
-    	.mt-20{
-    		margin-top: 20px;
-    	}
-    </style>
 
 	<title>Page Template | moim@</title>
 </head>
@@ -101,16 +95,13 @@
                 	<button type="button" id="edit" class="btn btn-success"> 수정</button>
                 	<button type="button" id="delete" class="btn btn-danger"> 삭제</button>
                 </div>
-                    </div>
     
-                </div>
 
             </form>
+                </div>
             <!--===================================================-->
             <!-- END BASIC FORM ELEMENTS -->
 
-
-        </div>
 					<!--===================================================-->    
                 
 					
@@ -129,7 +120,9 @@
 		<!-- END BOXED -->
 		
 		<!-- FOOTER -->
-<%-- 		<%@ include file="../../includes/footer.jsp" %> --%>
+<!-- 		<div class="row mar-hor-220"> -->
+			<%@ include file="../../includes/footer.jsp" %>
+<!-- 		</div> -->
 		<!-- END FOOTER -->
 		
 			
