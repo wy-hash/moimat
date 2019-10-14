@@ -224,7 +224,7 @@
 			var geocoder = new kakao.maps.services.Geocoder();
 			var mRegBtn = document.querySelector("#mRegBtn");
 			var groupid = '<c:out value="${groupId}"/>';
-			var memberid = '<c:out value="${id}"/>';
+			var memberid = '<c:out value="${sessionScope.loginVO.memId}"/>';
 			var pageNum = 1;
 			
 			CalendarEvent.getEvent('#meet-calendar',groupid);

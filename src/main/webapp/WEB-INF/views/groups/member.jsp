@@ -285,7 +285,7 @@
 	<script>
 		$(document).ready(function() {
 			var groupId = '<c:out value="${groupId}"/>';
-			var memberId = '<c:out value="${id}"/>';
+			var memberId = '<c:out value="${sessionScope.loginVO.memId}"/>';
 			var teamName = '임시 모임명';
 			var pageNum = 1;
 			var type = "";

@@ -25,16 +25,12 @@ public class GroupsController {
 	}
 
 	@GetMapping("/{groupId}/member")
-	public String member(@PathVariable Long groupId, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		session.setAttribute("id", 4); // 모임원관리임시용 (모임장 아이디가 1이라고 가정)
+	public String member(@PathVariable Long groupId) {
 		return "groups/member";
 	}
 
 	@GetMapping("/{groupId}/schedule")
-	public String schedule(@PathVariable Long groupId, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		session.setAttribute("id", 1); // 정모CRUD 임시용
+	public String schedule(@PathVariable Long groupId) {
 		return "groups/schedule";
 	}
 
