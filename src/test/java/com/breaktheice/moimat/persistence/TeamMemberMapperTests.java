@@ -24,9 +24,8 @@ public class TeamMemberMapperTests {
 	
 	@Test
 	public void getMemberTest() { 
-		AdminCriteria cri = new AdminCriteria(1L,10L);
-		cri.setKeyword("asD");
-		cri.setType("EN");
+		AdminCriteria cri = new AdminCriteria(2L,10L);
+		
 		log.info(tmm.getMemberList(2L,"member",cri));
 	}
 	

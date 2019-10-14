@@ -32,8 +32,8 @@ public class GroupsMeetRestController {
 			produces = {
 					MediaType.APPLICATION_JSON_UTF8_VALUE
 			})
-	public ResponseEntity<MeetListVO> getList(@PathVariable("groupid")Long a,@PathVariable("memberid")Long b){
-		return new ResponseEntity<>(service.getMeetList(a, b),HttpStatus.OK);
+	public ResponseEntity<MeetListVO> getList(@PathVariable("groupid")Long groupId,@PathVariable("memberid")Long memberId){
+		return new ResponseEntity<>(service.getMeetList(groupId, memberId),HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/getList/{groupid}/{page}/{memberid}",
