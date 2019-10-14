@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.breaktheice.moimat.persistence.TeamSettingsMapper">
+	
+	<select id="getTeamInfo" resultType="com.breaktheice.moimat.domain.TeamVO">
+		select
+			*
+		from
+			team
+		where
+			team_id = #{teamId}
+	</select>
+	
+	<update id="setTeamInfo">
+		update
+			team
+		set
+			team_name = #{teamName},
+			team_short_content = #{teamShortContent},
+			team_content = #{teamContent},
+			area_id = #{areaId},
+			team_max = #{teamMax}
+		where
+			team_id = #{teamId}
+	</update>
+	
+	<select id="getArea" resultType="com.breaktheice.moimat.domain.AreaDomain">
+		select
+			*
+		from
+			area
+		where
+			area_id = #{areaId}
+	</select>
+	
+	<select id="getAreaList" resultType="com.breaktheice.moimat.domain.AreaDomain">
+		select
+			*
+		from
+			area	
+	</select>
+	
+	<select id="getAreaId" resultType="Long">
+		select
+			area_id
+		from
+			area
+		where 
+			area_key = #{areaKey}
+		and
+			area_region_key = #{areaRegionKey}
+	</select>
+	
+	<select id="getAreaKey" resultType="com.breaktheice.moimat.domain.AreaDomain">
+		select 
+			distinct
+				area_key, 
+				area_name 
+		from 
+			area 
+		order by 1
+	</select>
+	
+	<select id="getAreaRegionKey" resultType="com.breaktheice.moimat.domain.AreaDomain">
+		select 
+			* 
+		from 
+			area 
+		where 
+			area_region_key like concat(subStr(#{areaKey},0,1),'%')
+	</select>
+	
+	<select id="getInt" resultType="com.breaktheice.moimat.domain.InterestDomain">
+		select
+			*
+		from
+			interest
+		where
+			int_id = #{intId}
+	</select>
+	
+	<select id="getIntList" resultType="com.breaktheice.moimat.domain.InterestDomain">
+		select
+			*
+		from
+			interest
+	</select>
+	
+	<select id="getIntId">
+		select
+			int_id
+		from
+			interest
+		where
+			int_key = #{intKey}
+	</select>
+	
+	<select id="getMainInterest" resultType="com.breaktheice.moimat.domain.InterestDomain">
+		select
+			*
+		from
+			interest
+		where
+			 int_key like '__00'
+	</select>
+	
+	<select id="getSubInterest" resultType="com.breaktheice.moimat.domain.InterestDomain">
+		select
+			*
+		from
+			interest
+		where
+			int_key like concat(subStr(#{intKey},0,2),'%')
+		and
+			int_key not in #{intKey}
+	</select>
+	
+	<select id="getMember" resultType="com.breaktheice.moimat.domain.MemberDomain">
+		select
+			*
+		from
+			member
+		where
+			mem_id = #{memId}
+	</select>
+	
+	
+	
+</mapper>

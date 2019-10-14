@@ -127,20 +127,7 @@
 			                <div class="content-box">
 			                    <p class="text-main text-semibold">First Tab Content</p>
 			                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
-			                    
-			                    
-			                    
-			                    
-			                    
-			                    
-			                    
-			                    
-			                    
-			                    
-			                    
-			                    
-			                    
-			                    
+			             	      일단 !!@# 선택창 먼저 !@# 만들건데 일단 일단 일단 일단 일단 일단 ..ㅁ 흠 .. .ㅁㄴㅇ 
 			                </div>
 			            </div>
 			        </div>

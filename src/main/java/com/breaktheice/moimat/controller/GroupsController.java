@@ -53,4 +53,11 @@ public class GroupsController {
 
 	}
 	
+	@GetMapping("/{groupId}/settings")
+	public String settings(@PathVariable Long groupId) {
+
+		return "groups/settings";
+
+	}
+	
 }
