@@ -16,7 +16,6 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	
 	@Override
 	public List<BoardDomain> list() {
-		
 		return mapper.list();
 	}
 
@@ -42,10 +41,8 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 	@Override
 	public boolean keyCheck(BoardDomain domain) {
-		
 		boolean result = true;
 		//중복 체크 후 결과 값 반환 중복 없으면 true 중복값 있으면 false
-		
 		if (mapper.keyCheck(domain) > 0L) {
 			result =  false;
 		}

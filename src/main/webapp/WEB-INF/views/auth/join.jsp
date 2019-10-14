@@ -485,7 +485,7 @@
 			        		}
 			        	}
 			        },
-			        interest: {
+			        intKey: {
 			        	validators: {
 			        		choice: {
 			        			min: 3,
