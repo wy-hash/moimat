@@ -149,10 +149,9 @@
 											</div>
 										</div>
 										<div class="panel-body" id='meetList'></div>
-										<div class="panel-footer">
+										<div class="panel-footer" id='meetListFooter'>
 											<!-- pagination button 들어갈 공간 -->
-											<button data-target="#moimat-modal" data-toggle="modal"
-												class="btn btn-warning">페이지 버튼 들어갈공간</button>
+											
 										</div>
 									</div>
 								</div>
@@ -204,6 +203,11 @@
 
 	</div>
 	<!-- END CONTAINER -->
+	<%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 	<script src="/resources/plugins/fullcalendar/lib/moment.min.js"></script>
 	<script
 		src="/resources/plugins/fullcalendar/lib/jquery-ui.custom.min.js"></script>
@@ -216,11 +220,12 @@
 	<script>
 		window.onload = function() {
 			var meetList = document.getElementById("meetList");
-			var meetListStr = '';
+			
 			var geocoder = new kakao.maps.services.Geocoder();
 			var mRegBtn = document.querySelector("#mRegBtn");
 			var groupid = '<c:out value="${groupId}"/>';
-			var memberid = '<c:out value="${id}"/>';
+			var memberid = '<c:out value="${sessionScope.loginVO.memId}"/>';
+			var pageNum = 1;
 			
 			CalendarEvent.getEvent('#meet-calendar',groupid);
 			
@@ -245,107 +250,155 @@
 					});
 			}
 			
+			showMeetList(pageNum);
+
+			function showMeetList(page){
+				meetListService.getList(groupid,page,memberid,function(list){
+					var meetListStr = '';
+					for(var i = 0, len = list.meetList.length||0; i<len; i++){ //일단 3개만(페이징 완성되면 수정할 부분)
+						var button = '';
+						var mdButton = '';
+						if(list.isAttend[list.meetList[i].meetId]){
+							button = '<button type="button" class="btn btn-danger pull-right cancelBtn" data-mid="'+list.meetList[i].meetId+'">불참하기</button>'
+						}else{
+							button = '<button type="button" class="btn btn-warning pull-right attendBtn" data-mid="'+list.meetList[i].meetId+'">참석하기</button>';
+						}
+						if(list.isWriter[list.meetList[i].meetId]){
+							mdButton += '<form id="mdButton'+i+'" method="Post">'
+									 +      '<input type="hidden" name="meetId" value="'+list.meetList[i].meetId+'">'
+									 + 		'<button id="mod'+i+'" type="button" class="btn btn-primary">수정하기</button>'
+								   	 +		'<button id="del'+i+'" type="button" class="btn btn-danger">삭제하기</button>'
+								   	 +	'</form>'
+						}
+						meetListStr +='<div class="row">'
+								   +	'<div class="col-lg-4 moimat-m">'
+								   +		'<div id="map'+i+'"></div>'
+								   +	'</div>'
+								   +	'<div class="col-lg-8 moimat-mc">'
+								   +		'<div class="panel panel-bordered panel-dark mar-no">'
+						           +			'<div class="row panel-heading mar-no">'
+						           +				'<div class="col-xs-8 pad-no">'
+					               +					'<h3 class="panel-title">'
+						           +						'<span class="meetTitle" data-mid="'+list.meetList[i].meetId+'">'
+						           +							list.meetList[i].meetTitle
+						           +						'</span></h3>'
+					               +				'</div>'
+					               +				'<div class="col-xs-4 my">'
+					               +					'<p class="text-bold mar-no text-overflow">'+list.meetList[i].meetNickName+'님이 작성...</p>'
+					               +				'</div>'
+					               +			'</div>'
+					           	   +			'<div class="panel-body">'
+								   +				'<div class="list-group">'
+								   +    				'<div class="row list-group-item">'
+								   +						'<div class="col-lg-3">'
+								   +							'<span style="color:red;">'
+								   +								'<i class="fa fa-calendar"></i>'
+								   +							'</span>'
+								   +							'&ensp;'
+								   +							meetListService.parseDate(list.meetList[i].meetDate)
+								   +						'</div>'
+								   +						'<div class="col-lg-3">'
+								   +							'<span style="color:orange;">'
+								   +								'<i class="fa fa-map-marker"></i>'
+								   +							'</span>'
+								   +							'&ensp;'
+								   +								list.meetList[i].meetArea
+								   +						'</div>'
+								   +						'<div class="col-lg-3">'
+								   +							'<span style="color:green;">'
+								   +								'<i class="fa fa-krw"></i>'
+								   +							'</span>'
+								   +							'&ensp;'
+								   +							list.meetList[i].meetPay
+								   +						'</div>'
+								   +						'<div class="col-lg-3">'
+								   +							'<span style="color:black;">'
+								   +								'<i class="fa fa-users"></i>'
+								   +							'</span>'
+								   +							'<a class="meetMember" data-target="#moimat-modal" data-toggle="modal" data-mid="'
+								   +								list.meetList[i].meetId+'"> 참여인원 :'
+								   +								list.countMeetMember[list.meetList[i].meetId]+'/'
+					               +								list.meetList[i].meetMax
+					               +							'</a>'
+					               +						'</div>'
+								   +					'</div>'
+								   +				'</div>'
+								   +				'<div class="moimat-ellipsis">'
+								   +					'<a class="meetContent" data-target="#moimat-modal" data-toggle="modal">'+list.meetList[i].meetContent+'</a>'
+								   +				'</div>'
+								   +			'</div>'
+						           +		'</div>'
+								   +		'<div class="btn-group" style="height:40px;display:block;">'
+								   +			'<div class="clearfix">'
+								   +				'<div class="col-xs-6 pad-no">'
+								   +					mdButton
+								   +				'</div>'
+								   +				'<div class="col-xs-6 pad-no">'
+								   +					button
+								   +				'</div>'
+								   +			'</div>'
+								   +		'</div>'
+								   +	'</div>'
+								   + '</div>'
+						 		   + '<hr>';
+					}
+					meetListStr += meetPageBtn(list.meetCount);
+					meetList.innerHTML = meetListStr;
+					for(var i = 0, len = list.meetList.length||0; i<len; i++){
+						setMap(list.meetList[i].meetArea,"map"+i)
+						dButtonEvent("mdButton"+i,"del"+i);
+						mButtonEvent("mdButton"+i,"mod"+i);
+					}
+					var paginationBtn = document.querySelectorAll(".page-link");
+					paginationBtn.forEach(function(e){
+						e.addEventListener('click',function(e){
+							e.preventDefault();
+							var targetPageNum = this.getAttribute('href');
+							pageNum = targetPageNum;
+							showMeetList(pageNum);
+						});
+					});
+					detailedMeet();
+					moimCEvent();
+				});
+			}
 			
-			meetListService.getList(groupid,memberid,function(list){
-				//meetList,countMeetMember, isAttend
-				var zxzx = (list.meetList.length > 3 ? 3 : list.meetList.length );
-				console.log(zxzx);
-				for(var i = 0, len = list.meetList.length||0; i<zxzx; i++){ //일단 3개만(페이징 완성되면 수정할 부분)
-					var button = '';
-					var mdButton = '';
-					if(list.isAttend[list.meetList[i].meetId]){
-						button = '<button type="button" class="btn btn-danger pull-right cancelBtn" data-mid="'+list.meetList[i].meetId+'">불참하기</button>'
-					}else{
-						button = '<button type="button" class="btn btn-warning pull-right attendBtn" data-mid="'+list.meetList[i].meetId+'">참석하기</button>';
-					}
-					if(list.isWriter[list.meetList[i].meetId]){
-						mdButton += '<form id="mdButton'+i+'" method="Post">'
-								 +      '<input type="hidden" name="meetId" value="'+list.meetList[i].meetId+'">'
-								 + 		'<button id="mod'+i+'" type="button" class="btn btn-primary">수정하기</button>'
-							   	 +		'<button id="del'+i+'" type="button" class="btn btn-danger">삭제하기</button>'
-							   	 +	'</form>'
-					}
-					meetListStr +='<div class="row">'
-							   +	'<div class="col-lg-4 moimat-m">'
-							   +		'<div id="map'+i+'"></div>'
-							   +	'</div>'
-							   +	'<div class="col-lg-8 moimat-mc">'
-							   +		'<div class="panel panel-bordered panel-dark mar-no">'
-					           +			'<div class="row panel-heading mar-no">'
-					           +				'<div class="col-xs-8 pad-no">'
-				               +					'<h3 class="panel-title">'
-					           +						'<span class="meetTitle" data-mid="'+list.meetList[i].meetId+'">'
-					           +							list.meetList[i].meetTitle
-					           +						'</span></h3>'
-				               +				'</div>'
-				               +				'<div class="col-xs-4 my">'
-				               +					'<p class="text-bold mar-no text-overflow">'+list.meetList[i].meetNickName+'님이 작성...</p>'
-				               +				'</div>'
-				               +			'</div>'
-				           	   +			'<div class="panel-body">'
-							   +				'<div class="list-group">'
-							   +    				'<div class="row list-group-item">'
-							   +						'<div class="col-lg-3">'
-							   +							'<span style="color:red;">'
-							   +								'<i class="fa fa-calendar"></i>'
-							   +							'</span>'
-							   +							'&ensp;'
-							   +							meetListService.parseDate(list.meetList[i].meetDate)
-							   +						'</div>'
-							   +						'<div class="col-lg-3">'
-							   +							'<span style="color:orange;">'
-							   +								'<i class="fa fa-map-marker"></i>'
-							   +							'</span>'
-							   +							'&ensp;'
-							   +								list.meetList[i].meetArea
-							   +						'</div>'
-							   +						'<div class="col-lg-3">'
-							   +							'<span style="color:green;">'
-							   +								'<i class="fa fa-krw"></i>'
-							   +							'</span>'
-							   +							'&ensp;'
-							   +							list.meetList[i].meetPay
-							   +						'</div>'
-							   +						'<div class="col-lg-3">'
-							   +							'<span style="color:black;">'
-							   +								'<i class="fa fa-users"></i>'
-							   +							'</span>'
-							   +							'<a class="meetMember" data-target="#moimat-modal" data-toggle="modal" data-mid="'
-							   +								list.meetList[i].meetId+'"> 참여인원 :'
-							   +								list.countMeetMember[list.meetList[i].meetId]+'/'
-				               +								list.meetList[i].meetMax
-				               +							'</a>'
-				               +						'</div>'
-							   +					'</div>'
-							   +				'</div>'
-							   +				'<div class="moimat-ellipsis">'
-							   +					'<a class="meetContent" data-target="#moimat-modal" data-toggle="modal">'+list.meetList[i].meetContent+'</a>'
-							   +				'</div>'
-							   +			'</div>'
-					           +		'</div>'
-							   +		'<div class="btn-group" style="height:40px;display:block;">'
-							   +			'<div class="clearfix">'
-							   +				'<div class="col-xs-6 pad-no">'
-							   +					mdButton
-							   +				'</div>'
-							   +				'<div class="col-xs-6 pad-no">'
-							   +					button
-							   +				'</div>'
-							   +			'</div>'
-							   +		'</div>'
-							   +	'</div>'
-							   + '</div>'
-					 		   + '<hr>';
+			var meetListFooter = document.querySelector("#meetListFooter");
+			function meetPageBtn(meetCount){
+				var endNum = Math.ceil(pageNum/3.0) * 10;
+				var startNum = endNum - 9;
+				
+				var prev = startNum != 1;
+				var next = false;
+				
+				if(endNum * 10 > meetCount){
+					endNum = Math.ceil(meetCount/3.0);
 				}
-				meetList.innerHTML = meetListStr;
-				for(var i = 0, len = list.meetList.length||0; i<zxzx; i++){
-					setMap(list.meetList[i].meetArea,"map"+i)
-					dButtonEvent("mdButton"+i,"del"+i);
-					mButtonEvent("mdButton"+i,"mod"+i);
+				
+				if(endNum * 10 < meetCount){
+					next = true;
 				}
-				detailedMeet();
-				moimCEvent();
-			})
+				
+				var paginationBtn  = "<div id='paginationBtn'><ul class='pagination pull-right mar-no'>";
+				
+				if(prev){
+					paginationBtn += "<li class='page-item'><a class='page-link' href='"+(startNum -1)+"'>Previous</a></li>";
+				}
+				
+				for(var i = startNum ; i <= endNum; i++){
+					var active = pageNum == i ? "active" : "";
+					
+					paginationBtn += "<li class='page-item "+active+"'><a class='page-link' href='"+i+"'>"+i+"</a></li>";
+				}
+				
+				if(next){
+					paginationBtn += "<li class='page-item'><a class='page-link' href='" + (endNum + 1) +"'>Next</a></li>'";
+				}
+				
+				paginationBtn += "</ul></div>"
+				
+				return paginationBtn;
+			}
 			
 			function detailedMeet(){
 				var meetTitle = document.querySelectorAll(".meetTitle");
@@ -403,7 +456,7 @@
 							mmodalbody.innerHTML = mmhtml;
 						});
 					});
-					
+					// 이거 구현방식을 바꿔야함 
 					cancelBtn.forEach(function(e){
 						e.addEventListener('click',function(){
 							var meetid = this.getAttribute("data-mid");
