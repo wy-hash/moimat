@@ -45,7 +45,7 @@ public class AuthServiceImpl implements AuthService {
 
 		// 1. 사용자로부터 받은 패스워드를 sha256값으로 암호화
 		String inputPwd = sha256.encrypt(vo.getMemPassword()); // 변환작업
-
+		log.info("inputPassword : "+inputPwd);
 		// 2. db에서 갖고옴(아직 mapper 안만듬)
 		MemberDomain loginVo = mapper.login(vo);
 
