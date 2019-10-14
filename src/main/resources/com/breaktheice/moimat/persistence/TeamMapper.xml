@@ -11,4 +11,131 @@
 		]]>
 	</select>
 	
+	<select id="totalCount" resultType="Long">
+	<![CDATA[		
+		SELECT  count(*)
+		FROM 	
+		(	
+			SELECT  rownum rn, team_id, int_id, team_name, team_short_content,
+					team_content, area_id, team_regdate, team_max, mem_id
+			FROM 	team
+			WHERE 
+		]]>
+<!-- 		검색조건 -->
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+			<trim prefix="OR">
+				<choose>
+					<when test="type == 'N'.toString()">
+						team_name like '%'||#{keyword}||'%'
+					</when>	
+					<when test="type == 'C'.toString()">
+						team_content like '%'||#{keyword}||'%'
+					</when>			
+				</choose>
+			</trim>
+			</foreach>
+		</trim>
+
+		<![CDATA[
+			1=1
+		)
+		]]>
+	
+	</select>
+
+
+	<select id="list" resultType="com.breaktheice.moimat.domain.TeamDomain">
+	<![CDATA[		
+		SELECT  rownum rn, team_id, int_id, team_name, team_short_content,
+				team_content, area_id, team_regdate, team_max, mem_id
+		FROM 	
+		(	
+			SELECT  rownum rn, team_id, int_id, team_name, team_short_content,
+					team_content, area_id, team_regdate, team_max, mem_id
+			FROM 	team
+			WHERE 
+		]]>
+<!-- 		검색조건 -->
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+			<trim prefix="OR">
+				<choose>
+					<when test="type == 'N'.toString()">
+						team_name like '%'||#{keyword}||'%'
+					</when>	
+					<when test="type == 'C'.toString()">
+						team_content like '%'||#{keyword}||'%'
+					</when>				
+				</choose>
+			</trim>
+			</foreach>
+		</trim>
+		<![CDATA[
+			rownum <= #{pageNum} * #{amount}
+		)
+		WHERE rn > (#{pageNum} -1 )* #{amount}
+		ORDER BY team_id DESC
+		]]>
+	</select>
+	
+
+	
+	<select id="view" resultType="com.breaktheice.moimat.domain.TeamDomain">
+       	SELECT  team_id, int_id, team_name, team_short_content,
+				team_content, area_id, team_regdate, team_max, mem_id
+       	FROM 	team
+		WHERE 	team_id = #{teamId}
+	</select>
+	
+	<insert id="add">
+		INSERT INTO team
+		(
+			team_id, int_id, team_name, team_short_content,
+			team_content, area_id, team_regdate, team_max, mem_id
+		)
+		VALUES
+		(
+			team_seq.nextval, #{intId}, #{teamName}, #{teamShortContent},
+			#{teamContent}, #{areaId}, #{teamRegdate}, #{teamMax}, #{memId}
+		)
+	</insert>
+
+	
+	<update id="update">
+		UPDATE 	team
+		SET		int_id 	 			= #{intId},
+				team_name	 		= #{teamName},
+				team_short_content	= #{teamShortContent},
+				team_content	 	= #{teamContent},
+				area_id	 			= #{areaId},
+				team_regdate	 	= sysdate,
+				team_max	 		= #{teamMax},
+				mem_id			= #{memId}
+		WHERE 	team_id = #{teamId}
+	</update>
+	
+	<delete id="remove">
+		DELETE FROM team
+		WHERE		team_id = #{teamId}
+	</delete>
+	
+	<select id="getInterest" resultType="String">
+		SELECT  int_name
+		FROM    interest
+		WHERE   int_id = #{intId}
+	</select>
+	
+	<select id="getArea" resultType="String">
+		SELECT  area_region_name
+		FROM    area
+		WHERE   area_id = #{areaId}
+	</select>
+	
+	<select id="getNickname" resultType="String">
+		SELECT	mem_nickname
+		FROM 	member
+		WHERE 	mem_id = #{memId}
+	</select>
+	
 </mapper>

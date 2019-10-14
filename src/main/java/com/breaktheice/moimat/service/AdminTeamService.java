@@ -1,11 +1,14 @@
-package com.breaktheice.moimat.persistence;
+package com.breaktheice.moimat.service;
 
 import java.util.List;
 
+import com.breaktheice.moimat.domain.AreaDomain;
+import com.breaktheice.moimat.domain.InterestDomain;
+import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.domain.TeamDomain;
 import com.breaktheice.moimat.util.AdminCriteria;
 
-public interface TeamMapper {
+public interface AdminTeamService {
 
 	//for indexpage
 	List<TeamDomain> getRandomList();
@@ -25,10 +28,10 @@ public interface TeamMapper {
 	public Long remove(TeamDomain domain);
 	
 	// 선택한 관심사
-	public String getInterest(TeamDomain domain);
+	public InterestDomain getInterest(TeamDomain domain);
 	// 선택한 관심지역
-	public String getArea(TeamDomain domain);
+	public AreaDomain getArea(TeamDomain domain);
 	// 선택한 작성자의 닉네임
-	public String getNickname(TeamDomain domain);
+	public MemberDomain getNickname(TeamDomain domain);
 	
 }
