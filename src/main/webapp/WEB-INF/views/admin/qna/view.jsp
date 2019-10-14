@@ -46,7 +46,7 @@
                 <!--Page Title-->
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <div id="page-title">
-                    <h1 class="page-header text-overflow">공지사항 관리</h1>
+                    <h1 class="page-header text-overflow">QNA 관리</h1>
                 </div>
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <!--End page title-->
@@ -63,7 +63,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title">게시글 상세 보기</h3>
             </div>
-            <form id="noticeForm" name="noticeForm" class="panel-body form-horizontal form-padding">
+            <form id="qnaForm" name="qnaForm" class="panel-body form-horizontal form-padding">
 				<input type="hidden" id="postId" name="postId" value="${view.postId }" />
 				<input type="hidden" name="type" value ="${pageMaker.cri.brdId }">
 	        	<input type="hidden" name="keyword" value="${pageMaker.cri.keyword }">
@@ -71,7 +71,7 @@
 				<input type="hidden" name="pageNum" value ="${pageMaker.cri.pageNum }">
 				<input type="hidden" name="amount" value ="${pageMaker.cri.amount }">
 				
-                <!-- 공지사항 코드-->
+                <!-- QNA 이름-->
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="postTitle"><strong>게시글 제목</strong></label>
                     <div class="col-md-10">
@@ -79,7 +79,7 @@
                     </div>
                 </div>
 
-                <!--공지사항 이름-->
+                <!--QNA 내용-->
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="postContent"><strong>게시글 내용</strong></label>
                     <div class="col-md-10">
@@ -91,17 +91,19 @@
     
 
 <!--                         <small class="help-block">Please enter password</small> -->
-           	<div class="row pull-right  mt-20">
+           		<div class="row pull-right mar-top">
                 	<button type="button" id="edit" class="btn btn-success"> 수정</button>
                 	<button type="button" id="delete" class="btn btn-danger"> 삭제</button>
                 </div>
     
-
             </form>
-                </div>
+            </div>
+
             <!--===================================================-->
             <!-- END BASIC FORM ELEMENTS -->
 
+
+        </div>
 					<!--===================================================-->    
                 
 					
@@ -120,9 +122,7 @@
 		<!-- END BOXED -->
 		
 		<!-- FOOTER -->
-<!-- 		<div class="row mar-hor-220"> -->
-			<%@ include file="../../includes/footer.jsp" %>
-<!-- 		</div> -->
+<%-- 		<%@ include file="../../includes/footer.jsp" %> --%>
 		<!-- END FOOTER -->
 		
 			
@@ -156,18 +156,18 @@
 		function formSubmit(){
 			
 			const id = $('#postId').val();
-			const uri = '/admin/notice/'
+			const uri = '/admin/qna/'
 			
 			const action = $(this).attr('id');
 			
 			if(action === 'edit'){
-				$('#noticeForm').attr('method','get');
-				$('#noticeForm').attr('action',uri+action+'/'+id);
-				$('#noticeForm').submit();
+				$('#qnaForm').attr('method','get');
+				$('#qnaForm').attr('action',uri+action+'/'+id);
+				$('#qnaForm').submit();
 			}else if(action ==='delete'){
-				$('#noticeForm').attr('method','post');
-				$('#noticeForm').attr('action',uri+action);
-				$('#noticeForm').submit();
+				$('#qnaForm').attr('method','post');
+				$('#qnaForm').attr('action',uri+action);
+				$('#qnaForm').submit();
 			}
 		}
 	</script>
