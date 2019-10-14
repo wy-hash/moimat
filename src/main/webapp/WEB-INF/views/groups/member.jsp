@@ -136,19 +136,21 @@
 									<div class="panel-body">
 										<div class="tab-content">
 											<div class="tab-pane fade active in" id="demo-tabs-box-1">
-											<div class="table-toolbar-right pad-no">
-														<select id="memberSearchType">
-															<option value="">--</option>
-															<option value="E">이메일</option>
-															<option value="N">별명</option>
-														</select>
-														<div class="form-group">
-															<input type="text" class="form-control" id="memberSearchKeyword" />
-														</div>
-														<button id="memberSearchBtn" type="button" class="btn btn-dark">
-															<i class="fa fa-search"> </i>
-														</button>
+												<div class="table-toolbar-right pad-no">
+													<select id="memberSearchType">
+														<option value="">--</option>
+														<option value="E">이메일</option>
+														<option value="N">별명</option>
+													</select>
+													<div class="form-group">
+														<input type="text" class="form-control"
+															id="memberSearchKeyword" />
 													</div>
+													<button id="memberSearchBtn" type="button"
+														class="btn btn-dark">
+														<i class="fa fa-search"> </i>
+													</button>
+												</div>
 												<div class="table-responsive">
 													<table class="table table-striped">
 														<thead>
@@ -163,31 +165,32 @@
 														</tbody>
 													</table>
 												</div>
-												<div class="paginationBtn" style="height:32px">
-												</div>
+												<div class="paginationBtn" style="height: 32px"></div>
 											</div>
 											<div class="tab-pane fade" id="demo-tabs-box-2">
-													<div class="table-toolbar-right pad-no">
-														<select id="adminSearchType">
-															<option value="">--</option>
-															<option value="E">이메일</option>
-															<option value="N">별명</option>
-														</select>
-														<div class="form-group">
-															<input type="text" class="form-control" id="adminSearchKeyword" />
-														</div>
-														<button id="adminSearchBtn" type="button" class="btn btn-dark">
-															<i class="fa fa-search"> </i>
-														</button>
+												<div class="table-toolbar-right pad-no">
+													<select id="adminSearchType">
+														<option value="">--</option>
+														<option value="E">이메일</option>
+														<option value="N">별명</option>
+													</select>
+													<div class="form-group">
+														<input type="text" class="form-control"
+															id="adminSearchKeyword" />
 													</div>
-													<div>
-														<select id="select">
-															<option value="member">멤버보기</option>
-															<option value="manager">운영진보기</option>
-															<option value="waiting">가입대기인원</option>
-															<option value="block">차단멤버보기</option>
-														</select>
-													</div>
+													<button id="adminSearchBtn" type="button"
+														class="btn btn-dark">
+														<i class="fa fa-search"> </i>
+													</button>
+												</div>
+												<div>
+													<select id="select">
+														<option value="member">멤버보기</option>
+														<option value="manager">운영진보기</option>
+														<option value="waiting">가입대기인원</option>
+														<option value="block">차단멤버보기</option>
+													</select>
+												</div>
 												<div class="table-responsive">
 													<table class="table table-striped">
 														<thead>
@@ -216,8 +219,7 @@
 															class="btn btn-default btn-hover-danger">삭제하기</button>
 													</p>
 												</div>
-												<div class="paginationBtn" style="height:32px">
-												</div>
+												<div class="paginationBtn" style="height: 32px"></div>
 											</div>
 										</div>
 									</div>
@@ -228,8 +230,8 @@
 					<!--===================================================-->
 					<!--End Default Tabs (Left Aligned)-->
 					<!-- modal -->
-					<div class="modal" id="memberModal" tabindex="-1" style="display: none;"
-						id="moimat-modal">
+					<div class="modal" id="memberModal" tabindex="-1"
+						style="display: none;" id="moimat-modal">
 						<div class="modal-dialog modal-sm">
 							<div class="modal-content">
 								<div class="modal-header">
@@ -276,7 +278,7 @@
 	<!-- END CONTAINER -->
 	<%-- for modal --%>
 	<c:if test="${ !empty loginVO }">
-		<%@ include file="../includes/modals.jsp" %>
+		<%@ include file="../includes/modals.jsp"%>
 	</c:if>
 	<%-- for modal --%>
 	<script type="text/javascript" src="/resources/js/teammember.js"></script>
