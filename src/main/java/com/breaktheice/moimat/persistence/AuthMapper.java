@@ -10,7 +10,7 @@ import com.breaktheice.moimat.domain.MemberDomain;
 
 public interface AuthMapper {
 	
-	public MemberDomain login(MemberDomain loginVO);
+	public MemberDomain login(String memEmail);
 	
 	
 	/* --------------------------------------------- */

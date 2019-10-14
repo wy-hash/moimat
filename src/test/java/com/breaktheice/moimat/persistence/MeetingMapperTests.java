@@ -9,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.breaktheice.moimat.domain.MeetVO;
+import com.breaktheice.moimat.util.AdminCriteria;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -94,5 +95,16 @@ public class MeetingMapperTests {
 	@Test
 	public void getEvent() {
 		mapper.getEvent(2L);
+	}
+	
+	@Test
+	public void listWithPagingTest() {
+		AdminCriteria cri = new AdminCriteria(1L,3L);
+		mapper.meetWithPaging(2L, cri);
+	}
+	
+	@Test
+	public void getTotalTest() {
+		mapper.getTotalMeet(2L);
 	}
 }
