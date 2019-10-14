@@ -10,6 +10,9 @@
 
 <!--X-editable [ OPTIONAL ]-->
 <link href="/resources/plugins/x-editable/css/bootstrap-editable.css" rel="stylesheet">
+<!--Bootbox Modals [ OPTIONAL ]-->
+<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
+
 <title>Page Template | moim@</title>
 </head>
 <!-- END HEAD -->
@@ -136,17 +139,23 @@
 														<td>${list.memUpdate}</td>
 														<td>${list.memLastlogin}</td>
 														<td>
+														<a href="#" class="modalLevel" data-id="${list.memId }" data-nickname="${list.memNickname}"  data-level="${list.memLevel }">
 														<c:choose>
 															<c:when test="${list.memLevel == 1}">사용자</c:when>
 															<c:when test="${list.memLevel == 8}">부 관리자</c:when>
 															<c:when test="${list.memLevel == 9}">관리자</c:when>
+															<c:otherwise>-</c:otherwise>
 														</c:choose>
+														</a>
 														</td>
 														<td>
+														<a href="#" class="modalStatus" data-id="${list.memId }" data-nickname="${list.memNickname}"  data-status="${list.memStatus }">
 														<c:choose>
 															<c:when test="${list.memStatus == 1}">일반회원</c:when>
 															<c:when test="${list.memStatus == 0}">탈퇴회원</c:when>
+															<c:otherwise>-</c:otherwise>
 														</c:choose>
+														</a>
 														</td>
 													</tr>
 												</c:forEach>
@@ -192,6 +201,78 @@
 		<!-- END FOOTER -->
 	</div>
 	<!-- END CONTAINER -->
+	<!-- modal for level -->	
+	<div class="modal" id="modalLevel" tabindex="-1"  style="display: none;">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <!--Modal header-->
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+	                <h4 class="modal-title">등급 변경</h4>
+	            </div>
+	
+				<form id="modalLevelForm" action="/admin/users/change/level" method="post">
+	            <!--Modal body-->
+	            <div class="modal-body">
+	            	<input type="hidden" name="memId">
+	                <p class="text-semibold text-main">사용자 명  : <span id="currentNickname"></span></p>
+	                <p class="text-semibold text-main">기존 등급  : <span id="currentLevel"></span></p>
+	               	<p class="text-semibold text-main">등급 변경  : 
+		               	<select id="changeLevel" name="memLevel">
+	      					<option value="1">사용자</option>
+							<option value="8">부관리자</option>
+							<option value="9">관리자</option>
+		                </select>
+	                </p> 
+	            </div>
+	
+	            <!--Modal footer-->
+	            <div class="modal-footer">
+	                <button data-dismiss="modal" class="btn btn-default" type="button">취소</button>
+	                <button id="modalLevelSubmit" class="btn btn-warning">변경</button>
+	            </div>
+	            </form>
+	        </div>
+	    </div>
+	</div>
+	<!-- //modal for level -->
+	<!-- modal for status -->	
+	<div class="modal" id="modalStatus" tabindex="-1"  style="display: none;">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <!--Modal header-->
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+	                <h4 class="modal-title">상태 변경</h4>
+	            </div>
+	
+				<form id="modalLevelForm" action="/admin/users/change/status" method="post">
+	            <!--Modal body-->
+	            <div class="modal-body">
+	            	<input type="hidden" name="memId">
+	                <p class="text-semibold text-main">사용자 명  : <span id="currentNickname"></span></p>
+	                <p class="text-semibold text-main">기존 상태  : <span id="currentStatus"></span></p>
+	               	<p class="text-semibold text-main">상태 변경  : 
+		               	<select id="changeStatus" name="memStatus">
+	      					<option value="1">일반</option>
+							<option value="0">탈퇴</option>
+		                </select>
+	                </p> 
+	            </div>
+	
+	            <!--Modal footer-->
+	            <div class="modal-footer">
+	                <button data-dismiss="modal" class="btn btn-default" type="button">취소</button>
+	                <button id="modalStatusSubmit" class="btn btn-warning">변경</button>
+	            </div>
+	            </form>
+	        </div>
+	    </div>
+	</div>
+	<!-- //modal for status -->		
+	
+	
+	
 	<!--Bootstrap Table Sample [ SAMPLE ]-->
 	<script src="/resources/js/demo/tables-bs-table.js"></script>
 
@@ -205,7 +286,58 @@
 	<script src="/resources/plugins/bootstrap-table/extensions/editable/bootstrap-table-editable.js"></script>
 	<script>
 		$(document).ready(function(){
+			
+			// 등급 변동시 이벤트	
+			$('#modalLevelSubmit').on('click',function(){
+				$('#modalLevelForm').submit();					
+			});
+			
+			$('.modalLevel').on('click', function(){ //모달창 오픈 이벤트
+				const modalLevel = $('#modalLevel');
+				const memLevel = $(this).attr('data-level');
+				const memNickname = $(this).attr('data-nickname');
+				const memId = $(this).attr('data-id');
+				
+				let level='-';
+				
+				if (memLevel === '1' ){
+					level = '사용자';
+				} else if (memLevel === '8' ){
+					level = '부 관리자';
+				} else if (memLevel === '9' ){
+					level = '관리자';
+				}
+				
+				modalLevel.find('input[name=memId]').val(memId);
+				modalLevel.find('#currentNickname').html(memNickname);
+				modalLevel.find('#currentLevel').html(level);
+				modalLevel.modal('show');
+			});
 
+			// 상태 변동시 이벤트	
+			$('#modalStatusSubmit').on('click',function(){
+				$('#modalStatusForm').submit();					
+			});
+			
+			$('.modalStatus').on('click', function(){ //모달창 오픈 이벤트
+				const modalStatus = $('#modalStatus');
+				const memStatus = $(this).attr('data-status');
+				const memNickname = $(this).attr('data-nickname');
+				const memId = $(this).attr('data-id');
+				
+				let status='-';
+				
+				if (memStatus === '1' ){
+					status = '일반 회원';
+				} else if (memStatus === '0' ){
+					status = '탈퇴 회원';
+				}
+				
+				modalStatus.find('input[name=memId]').val(memId);
+				modalStatus.find('#currentNickname').html(memNickname);
+				modalStatus.find('#currentStatus').html(status);
+				modalStatus.modal('show');
+			});
 			
 			$('#newUser').on('click', function(){
 				const param = $('#searchForm').serialize();

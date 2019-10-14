@@ -8,10 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.breaktheice.moimat.domain.MemberDomain;
-import com.breaktheice.moimat.domain.PostDomain;
 import com.breaktheice.moimat.service.AdminMemberService;
 import com.breaktheice.moimat.util.AdminCriteria;
 import com.breaktheice.moimat.util.AdminPageDTO;
@@ -101,8 +101,7 @@ public class AdminMemberController {
 		domain.setMemInt2(2L);
 		domain.setMemInt3(3L);
 		System.out.println(domain);
-		
-		s
+
 		
 		// 회원 등록 성공시 1이상 반환
 		Long result = service.add(domain);
@@ -115,6 +114,29 @@ public class AdminMemberController {
 		rttr.addAttribute("type",cri.getType());
 		rttr.addAttribute("keyword",cri.getKeyword());
 		
+		return "redirect:/admin/users";
+	}
+	
+	//회원 등급 변경
+	@PostMapping("change/level")
+	public String changeLevel(MemberDomain domain) {
+		//등급변경 실행
+		String result = "false";
+		
+		if (service.changeLevel(domain)>=1L) {
+			result="true";
+		}
+		return "redirect:/admin/users";
+	}
+	//회원 상태 변경
+	@PostMapping("change/status")
+	public String changeStatus(MemberDomain domain) {
+		//등급변경 실행
+		String result = "false";
+		
+		if (service.changeStatus(domain)>=1L) {
+			result="true";
+		}
 		return "redirect:/admin/users";
 	}
 }

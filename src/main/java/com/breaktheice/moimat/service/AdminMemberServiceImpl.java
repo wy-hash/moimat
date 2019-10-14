@@ -104,5 +104,16 @@ public class AdminMemberServiceImpl implements AdminMemberService {
 		// 선택한 지역코드로 지역의 PK값 가져옴
 		return mapper.selectAreaId(areaRegionKey);
 	}
+	
+	@Override
+	public Long changeLevel(MemberDomain domain) {
+		// 등급변경
+		return mapper.changeLevel(domain);
+	}
 
+	@Override
+	public Long changeStatus(MemberDomain domain) {
+		// 상태변경
+		return mapper.changeStatus(domain);
+	}
 }

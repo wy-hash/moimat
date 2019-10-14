@@ -176,5 +176,16 @@
 		FROM 	area 
 		WHERE 	area_region_key = #{ areaRegionKey }
 	</select>
+		
+	<update id="changeLevel">
+		UPDATE 	member
+		SET		mem_level	= #{memLevel}
+		WHERE 	mem_id		= #{memId}
+	</update>
 	
+	<update id="changeStatus">
+		UPDATE 	member
+		SET		mem_status	= #{memStatus}
+		WHERE 	mem_id		= #{memId}
+	</update>
 </mapper>

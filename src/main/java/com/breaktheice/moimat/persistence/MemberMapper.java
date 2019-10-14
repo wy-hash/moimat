@@ -29,5 +29,9 @@ public interface MemberMapper {
 	public List<InterestDomain> selectAllInterest();
 	// 내가 선택한 관심사의 번호
 	public Long selectAreaId(String areaRegionKey);
-	
+
+	// 등급 변경
+	public Long changeLevel(MemberDomain domain);
+	// 상태 변경
+	public Long changeStatus(MemberDomain domain);
 }
