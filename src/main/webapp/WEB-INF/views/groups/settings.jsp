@@ -129,9 +129,9 @@
 			                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
 			             	      일단 !!@# 선택창 먼저 !@# 만들건데 일단 일단 일단 일단 일단 일단 ..ㅁ 흠 .. .ㅁㄴㅇ 
 			             	      <form>
-			             	     	 팀이름<input type="text" name="teamName"><br>
-			             	     	 팀짧은소개<input type="text" name="teamShortContent"><br>
-			             	     	  팀긴글소개<input type="text" name="teamContent"><br>
+			             	     	 팀이름<input type="text" id="teamName"><br>
+			             	     	 팀짧은소개<input type="text" id="teamShortContent"><br>
+			             	     	  팀긴글소개<textarea id="teamContent" rows="10" cols="100"></textarea>
 			             	     	  <div>
 			             	     	  관심사
 			             	     	  	<select id="mainInt">
@@ -150,7 +150,7 @@
 			             	     	  	<option>지역소분류</option>
 			             	     	  	</select>
 			             	     	  </div>
-			             	     	  팀원숫자<input type="text" name="teamMax"><br>
+			             	     	  팀원숫자<input type="text" id="teamMax"><br>
 			             	     	   <button type="button" class="btn btn-info">취소</button>
 			             	     	   <button type="button" class="btn btn-warning">수정</button>
 			             	      </form>
@@ -181,10 +181,56 @@
 			
 	</div>
 	<!-- END CONTAINER -->
-	
+	<script type="text/javascript" src="/resources/js/teamsetting.js"></script>
 	<script>
 		$(document).ready(function() {
-			
+			var groupId = '<c:out value="${groupId}"/>';
+			teamsetting.getPage(groupId,function(data){
+				
+				//단순 화면에 뿌려주는 스크립트 시작
+				$('#teamName').val(data.teamVO.teamName);
+				$('#teamShortContent').val(data.teamVO.teamShortContent);
+				$('#teamContent').val(data.teamVO.teamContent);
+				$('#teamMax').val(data.teamVO.teamMax);
+				var mainIntOption = '';
+				for(var i = 0, len = data.mainInterest.length||0; i<len; i++){
+					mainIntOption += '<option data-intkey='+data.mainInterest[i].intKey+'>'
+								  + 	data.mainInterest[i].intName
+								  +  '</option>'
+				}
+				$("#mainInt").html(mainIntOption);
+				
+				var subIntOption = '';
+				for(var i = 0, len = data.subInterest.length||0; i<len; i++){
+					subIntOption += '<option data-intid='+data.subInterest[i].intid+'>'
+								 + 		data.subInterest[i].intName
+								 +  '</option>'
+				}
+				$("#subInt").html(subIntOption);
+				$('option[data-intkey='+data.selectedMainInt+']').prop("selected", true); //선택된걸 선택한상태?
+				$('option[data-intid='+data.teamVO.intId+']').prop("selected", true);
+				
+				var mainAreaOption = '';
+				for(var i = 0, len = data.areaKey.length||0; i<len; i++){
+					mainAreaOption += '<option data-areakey='+data.areaKey[i].areaKey+'>'
+								   +   		data.areaKey[i].areaName
+								   +  '</option>'
+				}
+				$("#mainArea").html(mainAreaOption);
+				var subAreaOption = '';
+				for(var i = 0, len = data.areaRegionKey.length||0; i<len; i++){
+					subAreaOption += '<option data-areaid='+data.areaRegionKey[i].areaId+'>'
+								  +   	data.areaRegionKey[i].areaRegionName
+								  +  '</option>'
+				}
+				$("#subArea").html(subAreaOption);
+				console.log(data.selectedMainArea);
+				$('option[data-areakey='+data.selectedMainArea+']').prop("selected", true);
+				$('option[data-areaid='+data.teamVO.areaId+']').prop("selected", true);
+				//단순 화면에 뿌려주는 스크립트 끝.
+				//select onChange
+				
+			});
 		});
 	</script>
 </body>

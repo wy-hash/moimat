@@ -23,11 +23,12 @@ public class TeamSettingsServiceImpl implements TeamSettingsService{
 		AreaDomain areaDomain = tsm.getArea(teamVO);
 		InterestDomain intDomain = tsm.getInt(teamVO);
 		List<AreaDomain> areaKey = tsm.getAreaKey();
+		String selectedArea = tsm.selectedMainArea(teamVO);
 		List<AreaDomain> areaRegionKey = tsm.getAreaRegionKey(areaDomain);
 		String selectedMainInt = tsm.selectedMainInterest(teamVO);
 		List<InterestDomain> mainInterest = tsm.getMainInterest();
 		List<InterestDomain> subInterest = tsm.getSubInterest(selectedMainInt);
-		TeamSettingsPageVO tsp = new TeamSettingsPageVO(teamVO, areaDomain, intDomain, areaKey, areaRegionKey, selectedMainInt, mainInterest, subInterest);
+		TeamSettingsPageVO tsp = new TeamSettingsPageVO(teamVO, areaDomain, intDomain, selectedArea, areaKey, areaRegionKey, selectedMainInt, mainInterest, subInterest);
 		
 		return tsp;
 	}

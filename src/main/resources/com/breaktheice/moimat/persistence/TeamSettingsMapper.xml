@@ -33,13 +33,6 @@
 			area_id = #{areaId}
 	</select>
 	
-	<select id="getAreaList" resultType="com.breaktheice.moimat.domain.AreaDomain">
-		select
-			*
-		from
-			area	
-	</select>
-	
 	<select id="getAreaId" resultType="Long">
 		select
 			area_id
@@ -49,6 +42,15 @@
 			area_key = #{areaKey}
 		and
 			area_region_key = #{areaRegionKey}
+	</select>
+	
+	<select id="selectedMainArea" resultType="String">
+		select
+			area_key
+		from
+			area
+		where
+			area_id = #{areaId}
 	</select>
 	
 	<select id="getAreaKey" resultType="com.breaktheice.moimat.domain.AreaDomain">
@@ -77,13 +79,6 @@
 			interest
 		where
 			int_id = #{intId}
-	</select>
-	
-	<select id="getIntList" resultType="com.breaktheice.moimat.domain.InterestDomain">
-		select
-			*
-		from
-			interest
 	</select>
 	
 	<select id="getIntId">
