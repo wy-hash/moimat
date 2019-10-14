@@ -128,6 +128,32 @@
 			                    <p class="text-main text-semibold">First Tab Content</p>
 			                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
 			             	      일단 !!@# 선택창 먼저 !@# 만들건데 일단 일단 일단 일단 일단 일단 ..ㅁ 흠 .. .ㅁㄴㅇ 
+			             	      <form>
+			             	     	 팀이름<input type="text" name="teamName"><br>
+			             	     	 팀짧은소개<input type="text" name="teamShortContent"><br>
+			             	     	  팀긴글소개<input type="text" name="teamContent"><br>
+			             	     	  <div>
+			             	     	  관심사
+			             	     	  	<select id="mainInt">
+			             	     	  	<option>관심사대분류</option>
+			             	     	  	</select>
+			             	     	  	<select id="subInt">
+			             	     	  	<option>관심사소분류</option>
+			             	     	  	</select>
+			             	     	  </div>
+			             	     	  <div>
+			             	     	  지역
+			             	     	  	<select id="mainArea">
+			             	     	  	<option>지역대분류</option>
+			             	     	  	</select>
+			             	     	  	<select id="subArea">
+			             	     	  	<option>지역소분류</option>
+			             	     	  	</select>
+			             	     	  </div>
+			             	     	  팀원숫자<input type="text" name="teamMax"><br>
+			             	     	   <button type="button" class="btn btn-info">취소</button>
+			             	     	   <button type="button" class="btn btn-warning">수정</button>
+			             	      </form>
 			                </div>
 			            </div>
 			        </div>

@@ -94,6 +94,19 @@
 		where
 			int_key = #{intKey}
 	</select>
+	<select id="selectedMainInterest" resultType="String">
+		select
+			concat(subStr(int_Key,0,2),'00')
+		from
+			interest
+		where
+			int_key = (select
+					       int_key
+					   from
+					   		interest
+					   where
+					   		int_id=#{intId})
+	</select>
 	
 	<select id="getMainInterest" resultType="com.breaktheice.moimat.domain.InterestDomain">
 		select

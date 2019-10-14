@@ -74,6 +74,7 @@ public class TeamSettingsMapperTests {
 		tsm.getAreaRegionKey(areaDomain);
 	}
 	
+	
 	@Test
 	public void getAreaKey() {
 		tsm.getAreaKey();
@@ -87,7 +88,11 @@ public class TeamSettingsMapperTests {
 	@Test
 	public void getSubIntTest() {
 		tsm.getSubInterest("IA00");
-		
 	}
 	
+	@Test
+	public void getSelectedTest() {
+		TeamVO teamVO = tsm.getTeamInfo(1L);
+		tsm.selectedMainInterest(teamVO);
+	}
 }
