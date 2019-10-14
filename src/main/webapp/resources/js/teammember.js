@@ -2,8 +2,12 @@
  * 
  */
 var teamMember = (function(){
-	function getList(groupid,keyword,callback,error){
-		$.get("/getMemberList/"+groupid+"/"+keyword+".json", function(data){
+	function getList(param,callback,error){
+		var groupId = param.groupId;
+		var status = param.status;
+		var page = param.pageNum || 1;
+		var criteria = {pageNum: page, type : param.type||'' , keyword : param.keyword||''};
+		$.getJSON("/getMemberList/"+groupId+"/"+status+".json",criteria, function(data){
 				if(callback){
 					callback(data);
 				}
