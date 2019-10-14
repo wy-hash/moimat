@@ -1,37 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.breaktheice.moimat.persistence.AuthMapper">
-
-	<resultMap type="com.breaktheice.moimat.domain.AreaDomain" id="AreaDomain">
-		<result column="area_id" property="areaId"></result>
-		<result column="area_key" property="areaKey"></result>
-		<result column="area_name" property="areaName"></result>
-		<result column="area_region_key" property="areaRegionKey"></result>
-		<result column="area_region_name" property="areaRegionName"></result>
-	</resultMap>
-
-	<resultMap type="com.breaktheice.moimat.domain.MemberDomain" id="MemberDomain">
-		
-		<result column="mem_id" property="memId"></result>
-		<result column="mem_email" property="memEmail"></result>
-		<result column="mem_password" property="memPassword"></result>
-		<result column="mem_nickname" property="memNickname"></result>
-		<result column="mem_birthday" property="memBirthday"></result>
-		<result column="mem_gender" property="memGender"></result>
-		<result column="area_id" property="areaId"></result>
-		<result column="mem_regdate" property="memRegdate"></result>
-		<result column="mem_update" property="memUpdate"></result>
-		<result column="mem_lastlogin" property="memLastlogin"></result>
-		<result column="mem_content" property="memContent"></result>
-		<result column="mem_photo" property="memPhoto"></result>
-		<collection property="areaDomain" resultMap="AreaDomain"></collection>
-	</resultMap>
 	
-	<select id="login" parameterType="com.breaktheice.moimat.domain.MemberDomain" resultMap="MemberDomain">
+	<select id="login" resultType="com.breaktheice.moimat.domain.MemberDomain">
 
 		select * from member
-		join area on member.area_id = area.area_id
-		where member.mem_email = #{ memEmail }
+		where mem_email = #{ memEmail }
 		
 	</select>
 	

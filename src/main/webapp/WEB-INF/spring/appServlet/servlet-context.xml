@@ -29,6 +29,18 @@
 	<!-- location : 물리적 주소 / mapping : 가상 주소 -->
 	<resources location="file:/upload/" mapping="/upload/*"/>
 	
+	/*<!-- Interceptor -->	
+	<interceptors>
+		<interceptor>
+			<mapping path="/**"></mapping>
+			<exclude-mapping path="/resources/**"></exclude-mapping>
+			<exclude-mapping path="/"></exclude-mapping>
+			<exclude-mapping path="/auth/**"></exclude-mapping>
+			<beans:bean class="com.breaktheice.moimat.util.AuthInterceptor"></beans:bean>
+		</interceptor>
+	</interceptors>*/
+	
+	
 	<!-- Defines a resolver implementation bean. It gets applied to all requests handled by that DispatcherServlet -->
     <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 	

@@ -13,6 +13,7 @@ import com.breaktheice.moimat.domain.AreaDomain;
 import com.breaktheice.moimat.domain.CertDomain;
 import com.breaktheice.moimat.domain.InterestDomain;
 import com.breaktheice.moimat.domain.MemberDomain;
+import com.breaktheice.moimat.persistence.AreaMapper;
 import com.breaktheice.moimat.persistence.AuthMapper;
 import com.breaktheice.moimat.persistence.InterestMapper;
 import com.breaktheice.moimat.util.SHA256;
@@ -30,6 +31,9 @@ public class AuthServiceImpl implements AuthService {
 	
 	@Autowired
 	InterestMapper interestMapper;
+	
+	@Autowired
+	AreaMapper areaMapper;
 
 	@Autowired
 	SHA256 sha256;
@@ -47,8 +51,9 @@ public class AuthServiceImpl implements AuthService {
 		String inputPwd = sha256.encrypt(vo.getMemPassword()); // 변환작업
 		log.info("inputPassword : "+inputPwd);
 		// 2. db에서 갖고옴(아직 mapper 안만듬)
-		MemberDomain loginVo = mapper.login(vo);
-
+		log.info("vo: " + vo);
+		MemberDomain loginVo = mapper.login(vo.getMemEmail());
+		log.info("loginVO: " + loginVo);
 		//log.info(loginVo);
 		//log.info("db의 패스워드" + loginVo.getMemPassword());
 		//log.info("사용자의 패스워드" + inputPwd);
@@ -59,10 +64,11 @@ public class AuthServiceImpl implements AuthService {
 			loginVo.setMemPassword(""); // 비밀번호 제거
 			HttpSession session = request.getSession(true); // 세션 객체 얻고
 			session.setAttribute("loginVO", loginVo); // 세션객체에 들어갈 사옹자 정보
+			
+			session.setAttribute("areaVO", areaMapper.selectMyArea(loginVo.getAreaId()));
 
 			log.info("로그인 성공.... ");
 			log.info(loginVo);
-			log.info(loginVo.getAreaDomain().toString());
 
 			// 여기서 true반환
 			return true;
