@@ -73,24 +73,24 @@
 				<input type="hidden" name="pageNum" value ="${pageMaker.cri.pageNum }">
 				<input type="hidden" name="amount" value ="${pageMaker.cri.amount }">
 				
-                <!-- 회원 닉네임-->
+                <!--회원 이메일-->
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="memNickname"><strong>회원 닉네임</strong></label>
+                    <label class="col-md-2 control-label" for="memEmail"><strong>이메일</strong></label>
+                    <div class="col-md-10">
+                        	${view.memEmail}
+                    </div>
+                </div>
+                <!-- 회원 이름(닉네임)-->
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="memNickname"><strong>이름(닉네임)</strong></label>
                     <div class="col-md-10">
                         <p class="form-control-static">${view.memNickname}</p>
                     </div>
                 </div>
 
-                <!--회원 이메일-->
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="memEmail"><strong>회원 이메일</strong></label>
-                    <div class="col-md-10">
-                        	${view.memEmail}
-                    </div>
-                </div>
                 <!--회원 생일-->
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="memBirthday"><strong>회원 생일</strong></label>
+                    <label class="col-md-2 control-label" for="memBirthday"><strong>생일</strong></label>
                     <div class="col-md-10">
 						<fmt:parseDate value="${view.memBirthday}" var="birthday"  pattern="yyyy-mm-dd" scope="page"/>
 						<fmt:formatDate value="${birthday}" pattern="yyyy년 mm월 dd일"/>
@@ -107,6 +107,13 @@
                     </div>
                 </div>
                 
+                <!--회원 소개 -->
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="memContent"><strong>회원 소개</strong></label>
+                    <div class="col-md-10">
+                        	${view.memContent}
+                    </div>
+                </div>
                 <!--회원 등급-->
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="memLevel"><strong>회원 등급</strong></label>
@@ -127,13 +134,6 @@
 							<c:when test="${view.memStatus == 1}">일반</c:when>
 							<c:when test="${view.memStatus == 0}">탈퇴</c:when>
 						</c:choose>
-                    </div>
-                </div>
-                <!--회원 소개 -->
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="memContent"><strong>회원 소개</strong></label>
-                    <div class="col-md-10">
-                        	${view.memContent}
                     </div>
                 </div>
 

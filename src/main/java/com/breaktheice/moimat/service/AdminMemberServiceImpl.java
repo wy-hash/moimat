@@ -10,6 +10,7 @@ import com.breaktheice.moimat.domain.InterestDomain;
 import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.persistence.MemberMapper;
 import com.breaktheice.moimat.util.AdminCriteria;
+import com.breaktheice.moimat.util.SHA256;
 
 import lombok.extern.log4j.Log4j;
 
@@ -19,6 +20,9 @@ public class AdminMemberServiceImpl implements AdminMemberService {
 	
 	@Autowired
 	private MemberMapper mapper;
+
+	@Autowired
+	SHA256 sha256;
 
 	@Override
 	public Long totalCount(AdminCriteria cri) {
@@ -40,8 +44,15 @@ public class AdminMemberServiceImpl implements AdminMemberService {
 
 	@Override
 	public Long add(MemberDomain domain) {
+		
+		
 		// 회원 추가
 		Long result = -1L;// 결과값 : 정상등록 : 1, 실패 : -1
+		
+		
+		domain.setMemLevel(1L);
+		domain.setMemStatus(1L);
+		domain.setMemPassword(sha256.encrypt(domain.getMemPassword()));
 		
 		result = mapper.add(domain);
 		

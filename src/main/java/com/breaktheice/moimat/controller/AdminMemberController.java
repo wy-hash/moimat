@@ -84,6 +84,8 @@ public class AdminMemberController {
 		
 
 		Long totalCount = service.totalCount(cri);
+		model.addAttribute("areas", service.selectAllAreas());
+	 	model.addAttribute("interest", service.selectAllInterest());
 		model.addAttribute("pageMaker", new AdminPageDTO(cri, totalCount));//페이지네이션
 		
 		return "/admin/users/write";
@@ -93,13 +95,7 @@ public class AdminMemberController {
 	@PostMapping("new")
 	public String addQuery(Model model, MemberDomain domain, AdminCriteria cri, RedirectAttributes rttr) {
 		System.out.println("add POST()");
-		
-		domain.setAreaId(1L);
-		domain.setMemLevel(1L);
-		domain.setMemStatus(1L);
-		domain.setMemInt1(1L);
-		domain.setMemInt2(2L);
-		domain.setMemInt3(3L);
+	
 		System.out.println(domain);
 
 		
