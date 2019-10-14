@@ -1,25 +1,31 @@
 package com.breaktheice.moimat.controller;
 
-import java.sql.Timestamp;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.breaktheice.moimat.domain.BasicDomain;
 import com.breaktheice.moimat.page.Criteria;
 import com.breaktheice.moimat.page.PageMaker;
 import com.breaktheice.moimat.service.BasicService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.log4j.Log4j;
 
@@ -109,28 +115,63 @@ public class BasicController {
 		service.deleteBoard(domain); 
 		return "redirect:boardlist";
 	}
-	//게시물 상세 확인 댓글 list와 댓글 등록까지
-	@RequestMapping("/boardcontentview")	
-	public String boardcontentview(
-			Model model, BasicDomain domain) {	
 
-		System.out.println("테스트"+domain);
+	//게시물 상세 확인 댓글 list와 댓글 등록까지
+		@RequestMapping("/boardcontentview")	
+		public String boardcontentview(
+				Model model, BasicDomain domain) {	
+
+			System.out.println("테스트"+domain);
+			
+			long postId = domain.getPostId();
+			long tmemId = domain.getTmemId();
+			//조회수 올려주는 메서드
+			service.updateViewCnt(domain);
+			// 게시글 목록 
+			model.addAttribute("list", service.selectBoardOne(postId));
+			
+			// 게시글의 덧글 목록
+			model.addAttribute("list2",service.selectReplyList(domain)); 
+			
+			System.out.println("테스트"+postId);
+			System.out.println("테트"+tmemId);
+			
+			return "boardcontentview";
+		}
+	//댓글삭제
+	@PostMapping(value = "/replydelete")
+	@ResponseBody
+	public String replydelete(BasicDomain domain,Model model,
+			HttpServletRequest request,HttpServletResponse response) throws JsonProcessingException, IOException {
+//		
+		Map<String,Object> result = new HashMap<>();
 		
-		long postId = domain.getPostId();
-		long tmemId = domain.getTmemId();
-		//조회수 올려주는 메서드
-		service.updateViewCnt(domain);
-		// 게시글 목록 
-		model.addAttribute("list", service.selectBoardOne(postId));
+		try {
+			service.replydeleteBoard(domain);
+			result.put("status", "OK");
+		}catch (Exception e) {
+			e.printStackTrace();
+			result.put("status", "False");
+		}
+		System.out.println("replydelete()");
+//		service.replydeleteBoard(domain);
+//		rttr.addFlashAttribute(domain);
+//		
+//		System.out.println(domain);
+//		System.out.println("reply()"+domain);		
+//		
+//		rttr.addAttribute("tmemId",domain.getTmemId());
+//		rttr.addAttribute("cmtId",domain.getCmtId());
+//		rttr.addAttribute("postId",domain.getPostId());
+		ObjectMapper mapper = new ObjectMapper();
+		//service.replydeleteBoard(domain);
+		//response.getWriter().print(mapper.writeValueAsString("OK"));
 		
-		// 게시글의 덧글 목록
-		model.addAttribute("list2",service.selectReplyList(domain)); 
 		
-		System.out.println("테스트"+postId);
-		System.out.println("테트"+tmemId);
-		
-		return "boardcontentview";
+		System.out.println("좀떠라");
+		return "{\"result\": \"OK\"}";
 	}
+	
 	//댓글 생성
 	@PostMapping("/reply")
 	public String reply(BasicDomain domain,
@@ -148,25 +189,6 @@ public class BasicController {
 
 		return "redirect:/boardcontentview";
 	}
-	//댓글삭제
-	@GetMapping("/replydelete")
-	public String replydelete(BasicDomain domain,Model model,
-			HttpServletRequest request, RedirectAttributes rttr) {
-		
-		System.out.println("replydelete()");
-		service.replydeleteBoard(domain);
-		rttr.addFlashAttribute(domain);
-		
-		System.out.println(domain);
-		System.out.println("reply()"+domain);		
-		
-		rttr.addAttribute("tmemId",domain.getTmemId());
-		rttr.addAttribute("cmtId",domain.getCmtId());
-		rttr.addAttribute("postId",domain.getPostId());
-		
-		return "redirect:/boardcontentdelete";
-	}
-	
 	//게시물 상세 확인 댓글 list와 댓글 등록까지
 	@RequestMapping("/boardcontentdelete")	
 	public String boardcontentviewToDelete(

@@ -224,10 +224,7 @@
 								<input type="hidden" id="cmtId" name="cmtId" value="${post.cmtId}">
 							
 														
-								${post.cmtNickname}
-								<td>
-								${post.cmtRegdate}
-								</td>
+							
 								
 								
 								
@@ -235,7 +232,7 @@
  								 <a href="replymodify?cmtId=${post.cmtId}">수정</a>
  								 
 								 <%-- <a href="replydelete?cmtId=${post.cmtId}&tmemId=${list.tmemId}">삭제</a> --%>
-								<a href="javascript:fn_deleteReply()">삭제</a>
+								<a id="deleteComment" href="javascript:fn_deleteReply(${post.cmtId});">삭제</a>
 								<!-- <a href="javascript:void(0)" onclick="fn_updateReply(' + rid + ', \'' + reg_id + '\')" style="padding-right:5px">저장</a>';
  -->
 
@@ -248,8 +245,12 @@ https://freehoon.tistory.com/121 댓글 수정 삭제 ajax 참고사이트-->
 						 -->					
 								
 								<p>							
-								<span>
-								
+								<span id="removeCmt_${post.cmtId}">
+								${post.cmtNickname}
+								<td>
+								${post.cmtRegdate}
+								</td>
+								<br>
 								${post.cmtContent}
 								
 <!-- 								다른사람댓글뿌려주는곳 -->
@@ -318,47 +319,56 @@ https://freehoon.tistory.com/121 댓글 수정 삭제 ajax 참고사이트-->
 </body>
 
 <script type="text/javascript">
-	function fn_deleteReply(){	
-	
-		//cmtId=${post.cmtId}
-		//tmemId=${list.tmemId}
+	function fn_deleteReply(cmtId){	
+	 	
 		//1. id로 값을 받거나, 2.class  ,3.name으로 값을 받거나 
 		//1. $('#태그의 아이디')  2. $('.클래스의 이름')  3. $('태그[name=이름]')
-		//alert($('#cmtId').val());
 		
-		var cmt = $('#cmtId').val();
+//  		var cmt = $('#cmtId').val();
 		
- 	 	var paramData = {	"cmtId"  : String(cmt),
-							"tmemId" : String($('#tmemId').val()),
-							"postId" : String($('#postId').val())
+//   	 	var paramData = {	"cmtId"  : String(cmt),
+//  							"tmemId" : String($('#tmemId').val()),
+//  							"postId" : String($('#postId').val())
 
-						}; 	 
-		
-	 	//alert($('#tmemId').val());
-		/* , data : paramData */
-	
-		$.ajax({
-			//?cmtId=$('#cmtId').val()&tmemId=$('#tmemId').val()
-			//url: "/replydelete"//"${deleteReplyURL}"	"replydelete?cmtId=${post.cmtId}&tmemId=${list.tmemId}
-			url: "<%=path%>/replydelete"
-			, data : paramData
-			, type : 'GET'	
-			, dataType : 'text'	
-			, success: function(result){
-				console.log("성공  fn_deleteReply");
-				//showList();	
-			}
-	
-			, error: function(error){	
-				console.log("에러 : " + error);
-	
-			}	
-		});
-	
-	}
+//  						}; 	 
+// 		var paramData = {"cmtId":cmtId};
 
+//  		$.ajax({			
+//  				url: "replydelete"
+<%-- <%--  			url: "<%=path%>/replydelete"  --%> 
+//  			, data : paramData
+//  			, type : 'POST'	
+// 			, dataType : 'text'	
+//  			, success: function(result){
+//  				alert($('#cmtId').val());
+ 				
+//  				$('#content').val('');
+
+//  				console.log("성공  fn_deleteReply");
+//  				$("#removeCmt"+cmtId).remove();
+//  				alert("삭제되었습니다.");
+//  				//showList();	
+				
+//  			}
 	
+//  			, error: function(error){	
+//  				console.log("에러 : " + error);
 	
+//  			}	
+//  		})
+	
+ 		
+	 	$.ajax({
+	 		url: "replydelete",
+	 		type:"post",
+	 		data:{"cmtId":cmtId},
+	 		success:function(result){
+			
+ 				$("#removeCmt_"+cmtId).remove();
+ 				alert("삭제되었습니다.");
+	 		}			
+	 	});
+ 	}	
 </script>
 
 

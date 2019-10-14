@@ -76,7 +76,6 @@
 		WHERE 		post_id = #{postId}
 	</delete>
 	
-	
 	<!-- 게시물 수정 -->
 	<update id="modifyBoard" parameterType="com.breaktheice.moimat.domain.BasicDomain">
 		update team_post set POST_TITLE =#{postTitle},          
@@ -101,7 +100,7 @@
 	
 	<!-- 댓글 삭제 -->
 	<delete id="replydeleteBoard" parameterType="com.breaktheice.moimat.domain.BasicDomain">
-		delete from team_comments where CMT_ID=#{cmtId} and tmem_id=#{tmemId}
+		delete from team_comments where CMT_ID=#{cmtId}
 	</delete>
 	
 </mapper>
