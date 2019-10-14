@@ -274,6 +274,11 @@
 
 	</div>
 	<!-- END CONTAINER -->
+	<%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 	<script type="text/javascript" src="/resources/js/teammember.js"></script>
 	<script>
 		$(document).ready(function() {

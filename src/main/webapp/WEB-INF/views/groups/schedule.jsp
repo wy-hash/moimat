@@ -203,6 +203,11 @@
 
 	</div>
 	<!-- END CONTAINER -->
+	<%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 	<script src="/resources/plugins/fullcalendar/lib/moment.min.js"></script>
 	<script
 		src="/resources/plugins/fullcalendar/lib/jquery-ui.custom.min.js"></script>
