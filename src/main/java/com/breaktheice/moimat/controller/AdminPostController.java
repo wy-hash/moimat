@@ -29,7 +29,7 @@ public class AdminPostController {
 	@RequestMapping(value= {"", "list"})
 	public String post(Model model, AdminCriteria cri) {// 게시글 전체 관리 접속
 		
-		List<BoardDomain> boardList =  boardService.list();// 게시판 목록을 출력해 주기 위함
+		List<BoardDomain> boardList =  boardService.listAll();// 게시판 목록을 출력해 주기 위함
 		
 		if (cri.getBrdId() == null || cri.getBrdId() <= 0L) {//게시판의 번호가 없거나 0보다 낮을때 기본값으로 처음 게시판 선택
 			if ( boardList != null && boardList.size()>0) {

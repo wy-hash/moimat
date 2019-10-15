@@ -10,15 +10,9 @@
     <!--Bootstrap Table [ OPTIONAL ]-->
     <link href="/resources/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
 
-
     <!--X-editable [ OPTIONAL ]-->
     <link href="/resources/plugins/x-editable/css/bootstrap-editable.css" rel="stylesheet">
-    <style>
-    	.mt-20{
-    		margin-top: 20px;
-    	}
-    </style>
-
+    
 	<title>Page Template | moim@</title>
 </head>
 <!-- END HEAD -->
@@ -71,6 +65,22 @@
 						</div>
 						<div class="panel-body">
 						<div class="row">
+							<form id="searchForm" class="form-inline pull-right mar-btm" action="/admin/board" method="get">
+								<div class="form-group">
+									<select id="type" name="type" class="form-control">
+										<option value="KN" <c:if test="${pageMaker.cri.type eq 'KN'}">selected</c:if>
+											<c:if test="${empty pageMaker.cri.type}">selected</c:if> >전체
+										</option>
+										<option value="K" <c:if test="${pageMaker.cri.type eq 'K'}">selected</c:if> >코드</option>
+										<option value="N" <c:if test="${pageMaker.cri.type eq 'N'}">selected</c:if> >이름</option>
+									</select>
+									<input type="text" name="keyword" class="form-control" value="${pageMaker.cri.keyword }"
+										placeholder="검색어를 입력해 주세요.">
+									<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
+									<input type="hidden" name="amount" value="${pageMaker.cri.amount }">
+									<button type="submit" class="btn btn-default">검색</button>
+								</div>
+							</form>
 							<table class="table table-bordered">
 								<thead>
 									<tr>
@@ -82,6 +92,11 @@
 									</tr>
 								</thead>
 								<tbody>
+									<c:if test="${empty list}">
+										<tr>
+											<td colspan="5" class="text-center"> 값이 없습니다.</td>
+										</tr>
+									</c:if>
 									<c:forEach items="${list }" var="list" varStatus="status">
 										<tr>
 											<td>${status.count}</td>
@@ -96,18 +111,27 @@
 								</tbody>
 							</table>
 							</div>
-								<div class="row text-center">
-							<nav aria-label="Page navigation">
-									
+							<div class="row text-center">
+								<nav aria-label="Page navigation">
 									<ul class="pagination">
-<!-- 										<li><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li> -->
-										<li class="active"><a href="#">1</a></li>
-<!-- 										<li><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li> -->
+										<c:if test="${pageMaker.prev}">
+											<li><a href="${pageMaker.startPage -1 }" aria-label="Previous"><span
+														aria-hidden="true">&laquo;</span></a></li>
+										</c:if>
+										<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage }">
+											<li class="${pageMaker.cri.pageNum == num ? 'active': ''}"><a href="${num }">${num }</a></li>
+										</c:forEach>
+
+										<c:if test="${pageMaker.next}">
+											<li><a href="${pageMaker.endPage + 1}" aria-label="Next"><span
+														aria-hidden="true">&raquo;</span></a></li>
+										</c:if>
 									</ul>
-								<button id="newBoard" type="button" class="btn btn-success pull-right mt-20"><i class="demo-pli-plus"></i> 게시판 추가</button>	
-							</nav>
-						</div>
-							 
+									<button id="newBoard" type="button" class="btn btn-success pull-right mar-top"><i
+											class="demo-pli-plus"></i> 게시글
+										추가</button>
+								</nav>
+							</div>
 						</div>
 					</div>
 					<!--===================================================-->    
@@ -161,6 +185,14 @@
 				let seq = this.dataset.seq;
 				let url = location.origin+'/admin/board/view/'+seq;
 				location.href = url;
+			});
+			
+			
+			$('.pagination > li > a').on('click', function(e){
+				const searchForm = $('#searchForm');
+				e.preventDefault();
+				searchForm.find('input[name="pageNum"]').val($(this).attr("href"));
+				searchForm.submit();
 			});
 		});
 	</script>

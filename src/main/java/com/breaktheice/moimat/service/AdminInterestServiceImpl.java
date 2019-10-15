@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.breaktheice.moimat.domain.BoardDomain;
 import com.breaktheice.moimat.domain.InterestDomain;
 import com.breaktheice.moimat.persistence.InterestMapper;
+import com.breaktheice.moimat.util.AdminCriteria;
 
 @Service
 public class AdminInterestServiceImpl implements AdminInterestService {
@@ -15,9 +17,17 @@ public class AdminInterestServiceImpl implements AdminInterestService {
 	private InterestMapper mapper;
 	
 	@Override
-	public List<InterestDomain> list() {
-		
-		return mapper.list();
+	public Long totalCount(AdminCriteria cri) {
+		return mapper.totalCount(cri);
+	}
+	
+	@Override
+	public List<InterestDomain> list(AdminCriteria cri) {
+		return mapper.list(cri);
+	}
+	@Override
+	public List<InterestDomain> listAll() {
+		return mapper.listAll();
 	}
 
 	@Override
