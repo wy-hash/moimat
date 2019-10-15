@@ -8,8 +8,7 @@
 
 <!-- HEAD -->
 <%@ include file="../includes/head.jsp"%>
-<!--Bootbox Modals [ OPTIONAL ]-->
-<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
+
 <title>구성원 - ${ team.teamName } | moim@</title>
 
 <style>
@@ -280,6 +279,8 @@
 	<c:if test="${ !empty loginVO }">
 		<%@ include file="../includes/modals.jsp"%>
 	</c:if>
+	<!--Bootbox Modals [ OPTIONAL ]-->
+	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 	<%-- for modal --%>
 	<script type="text/javascript" src="/resources/js/teammember.js"></script>
 	<script>

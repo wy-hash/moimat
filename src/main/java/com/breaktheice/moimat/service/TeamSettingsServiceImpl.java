@@ -43,6 +43,12 @@ public class TeamSettingsServiceImpl implements TeamSettingsService{
 		// TODO Auto-generated method stub
 		return tsm.getSubInterest(intkey);
 	}
+
+	@Override
+	public int updateTeamInfo(TeamVO teamVO) {
+		// TODO Auto-generated method stub
+		return tsm.updateTeamInfo(teamVO);
+	}
 	
 	
 

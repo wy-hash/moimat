@@ -123,7 +123,7 @@
 						<!--Tabs Content-->
 						<div class="tab-content">
 							<div class="content-box">
-								<form class="form-horizontal form-padding">
+								<form id="modform" class="form-horizontal form-padding" action="/modGroup" method="post">
 									<div class="panel">
 										<div class="panel-heading">
 											<h3 class="panel-title">모임 설정</h3>
@@ -143,7 +143,7 @@
 														<div class="clearfix">
 															<label class="col-lg-3 control-label">최대인원</label>
 															<div class="col-lg-9">
-																<input type="text" class="form-control" id="teamMax">
+																<input type="text" class="form-control" id="teamMax" name="teamMax">
 															</div>
 														</div>
 													</div>
@@ -152,7 +152,7 @@
 												<label class="col-lg-1 control-label">간단소개</label>
 												<div class="col-lg-10">
 													<textarea id="teamShortContent" class="form-control"
-														rows="3"></textarea>
+														rows="3" name="teamShortContent"></textarea>
 												</div>
 											</div>
 											<div class="clearfix">
@@ -170,6 +170,7 @@
 															</select>
 														</div>
 													</div>
+													<input type="hidden" name="intId">
 												</div>
 												<div class="col-sm-6 pad-no">
 													<div class="clearfix">
@@ -185,16 +186,19 @@
 															</select>
 														</div>
 													</div>
+													<input type="hidden" name="areaId">
 												</div>
 											</div>
-										</div>
-									</div>
+										
 									<h3>모임 소개</h3>
-									<textarea id="teamContent"></textarea>
+									<textarea id="teamContent" name="teamContent"></textarea>
 									<div class="text-right">
-										<button type="button" class="btn btn-default btn-hover-danger">취소하기</button>
-										<button type="button" class="btn btn-default btn-hover-warning">수정하기</button>
+										<button type="button" id="cancelBtn" class="btn btn-default btn-hover-danger">취소하기</button>
+										<button type="button" id="modBtn" class="btn btn-default btn-hover-warning">수정하기</button>
 									</div>
+									</div>
+									</div>
+									<input type="hidden" name="teamId">
 								</form>
 							</div>
 						</div>
@@ -224,6 +228,8 @@
 	</div>
 	<!-- END CONTAINER -->
 	<script type="text/javascript" src="/resources/js/teamsetting.js"></script>
+	<!--Bootbox Modals [ OPTIONAL ]-->
+	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 	<!--Chosen [ OPTIONAL ]-->
 	<script src="/resources/plugins/chosen/chosen.jquery.min.js"></script>
 	<!-- 썸머노트 JS -->
@@ -256,7 +262,7 @@
 								  +  '</option>'
 				}
 				for(var i = 0, len = data.subInterest.length||0; i<len; i++){
-					subIntOption += '<option data-intid='+data.subInterest[i].intid+'>'
+					subIntOption += '<option data-intid='+data.subInterest[i].intId+'>'
 								 + 		data.subInterest[i].intName
 								 +  '</option>'
 				}
@@ -288,13 +294,80 @@
 				//select.onchage
 				$('#mainInt').on('change',function(){
 					var intkey = $('#mainInt option:selected').data('intkey');
+					console.log(intkey)
 					teamsetting.getSubInt(intkey);
 				});
 				$('#mainArea').on('change',function(){
 					var areakey = $('#mainArea option:selected').data('areakey')
 					teamsetting.getRegion(areakey);
 				});
+				$('#modBtn').on('click',function(e){
+					e.preventDefault();
+					var intid = $('#subInt option:selected').data('intid');
+					var areaid = $('#subArea option:selected').data('areaid');
+					$('input[name=intId]').val(intid);
+					$('input[name=areaId]').val(areaid);
+					$('input[name=teamId]').val(groupId);
+					
+					if($('#teamMax').val()==''||$('#teamShortContent').val()==''||$('#teamContent').val()==''){
+						bootbox.alert("빈 항목이 있습니다.",function(){
+				            $.niftyNoty({
+				                type: 'info',
+				                icon : 'pli-exclamation icon-2x',
+				                message : '모든 항목을 작성해 주세요',
+				                container : 'floating',
+				                timer : 5000
+				            });
+						});
+						return;
+					}else if($('#teamMax').val()>100){
+						bootbox.alert("모임 최대 인원은 100명 입니다.",function(){
+				            $.niftyNoty({
+				                type: 'info',
+				                icon : 'pli-exclamation icon-2x',
+				                message : '100이하의 숫자를 입력해주세요',
+				                container : 'floating',
+				                timer : 5000
+				            });
+						});
+						return;
+					}
+					bootbox.confirm("저장하시겠습니까?", function(result) {
+			            if (result) {
+			            	$('#modform').submit();
+			            }else{
+			                $.niftyNoty({
+			                    type: 'danger',
+			                    icon : 'pli-cross icon-2x',
+			                    message : '취소하였습니다.',
+			                    container : 'floating',
+			                    timer : 5000
+			                });
+			            };
+			        });
+					
+				});
 				
+				$('#cancelBtn').on('click',function(e){
+					bootbox.confirm("작성한 내용이 저장되지 않습니다.", function(result) {
+			            if (result) {
+			            	location.reload();
+			            }else{
+			                $.niftyNoty({
+			                    type: 'danger',
+			                    icon : 'pli-cross icon-2x',
+			                    message : '취소하였습니다.',
+			                    container : 'floating',
+			                    timer : 5000
+			                });
+			            };
+			        });
+				});
+				
+				$("#teamMax").on("keyup", function() {
+				    $(this).val($(this).val().replace(/[^0-9]/g,""));
+				});
+
 			});
 		});
 	</script>

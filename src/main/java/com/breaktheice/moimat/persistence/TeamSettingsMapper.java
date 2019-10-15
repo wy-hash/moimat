@@ -10,7 +10,7 @@ import com.breaktheice.moimat.domain.TeamVO;
 public interface TeamSettingsMapper {
 	public TeamVO getTeamInfo(Long teamId);
 	
-	public int setTeamInfo(TeamVO teamVO);
+	public int updateTeamInfo(TeamVO teamVO);
 	
 	public int teamBreakUp(Long teamId);
 	//일단은 냅둠(쿼리 안만듬)

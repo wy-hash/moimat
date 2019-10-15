@@ -9,18 +9,36 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.breaktheice.moimat.domain.AreaDomain;
 import com.breaktheice.moimat.domain.InterestDomain;
 import com.breaktheice.moimat.domain.TeamSettingsPageVO;
+import com.breaktheice.moimat.domain.TeamVO;
 import com.breaktheice.moimat.service.TeamSettingsService;
 
+import lombok.extern.log4j.Log4j;
+
 @Controller
+@Log4j
 public class TeamSettingsController {
 	
 	@Autowired
 	private TeamSettingsService tss;
+	
+	@PostMapping("/modGroup")
+	public String modifyGroup(TeamVO teamVO) {
+		Long id = teamVO.getTeamId();
+		log.info(teamVO.getTeamId());
+		log.info(teamVO.getAreaId());
+		log.info(teamVO.getIntId());
+		log.info(teamVO.getTeamContent());
+		log.info(teamVO.getTeamMax());
+		log.info(teamVO.getTeamShortContent());
+		tss.updateTeamInfo(teamVO);
+		return "redirect:/groups/"+id+"/settings";
+	}
 	
 	@ResponseBody
 	@GetMapping(value = "/getSettingPage/{groupId}",

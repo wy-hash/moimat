@@ -11,12 +11,13 @@
 			team_id = #{teamId}
 	</select>
 	
-	<update id="setTeamInfo">
+	<update id="updateTeamInfo">
 		update
 			team
 		set
 			team_short_content = #{teamShortContent},
 			team_content = #{teamContent},
+			int_id = #{intId},
 			area_id = #{areaId},
 			team_max = #{teamMax}
 		where

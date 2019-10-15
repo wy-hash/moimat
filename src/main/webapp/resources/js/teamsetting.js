@@ -17,7 +17,7 @@ var teamsetting = (function(){
 		var subIntOption = '';
 		$.get("/getSubInt/"+intkey+".json",function(data){
 			for(var i = 0, len = data.length||0; i<len; i++){
-				subIntOption += '<option data-intid='+data[i].intid+'>'
+				subIntOption += '<option data-intid='+data[i].intId+'>'
 							 + 		data[i].intName
 							 +  '</option>'
 			}

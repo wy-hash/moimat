@@ -29,7 +29,7 @@ public class TeamSettingsMapperTests {
 		TeamVO teamVO = tsm.getTeamInfo(1L);
 		teamVO.setTeamMax(20L); // team_max가 해당 수치로 변화해야함
 		teamVO.setMemId(3L); // setMemId 해도 DB는 변화 없어야함
-		log.info("결과~!@!@#!@#~!@!@#!@#"+tsm.setTeamInfo(teamVO));
+		log.info("결과~!@!@#!@#~!@!@#!@#"+tsm.updateTeamInfo(teamVO));
 	}
 	
 	@Test
