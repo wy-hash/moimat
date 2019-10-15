@@ -55,7 +55,8 @@ public class GroupsMeetController {
 	@PostMapping("/modify")
 	public String meetModify(@PathVariable Long groupId,@RequestParam("meetId")Long meetId, HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		Long id = Long.parseLong(session.getAttribute("loginVO.memId").toString());
+		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
+		Long id = md.getMemId();
 		request.setAttribute("MeetVO", service.readMeet(meetId, groupId, id));
 		return "/groups/schedule/meetModify";
 	}
@@ -63,7 +64,8 @@ public class GroupsMeetController {
 	@GetMapping("/cancel")
 	public String cancelMeet(@PathVariable Long groupId,@RequestParam("meetid")Long meetId, HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		Long id = Long.parseLong(session.getAttribute("loginVO.memId").toString());
+		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
+		Long id = md.getMemId();
 		service.cancelAttend(meetId, groupId, id);
 		return "redirect:/groups/" + groupId + "/schedule";
 	}
