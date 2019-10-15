@@ -15,7 +15,6 @@
 		update
 			team
 		set
-			team_name = #{teamName},
 			team_short_content = #{teamShortContent},
 			team_content = #{teamContent},
 			area_id = #{areaId},

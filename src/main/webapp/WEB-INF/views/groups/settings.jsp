@@ -27,6 +27,7 @@
 		display: none;
 	}
 }
+
 .centerm {
 	display: flex;
 	align-items: center;
@@ -34,7 +35,7 @@
 }
 </style>
 <!--Chosen [ OPTIONAL ]-->
-    <link href="/resources/plugins/chosen/chosen.min.css" rel="stylesheet">
+<link href="/resources/plugins/chosen/chosen.min.css" rel="stylesheet">
 <!-- 썸머노트 css-->
 <link
 	href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css"
@@ -128,52 +129,72 @@
 											<h3 class="panel-title">모임 설정</h3>
 										</div>
 										<div class="panel-body">
+												<div class="clearfix">
+													<div class="col-md-8 form-group">
+														<div class="clearfix">
+															<label class="col-sm-2 control-label">모임명</label>
+															<div class="col-sm-10">
+																<input type="text" class="form-control" id="teamName"
+																	readonly="readonly">
+															</div>
+														</div>
+													</div>
+													<div class="col-lg-3 form-group">
+														<div class="clearfix">
+															<label class="col-lg-3 control-label">최대인원</label>
+															<div class="col-lg-9">
+																<input type="text" class="form-control" id="teamMax">
+															</div>
+														</div>
+													</div>
+											</div>
 											<div class="form-group">
-												<label class="col-sm-1 control-label">모임명</label>
-												<div class="col-sm-10">
+												<label class="col-lg-1 control-label">간단소개</label>
+												<div class="col-lg-10">
+													<textarea id="teamShortContent" class="form-control"
+														rows="3"></textarea>
+												</div>
+											</div>
+											<div class="clearfix">
+												<div class="col-sm-6 pad-no">
 													<div class="clearfix">
-														<div class="col-xs-10">
-															<input type="text" class="form-control" id="teamName">
+														<label class="control-label">관심사 선택</label>
+													</div>
+													<div class="clearfix">
+														<div class="col-xs-6">
+															<select id="mainInt" tabindex="2">
+															</select>
 														</div>
-														<div class="col-xs-2">
-															<button data-toggle="button" type="button" class="btn btn-default btn-active-warning">수정</button>
+														<div class="col-xs-6">
+															<select id="subInt" tabindex="2">
+															</select>
+														</div>
+													</div>
+												</div>
+												<div class="col-sm-6 pad-no">
+													<div class="clearfix">
+														<label class="control-label">지역 선택</label>
+													</div>
+													<div class="clearfix">
+														<div class="col-xs-6">
+															<select id="mainArea" tabindex="2">
+															</select>
+														</div>
+														<div class="col-xs-6">
+															<select id="subArea" tabindex="2">
+															</select>
 														</div>
 													</div>
 												</div>
 											</div>
-											<div class="form-group">
-												<div class="row">
-													<label class="col-sm-1 control-label">간단소개</label>
-												</div>
-												<div class="row centerm">
-													<div class="col-xs-11">
-														<textarea id="teamShortContent" class="form-control" rows="3"></textarea>
-													</div>
-												</div>
-											</div>
-											<div>
-										관심사 <select id="mainInt" tabindex="2" style="width:300px">
-											<option>관심사대분류</option>
-										</select> <select id="subInt" style="width:300px">
-											<option>관심사소분류</option>
-										</select>
-									</div>
-									<div>
-										지역 <select id="mainArea" style="width:300px">
-											<option>지역대분류</option>
-										</select> <select id="subArea" style="width:300px">
-											<option>지역소분류</option>
-										</select>
-									</div>
 										</div>
 									</div>
 									<h3>모임 소개</h3>
 									<textarea id="teamContent"></textarea>
-									
-									팀원숫자<input type="text" id="teamMax"><br>
-									<button type="button" class="btn btn-info">취소</button>
-									<button type="button" class="btn btn-warning">수정</button>
-
+									<div class="text-right">
+										<button type="button" class="btn btn-default btn-hover-danger">취소하기</button>
+										<button type="button" class="btn btn-default btn-hover-warning">수정하기</button>
+									</div>
 								</form>
 							</div>
 						</div>
@@ -204,7 +225,7 @@
 	<!-- END CONTAINER -->
 	<script type="text/javascript" src="/resources/js/teamsetting.js"></script>
 	<!--Chosen [ OPTIONAL ]-->
-    <script src="/resources/plugins/chosen/chosen.jquery.min.js"></script>
+	<script src="/resources/plugins/chosen/chosen.jquery.min.js"></script>
 	<!-- 썸머노트 JS -->
 	<script
 		src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
@@ -254,20 +275,19 @@
 				$("#subInt").html(subIntOption);
 				$("#mainArea").html(mainAreaOption);
 				$("#subArea").html(subAreaOption);
-				$('#mainInt').chosen();
-				$('#subInt').chosen();
-				$('#mainArea').chosen();
-				$('#subArea').chosen();
 				//선택된상태
 				$('option[data-intkey='+data.selectedMainInt+']').prop("selected", true); 
 				$('option[data-intid='+data.teamVO.intId+']').prop("selected", true);
 				$('option[data-areakey='+data.selectedMainArea+']').prop("selected", true);
 				$('option[data-areaid='+data.teamVO.areaId+']').prop("selected", true);
-				//끝
+				//플러그인
+				$('#mainInt').chosen({width: "95%"});
+				$('#subInt').chosen({width: "95%"});
+				$('#mainArea').chosen({width: "95%"});
+				$('#subArea').chosen({width: "95%"});
 				//select.onchage
 				$('#mainInt').on('change',function(){
-					var intkey = $('#mainInt option:selected').data('intkey')
-					console.log(intkey);
+					var intkey = $('#mainInt option:selected').data('intkey');
 					teamsetting.getSubInt(intkey);
 				});
 				$('#mainArea').on('change',function(){
