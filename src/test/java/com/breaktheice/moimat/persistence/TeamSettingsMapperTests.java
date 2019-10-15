@@ -52,13 +52,6 @@ public class TeamSettingsMapperTests {
 	}
 	
 	@Test
-	public void getAreaIdTest() {
-		TeamVO teamVO = tsm.getTeamInfo(1L);
-		AreaDomain areaDomain = tsm.getArea(teamVO);
-		tsm.getAreaId(areaDomain);
-	}
-	
-	@Test
 	public void getAreaRegionKeyTest() {
 		TeamVO teamVO = tsm.getTeamInfo(1L);
 		AreaDomain areaDomain = tsm.getArea(teamVO);

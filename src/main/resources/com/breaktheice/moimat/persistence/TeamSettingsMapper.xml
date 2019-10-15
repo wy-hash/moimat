@@ -33,17 +33,6 @@
 			area_id = #{areaId}
 	</select>
 	
-	<select id="getAreaId" resultType="Long">
-		select
-			area_id
-		from
-			area
-		where 
-			area_key = #{areaKey}
-		and
-			area_region_key = #{areaRegionKey}
-	</select>
-	
 	<select id="selectedMainArea" resultType="String">
 		select
 			area_key
@@ -81,14 +70,6 @@
 			int_id = #{intId}
 	</select>
 	
-	<select id="getIntId">
-		select
-			int_id
-		from
-			interest
-		where
-			int_key = #{intKey}
-	</select>
 	<select id="selectedMainInterest" resultType="String">
 		select
 			concat(subStr(int_Key,0,2),'00')
@@ -122,16 +103,5 @@
 		and
 			int_key not in #{intKey}
 	</select>
-	
-	<select id="getMember" resultType="com.breaktheice.moimat.domain.MemberDomain">
-		select
-			*
-		from
-			member
-		where
-			mem_id = #{memId}
-	</select>
-	
-	
 	
 </mapper>
