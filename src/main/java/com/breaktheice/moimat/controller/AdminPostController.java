@@ -70,8 +70,7 @@ public class AdminPostController {
 	public String addQuery(Model model, PostDomain domain, AdminCriteria cri, RedirectAttributes rttr) {
 		System.out.println("add POST()");
 		System.out.println(domain);
-		
-		
+				
 		// 게시글 등록 성공시 1이상 반환
 		Long result = postService.add(domain);
 		
@@ -83,7 +82,7 @@ public class AdminPostController {
 		rttr.addAttribute("keyword",cri.getKeyword());
 		
 		
-		return "redirect:/admin/post";
+		return "redirect:/admin/post"; 
 	}
 	
 	// 게시글 상세

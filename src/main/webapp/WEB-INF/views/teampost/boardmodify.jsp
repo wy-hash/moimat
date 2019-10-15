@@ -11,7 +11,7 @@
 %>
 
 
-<%@ include file="includes/head.jsp"%>
+<%@ include file="../includes/head.jsp" %>
 <title>Page Template | moim@</title>
 <!--Bootstrap Stylesheet [ REQUIRED ]-->
 
@@ -135,14 +135,14 @@
 	<div id="container" class="effect aside-float aside-bright mainnav-lg">
 
 		<!-- HEADER-NAVBAR -->
-		<%@ include file="includes/header-navbar.jsp"%>
+		<%@ include file="../includes/header-navbar.jsp"%>
 		<!-- END NAVBAR -->
 
 		<!-- BOXED -->
 		<div class="boxed">
 
 			<!-- MAIN-NAV -->
-			<%@ include file="includes/main-nav.jsp"%>
+			<%@ include file="../includes/main-nav.jsp"%>
 			<!-- END MAIN-NAV -->
 
 			<!-- ASIDE -->
@@ -246,7 +246,7 @@
 		<!-- END BOXED -->
 
 		<!-- FOOTER -->
-		<%@ include file="includes/footer.jsp"%>
+		<%@ include file="../includes/footer.jsp"%>
 		<!-- END FOOTER -->
 
 	</div>

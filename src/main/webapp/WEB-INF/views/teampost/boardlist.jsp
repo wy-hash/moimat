@@ -11,7 +11,7 @@
 %>
 
 
-<%@ include file="includes/head.jsp"%>
+<%@ include file="../includes/head.jsp" %>
 <title>Page Template | moim@</title>
 <!--Bootstrap Stylesheet [ REQUIRED ]-->
 
@@ -80,7 +80,9 @@
 
     <!--DataTables Sample [ SAMPLE ]-->
     <script src="js/demo/tables-datatables.js"></script>
-
+<style>
+th,td {padding:15px;}
+</style>
 </head>
 <!-- END HEAD -->
 
@@ -90,14 +92,14 @@
 	<div id="container" class="effect aside-float aside-bright mainnav-lg">
 
 		<!-- HEADER-NAVBAR -->
-		<%@ include file="includes/header-navbar.jsp"%>
+		<%@ include file="../includes/header-navbar.jsp"%>
 		<!-- END NAVBAR -->
 
 		<!-- BOXED -->
 		<div class="boxed">
 
 			<!-- MAIN-NAV -->
-			<%@ include file="includes/main-nav.jsp"%>
+			<%@ include file="../includes/main-nav.jsp"%>
 			<!-- END MAIN-NAV -->
 
 			<!-- ASIDE -->
@@ -149,11 +151,11 @@
 					        <table id="demo-dt-addrow" class="table table-striped table-bordered" cellspacing="0" width="100%">
 					            <thead>
 					                <tr>
-					                    <th>게시글번호</th>
-					                    <th>제목</th>
-					                    <th class="min-tablet">작성자</th>
-					                    <th class="min-tablet">조회수</th>
-					                    <th class="min-desktop">최근등록일</th>
+					                    <th width="20%">게시글번호</th>
+					                    <th width="20%">제목</th>
+					                    <th width="20%" class="min-tablet">작성자</th>
+					                    <th width="20%" class="min-tablet">조회수</th>
+					                    <th width="20%" class="min-desktop">최근등록일</th>
 					                   
 					                </tr>
 					            </thead>
@@ -224,7 +226,7 @@
 		<!-- END BOXED -->
 
 		<!-- FOOTER -->
-		<%@ include file="includes/footer.jsp"%>
+		<%@ include file="../includes/footer.jsp"%>
 		<!-- END FOOTER -->
 
 	

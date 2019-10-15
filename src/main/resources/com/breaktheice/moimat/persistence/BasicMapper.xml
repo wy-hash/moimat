@@ -34,45 +34,6 @@
   	]]>
 	</select>
 	
-<!-- 	검색 미구현 -->
-<!-- 	<select id="getBoardList"  resultType="com.breaktheice.moimat.domain.BasicDomain"> -->
-<!-- 	  select post_id, post_title, POST_NICKNAME, POST_HIT, TMEM_ID, POST_REGDATE from team_post -->
-	  
-<!-- 	<trim prefix="WHERE" prefixOverrides="AND|OR"> -->
-<!-- 			<if test="searchType=='title' and keyword != null and keyword != '' "> -->
-<!-- 				AND TITLE like CONCAT('%', #{keyword}, '%') -->
-<!-- 			</if> -->
-<!-- 			<if test="searchType=='content' and keyword != null and keyword != '' "> -->
-<!-- 				AND CONTENT like CONCAT('%', #{keyword}, '%') -->
-<!-- 			</if> -->
-<!-- 			<if test="searchType=='reg_id' and keyword != null and keyword != '' "> -->
-<!-- 				AND reg_id like CONCAT('%', #{keyword}, '%') -->
-<!-- 			</if>	 -->
-<!-- 		</trim> -->
-<!-- 		LIMIT #{startList}, #{listSize}			 -->
-<!-- 	</select> -->
-	
-<!-- 	<select id="getBoardListCnt" resultType="int"> -->
-<!-- 		SELECT -->
-<!-- 			count(*) as listCnt -->
-<!-- 		FROM -->
-<!-- 			team_post -->
-<!-- 		<trim prefix="WHERE" prefixOverrides="AND|OR"> -->
-<!-- <if test="keyword != null and keyword != '' "> -->
-<!-- 			<if test="searchType=='title'"> -->
-<!-- 				AND TITLE like CONCAT('%', #{keyword}, '%') -->
-<!-- 			</if> -->
-<!-- 			<if test="searchType=='content'"> -->
-<!-- 				AND CONTENT like CONCAT('%', #{keyword}, '%') -->
-<!-- 			</if> -->
-<!-- 			<if test="searchType=='reg_id'"> -->
-<!-- 				AND reg_id like CONCAT('%', #{keyword}, '%') -->
-<!-- 			</if> -->
-<!--       </if> -->
-<!-- 	</trim> -->
-<!-- 	</select> -->
-
-
 <select id="selectBoardList" parameterType="com.breaktheice.moimat.domain.BasicDomain" resultType="com.breaktheice.moimat.domain.BasicDomain"><!-- id는 함수호출 -->
    <!--    select bId, bName, bTitle, bContent, bDate, bHit, bGroup, bStep, bIndent from mvc_board order by bGroup desc, bStep asc -->
       select post_id, post_title, POST_NICKNAME, POST_HIT, TMEM_ID, POST_REGDATE from team_post order by post_id desc 

@@ -24,7 +24,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.breaktheice.moimat.domain.BasicDomain;
 import com.breaktheice.moimat.page.Criteria;
 import com.breaktheice.moimat.page.PageMaker;
-import com.breaktheice.moimat.page.Search;
 import com.breaktheice.moimat.service.BasicService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,6 +32,7 @@ import lombok.extern.log4j.Log4j;
 
 @Controller
 @Log4j
+@RequestMapping("/groups")
 public class BasicController {
 
 	@Autowired
@@ -45,12 +45,7 @@ public class BasicController {
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(criteria);
 
-		System.out.println(criteria.getPerPageNum());
-		System.out.println(criteria.getPage());
-
 		long totalCount = service.selectAllBoard();
-		System.out.println(totalCount);
-		System.out.println("��ü �Խù� ���� ����:" + totalCount);
 		pageMaker.setTotalCount(totalCount);
 
 		List<BasicDomain> boardList = service.selectBoardListPage(criteria);
@@ -58,7 +53,7 @@ public class BasicController {
 		model.addAttribute("list", boardList);
 		model.addAttribute("pageMaker", pageMaker);
 
-		 return "boardlist";
+		 return "teampost/boardlist";
 	}
 	//검색미구현
 //	@RequestMapping(value = "/getBoardList", method = RequestMethod.GET)
@@ -86,26 +81,26 @@ public class BasicController {
 	public String boardwriteview(BasicDomain domain, Model model,HttpServletRequest request) {
 		System.out.println("/boardwrite GET");
 		
-		domain.setTeamId(8);
-		domain.setBrdId(28);
-		domain.setTmemId(6);
-		domain.setPostTmemLevel(1);
-		domain.setPostNickname("testNi");
-		domain.setPostEmail("Email");	
+		domain.setTeamId(2);
+		domain.setBrdId(21);
+		domain.setTmemId(3);
+		domain.setPostTmemLevel(2);
+		domain.setPostNickname("testNickName");
+		domain.setPostEmail("TestEmail");	
 
 		model.addAttribute("list",domain);
 			
-		return "boardwrite";
+		return "teampost/boardwrite";
 	}
 	//게시물 생성
-	@RequestMapping(value="/boardwrite", method= RequestMethod.POST)	
+	@RequestMapping(value="boardwrite", method= RequestMethod.POST)	
 	public String boardwrite(
 			BasicDomain domain,Model model) {
 		System.out.println("/boardwrite POST");
 	
 		service.insertBoard(domain);	
 		System.out.println(domain);
-		return "redirect:/boardlist";
+		return "redirect:/groups/boardlist";
 	}
 	//모임 게시물 수정 화면 보여주는역할
 	@PostMapping("/boardmodify")	
@@ -118,7 +113,7 @@ public class BasicController {
 			model.addAttribute("list", service.selectBoardOne(postId));
 				System.out.println("테스트"+postId);
 				
-		return "boardmodify";
+		return "teampost/boardmodify";
 	}  
 	// 게시물 수정 된 글작성 
 	@PostMapping("/boardmodifywrite")	
@@ -127,7 +122,7 @@ public class BasicController {
 		
 			service.modifyBoard(domain);
 				
-		return "redirect:/boardlist";
+		return "redirect:/groups/boardlist";
 	}
 	//게시물 삭제
 	@GetMapping("/deleteboard")
@@ -136,7 +131,7 @@ public class BasicController {
 		System.out.println("delete");
 
 		service.deleteBoard(domain); 
-		return "redirect:boardlist";
+		return "redirect:/groups/boardlist";
 	}
 
 	//게시물 상세 확인 댓글 list까지
@@ -159,27 +154,30 @@ public class BasicController {
 			System.out.println("테스트"+postId);
 			System.out.println("테트"+tmemId);
 			
-			return "boardcontentview";
+			return "teampost/boardcontentview";
 		}
 		
 		//댓글 등록 구현됨
 		@PostMapping("/reply")
 		public String reply(BasicDomain domain,
-				Model model, HttpServletRequest request, RedirectAttributes rttr) throws Exception {
+				Model model, HttpServletRequest request, RedirectAttributes rttr)   throws Exception {
 			int postId = Integer.parseInt(request.getParameter("postId"));
 			System.out.println(postId);
 			
 			//받아줘야하는 필수값 contentview.jsp에서 hidden으로 받아주고있음
-			domain.setBrdId(28);
-			domain.setCmtNickname("testNickname");
-			domain.setCmtEmail("testEmail");
-			domain.setTmemId(6);
-			System.out.println(domain);
-			service.replyBoard(domain);
-			
+			if(domain.getCmtContent()!=null&&domain.getCmtContent()!="") {
+				System.out.println(domain.getCmtContent());
+				domain.setBrdId(21);
+				domain.setCmtNickname("TestCmtNickName");
+				domain.setCmtEmail("TestCmtEmail");
+				domain.setTmemId(3);
+				
+				service.replyBoard(domain);				
+			}
+						
 			rttr.addFlashAttribute(domain);
 
-			return "redirect:/boardcontentview";
+			return "redirect:/groups/boardcontentview";
 		}
 	//댓글삭제
 	@PostMapping(value = "/replydelete")
@@ -209,11 +207,7 @@ public class BasicController {
 			Model model,@RequestParam("tmemId") long tmemId,
 						@RequestParam("cmtId") long cmtId,
 						@RequestParam("postId") long postId) {	
-		
-		System.out.println(tmemId);
-		System.out.println(cmtId);
-		System.out.println(postId);
-		
+
 		// 게시글 목록 
 		model.addAttribute("list", service.selectBoardOne(postId));		
 		
@@ -222,7 +216,7 @@ public class BasicController {
 		// 게시글의 덧글 목록
 		model.addAttribute("list2",service.selectReplyList(domain)); 
 		
-		return "boardcontentview";
+		return "teampost/boardcontentview";
 	}
 	//미구현
 	@GetMapping("/replymodify")
@@ -235,7 +229,7 @@ public class BasicController {
 		
 		rttr.addFlashAttribute(domain);
 
-		return "redirect:/boardcontentview";
+		return "redirect:/groups/boardcontentview";
 	}
 //	//댓글등록구현중
 //	@RequestMapping(value = "/saveReply", method = RequestMethod.POST)

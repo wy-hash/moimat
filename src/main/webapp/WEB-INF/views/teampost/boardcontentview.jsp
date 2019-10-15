@@ -11,7 +11,7 @@
 %>
 
 
-<%@ include file="includes/head.jsp"%>
+<%@ include file="../includes/head.jsp" %>
 <title>Page Template | moim@</title>
 <!--Bootstrap Stylesheet [ REQUIRED ]-->
 
@@ -89,12 +89,12 @@
 	<!--You may remove all ID or Class names which contain "demo-", they are only used for demonstration. -->
 	<div id="container" class="effect aside-float aside-bright mainnav-lg">
 		<!-- HEADER-NAVBAR -->
-		<%@ include file="includes/header-navbar.jsp"%>
+		<%@ include file="../includes/header-navbar.jsp"%>
 		<!-- END NAVBAR -->
 		<!-- BOXED -->
 		<div class="boxed">
 			<!-- MAIN-NAV -->
-			<%@ include file="includes/main-nav.jsp"%>
+			<%@ include file="../includes/main-nav.jsp"%>
 			<!-- END MAIN-NAV -->
 			<!-- ASIDE -->
 			<%-- <%@ include file="includes/aside.jsp" %> --%>
@@ -181,7 +181,7 @@
 								<input type="hidden" id="cmtId" name="cmtId" value="${post.cmtId}">
 								
 								<p>	
-								<div align="right">
+								<div id="removeCmt_d" align="right">
  								<a href="replymodify?cmtId=${post.cmtId}">수정</a>								 
 								<a id="deleteComment" href="javascript:fn_deleteReply(${post.cmtId});">삭제</a>
 								</div>						
@@ -224,7 +224,7 @@
 		</div>
 		<!-- END BOXED -->
 		<!-- FOOTER -->
-		<%@ include file="includes/footer.jsp"%>
+		<%@ include file="../includes/footer.jsp"%>
 		<!-- END FOOTER -->
 	</div>
 	<!-- END CONTAINER -->
@@ -240,6 +240,7 @@
 	 		success:function(result){
 			
  				$("#removeCmt_"+cmtId).remove();
+ 				$("#removeCmt_d").remove();
  				alert("삭제되었습니다.");
 	 		}			
 	 	});
