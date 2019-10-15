@@ -24,7 +24,7 @@ public interface TeamSettingsMapper {
 	
 	public List<AreaDomain> getAreaKey();
 	//선택창 대분류에 이용
-	public List<AreaDomain> getAreaRegionKey(AreaDomain areaDomain);
+	public List<AreaDomain> getAreaRegionKey(String areakey);
 	//String areaKey 소분류 선택창 범위에 이용  AreaKey선택시 호출하는 쿼리
 	/*======== 지역 ========*/
 	/*======== 관심사 ========*/
@@ -36,7 +36,7 @@ public interface TeamSettingsMapper {
 	
 	public List<InterestDomain> getMainInterest();
 	//대분류 목록 따로 가져오기
-	public List<InterestDomain> getSubInterest(String intKey);
+	public List<InterestDomain> getSubInterest(String intkey);
 	//소분류 목록 따로 가져오기 여기서 intId를 가져와야함(대분류 선택시 호출되는 쿼리)
 	/*======== 관심사 ========*/
 	public MemberDomain getMember(TeamVO teamVO);

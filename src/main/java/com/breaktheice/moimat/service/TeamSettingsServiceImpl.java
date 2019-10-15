@@ -24,7 +24,7 @@ public class TeamSettingsServiceImpl implements TeamSettingsService{
 		InterestDomain intDomain = tsm.getInt(teamVO);
 		List<AreaDomain> areaKey = tsm.getAreaKey();
 		String selectedArea = tsm.selectedMainArea(teamVO);
-		List<AreaDomain> areaRegionKey = tsm.getAreaRegionKey(areaDomain);
+		List<AreaDomain> areaRegionKey = tsm.getAreaRegionKey(areaDomain.getAreaKey());
 		String selectedMainInt = tsm.selectedMainInterest(teamVO);
 		List<InterestDomain> mainInterest = tsm.getMainInterest();
 		List<InterestDomain> subInterest = tsm.getSubInterest(selectedMainInt);
@@ -32,5 +32,18 @@ public class TeamSettingsServiceImpl implements TeamSettingsService{
 		
 		return tsp;
 	}
+
+	@Override
+	public List<AreaDomain> getRegionArea(String areakey) {
+		return tsm.getAreaRegionKey(areakey);
+	}
+
+	@Override
+	public List<InterestDomain> getSubInterest(String intkey) {
+		// TODO Auto-generated method stub
+		return tsm.getSubInterest(intkey);
+	}
+	
+	
 
 }

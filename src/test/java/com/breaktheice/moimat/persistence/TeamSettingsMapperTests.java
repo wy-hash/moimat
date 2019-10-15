@@ -38,20 +38,11 @@ public class TeamSettingsMapperTests {
 		tsm.getArea(teamVO);
 	}
 	
-	@Test
-	public void getAreaListTest() {
-		tsm.getAreaList();
-	}
 	
 	@Test
 	public void getIntTest() {
 		TeamVO teamVO = tsm.getTeamInfo(1L);
 		tsm.getInt(teamVO);
-	}
-	
-	@Test
-	public void getIntListTest() {
-		tsm.getIntList();
 	}
 	
 	@Test
@@ -71,7 +62,7 @@ public class TeamSettingsMapperTests {
 	public void getAreaRegionKeyTest() {
 		TeamVO teamVO = tsm.getTeamInfo(1L);
 		AreaDomain areaDomain = tsm.getArea(teamVO);
-		tsm.getAreaRegionKey(areaDomain);
+		tsm.getAreaRegionKey(areaDomain.getAreaKey());
 	}
 	
 	
