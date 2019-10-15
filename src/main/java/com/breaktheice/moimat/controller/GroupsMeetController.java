@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.breaktheice.moimat.domain.MeetVO;
+import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.service.MeetingService;
 
 @Controller
@@ -33,8 +34,8 @@ public class GroupsMeetController {
 	@PostMapping("/new")
 	public String newMeet(MeetVO meetVO, @PathVariable Long groupId, HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		Long id = Long.parseLong(session.getAttribute("id").toString());
-		service.createMeet(meetVO, groupId, id);
+		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
+		service.createMeet(meetVO,md, groupId);
 		return "redirect:/groups/" + groupId + "/schedule";
 	}
 
@@ -54,7 +55,7 @@ public class GroupsMeetController {
 	@PostMapping("/modify")
 	public String meetModify(@PathVariable Long groupId,@RequestParam("meetId")Long meetId, HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		Long id = Long.parseLong(session.getAttribute("id").toString());
+		Long id = Long.parseLong(session.getAttribute("loginVO.memId").toString());
 		request.setAttribute("MeetVO", service.readMeet(meetId, groupId, id));
 		return "/groups/schedule/meetModify";
 	}
@@ -62,7 +63,7 @@ public class GroupsMeetController {
 	@GetMapping("/cancel")
 	public String cancelMeet(@PathVariable Long groupId,@RequestParam("meetid")Long meetId, HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		Long id = Long.parseLong(session.getAttribute("id").toString());
+		Long id = Long.parseLong(session.getAttribute("loginVO.memId").toString());
 		service.cancelAttend(meetId, groupId, id);
 		return "redirect:/groups/" + groupId + "/schedule";
 	}
@@ -70,8 +71,8 @@ public class GroupsMeetController {
 	@GetMapping("/attend")
 	public String attendMeet(@PathVariable Long groupId,@RequestParam("meetid")Long meetId, HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		Long id = Long.parseLong(session.getAttribute("id").toString());
-		service.attendMeet(meetId, groupId, id);
+		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
+		service.attendMeet(meetId, groupId, md.getMemId());
 		return "redirect:/groups/" + groupId + "/schedule";
 	}
 	

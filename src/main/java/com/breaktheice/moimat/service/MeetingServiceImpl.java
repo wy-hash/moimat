@@ -13,6 +13,7 @@ import com.breaktheice.moimat.domain.MeetListVO;
 import com.breaktheice.moimat.domain.MeetMemberVO;
 import com.breaktheice.moimat.domain.MeetVO;
 import com.breaktheice.moimat.domain.MeetingPageVO;
+import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.persistence.MeetingMapper;
 import com.breaktheice.moimat.util.AdminCriteria;
 
@@ -24,11 +25,14 @@ public class MeetingServiceImpl implements MeetingService{
 	
 	@Override
 	@Transactional
-	public void createMeet(MeetVO meetVO,Long groupId, Long memId) {//정모 생성한 사람은 자동으로 해당 정모 참가 
-		meetVO.setTmemId(mapper.setTmemId(groupId, memId));
-		meetVO.setMeetNickName(mapper.setTmemNickName(groupId, memId));
+	public void createMeet(MeetVO meetVO,MemberDomain md,Long groupId) {//정모 생성한 사람은 자동으로 해당 정모 참가 
+		Long memberId = md.getMemId();
+		meetVO.setTmemId(mapper.setTmemId(groupId, memberId));
+		meetVO.setMeetNickName(md.getMemNickname());
+		meetVO.setMeetEmail(md.getMemEmail());
+		meetVO.setMeetPhoto(md.getMemPhoto());
 		mapper.regMeet(meetVO);
-		mapper.attendMeet(meetVO.getMeetId(),groupId,memId);
+		mapper.attendMeet(meetVO.getMeetId(),groupId,memberId);
 	}
 
 	@Override

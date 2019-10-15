@@ -19,5 +19,5 @@ public class MeetVO {
 	private String meetNickName;//작성자 별명 (고민)
 	private String meetEmail;//작성자 이메일 (사용안함)
 	private String meetArea;
-	
+	private String meetPhoto;
 }
