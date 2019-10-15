@@ -123,80 +123,81 @@
 						<!--Tabs Content-->
 						<div class="tab-content">
 							<div class="content-box">
-								<form id="modform" class="form-horizontal form-padding" action="/modGroup" method="post">
+								<form id="modform" class="form-horizontal form-padding"
+									action="/modGroup" method="post">
 									<div class="panel">
 										<div class="panel-heading">
 											<h3 class="panel-title">모임 설정</h3>
 										</div>
 										<div class="panel-body">
-												<div class="clearfix">
-													<div class="col-md-8 form-group">
-														<div class="clearfix">
-															<label class="col-sm-2 control-label">모임명</label>
-															<div class="col-sm-10">
-																<input type="text" class="form-control" id="teamName"
-																	readonly="readonly">
-															</div>
-														</div>
+											<div class="">
+												<div class="form-group">
+													<label class="col-sm-2 control-label">모임명</label>
+													<div class="col-sm-9">
+														<input type="text" class="form-control" id="teamName"
+															readonly="readonly">
 													</div>
-													<div class="col-lg-3 form-group">
-														<div class="clearfix">
-															<label class="col-lg-3 control-label">최대인원</label>
-															<div class="col-lg-9">
-																<input type="text" class="form-control" id="teamMax" name="teamMax">
-															</div>
-														</div>
-													</div>
-											</div>
-											<div class="form-group">
-												<label class="col-lg-1 control-label">간단소개</label>
-												<div class="col-lg-10">
-													<textarea id="teamShortContent" class="form-control"
-														rows="3" name="teamShortContent"></textarea>
 												</div>
-											</div>
-											<div class="clearfix">
-												<div class="col-sm-6 pad-no">
-													<div class="clearfix">
-														<label class="control-label">관심사 선택</label>
+												<div class="form-group">
+													<label class="col-sm-2 control-label">최대인원</label>
+													<div class="col-sm-9">
+														<input type="text" class="form-control" id="teamMax"
+															name="teamMax">
 													</div>
-													<div class="clearfix">
-														<div class="col-xs-6">
-															<select id="mainInt" tabindex="2">
-															</select>
-														</div>
-														<div class="col-xs-6">
-															<select id="subInt" tabindex="2">
-															</select>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label">간단소개</label>
+													<div class="col-sm-9">
+														<textarea id="teamShortContent" class="form-control"
+															rows="3" name="teamShortContent" style="width:100%;resize:none;"></textarea>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<label class="col-sm-2 control-label">관심사 선택</label>
+													<div class="col-sm-9">
+														<div class="row">
+															<div class="col-xs-6">
+																<select id="mainInt" tabindex="2">
+																</select>
+															</div>
+															<div class="col-xs-6">
+																<select id="subInt" tabindex="2">
+																</select>
+															</div>
 														</div>
 													</div>
 													<input type="hidden" name="intId">
 												</div>
-												<div class="col-sm-6 pad-no">
-													<div class="clearfix">
-														<label class="control-label">지역 선택</label>
-													</div>
-													<div class="clearfix">
-														<div class="col-xs-6">
-															<select id="mainArea" tabindex="2">
-															</select>
-														</div>
-														<div class="col-xs-6">
-															<select id="subArea" tabindex="2">
-															</select>
+												<div class="form-group">
+													<label class="col-sm-2 control-label">지역 선택</label>
+													<div class="col-sm-9">
+														<div class="row">
+															<div class="col-xs-6">
+																<select id="mainArea" tabindex="2">
+																</select>
+															</div>
+															<div class="col-xs-6">
+																<select id="subArea" tabindex="2">
+																</select>
+															</div>
 														</div>
 													</div>
 													<input type="hidden" name="areaId">
 												</div>
 											</div>
-										
-									<h3>모임 소개</h3>
-									<textarea id="teamContent" name="teamContent"></textarea>
-									<div class="text-right">
-										<button type="button" id="cancelBtn" class="btn btn-default btn-hover-danger">취소하기</button>
-										<button type="button" id="modBtn" class="btn btn-default btn-hover-warning">수정하기</button>
-									</div>
-									</div>
+												<div class="form-group centerm">
+													<div class="col-xs-10">
+														<textarea id="teamContent" name="teamContent"></textarea>
+													</div>
+													
+												</div>
+												<div class="form-group text-right">
+													<div class="col-xs-11">
+														<button type="button" id="cancelBtn" class="btn btn-default btn-hover-danger">취소하기</button>
+														<button type="button" id="modBtn" class="btn btn-default btn-hover-warning">수정하기</button></div>
+												</div>
+										</div>
 									</div>
 									<input type="hidden" name="teamId">
 								</form>
@@ -287,10 +288,10 @@
 				$('option[data-areakey='+data.selectedMainArea+']').prop("selected", true);
 				$('option[data-areaid='+data.teamVO.areaId+']').prop("selected", true);
 				//플러그인
-				$('#mainInt').chosen({width: "95%"});
-				$('#subInt').chosen({width: "95%"});
-				$('#mainArea').chosen({width: "95%"});
-				$('#subArea').chosen({width: "95%"});
+				$('#mainInt').chosen({width: "100%"});
+				$('#subInt').chosen({width: "100%"});
+				$('#mainArea').chosen({width: "100%"});
+				$('#subArea').chosen({width: "100%"});
 				//select.onchage
 				$('#mainInt').on('change',function(){
 					var intkey = $('#mainInt option:selected').data('intkey');

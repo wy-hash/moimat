@@ -30,12 +30,6 @@ public class TeamSettingsController {
 	@PostMapping("/modGroup")
 	public String modifyGroup(TeamVO teamVO) {
 		Long id = teamVO.getTeamId();
-		log.info(teamVO.getTeamId());
-		log.info(teamVO.getAreaId());
-		log.info(teamVO.getIntId());
-		log.info(teamVO.getTeamContent());
-		log.info(teamVO.getTeamMax());
-		log.info(teamVO.getTeamShortContent());
 		tss.updateTeamInfo(teamVO);
 		return "redirect:/groups/"+id+"/settings";
 	}

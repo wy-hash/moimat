@@ -18,8 +18,6 @@ public interface TeamSettingsMapper {
 	public AreaDomain getArea(TeamVO teamVO);
 	//or Long areaID 근데 TeamVO가 편할거같아서 일단 해놓음
 	//선택된 상태 구하기 
-	public Long getAreaId(AreaDomain areaDomain);
-	//String areaKey String areaRegionKey 그냥 소분류에 아이디값을 줄거임 (보류)
 	public String selectedMainArea(TeamVO teamVO);
 	
 	public List<AreaDomain> getAreaKey();
@@ -30,8 +28,6 @@ public interface TeamSettingsMapper {
 	/*======== 관심사 ========*/
 	public InterestDomain getInt(TeamVO teamVO);
 	//or Long intId 위와 마찬가지(주요관심사 목록으로 필요함
-	public Long getIntId(InterestDomain intrestDomain);
-	//대분류와 소분류를 통해 구해야 할 경우 (보류)
 	public String selectedMainInterest(TeamVO teamVO);
 	
 	public List<InterestDomain> getMainInterest();
