@@ -5,9 +5,12 @@ import java.util.List;
 import com.breaktheice.moimat.domain.InterestDomain;
 
 public interface InterestMapper {
-	public List<InterestDomain> list();
-	public InterestDomain view(InterestDomain domain);
-	public int add(InterestDomain domain);
-	public int update(InterestDomain domain);
-	public int remove(InterestDomain domain);
+	public List<InterestDomain> list();					// 관심사 코드 목록
+	public InterestDomain view(InterestDomain domain);	// 관심사 코드 상세보기
+	public Long add(InterestDomain domain);				// 관심사 코드 추가하기
+	public Long update(InterestDomain domain);			// 관심사 코드 수정하기
+	public Long remove(InterestDomain domain);			// 관심사 코드 삭제하기
+	public Long keyCheck(InterestDomain domain);			// 관심사 코드 중복체크
+	public Long selectInterestId(String intKey);
 }
+ 

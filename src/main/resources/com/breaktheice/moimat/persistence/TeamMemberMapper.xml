@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.breaktheice.moimat.persistence.TeamMemberMapper">
+	
+	<select id="getMember" resultType="com.breaktheice.moimat.domain.TeamMemberDomain">
+		select * from team_member where tmem_id = #{tmemId}
+	</select>
+	
+	<select id="getMemberList" resultType="com.breaktheice.moimat.domain.TeamMemberDomain">
+		select
+			tmem_id,
+			team_id,
+			mem_id,
+			tmem_level,
+			tmem_content,
+			tmem_nickname,
+			tmem_email,
+			tmem_lastvisit,
+			tmem_regdate,
+			tmem_birthday,
+			tmem_gender,
+			tmem_photo
+		from		
+		(
+		select rownum rn, team_member.* from team_member where team_id = #{teamId} and 
+		<if test="status.equals('block')">
+			tmem_level = 0
+		</if>
+		<if test="status.equals('member')">
+			tmem_level > 1
+		</if>
+		<if test="status.equals('waiting')">
+			tmem_level = 1
+		</if>
+		<if test="status.equals('manager')">
+			tmem_level > 6
+		</if>
+		and
+		<trim prefix="(" suffix=") and" prefixOverrides="or">
+			<foreach collection="cri.typeArr" item="type">
+				<trim prefix="or"> 
+					<choose>
+						<when test="type == 'E'.toString()">
+							lower(tmem_email) like lower('%'||#{cri.keyword}||'%')
+						</when>
+						<when test="type == 'N'.toString()">
+							lower(tmem_nickname) like lower('%'||#{cri.keyword}||'%')
+						</when>
+					</choose>
+				</trim>			
+			</foreach>
+		</trim>
+		<![CDATA[
+			rownum <= #{cri.pageNum} * #{cri.amount}
+		)
+		where rn > (#{cri.pageNum}-1) * #{cri.amount}		
+		]]>
+	</select>
+	
+	<select id="getMemberTotal" resultType="int">
+		select
+			count(tmem_id)
+		from		
+		(
+		select * from team_member where team_id = #{teamId} and 
+		<if test="status.equals('block')">
+			tmem_level = 0
+		</if>
+		<if test="status.equals('member')">
+			tmem_level > 1
+		</if>
+		<if test="status.equals('waiting')">
+			tmem_level = 1
+		</if>
+		<if test="status.equals('manager')">
+			tmem_level > 6
+		</if>
+		<trim prefix="and (" suffix=")" prefixOverrides="or">
+			<foreach collection="cri.typeArr" item="type">
+				<trim prefix="or"> 
+					<choose>
+						<when test="type == 'E'.toString()">
+							lower(tmem_email) like lower('%'||#{cri.keyword}||'%')
+						</when>
+						<when test="type == 'N'.toString()">
+							lower(tmem_nickname) like lower('%'||#{cri.keyword}||'%')
+						</when>
+					</choose>
+				</trim>			
+			</foreach>
+		</trim>
+		)
+	</select>
+	
+	<update id="gradeAdjust">
+		update team_member set tmem_level = #{tmemLevel} where tmem_id = #{tmemId}
+	</update>
+	
+	<delete id="getOut">
+		delete team_member where tmem_id=#{tmemId}
+	</delete>
+	
+	<insert id="teamMemberNotify">
+		<selectKey order="BEFORE" resultType="Long" keyProperty="recvMemId">
+			<include refid="getMemId"></include>
+		</selectKey>
+		insert into message(msg_id, send_mem_id, recv_mem_id,msg_title,msg_content,msg_regdate)
+		values(message_seq.nextval, #{message.sendMemId}, #{recvMemId}, #{message.msgTitle},#{message.msgContent},sysdate)
+	</insert>
+	
+	<delete id="selectedMemberDelete">
+		delete team_member where tmem_id IN
+		<foreach collection="tmemIds" item="tmemId" open="(" close=")" separator=",">
+			#{tmemId.value}
+		</foreach>
+	</delete>
+	
+	<delete id="memberUpdate">
+		Update team_member set tmem_level = #{level} where tmem_id IN
+		<foreach collection="tmemIds" item="tmemId" open="(" close=")" separator=",">
+			#{tmemId.value}
+		</foreach>
+	</delete>
+	
+	<select id="isMaster" resultType="boolean">
+		select count(*) from team where team_id = #{teamId} and mem_id = #{memId}
+	</select>
+	
+	<update id="changeMaster">
+		<selectKey order="BEFORE" resultType="Long" keyProperty="memId">
+			<include refid="getMemId"></include>
+		</selectKey>
+		Update team set mem_id = #{memId} where team_id = #{teamId}
+	</update>
+	
+	<select id="isAdmin" resultType="boolean">
+		select count(*) from team_member where mem_id=#{memId} and team_id = #{teamId} and tmem_level > 5
+	</select>
+	
+	<sql id="getMemId">
+		select mem_id from team_member 
+		where tmem_id = #{tmemId}
+	</sql>	
+	
+</mapper>

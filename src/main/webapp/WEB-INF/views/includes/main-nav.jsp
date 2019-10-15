@@ -14,17 +14,32 @@
 
                                 <!--Profile Widget-->
                                 <!--================================-->
-                                <div id="mainnav-profile" class="mainnav-profile">
-                                    <div class="profile-wrap">
-                                        <div class="pad-btm">
-                                            <span class="label label-success pull-right">New</span>
-                                            <img class="img-circle img-sm img-border" src="/resources/img/profile-photos/1.png" alt="Profile Picture">
-                                        </div>
-                                        <a href="#profile-nav" class="box-block" data-toggle="collapse" aria-expanded="false">
-                                            <p class="mnp-name">이모임</p>
-                                            <span class="mnp-desc">@서울특별시 서초구</span>
-                                        </a>
-                                    </div>
+                                <div id="mainnav-profile" class="mainnav-profile"> 
+	                                <c:choose>
+	                                	<c:when test="${ empty loginVO }">
+	                                		<div class="profile-wrap">
+	                                			<a href="/auth/login"><button class="btn btn-block btn-success">로그인하기</button></a>
+	                               			</div>
+	                               		</c:when>
+	                               		<c:otherwise>
+	                               			<div class="profile-wrap">
+	                                   			<div class="pad-btm">
+	                                       			<img class="img-circle img-sm img-border" src="/resources/img/profile-photos/1.png" alt="Profile Picture">
+	                                   			</div>
+	
+	                                  			<a href="#profile-nav" class="box-block" data-toggle="collapse" aria-expanded="false">
+	                                      			<span class="pull-right dropdown-toggle">
+	                                          			<i class="dropdown-caret"></i>
+	                                      			</span>
+	                                      			<p class="mnp-name">${ loginVO.memNickname }</p>
+	                                    			<span class="mnp-desc">@ ${ areaVO.areaName } ${ areaVO.areaRegionName }</span>
+	                                  			</a>
+	                              			</div>
+	                              			<div id="profile-nav" class="collapse list-group bg-trans">
+	                                  			<button data-target="#demo-modal-wo-anim" data-toggle="modal" class="btn btn-block btn-success">로그아웃</button>
+	                              			</div>
+	                               		</c:otherwise>
+	                                </c:choose>
                                 </div>
 
 
@@ -62,22 +77,12 @@
 						            
 						            <!--Menu list item-->
 						            <li>
-						                <a href="#">
+						                <a href="/groups">
 						                    <i class="fa fa-group"></i>
 						                    <span class="menu-title">
-												<strong>나의 모임</strong>
+												<strong>내 모임</strong>
 											</span>
-											<i class="arrow"></i>
 						                </a>
-						                
-						                <!-- Submenu -->
-						                <ul class="collapse">
-						                	<li><a href="#">이런모임</a></li>
-						                	<li><a href="#">저런모임</a></li>
-						                	<li><a href="#">그런모임</a></li>
-						                	<li><a href="#">이상한모임</a></li>
-						                	<li><a href="#">재밌는모임</a></li>
-						                </ul>
 						            </li>
 						            
 						            <!-- Category name -->

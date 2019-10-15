@@ -99,6 +99,7 @@
 <!-- END HEAD -->
 
 <body>
+
 	<!--TIPS-->
 	<!--You may remove all ID or Class names which contain "demo-", they are only used for demonstration. -->
 	<div id="container" class="effect aside-float aside-bright mainnav-lg">
@@ -126,9 +127,6 @@
                 
                 <!--Page Title-->
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-
-
-
 
                 <!-- 
                 <div id="page-title">
@@ -520,6 +518,7 @@
                 <!--End page content-->
 
 
+
             </div>
             <!--===================================================-->
             <!--END CONTENT CONTAINER-->			
@@ -535,5 +534,12 @@
 			
 	</div>
 	<!-- END CONTAINER -->
+	
+	<%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
+	
 </body>
 </html>

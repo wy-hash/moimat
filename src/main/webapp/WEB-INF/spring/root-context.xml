@@ -11,10 +11,10 @@
 
 	<!-- HikariCP configuration -->
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE"></property>
-		<property name="username" value="breaktheice"></property>
-		<property name="password" value="breaktheice"></property>
+		<property name="driverClassName" value="${database.driverClassName}"></property>
+		<property name="jdbcUrl" value="${database.jdbcUrl}"></property>
+		<property name="username" value="${database.username}"></property>
+		<property name="password" value="${database.password}"></property>
 	</bean>
 	
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
@@ -27,16 +27,26 @@
 	</bean>
 	
 	<mybatis-spring:scan base-package="com.breaktheice.moimat.persistence"/>
-	<context:component-scan base-package="com.breaktheice.moimat.service"></context:component-scan>
 	
-	<!-- 멀티파트 리졸버 -->
-<bean id="multipartResolver"  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-         <!-- 최대업로드 가능한 바이트크기 -->
-         <property name="maxUploadSize" value="52428800" />
-         <!-- 디스크에 임시 파일을 생성하기 전에 메모리에 보관할수있는 최대 바이트 크기 -->
-         <!-- property name="maxInMemorySize" value="52428800" / -->
-         <!-- defaultEncoding -->
-         <property name="defaultEncoding" value="utf-8" />
-</bean>
-
+	<!-- 메일 발송을 위한 JavaMailSenderImpl 빈 설정 -->
+	<bean id="mailSender"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" /><!-- 465 or 25 -->
+		<property name="username" value="breaktheicemoimat@gmail.com" />
+		<property name="password" value="acount1025!" />
+		<property name="defaultEncoding" value="utf-8" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.debug">true</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<context:component-scan base-package="com.breaktheice.moimat.service"></context:component-scan>
+	<bean id="sha256" class="com.breaktheice.moimat.util.SHA256" /> 	
+	<context:property-placeholder location="classpath:database.properties"/>
 </beans>

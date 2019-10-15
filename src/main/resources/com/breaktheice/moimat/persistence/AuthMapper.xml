@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.breaktheice.moimat.persistence.AuthMapper">
+	
+	<select id="login" resultType="com.breaktheice.moimat.domain.MemberDomain">
+
+		select * from member
+		where mem_email = #{ memEmail }
+		
+	</select>
+	
+	<select id="getInterestCodelist" resultType="com.breaktheice.moimat.domain.InterestDomain" >
+		
+		SELECT   
+				INT_ID
+				,INT_KEY
+				,INT_NAME
+				,INT_ORDER
+				,INT_ORDER
+				,INT_IS_USE
+		FROM 
+				INTEREST
+		
+	</select>
+	
+	<insert id="join" parameterType="com.breaktheice.moimat.domain.MemberDomain" >
+		<!-- 회원가입 쿼리를 만들기 -->
+		INSERT INTO MEMBER
+		VALUES(
+			MEMBER_SEQ.NEXTVAL 
+			,#{memEmail}
+			,#{memPassword}
+			,#{memNickname}
+			,#{memBirthday}	 
+			,#{memGender}	
+			,#{areaId}
+			,SYSDATE
+			,SYSDATE
+			,SYSDATE
+			,#{memContent}
+			,#{memPhoto}	
+			,#{memLevel}
+			,#{memStatus}
+			,#{memInt1}
+			,#{memInt2}
+			,#{memInt3}
+		
+		)
+	</insert>
+	
+	<select id="checkMemberEmail" parameterType="String" resultType="String">
+		
+		SELECT 
+				MEM_EMAIL
+		FROM
+				MEMBER
+		WHERE 
+				MEM_EMAIL = #{email}
+	
+	</select>
+	
+	<insert id="insertCode" parameterType="com.breaktheice.moimat.domain.CertDomain" >
+			
+		<!-- 인증코드 저장 -->
+		
+		INSERT INTO CERT
+		
+		VALUES(
+		
+			CERT_SEQ.nextval
+			,#{certCode}
+			,#{certEmail}
+			,SYSDATE 
+		)
+	</insert>
+	
+	<select id="selectCode" parameterType="com.breaktheice.moimat.domain.CertDomain" resultType="com.breaktheice.moimat.domain.CertDomain">
+		
+		SELECT 
+				*
+		FROM
+				CERT
+		WHERE 
+					CERT_CODE = #{certCode}
+				and CERT_EMAIL = #{certEmail}
+	
+	</select>
+	
+	<delete id="deleteCode">
+		
+		DELETE 
+				
+		FROM
+				CERT
+		WHERE 
+				CERT_EMAIL = #{memEmail}
+	
+	</delete>
+	
+	<update id="updateMember" parameterType="com.breaktheice.moimat.domain.MemberDomain">
+		
+		UPDATE	MEMBER	
+		
+		SET
+			MEM_EMAIL 		= CASE WHEN #{memEmail}		IS NULL THEN MEM_EMAIL 		ELSE 	#{memEmail}  		END
+			,MEM_PASSWORD 	= CASE WHEN #{memPassword} 	IS NULL THEN MEM_PASSWORD	ELSE 	#{memPassword} 		END
+			,MEM_GENDER 	= CASE WHEN #{memGender} 	IS NULL THEN MEM_GENDER 	ELSE 	#{memGender} 		END
+			,AREA_ID 		= CASE WHEN #{areaId} 		= 0 THEN AREA_ID 		ELSE 	#{areaId} 			END
+			,MEM_UPDATE 	= SYSDATE
+			,MEM_CONTENT 	= CASE WHEN #{memContent} 	IS NULL THEN MEM_CONTENT 	ELSE 	#{memContent} 		END
+			,MEM_PHOTO		= CASE WHEN #{memPhoto} 	IS NULL THEN MEM_PHOTO 		ELSE 	#{memPhoto} 		END
+			,MEM_LEVEL 		= CASE WHEN #{memLevel} 	= 0 THEN MEM_LEVEL 		ELSE 	#{memLevel} 		END
+			,MEM_STATUS 	= CASE WHEN #{memStatus} 	= 0 THEN MEM_STATUS 	ELSE 	#{memStatus} 	END
+ 			,MEM_INT1 		= CASE WHEN #{memInt1} 		= 0 THEN MEM_INT1 		ELSE 	#{memInt1} 		END
+			,MEM_INT2		= CASE WHEN #{memInt2} 		= 0 THEN MEM_INT2 		ELSE 	#{memInt2} 		END
+			,MEM_INT3		= CASE WHEN #{memInt3} 		= 0 THEN MEM_INT3 		ELSE 	#{memInt3} 		END  
+			
+  		
+		<where>
+		    <if test="memId != null and memId != '' ">
+		         MEM_ID = #{memId}
+		    </if>
+		    <if test="memEmail != null and memEmail != '' ">
+		         MEM_EMAIL = #{memEmail}
+		    </if>
+  		</where>
+	
+	
+	</update>
+	
+	
+	<select id="selectAllAreas" resultType="com.breaktheice.moimat.domain.AreaDomain">
+		select * from area
+	</select>
+	
+	<select id="selectAllInterest" resultType="com.breaktheice.moimat.domain.InterestDomain">
+		select * from interest
+	</select>
+	
+	<select id="selectAreaId" resultType="Long">
+		select area_id from area where area_region_key = #{ areaRegionKey }
+	</select>
+	
+	
+</mapper>

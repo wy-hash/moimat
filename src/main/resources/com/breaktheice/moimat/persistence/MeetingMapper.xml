@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.breaktheice.moimat.persistence.MeetingMapper">
+	
+	<select id="getMeetList" resultType="com.breaktheice.moimat.domain.MeetVO">
+	<![CDATA[
+		select
+			meet.*,
+			meet_date-sysdate
+		from meet
+		where 
+			team_id = #{teamId} 
+		and meet_date-sysdate > 0 
+		order by meet_date-sysdate
+	]]>
+	</select>
+	
+	<select id="meetWithPaging" resultType="com.breaktheice.moimat.domain.MeetVO">
+	<![CDATA[
+	select meet_id, team_id,meet_title,meet_content,meet_date,meet_regdate,meet_max,meet_pay,tmem_id,meet_nickname,meet_email,meet_area
+	from
+		(
+			select
+				rownum rn, meetlist.*
+			from
+				(select
+					meet.*,
+					meet_date-sysdate
+				from meet
+				where 
+					team_id = #{teamId} 
+				and meet_date-sysdate > 0 
+				order by meet_date-sysdate) meetlist
+			where rownum <= #{cri.pageNum} * #{cri.amount}
+		) where rn > (#{cri.pageNum} -1) * #{cri.amount}
+	]]>
+	</select>
+	
+	<select id="getMeet" resultType="com.breaktheice.moimat.domain.MeetVO">
+		select
+			*
+		from
+			meet
+		where
+			meet_id = #{meetId}
+	</select>
+	
+	<insert id="regMeet">
+		
+		insert into meet (meet_id, team_id, meet_title, meet_content, meet_date, meet_regdate, meet_max, meet_pay, tmem_id, meet_nickname,meet_Area)
+		values(meet_seq.nextval, #{teamId}, #{meetTitle}, #{meetContent}, #{meetDate}, sysdate, #{meetMax}, #{meetPay}, #{tmemId}, #{meetNickName},#{meetArea})
+		<!-- to use getMeetId  -->
+		<selectKey order="AFTER" keyProperty="meetId" resultType="Long">
+			select meet_seq.currval from dual
+		</selectKey>
+	</insert>
+	
+	<update id="modifyMeet">
+		update
+			meet
+		set
+			meet_area = #{meetArea},
+			meet_date = #{meetDate},
+			meet_max = #{meetMax},
+			meet_title = #{meetTitle},
+			meet_content = #{meetContent},
+			meet_pay = #{meetPay}
+		where meet_Id = #{meetId}		
+	</update>
+	
+	<delete id="deleteMeet">	
+		delete
+			meet
+		where 
+			meet_Id = #{meetId}
+	</delete>
+	
+	<insert id="attendMeet">
+		insert into 
+			meet_member 
+				(mmem_id, meet_id, tmem_id,mmem_nickname,mmem_email,mmem_photo)
+			(select 
+				meet_member_seq.nextval,
+				#{meetId}, 
+				tmem_id, 
+				tmem_nickname as mmem_nickname, 
+				tmem_email as mmem_email,
+				tmem_photo as mmem_photo 
+			from 
+				team_member
+			where
+				tmem_id = 
+			<include refid="getTmemId"></include>
+			)
+	</insert>
+	
+	<delete id="cancelAttend">
+		delete
+			meet_member
+		where
+			meet_id = #{meetId}
+		and
+			tmem_id = 
+		<include refid="getTmemId"></include>
+	</delete>
+	
+	<select id="getMeetingMember" resultType="com.breaktheice.moimat.domain.MeetMemberVO">
+		select
+			*
+		from
+			meet_member
+		where
+			meet_id = #{meetId}
+			
+	</select>
+	
+	<select id="isAttend" resultType="boolean">
+		select
+			count(*)
+		from
+			meet_member
+		where
+			meet_Id = #{meetId}
+            and tmem_Id =
+        <include refid="getTmemId"></include>
+	</select>
+	
+	<select id="countMeetMember" resultType="int">
+		select
+			count(*)
+		from
+			meet_member
+		where
+			meet_id = #{meetId}
+	</select>
+	
+	<select id="setTmemId" resultType="Long">
+	select
+		tmem_id
+	from
+		team_member
+	where
+		mem_id = #{memId}
+		and
+		team_id = #{groupId}
+	</select>
+	
+	<select id="setTmemNickName" resultType="String">
+	select
+		tmem_nickname
+	from
+		team_member
+	where
+		mem_id = #{memId}
+		and
+		team_id = #{groupId}
+	</select>
+	
+	<select id="isWriter" resultType="boolean">
+		select #{tmemId} from dual
+		where #{tmemId} = <include refid="getTmemId"></include>
+	</select>
+	
+	<delete id="deleteMeetMember">	
+		delete
+			meet_member
+		where 
+			meet_Id = #{meetId}
+	</delete>
+	
+	<select id="getEvent" resultType="com.breaktheice.moimat.domain.CalendarEventVO">
+		select * from
+			(select
+				meet_title as title,
+				meet_date as "start",
+				'mint' as className 
+			from meet
+				where team_id = #{groupId}
+				UNION ALL
+			select 
+				tmem_nickname as title,
+				tmem_birthday as "start",
+				'pink' as className
+			from team_member
+				where team_id = #{groupId})
+		
+	</select>
+	
+	<select id="getTotalMeet" resultType="int">
+		select 
+			count(team_id) 
+		from
+			(
+			select
+				meet.*,
+				meet_date-sysdate
+			from meet
+			where 
+				team_id = #{teamId} 
+			and meet_date-sysdate > 0 
+			order by meet_date-sysdate
+			)	
+	</select>
+	
+	<sql id="getTmemId">
+	(select
+		tmem_id
+	from
+		team_member
+	where
+		mem_id = #{memId}
+		and
+		team_id = #{groupId})
+	</sql>
+	
+</mapper>

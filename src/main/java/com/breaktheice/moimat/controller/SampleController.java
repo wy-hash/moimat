@@ -1,5 +1,8 @@
 package com.breaktheice.moimat.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,13 +22,12 @@ public class SampleController {
 	private SampleService service;
 	
 	@GetMapping("/")
-	public String index(Model model) {
-		
+	public String index(Model model,HttpServletRequest request) {
 		log.info("request /");
 		
 		model.addAttribute("domain", service.getSampleDomain());
 		
-		return "index";
+		return "groupview";
 	}
 	
 	@GetMapping("/template")
