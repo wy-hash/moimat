@@ -88,35 +88,26 @@
 	<!--TIPS-->
 	<!--You may remove all ID or Class names which contain "demo-", they are only used for demonstration. -->
 	<div id="container" class="effect aside-float aside-bright mainnav-lg">
-
 		<!-- HEADER-NAVBAR -->
 		<%@ include file="includes/header-navbar.jsp"%>
 		<!-- END NAVBAR -->
-
 		<!-- BOXED -->
 		<div class="boxed">
-
 			<!-- MAIN-NAV -->
 			<%@ include file="includes/main-nav.jsp"%>
 			<!-- END MAIN-NAV -->
-
 			<!-- ASIDE -->
 			<%-- <%@ include file="includes/aside.jsp" %> --%>
 			<!-- END ASIDE -->
-
-
 			<!--CONTENT CONTAINER-->
 			<!--===================================================-->
 			<div id="content-container">
-
 				<!--Page Title-->
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<div id="page-title">
 					<h1 class="page-header text-overflow">게시판</h1>
-					 <!--Searchbox-->
-                    
+					 <!--Searchbox-->                 
 				</div>
-
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<!--End page title-->
 
@@ -154,97 +145,46 @@
 					                    <td>${list.postNickname}</td>
 					                    <td>${list.postHit}</td>
 					                    <td>${list.postRegdate}</td>				                 
-				                </tr>		          
-				                <tr>
-				                </tr>
-					                
+				                </tr><tr></tr>
+				                					                
 					            </tbody>
-					        
-					        	
-
+					            
 							<input type="submit" value="수정"> &nbsp;&nbsp; <a href="boardlist">목록보기</a> &nbsp;&nbsp;
 							 <a href="deleteboard?postId=${list.postId}&tmemId=${list.tmemId}">삭제</a>
 								</form>
 								</table>
-								<p>
-									<br>
-									
-								</p>
-								<p>
-									<br>
-									
-								</p>
-								<p>
-									<br>
-									
-								</p>
-								<p>
-									<br>
-									
-								</p>
-								
+								<p><br></p>
+								<p><br></p>
+								<p><br></p>
+								<p><br></p>
 								
 								<div class="tbody m-tcol-c" id="tbody">
 								<p> ${list.postContent}</p>
-<!-- 								</div>		   -->
-					    </div>
-					  		  <p>
-					  		 		 <br>
-									<br>
-									<br>
-								</p>
-								<p>
-									<br>
-									<br>
-									<br>
-								</p>
-								<p>
-									<br>	
-									<br>
-									<br>
-								</p>
-								<p>
-									<br>
-									<br>
-									<br>
-								</p>
-								<p>
-									<br>
-									<br>
-									<br>
+
+					  			</div>
+					  		 	<p><br><br>
+								<br></p><p>
+								<br><br><br>
+								</p><p><br>	
+								<br><br></p>
+								<p><br><br>
+								<br></p><p>
+								<br><br><br>
+								
 								</p>
 								<div style="background:DarkGray;opacity:0.4;display: block;
 								"class="box-reply2 bg-color u_cbox">
-								
-								 		
-								
+						
 								<form style="font-weight: bold;font-size:1.1em;color: black;"action="reply?postId=${list.postId}" method="post">
-								<c:forEach items="${list2}" var="post">
+							<c:forEach items="${list2}" var="post">
 								<input type="hidden" name="brdId" value="${list.brdId}">
 								<input type="hidden" id="cmtId" name="cmtId" value="${post.cmtId}">
-							
-														
-							
 								
-								
-								
-								<p align="right">
- 								 <a href="replymodify?cmtId=${post.cmtId}">수정</a>
- 								 
-								 <%-- <a href="replydelete?cmtId=${post.cmtId}&tmemId=${list.tmemId}">삭제</a> --%>
+								<p>	
+								<div align="right">
+ 								<a href="replymodify?cmtId=${post.cmtId}">수정</a>								 
 								<a id="deleteComment" href="javascript:fn_deleteReply(${post.cmtId});">삭제</a>
-								<!-- <a href="javascript:void(0)" onclick="fn_updateReply(' + rid + ', \'' + reg_id + '\')" style="padding-right:5px">저장</a>';
- -->
-
-
-								</p>
-<!-- 							 
-https://freehoon.tistory.com/121 댓글 수정 삭제 ajax 참고사이트-->
-<!-- 										다른사람 댓글 작성시간 닉네임 뿌려줘야함		
-					댓글 수정하는 뷰를 보여줘야함
-						 -->					
-								
-								<p>							
+								</div>						
 								<span id="removeCmt_${post.cmtId}">
 								${post.cmtNickname}
 								<td>
@@ -252,112 +192,47 @@ https://freehoon.tistory.com/121 댓글 수정 삭제 ajax 참고사이트-->
 								</td>
 								<br>
 								${post.cmtContent}
-								
-<!-- 								다른사람댓글뿌려주는곳 -->
-								</span>
-								
+														
+								</span>					
 								</p>
-								</c:forEach>
+							</c:forEach>
 								<table cellspacing="0">
 								<tbody>
 								<tr>
-								<td>
-								
-								<div>
-								
-								<textarea cols="50" rows="2" maxlength="6000" style="overflow:hidden; line-height: 14px;
+								<td>							
+								<div>								
+								<textarea id="cmtContent" cols="50" rows="2" maxlength="6000" style="overflow:hidden; line-height: 14px;
 								height: 41px; resize: none; title="댓글입력" name="cmtContent">
-								</textarea>
-								
-								
-								</div>
-								
-								
+								</textarea>														
+								</div>							
 								<td>
 								 <button type="submit" width="60" class="btn btn-lg btn-default">등록</button>
 								</td>
 								</form>
-								</tbody>
-								
-								
-								</table>
-								
-							
-								</div>
-								  
-				  
-					</div>
-
-				
-					
+								</tbody>														
+								</table>											
+								</div>								 				  
+					</div>				
 					</div>
 					<!--===================================================-->
-					<!--End Default Accordion-->
-
-				
+					<!--End Default Accordion-->		
 				<!--===================================================-->
 				<!--End page content-->
-
-
 			</div>
 			<!--===================================================-->
 			<!--END CONTENT CONTAINER-->
-
-
-
 		</div>
 		<!-- END BOXED -->
-
 		<!-- FOOTER -->
 		<%@ include file="includes/footer.jsp"%>
 		<!-- END FOOTER -->
-
 	</div>
 	<!-- END CONTAINER -->
-
-
 </body>
 
 <script type="text/javascript">
 	function fn_deleteReply(cmtId){	
-	 	
-		//1. id로 값을 받거나, 2.class  ,3.name으로 값을 받거나 
-		//1. $('#태그의 아이디')  2. $('.클래스의 이름')  3. $('태그[name=이름]')
-		
-//  		var cmt = $('#cmtId').val();
-		
-//   	 	var paramData = {	"cmtId"  : String(cmt),
-//  							"tmemId" : String($('#tmemId').val()),
-//  							"postId" : String($('#postId').val())
 
-//  						}; 	 
-// 		var paramData = {"cmtId":cmtId};
-
-//  		$.ajax({			
-//  				url: "replydelete"
-<%-- <%--  			url: "<%=path%>/replydelete"  --%> 
-//  			, data : paramData
-//  			, type : 'POST'	
-// 			, dataType : 'text'	
-//  			, success: function(result){
-//  				alert($('#cmtId').val());
- 				
-//  				$('#content').val('');
-
-//  				console.log("성공  fn_deleteReply");
-//  				$("#removeCmt"+cmtId).remove();
-//  				alert("삭제되었습니다.");
-//  				//showList();	
-				
-//  			}
-	
-//  			, error: function(error){	
-//  				console.log("에러 : " + error);
-	
-//  			}	
-//  		})
-	
- 		
 	 	$.ajax({
 	 		url: "replydelete",
 	 		type:"post",
@@ -368,7 +243,36 @@ https://freehoon.tistory.com/121 댓글 수정 삭제 ajax 참고사이트-->
  				alert("삭제되었습니다.");
 	 		}			
 	 	});
- 	}	
+ 	}
+	
+// 댓글등록 구현중
+	$(document).on('click', '#btnReplySave', function(){
+ 		var replyContent = $('#cmtContent').val();
+		
+// 		var paramData = JSON.stringify({"cmtContent": replyContent
+// 				, "cmtId":'${post.cmtId}'
+// 		});		
+		var headers = {"Content-Type" : "application/json"
+				, "X-HTTP-Method-Override" : "POST"};
+		$.ajax({
+			url: "saveReply?cmtContent="+replyContent
+			, headers : headers
+			, data : {"cmtContent":cmtContent}
+			, type : 'POST'
+			, dataType : 'text'
+			, success: function(result){
+				
+				alert(1);
+				$('#cmtContent').val();
+// 				$('#cmtContent').attr('value', '');
+			
+			}
+			, error: function(error){
+				console.log("에러 : " + error);
+			}
+		});
+	});
+
 </script>
 
 

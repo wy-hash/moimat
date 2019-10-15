@@ -114,13 +114,21 @@
 				<div id="page-title">
 					<h1 align="center" "page-header text-overflow">모임 게시판</h1>
 					 <!--Searchbox-->
+			
                     <div class="searchbox">
                         <div class="input-group custom-search-form">
-                            <input type="text" class="form-control" placeholder="Search..">
+                            <input name="keyword" id="keyword" type="text" class="form-control" placeholder="Search..">
                             <span class="input-group-btn">
-                                <button class="text-muted" type="button"><i class="demo-pli-magnifi-glass"></i></button>
+                                <button name="btnSearch" id="btnSearch" class="text-muted" type="button"><i class="demo-pli-magnifi-glass"></i></button>
                             </span>
-                        </div>
+                    	 <div align="left">
+		                    <select  class="form-control form-control-sm" name="searchType" id="searchType">
+							<option value="title">제목</option>
+							<option value="Content">본문</option>
+							<option value="reg_id">작성자</option>
+							</select>
+						</div>
+                 		</div>                   
                     </div>
 				</div>
 
@@ -136,11 +144,7 @@
 					    <div class="panel-heading">
 					    <h3 class="panel-title">환영합니다</h3>
 					    </div>
-					
-					    <div id="demo-custom-toolbar2" class="table-toolbar-left">
-					        <button type="button" onclick="location.href='boardwriteview' " id="demo-dt-addrow-btn" class="btn btn-primary">글쓰기</button>
-					    </div>
-					
+			
 					    <div class="panel-body">
 					        <table id="demo-dt-addrow" class="table table-striped table-bordered" cellspacing="0" width="100%">
 					            <thead>
@@ -177,7 +181,7 @@
 					       
 					       
 <!-- 					       페이징 view 부분  -->
-				<div id="paginationBox">
+				<div align="left" id="paginationBox">
 		<ul class="pagination">
 					        <c:if test="${pageMaker.prev}">
 			<a  href="boardlist${pageMaker.makeQuery(pageMaker.startPage - 1) }">«</a>
@@ -191,7 +195,11 @@
 				<a href="boardlist${pageMaker.makeQuery(pageMaker.endPage +1) }"> » </a>
 			</c:if> <br>
 			</ul>
+			 	
 			</div>
+			<div class="row" align="right" id="demo-custom-toolbar2" class="table-toolbar-left">
+					<button type="button" onclick="location.href='boardwriteview' " id="demo-dt-addrow-btn" class="btn btn-primary">글쓰기</button>
+			 </div>
 					    </div>
 					</div>
 				</div>
@@ -224,4 +232,19 @@
 
 
 </body>
+
+<script type="text/javascript">
+//	검색(search)미구현
+// $(document).on('click', '#btnSearch', function(e){
+
+// 	e.preventDefault();
+// 	var url = "${pageContext.request.contextPath}/getBoardList";
+// 	url = url + "?searchType=" + $('#searchType').val();
+// 	url = url + "&keyword=" + $('#keyword').val();
+// 	location.href = url;
+// 	console.log(url);
+
+// });	
+
+</script>
 </html>

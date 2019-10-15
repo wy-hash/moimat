@@ -4,13 +4,13 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 public class PageMaker {
-	private int displayPageNum = 10;// 화면에 출력할 최대 숫자 갯수
-	private int totalCount;// 전체 레코드 수
+	private long displayPageNum = 10;// 화면에 출력할 최대 숫자 갯수
+	private long totalCount;// 전체 레코드 수
 	// private boolean prev;// '<<'버튼 출력여부
 	// private boolean next;// '>>'버튼 출력여부
 
-	private int startPage;// 화면에 출력되는 시작 넘버
-	private int endPage;// 화면에 출력되는 끝 넘버
+	private long startPage;// 화면에 출력되는 시작 넘버
+	private long endPage;// 화면에 출력되는 끝 넘버
 	// 예) startPage:1 endPage:10 ====> 1 2 3 4 5 6 7 8 9 10
 	// 예) startPage:1 endPage:5 ====> 1 2 3 4 5
 	// 예) startPage:11 endPage:20 ====> 11 12 13 14 15 16 17 18 19 20
@@ -22,7 +22,7 @@ public class PageMaker {
 
 	private void calcData() {
 		System.out.println("PageMaker \tcalcData");
-		endPage = (int) (Math.ceil(cri.getPage() / (double) displayPageNum)) * displayPageNum;
+		endPage = (long) (Math.ceil(cri.getPage() / (double) displayPageNum)) * displayPageNum;
 		// 현재페이지 정보로 부터 끝페이지에 대한 연산
 		// ex) 현재 페이지(pageInfo.getPage()) = 3
 		// 하단 페이징 바에 보여줄 페이징바 개수 = displayPageNum = 10개
@@ -76,7 +76,7 @@ public class PageMaker {
 		System.out.println("next" + next);
 	}
 
-	public int getDisplayPageNum() {
+	public long getDisplayPageNum() {
 		return displayPageNum;
 	}
 
@@ -84,16 +84,16 @@ public class PageMaker {
 		this.displayPageNum = displayPageNum;
 	}
 
-	public int getTotalCount() {
+	public long getTotalCount() {
 		return totalCount;
 	}
 
-	public void setTotalCount(int totalCount) {
-		this.totalCount = totalCount;
+	public void setTotalCount(long totalCount2) {
+		this.totalCount = totalCount2;
 		calcData();
 	}
 
-	public int getStartPage() {
+	public long getStartPage() {
 		return startPage;
 	}
 
@@ -101,7 +101,7 @@ public class PageMaker {
 		this.startPage = startPage;
 	}
 
-	public int getEndPage() {
+	public long getEndPage() {
 		return endPage;
 	}
 

@@ -17,21 +17,21 @@ public interface BasicMapper {
 	public List<BasicDomain> selectReplyList(BasicDomain domain);
 
 	//파일업로드
-	public int selectAllBoard() throws Exception;
+	public long selectAllBoard() throws Exception;
 	
-	public void insertBoard(BasicDomain domain);
-	public void deleteBoard(BasicDomain domain);
-	public void deleteBoardComment(BasicDomain domain);
-	public void modifyBoard(BasicDomain domain);
+	public long insertBoard(BasicDomain domain);
+	public long deleteBoard(BasicDomain domain);
+	public long deleteBoardComment(BasicDomain domain);
+	public long modifyBoard(BasicDomain domain);
 
-	public void replyUPBoard(BasicDomain domain);
+	public long replyUPBoard(BasicDomain domain);
 	
-	public void replyBoard(BasicDomain domain);
+	public long replyBoard(BasicDomain domain);
 	
 	
-	public void replydeleteBoard(BasicDomain domain);
+	public long replydeleteBoard(BasicDomain domain);
 	public List<BasicDomain> selectBoardListPage(Criteria criteria);
-	public void updateViewCnt(BasicDomain domain);
+	public long updateViewCnt(BasicDomain domain);
 
 	
 

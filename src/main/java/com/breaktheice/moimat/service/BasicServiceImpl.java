@@ -21,13 +21,13 @@ public class BasicServiceImpl implements BasicService{
 	    }
 	
 	
-	public int selectAllBoard() throws Exception {
+	public long selectAllBoard() throws Exception {
 		
 		return mapper.selectAllBoard();
     }
-	public void updateViewCnt(BasicDomain domain) {
+	public long updateViewCnt(BasicDomain domain) {
 		
-		mapper.updateViewCnt(domain);
+		return mapper.updateViewCnt(domain);
 	}
 
 
@@ -49,38 +49,37 @@ public class BasicServiceImpl implements BasicService{
 
 
 	//게시물 생성
-	public void insertBoard(BasicDomain domain) {
-		mapper.insertBoard(domain);
+	public long insertBoard(BasicDomain domain) {
+		return mapper.insertBoard(domain);
 	}
 	//게시물 삭제
-	public void deleteBoard(BasicDomain domain) {
+	public long deleteBoard(BasicDomain domain) {
 		
 		// 덧글이 있는지 확인
 //		select count(*) from team_comments where post_id = 28;
 		//
 		mapper.deleteBoardComment(domain);
-		mapper.deleteBoard(domain);
+		return mapper.deleteBoard(domain);
 	}
 	//게시물수정
-	public void modifyBoard(BasicDomain domain) {
-		mapper.modifyBoard(domain);
+	public long modifyBoard(BasicDomain domain) {
+		return mapper.modifyBoard(domain);
 	}
 	//댓글 생성
-	public void replyBoard(BasicDomain domain) {
+	public long replyBoard(BasicDomain domain) {
 		
-		mapper.replyBoard(domain);
+		return mapper.replyBoard(domain);
 		}
 	//댓글 수정
-	public void replyUPBoard(BasicDomain domain) {
+	public long replyUPBoard(BasicDomain domain) {
 		
-		mapper.replyUPBoard(domain);
+		return mapper.replyUPBoard(domain);
 		
 	}
 	//댓글삭제
-	public void replydeleteBoard(BasicDomain domain) {
+	public long replydeleteBoard(BasicDomain domain) {
 	
-		mapper.replydeleteBoard(domain);
-//		mapper.replydeleteBoard2(domain);
+		return mapper.replydeleteBoard(domain);
 	}
 
 }
