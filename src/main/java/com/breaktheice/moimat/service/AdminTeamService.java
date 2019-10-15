@@ -28,10 +28,14 @@ public interface AdminTeamService {
 	public Long remove(TeamDomain domain);
 	
 	// 선택한 관심사
-	public InterestDomain getInterest(TeamDomain domain);
+	public String getInterest(TeamDomain domain);
 	// 선택한 관심지역
-	public AreaDomain getArea(TeamDomain domain);
+	public String getArea(TeamDomain domain);
 	// 선택한 작성자의 닉네임
-	public MemberDomain getNickname(TeamDomain domain);
+	public String getNickname(TeamDomain domain);
+	// 관심지역
+	public List<AreaDomain> selectAllAreas();
+	// 관심사
+	public List<InterestDomain> selectAllInterest();
 	
 }

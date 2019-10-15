@@ -63,7 +63,7 @@
 						</div>
 						<!--Panel body-->
 						<div class="panel-body">
-							<form id="searchForm" class="form-inline pull-right mar-btm" action="/admin/users" method="get">
+							<form id="searchForm" class="form-inline pull-right mar-btm" action="/admin/groups" method="get">
 								<div class="form-group">
 									<select id="type" name="type" class="form-control">
 										<option value="NC" <c:if test="${pageMaker.cri.type eq 'NC'}">selected</c:if>

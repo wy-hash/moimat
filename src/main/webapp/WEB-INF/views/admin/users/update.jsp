@@ -244,6 +244,8 @@
 
 	<script>
 		$(document).ready(function () {
+			
+			$('#memContent').val($('#memContent').val().trim());
 
 			$('#memSubmit').on('click', submitCheck);
 			$('#memCansel').on('click', function () {
@@ -265,7 +267,7 @@
 			const memBirthday = $('#memBirthday').val();
 			const memBirthdayHint = $('#memBirthdayHint');
 			// 소개글
-			const memContent = $('#memContent').val();
+			const memContent = $('#memContent').val($('#memContent').val().trim());
 			const memContentHint = $('#memContentHint');
 			// 관심사
 			const memInt1 = $('#memInt1').val();

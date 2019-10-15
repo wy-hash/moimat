@@ -2,6 +2,8 @@ package com.breaktheice.moimat.persistence;
 
 import java.util.List;
 
+import com.breaktheice.moimat.domain.AreaDomain;
+import com.breaktheice.moimat.domain.InterestDomain;
 import com.breaktheice.moimat.domain.TeamDomain;
 import com.breaktheice.moimat.util.AdminCriteria;
 
@@ -30,5 +32,10 @@ public interface TeamMapper {
 	public String getArea(TeamDomain domain);
 	// 선택한 작성자의 닉네임
 	public String getNickname(TeamDomain domain);
+	
+	// 관심지역
+	public List<AreaDomain> selectAllAreas();
+	// 관심사
+	public List<InterestDomain> selectAllInterest();
 	
 }

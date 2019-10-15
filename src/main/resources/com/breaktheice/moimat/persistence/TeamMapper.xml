@@ -97,7 +97,7 @@
 		VALUES
 		(
 			team_seq.nextval, #{intId}, #{teamName}, #{teamShortContent},
-			#{teamContent}, #{areaId}, #{teamRegdate}, #{teamMax}, #{memId}
+			#{teamContent}, #{areaId}, sysdate, #{teamMax}, #{memId}
 		)
 	</insert>
 
@@ -109,9 +109,7 @@
 				team_short_content	= #{teamShortContent},
 				team_content	 	= #{teamContent},
 				area_id	 			= #{areaId},
-				team_regdate	 	= sysdate,
-				team_max	 		= #{teamMax},
-				mem_id			= #{memId}
+				team_max	 		= #{teamMax}
 		WHERE 	team_id = #{teamId}
 	</update>
 	
@@ -136,6 +134,17 @@
 		SELECT	mem_nickname
 		FROM 	member
 		WHERE 	mem_id = #{memId}
+	</select>
+	
+		
+	<select id="selectAllAreas" resultType="com.breaktheice.moimat.domain.AreaDomain">
+		SELECT	area_id, area_key, area_name, area_region_key, area_region_name
+		FROM 	area
+	</select>
+	
+	<select id="selectAllInterest" resultType="com.breaktheice.moimat.domain.InterestDomain">
+		SELECT	int_id, int_key, int_name, int_order, int_use
+		FROM 	interest
 	</select>
 	
 </mapper>

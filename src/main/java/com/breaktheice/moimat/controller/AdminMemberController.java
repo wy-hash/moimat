@@ -67,7 +67,7 @@ public class AdminMemberController {
 	
 
 	// 게시글 삭제
-	@RequestMapping("delete")
+	@PostMapping("delete")
 	public String remove(Model model, MemberDomain domain, AdminCriteria cri, RedirectAttributes rttr) {
 		//삭제
 		service.remove(domain);

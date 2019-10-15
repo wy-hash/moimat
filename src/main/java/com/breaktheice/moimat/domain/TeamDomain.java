@@ -17,7 +17,7 @@ public class TeamDomain {
 	private int teamMax;
 	private Long memId;
 	
-	//출력용 관심사, 관심지역, 작성자
+	//출력용 관심사, 활동지역, 작성자
 	private String intName;
 	private String areaRegionName;
 	private String memNickName;

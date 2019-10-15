@@ -47,7 +47,7 @@
                 <!--Page Title-->
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <div id="page-title">
-                    <h1 class="page-header text-overflow">회원 관리</h1>
+                    <h1 class="page-header text-overflow">모임 관리</h1>
                 </div>
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <!--End page title-->
@@ -62,81 +62,70 @@
 					<!--===================================================-->
           <div class="panel">
             <div class="panel-heading">
-                <h3 class="panel-title">회원 상세 보기</h3>
+                <h3 class="panel-title">모임 상세 보기</h3>
             </div>
-            <form id="memForm" name="memForm" class="panel-body form-horizontal form-padding">
+            <form id="teamForm" name="teamForm" class="panel-body form-horizontal form-padding">
+				<input type="hidden" id="teamId" name="teamId" value="${view.teamId }" />
+				<input type="hidden" id="intId" name="intId" value="${view.intId }" />
 				<input type="hidden" id="memId" name="memId" value="${view.memId }" />
-				<input type="hidden" id="memLevel" name="memLevel" value="${view.memLevel }" />
-				<input type="hidden" id="memStatus" name="memStatus" value="${view.memStatus }" />
 				<input type="hidden" name="type" value ="${pageMaker.cri.type }">
 	        	<input type="hidden" name="keyword" value="${pageMaker.cri.keyword }">
 				<input type="hidden" name="pageNum" value ="${pageMaker.cri.pageNum }">
 				<input type="hidden" name="amount" value ="${pageMaker.cri.amount }">
 				
-                <!--회원 이메일-->
+                <!--모임 명-->
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="memEmail"><strong>이메일</strong></label>
+                    <label class="col-md-2 control-label" for="teamName"><strong>모임 명</strong></label>
                     <div class="col-md-10">
-                        	${view.memEmail}
+                        	${view.teamName}
                     </div>
                 </div>
-                <!-- 회원 이름(닉네임)-->
+                <!--모임 생성일-->
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="memNickname"><strong>이름(닉네임)</strong></label>
+                    <label class="col-md-2 control-label" for="teamRegdate"><strong>모임 생성일</strong></label>
                     <div class="col-md-10">
-                        <p class="form-control-static">${view.memNickname}</p>
+							<fmt:formatDate value="${view.teamRegdate}" pattern="yyyy년 MM월 dd일"/>
                     </div>
                 </div>
-
-                <!--회원 생일-->
+                <!-- 모임 짧은 소개글-->
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="memBirthday"><strong>생일</strong></label>
+                    <label class="col-md-2 control-label" for="teamShortContent"><strong>모임 짧은 소개글</strong></label>
                     <div class="col-md-10">
-						<fmt:parseDate value="${view.memBirthday}" var="birthday"  pattern="yyyy-mm-dd" scope="page"/>
-						<fmt:formatDate value="${birthday}" pattern="yyyy년 mm월 dd일"/>
+                        ${view.teamShortContent}
                     </div>
                 </div>
-                <!--회원 성별-->
+                <!-- 모임 소개글-->
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="memGender"><strong>회원 성별</strong></label>
+                    <label class="col-md-2 control-label" for="teamContent"><strong>모임 소개글</strong></label>
                     <div class="col-md-10">
-						<c:choose>
-							<c:when test="${view.memGender eq 'M'}">남자</c:when>
-							<c:when test="${view.memGender eq 'F'}">여자</c:when>
-						</c:choose>
-                    </div>
-                </div>
-                
-                <!--회원 소개 -->
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="memContent"><strong>회원 소개</strong></label>
-                    <div class="col-md-10">
-                        	${view.memContent}
-                    </div>
-                </div>
-                <!--회원 등급-->
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="memLevel"><strong>회원 등급</strong></label>
-                    <div class="col-md-10">
-						<c:choose>
-							<c:when test="${view.memLevel == 1}">사용자</c:when>
-							<c:when test="${view.memLevel == 8}">부 관리자</c:when>
-							<c:when test="${view.memLevel == 9}">관리자</c:when>
-						</c:choose>
-                    </div>
-                </div>
-                
-                <!--회원 상태-->
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="memStatus"><strong>회원 상태</strong></label>
-                    <div class="col-md-10">
-						<c:choose>
-							<c:when test="${view.memStatus == 1}">일반</c:when>
-							<c:when test="${view.memStatus == 0}">탈퇴</c:when>
-						</c:choose>
+                        ${view.teamContent}
                     </div>
                 </div>
 
+                <!--모임의 관심사-->
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="intName"><strong>관심사</strong></label>
+                    <div class="col-md-10">
+						${view.intName }
+                    </div>
+                </div>
+                
+                <!--모임의 활동지역-->
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="memContent"><strong>활동지역</strong></label>
+                    <div class="col-md-10">
+                        	${view.areaRegionName}
+                    </div>
+                </div>
+                
+                <!--모임 생성자-->
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="memContent"><strong>모임 생성자명</strong></label>
+                    <div class="col-md-10">
+                        	${view.memNickName}
+                    </div>
+                </div>
+                
            		<div class="row mar-top">
            			<span class="pull-right">
 	                	<button type="button" id="edit" class="btn btn-success"> 수정</button>
@@ -189,26 +178,26 @@
 		$(document).ready(function(){
 
 			
-			$('#edit').on('click',   formSubmit);	// 회원 수정
-			$('#delete').on('click', formSubmit);	// 회원 삭제
+			$('#edit').on('click',   formSubmit);	// 모임 수정
+			$('#delete').on('click', formSubmit);	// 모임 삭제
 			
 		});
 		
 		function formSubmit(){
 			
 			const id = $('#memId').val();
-			const uri = '/admin/users/';
+			const uri = '/admin/groups/';
 			
 			const action = $(this).attr('id');
 			
 			if(action === 'edit'){
-				$('#memForm').attr('method','get');
-				$('#memForm').attr('action',uri+'/'+id+'/'+action);
-				$('#memForm').submit();
+				$('#teamForm').attr('method','get');
+				$('#teamForm').attr('action',uri+'/'+id+'/'+action);
+				$('#teamForm').submit();
 			}else if(action ==='delete'){
-				$('#memForm').attr('method','post');
-				$('#memForm').attr('action',uri+action);
-				$('#memForm').submit();
+				$('#teamForm').attr('method','post');
+				$('#teamForm').attr('action',uri+action);
+				$('#teamForm').submit();
 			}
 		}
 	</script>
