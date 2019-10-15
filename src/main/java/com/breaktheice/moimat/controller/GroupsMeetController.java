@@ -38,13 +38,6 @@ public class GroupsMeetController {
 		service.createMeet(meetVO,md, groupId);
 		return "redirect:/groups/" + groupId + "/schedule";
 	}
-
-	@PostMapping("/delete")
-	public String meetDelete(@PathVariable Long groupId, @RequestParam("meetId") Long meetId,
-			HttpServletRequest request) {
-		service.deleteMeet(meetId);
-		return "redirect:/groups/" + groupId + "/schedule";
-	}
 	
 	@PostMapping("/meetmodify")
 	public String updateMeet(@PathVariable Long groupId,MeetVO meetVO) {
@@ -52,22 +45,13 @@ public class GroupsMeetController {
 		return "redirect:/groups/" + groupId + "/schedule";
 	}
 	
-	@PostMapping("/modify")
-	public String meetModify(@PathVariable Long groupId,@RequestParam("meetId")Long meetId, HttpServletRequest request) {
+	@GetMapping("/modify")
+	public String meetModify(@PathVariable Long groupId,@RequestParam("meetid")Long meetId, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
 		Long id = md.getMemId();
 		request.setAttribute("MeetVO", service.readMeet(meetId, groupId, id));
 		return "/groups/schedule/meetModify";
-	}
-	
-	@GetMapping("/cancel")
-	public String cancelMeet(@PathVariable Long groupId,@RequestParam("meetid")Long meetId, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
-		Long id = md.getMemId();
-		service.cancelAttend(meetId, groupId, id);
-		return "redirect:/groups/" + groupId + "/schedule";
 	}
 	
 	@GetMapping("/attend")

@@ -252,12 +252,12 @@
 			}
 		});		
 		
-		$('input[name="meetMax"]').keyup(function(){
-			var temp = this.value;
-			if(isNaN(temp) == true) {
-				alert("숫자만 입력 가능합니다.");
-				this.value = '';
-			}
+		$('#meetTime').keyup(function(){
+			$(this).val('');
+		});
+		
+		$('input[name=meetMax]').keyup(function(){
+			$(this).val($(this).val().replace(/[^0-9]/g,""));
 		});
 		
 		$('#subbtn').on('click',function(e){

@@ -8,8 +8,7 @@
 
 <!-- HEAD -->
 <%@ include file="../includes/head.jsp"%>
-<!--Bootbox Modals [ OPTIONAL ]-->
-<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
+
 <title>구성원 - ${ team.teamName } | moim@</title>
 
 <style>
@@ -37,6 +36,8 @@
 	justify-content: center;
 }
 </style>
+<!--Bootbox Modals [ OPTIONAL ]-->
+<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 </head>
 <!-- END HEAD -->
 

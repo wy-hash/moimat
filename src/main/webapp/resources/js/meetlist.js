@@ -41,6 +41,11 @@ var meetListService = (function(){
 			}
 		});
 	}
+	
+	function deleteMeet(meetId){
+		$.ajax()
+	}
+	
 	return {
 		getList : getList,
 		parseDate : parseDate,
