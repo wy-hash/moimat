@@ -14,6 +14,7 @@ import com.breaktheice.moimat.domain.MeetMemberVO;
 import com.breaktheice.moimat.domain.MeetVO;
 import com.breaktheice.moimat.domain.MeetingPageVO;
 import com.breaktheice.moimat.persistence.MeetingMapper;
+import com.breaktheice.moimat.util.AdminCriteria;
 
 @Service
 public class MeetingServiceImpl implements MeetingService{
@@ -76,13 +77,31 @@ public class MeetingServiceImpl implements MeetingService{
 			isAttend.put(meetId, mapper.isAttend(meetId,teamId,memId));
 			isWriter.put(meetId, mapper.isWriter(teamId, memId, tmemId));
 		}
-		MeetListVO meetListVO = new MeetListVO(list,countMeetMember,isAttend,isWriter);
-		return meetListVO;
+//		MeetListVO meetListVO = new MeetListVO(list,countMeetMember,isAttend,isWriter);
+		return null;
 	}
 
 	@Override
 	public List<CalendarEventVO> getEvent(Long groupId) {
 		return mapper.getEvent(groupId);
 		
+	}
+
+	@Override
+	public MeetListVO meetWithPaging(Long teamId,Long memId, AdminCriteria cri) {
+		List<MeetVO> list = mapper.meetWithPaging(teamId,cri);
+		int totalCount = mapper.getTotalMeet(teamId);
+		HashMap<Long,Integer> countMeetMember = new HashMap<Long, Integer>();
+		HashMap<Long,Boolean> isAttend = new HashMap<Long, Boolean>();
+		HashMap<Long,Boolean> isWriter = new HashMap<Long, Boolean>();
+		for (MeetVO meetVO : list) {
+			Long meetId = meetVO.getMeetId();
+			Long tmemId = meetVO.getTmemId();
+			countMeetMember.put(meetId, mapper.countMeetMember(meetId));
+			isAttend.put(meetId, mapper.isAttend(meetId,teamId,memId));
+			isWriter.put(meetId, mapper.isWriter(teamId, memId, tmemId));
+		}
+		MeetListVO meetListVO = new MeetListVO(list,countMeetMember,isAttend,isWriter,totalCount);
+		return meetListVO;
 	}	
 }
