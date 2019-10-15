@@ -7,16 +7,89 @@
 	</select>
 	
 	<select id="getMemberList" resultType="com.breaktheice.moimat.domain.TeamMemberDomain">
-		select * from team_member where team_id = #{teamId} and 
-		<if test="keyword.equals('block')">
+		select
+			tmem_id,
+			team_id,
+			mem_id,
+			tmem_level,
+			tmem_content,
+			tmem_nickname,
+			tmem_email,
+			tmem_lastvisit,
+			tmem_regdate,
+			tmem_birthday,
+			tmem_gender,
+			tmem_photo
+		from		
+		(
+		select rownum rn, team_member.* from team_member where team_id = #{teamId} and 
+		<if test="status.equals('block')">
 			tmem_level = 0
 		</if>
-		<if test="keyword.equals('member')">
+		<if test="status.equals('member')">
 			tmem_level > 1
 		</if>
-		<if test="keyword.equals('waiting')">
+		<if test="status.equals('waiting')">
 			tmem_level = 1
 		</if>
+		<if test="status.equals('manager')">
+			tmem_level > 6
+		</if>
+		and
+		<trim prefix="(" suffix=") and" prefixOverrides="or">
+			<foreach collection="cri.typeArr" item="type">
+				<trim prefix="or"> 
+					<choose>
+						<when test="type == 'E'.toString()">
+							lower(tmem_email) like lower('%'||#{cri.keyword}||'%')
+						</when>
+						<when test="type == 'N'.toString()">
+							lower(tmem_nickname) like lower('%'||#{cri.keyword}||'%')
+						</when>
+					</choose>
+				</trim>			
+			</foreach>
+		</trim>
+		<![CDATA[
+			rownum <= #{cri.pageNum} * #{cri.amount}
+		)
+		where rn > (#{cri.pageNum}-1) * #{cri.amount}		
+		]]>
+	</select>
+	
+	<select id="getMemberTotal" resultType="int">
+		select
+			count(tmem_id)
+		from		
+		(
+		select * from team_member where team_id = #{teamId} and 
+		<if test="status.equals('block')">
+			tmem_level = 0
+		</if>
+		<if test="status.equals('member')">
+			tmem_level > 1
+		</if>
+		<if test="status.equals('waiting')">
+			tmem_level = 1
+		</if>
+		<if test="status.equals('manager')">
+			tmem_level > 6
+		</if>
+		<trim prefix="and (" suffix=")" prefixOverrides="or">
+			<foreach collection="cri.typeArr" item="type">
+				<trim prefix="or"> 
+					<choose>
+						<when test="type == 'E'.toString()">
+							lower(tmem_email) like lower('%'||#{cri.keyword}||'%')
+						</when>
+						<when test="type == 'N'.toString()">
+							lower(tmem_nickname) like lower('%'||#{cri.keyword}||'%')
+						</when>
+					</choose>
+				</trim>			
+			</foreach>
+		</trim>
+		)
 	</select>
 	
 	<update id="gradeAdjust">

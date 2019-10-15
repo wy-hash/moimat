@@ -13,6 +13,7 @@ import com.breaktheice.moimat.domain.MessageVO;
 import com.breaktheice.moimat.domain.TeamMemberDomain;
 import com.breaktheice.moimat.domain.TeamMemberListVO;
 import com.breaktheice.moimat.persistence.TeamMemberMapper;
+import com.breaktheice.moimat.util.AdminCriteria;
 
 @Service
 public class TeamMemberServiceimpl implements TeamMemberService {
@@ -26,16 +27,18 @@ public class TeamMemberServiceimpl implements TeamMemberService {
 	}
 
 	@Override
-	public TeamMemberListVO getMemberList(Long teamId, String keyword) {
+	public TeamMemberListVO getMemberList(Long teamId, String status,AdminCriteria cri) {
 		TeamMemberListVO vo = new TeamMemberListVO();
-		vo.setGetMember(tmm.getMemberList(teamId, keyword));
+		
+		vo.setTeamMemberCount(tmm.getMemberTotal(teamId, status, cri));
+		vo.setGetMember(tmm.getMemberList(teamId, status, cri));
 		HashMap<Integer, String> grade = new HashMap<>();
 		grade.put(0, "차단회원");
 		grade.put(1, "가입대기");
 		grade.put(2, "일반회원");
 		grade.put(3, "우수회원");
 		grade.put(7, "운영진");
-		grade.put(9, "모임장"); 
+		grade.put(9, "모임장");
 		vo.setGrade(grade);
 		return vo;
 	}
