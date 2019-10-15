@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -68,8 +69,9 @@
 						<div class="panel-heading">
 							<h3 class="panel-title">회원 등록</h3>
 						</div>
-						<form id="memForm" name="memForm" action="/admin/users/new" class="panel-body form-horizontal form-padding"
+						<form id="memForm" name="memForm" action="/admin/users/edit" class="panel-body form-horizontal form-padding"
 							method="post">
+							<input type="hidden" id="memId" name="memId" value="${view.memId}" />
 							<input type="hidden" id="memLevel" name="memLevel" value="${pageMaker.cri.memLevel }" />
 							<input type="hidden" id="memStatus" name="memStatus" value="${pageMaker.cri.memStatus }" />
 							<input type="hidden" name="type" value="${pageMaker.cri.type }">
@@ -77,36 +79,20 @@
 							<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
 							<input type="hidden" name="amount" value="${pageMaker.cri.amount }">
 
-
 							<!-- 이메일 -->
 							<div class="form-group">
 								<label class="col-lg-3 control-label">이메일*</label>
 								<div class="col-lg-7">
-									<input type="email" class="form-control" id="memEmail" name="memEmail" placeholder="이메일 주소">
+									<input type="email" class="form-control" id="memEmail" name="memEmail" value="${view.memEmail}" placeholder="이메일 주소" readonly>
 									<small class="help-block" id="memEmailHint"></small>
 								</div>
 							</div>
 
-							<!-- 비밀번호 -->
-							<div class="form-group">
-								<label class="col-lg-3 control-label">비밀번호*</label>
-								<div class="col-lg-7">
-									<input type="password" class="form-control" id="memPassword" name="memPassword" placeholder="비밀번호">
-									<small class="help-block" id="memPasswordHint"></small>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-lg-3 control-label">비밀번호 확인*</label>
-								<div class="col-lg-7">
-									<input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="비밀번호 확인">
-									<small class="help-block" id="confirmPasswordHint"></small>
-								</div>
-							</div>
 							<!-- 이름(별명) -->
 							<div class="form-group">
 								<label class="col-lg-3 control-label">이름(별명)*</label>
 								<div class="col-lg-7">
-									<input type="text" class="form-control" id="memNickname" name="memNickname" placeholder="이름(별명)">
+									<input type="text" class="form-control" id="memNickname" name="memNickname" value="${view.memNickname}" placeholder="이름(별명)">
 									<small class="help-block" id="memNicknameHint"></small>
 								</div>
 							</div>
@@ -114,7 +100,9 @@
 							<div class="form-group">
 								<label class="col-lg-3 control-label">생년월일*</label>
 								<div class="col-lg-7">
-									<input type="text" placeholder="주민번호 앞자리 (YYMMDD)" id="memBirthday" name="memBirthday" class="form-control">
+									<fmt:parseDate value="${view.memBirthday}" var="birthday"  pattern="yy-MM-dd" scope="page"/>
+									<input type="text" placeholder="주민번호 앞자리 (YYMMDD)" id="memBirthday" name="memBirthday" 
+									value="<fmt:formatDate value='${birthday}' pattern='yyMMdd'/>" class="form-control">
 									<small class="help-block" id="memBirthdayHint"></small>
 								</div>
 							</div>
@@ -124,9 +112,9 @@
 								<div class="col-lg-7">
 									<div class="radio">
 										<!-- Inline radio buttons -->
-										<input id="memGender_M" class="form-control magic-radio" type="radio" name="memGender" value="M" checked>
+										<input id="memGender_M" class="form-control magic-radio" type="radio" name="memGender" value="M" <c:if test="${view.memGender eq 'M' }">checked</c:if>>
 										<label for="memGender_M">남</label>
-										<input id="memGender_F" class="form-control magic-radio" type="radio" name="memGender" value="F">
+										<input id="memGender_F" class="form-control magic-radio" type="radio" name="memGender" value="F" <c:if test="${view.memGender eq 'F' }">checked</c:if>>
 										<label for="memGender_F">여</label>
 									</div>
 								</div>
@@ -139,10 +127,10 @@
 										<c:forEach items="${ areas }" var="area">
 											<c:choose>
 												<c:when test="${ area.areaKey eq 'O000' }">
-													<option value="${ area.areaId }">${ area.areaRegionName }</option>
+													<option value="${ area.areaId }" <c:if test="${view.areaId == area.areaId}">selected</c:if> >${ area.areaRegionName }</option>
 												</c:when>
 												<c:otherwise>
-													<option value="${ area.areaId }">${ area.areaName } ${ area.areaRegionName }</option>
+													<option value="${ area.areaId }" <c:if test="${view.areaId == area.areaId}">selected</c:if> >${ area.areaName } ${ area.areaRegionName }</option>
 												</c:otherwise>
 											</c:choose>
 										</c:forEach>
@@ -154,7 +142,7 @@
 							<div class="form-group">
 								<label class="col-lg-3 control-label">소개글</label>
 								<div class="col-lg-7">
-									<textarea class="form-control" id="memContent" name="memContent" rows="5" placeholder="간단한 소개글을 적어보세요."></textarea>
+									<textarea class="form-control" id="memContent" name="memContent" rows="5" placeholder="간단한 소개글을 적어보세요." >${view.memContent }</textarea>
 									<small class="help-block" id="memContentHint"></small>
 								</div>
 							</div>
@@ -167,7 +155,7 @@
 										<c:forEach items="${ interest }" var="item">
 											<c:choose>
 												<c:when test="${fn:substring(item.intKey, 2, 4) ne '00' }">
-													<option value="${ item.intId }">${ item.intName }</option>
+													<option value="${ item.intId }" <c:if test="${view.memInt1 == item.intId}">selected</c:if>>${ item.intName }</option>
 												</c:when>
 											</c:choose>
 										</c:forEach>
@@ -179,7 +167,7 @@
 										<c:forEach items="${ interest }" var="item">
 											<c:choose>
 												<c:when test="${fn:substring(item.intKey, 2, 4) ne '00' }">
-													<option value="${ item.intId }">${ item.intName }</option>
+													<option value="${ item.intId }" <c:if test="${view.memInt2 == item.intId}">selected</c:if>>${ item.intName }</option>
 												</c:when>
 											</c:choose>
 										</c:forEach>
@@ -191,7 +179,7 @@
 										<c:forEach items="${ interest }" var="item">
 											<c:choose>
 												<c:when test="${fn:substring(item.intKey, 2, 4) ne '00' }">
-													<option value="${ item.intId }">${ item.intName }</option>
+													<option value="${ item.intId }" <c:if test="${view.memInt3 == item.intId}">selected</c:if>>${ item.intName }</option>
 												</c:when>
 											</c:choose>
 										</c:forEach>
@@ -262,27 +250,6 @@
 				let url = location.origin + '/admin/users/list';
 				location.href = url;
 			});
-			$('#memEmail').on('blur', function(){
-				$('#memEmail').val($('#memEmail').val().replace(/\s/gi, "")); //공백제거
-				$.ajax({
-					method : "POST",
-					url : "/admin/users/emailCheck",
-					data : {
-						memEmail : $('#memEmail').val()
-					}
-				}).done(function(result) {
-					const memEmailHint = $('#memEmailHint');
-					if (result === "true") {
-						memEmailHint.css('color', 'yellowgreen');
-						memEmailHint.data('isUse', true);
-					} else if (result === "false") {
-						memEmailHint.css('color', 'red');
-						memEmailHint.data('isUse', false);
-						memEmailHint.html('사용 불가능한 이메일입니다.');
-					}
-				});
-			});
-			
 
 		});
 
@@ -291,14 +258,6 @@
 
 			let result = true;
 
-			// 이메일
-			const memEmail = $('#memEmail').val();
-			const memEmailHint = $('#memEmailHint');
-			// 패스워드
-			const memPassword = $('#memPassword').val();
-			const memPasswordHint = $('#memPasswordHint');
-			const confirmPassword = $('#confirmPassword').val();
-			const confirmPasswordHint = $('#confirmPasswordHint');
 			// 이름(닉네임)
 			const memNickname = $('#memNickname').val();
 			const memNicknameHint = $('#memNicknameHint');
@@ -315,46 +274,6 @@
 			const memIntHint = $('#memIntHint');
 			
 			// 폼 입력 체크
-			// 이메일
-			if (memEmail === '' || memEmail.length === 0) { // 이메일
-				$('#memEmail').focus();
-				memEmailHint.css('color', 'red');
-				memEmailHint.html('이메일을 입력해주세요.');
-				result = false;
-			} else {
-				if (!memEmailHint.data('isUse')) {
-					memEmailHint.css('color', 'red');
-					memEmailHint.data('isUse', false);
-					memEmailHint.html('올바른 이메일을 입력해 주세요.');
-					result = false;
-				}else{
-					memEmailHint.html('');
-				}
-			}
-			// 비밀번호
-			if (memPassword === '' || memPassword.length === 0) { // 패스워드
-				$('#memPassword').focus();
-				memPasswordHint.css('color', 'red');
-				memPasswordHint.html('패스워드를 입력해주세요.');
-				result = false;
-			} else {
-				memPasswordHint.html('');
-			}
-			if (confirmPassword === '' || confirmPassword.length === 0) { // 패스워드 확인
-				$('#confirmPassword').focus();
-				confirmPasswordHint.css('color', 'red');
-				confirmPasswordHint.html('패스워드 확인을 입력해주세요.');
-				result = false;
-			} else {
-				if (memPassword !== confirmPassword) { // 패스워드 == 패스워드 확인
-					$('#confirmPassword').focus();
-					confirmPasswordHint.css('color', 'red');
-					confirmPasswordHint.html('패스워드가 서로 일치 하지 않습니다..');
-					result = false;
-				} else {
-					confirmPasswordHint.html('');
-				}
-			}
 			// 이름(닉네임)
 			if (memNickname === '' || memNickname.length === 0) { // 닉네임
 				$('#memNickname').focus();

@@ -34,4 +34,7 @@ public interface MemberMapper {
 	public Long changeLevel(MemberDomain domain);
 	// 상태 변경
 	public Long changeStatus(MemberDomain domain);
+	// 이메일 중복체크
+	public Long emailCheck(MemberDomain domain);
+	
 }

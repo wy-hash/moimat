@@ -143,12 +143,10 @@
 		SET		mem_nickname = #{memNickname},
 				area_id 	 = #{areaId},
 				mem_content	 = #{memContent},
-				<if test="#{mem_photo} != null">
+				<if test="memPhoto != null">
 				mem_photo	 = #{memPhoto},
 				</if>
 				mem_update	 = sysdate,
-				mem_level	 = #{memLevel},
-				mem_status	 = #{memStatus},
 				mem_int1	 = #{memInt1},
 				mem_int2	 = #{memInt2},
 				mem_int3	 = #{memInt3}
@@ -188,4 +186,12 @@
 		SET		mem_status	= #{memStatus}
 		WHERE 	mem_id		= #{memId}
 	</update>
+		
+	<select id="emailCheck" resultType="Long">
+		SELECT	count(*)
+		FROM 	member
+		where	mem_email = #{memEmail}
+	</select>
+	
+	
 </mapper>

@@ -8,9 +8,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.breaktheice.moimat.domain.BoardDomain;
 import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.service.AdminMemberService;
 import com.breaktheice.moimat.util.AdminCriteria;
@@ -90,21 +92,18 @@ public class AdminMemberController {
 		
 		return "/admin/users/write";
 	}
-	
 	// 회원 등록 쿼리실행
 	@PostMapping("new")
 	public String addQuery(Model model, MemberDomain domain, AdminCriteria cri, RedirectAttributes rttr) {
 		System.out.println("add POST()");
-	
 		System.out.println(domain);
-
 		
 		// 회원 등록 성공시 1이상 반환
 		Long result = service.add(domain);
 		
 		//페이지 정보
-		rttr.addAttribute("memLevel",cri.getMemLevel());
-		rttr.addAttribute("memStatus",cri.getMemStatus());
+//		rttr.addAttribute("memLevel",cri.getMemLevel());
+//		rttr.addAttribute("memStatus",cri.getMemStatus());
 		rttr.addAttribute("pageNum",cri.getPageNum());
 		rttr.addAttribute("amount",cri.getAmount());
 		rttr.addAttribute("type",cri.getType());
@@ -112,6 +111,43 @@ public class AdminMemberController {
 		
 		return "redirect:/admin/users";
 	}
+	
+
+	// 회원 수정화면
+	@GetMapping("{memId}/edit")
+	public String edit(Model model, MemberDomain domain, AdminCriteria cri) {
+		
+
+		Long totalCount = service.totalCount(cri);
+		model.addAttribute("areas", service.selectAllAreas());
+	 	model.addAttribute("interest", service.selectAllInterest());
+		model.addAttribute("view", service.view(domain));
+		model.addAttribute("pageMaker", new AdminPageDTO(cri, totalCount));//페이지네이션
+		
+		return "/admin/users/update";
+	}
+	
+	// 회원 수정 쿼리실행
+	@PostMapping("edit")
+	public String editQuery(Model model, MemberDomain domain, AdminCriteria cri, RedirectAttributes rttr) {
+		System.out.println("edit POST()");
+		System.out.println(domain);
+		
+		// 회원 등록 성공시 1이상 반환
+		Long result = service.update(domain);
+		
+		//페이지 정보
+//		rttr.addAttribute("memLevel",cri.getMemLevel());
+//		rttr.addAttribute("memStatus",cri.getMemStatus());
+		rttr.addAttribute("pageNum",cri.getPageNum());
+		rttr.addAttribute("amount",cri.getAmount());
+		rttr.addAttribute("type",cri.getType());
+		rttr.addAttribute("keyword",cri.getKeyword());
+		
+		return "redirect:/admin/users";
+	}
+	
+	
 	
 	//회원 등급 변경
 	@PostMapping("change/level")
@@ -134,5 +170,13 @@ public class AdminMemberController {
 			result="true";
 		}
 		return "redirect:/admin/users";
+	}
+	//회원 이메일 중복체크  -> true : 중복 값 없음 / false : 중복 값 있음
+	@RequestMapping(value="emailCheck",method=RequestMethod.POST )
+	@ResponseBody
+	public String emailCheck(MemberDomain domain) throws Exception{
+		System.out.println(domain);
+		System.out.println( service.emailCheck(domain)+"");
+		return service.emailCheck(domain)+"";
 	}
 }
