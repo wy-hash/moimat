@@ -23,8 +23,10 @@ public class AdminInterestTests {
 		log.info("시작 : addTest");
 		
 		InterestDomain domain = new InterestDomain();
-		domain.setIntKey("testKey");
-		domain.setIntName("관심사테스트1");
+		domain.setIntKey("IN12");
+		domain.setIntName("관심사테스트12");
+		domain.setIntOrder(0L);
+		domain.setIntUse("Y");
 		
 		System.out.println(domain);
 		
@@ -53,7 +55,9 @@ public class AdminInterestTests {
 		log.info("시작 : view");
 		
 		InterestDomain domain = new InterestDomain();
-		domain.setIntId(1);;
+
+		domain.setIntId(9L);
+
 		
 		try {
 			log.info("성공 : " + mapper.view(domain));
@@ -67,10 +71,11 @@ public class AdminInterestTests {
 		log.info("시작 : update");
 		
 		InterestDomain domain = new InterestDomain();
-		domain.setIntId(2);;
-		domain.setIntKey("IN22");
-		domain.setIntName("테스트코드");
-		
+		domain.setIntId(9L);
+		domain.setIntKey("IN99");
+		domain.setIntName("관심사 수정하였습니다12443");
+		domain.setIntOrder(33L);
+		domain.setIntUse("N");
 		try {
 			log.info("성공 : " + mapper.update(domain));
 			
@@ -84,7 +89,7 @@ public class AdminInterestTests {
 		log.info("시작 : remove");
 		
 		InterestDomain domain = new InterestDomain();
-		domain.setIntId(2);;
+		domain.setIntId(9L);
 		
 		try {
 			log.info("성공 : " + mapper.remove(domain));
