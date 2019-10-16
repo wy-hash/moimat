@@ -47,10 +47,11 @@
 		]]>
 	</select>
 	
-	<select id="list" parameterType="string" resultType="com.breaktheice.moimat.domain.InterestDomain">
+	<select id="list" resultType="com.breaktheice.moimat.domain.InterestDomain">
 		<![CDATA[
 		SELECT	int_id, int_key, int_name
 		FROM	interest
+		WHERE	int_use = 'Y'
 		]]>
 	</select>
 	
