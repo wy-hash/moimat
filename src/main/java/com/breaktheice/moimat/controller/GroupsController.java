@@ -50,12 +50,14 @@ public class GroupsController {
 	}
 
 	@GetMapping("/{groupId}/member")
-	public String member(@PathVariable Long groupId) {
+	public String member(@PathVariable Long groupId, Model model) {
+		model.addAttribute("group", teamService.getGroupInfo(groupId));
 		return "groups/member";
 	}
 
 	@GetMapping("/{groupId}/schedule")
-	public String schedule(@PathVariable Long groupId) {
+	public String schedule(@PathVariable Long groupId, Model model) {
+		model.addAttribute("group", teamService.getGroupInfo(groupId));
 		return "groups/schedule";
 	}
 
