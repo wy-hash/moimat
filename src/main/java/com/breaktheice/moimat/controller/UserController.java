@@ -70,6 +70,8 @@ public class UserController {
    @PostMapping("/edit")
    public String userEdit(MemberDomain user, MultipartFile photoFile) {
       log.info("post : /users/edit..호출");
+      log.info(user);
+      log.info("photoFile"+photoFile);
       
       // 작업순서(원리)
       // 1. 파일을 저장한다

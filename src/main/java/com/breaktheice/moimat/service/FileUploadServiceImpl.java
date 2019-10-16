@@ -26,9 +26,8 @@ public class FileUploadServiceImpl implements FileUploadService {
 		public String restore(MultipartFile multipartFile) {
 			String url = null;
 			
+			if(multipartFile == null) { return null; }
 			log.info(multipartFile.getOriginalFilename());
-			if(multipartFile.getOriginalFilename().equals("")) { return null; }
-			
 			try {
 				// 파일 정보
 				String originFilename = multipartFile.getOriginalFilename();
