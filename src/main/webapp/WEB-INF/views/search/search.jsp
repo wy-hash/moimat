@@ -53,7 +53,7 @@
             	    <!-- #################################### -->
             	    
             	    
-				<div class="row pad-ver bg-trans-dark">
+					<div class="row pad-ver bg-trans-dark">
            	    		<div class="col-xs-12 col-sm-10 col-sm-offset-1 pad-hor">
            	    		<form id="searchForm" action="/home/result" method="post">
        	    				<div class="col-sm-2">
