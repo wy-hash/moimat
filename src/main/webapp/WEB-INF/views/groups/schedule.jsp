@@ -460,7 +460,7 @@
 						});
 					});
 				});//end meetMember.forEach
-				// 이거 구현방식을 바꿔야함 
+				//ajax를 이용 
 				cancelBtn.forEach(function(e){
 					e.addEventListener('click',function(){
 						console.log(e)

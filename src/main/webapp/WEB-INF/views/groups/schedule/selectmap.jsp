@@ -5,11 +5,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<!-- services 라이브러리 불러오기 -->
-	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6213368344dd87ee3c46139e0d1df7cd&libraries=services,clusterer,drawing"></script>
-	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6213368344dd87ee3c46139e0d1df7cd"></script>
+<!-- services 라이브러리 불러오기 -->
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6213368344dd87ee3c46139e0d1df7cd&libraries=services,clusterer,drawing"></script>
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6213368344dd87ee3c46139e0d1df7cd"></script>
 <title>주소 선택</title>
 <style type="text/css">
 .map_wrap, .map_wrap * {
@@ -197,6 +197,114 @@
 	cursor: default;
 	color: #777;
 }
+
+.wrap {
+	position: absolute;
+	left: 0;
+	bottom: 40px;
+	width: 288px;
+	height: 132px;
+	margin-left: -144px;
+	text-align: left;
+	overflow: hidden;
+	font-size: 12px;
+	font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
+	line-height: 1.5;
+}
+
+.wrap * {
+	padding: 0;
+	margin: 0;
+}
+
+.wrap .info {
+	width: 286px;
+	height: 120px;
+	border-radius: 5px;
+	border-bottom: 2px solid #ccc;
+	border-right: 1px solid #ccc;
+	overflow: hidden;
+	background: #fff;
+}
+
+.wrap .info:nth-child(1) {
+	border: 0;
+	box-shadow: 0px 1px 2px #888;
+}
+
+.info .title {
+	padding: 5px 0 0 10px;
+	height: 30px;
+	background: #eee;
+	border-bottom: 1px solid #ddd;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.info .close {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	color: #888;
+	width: 17px;
+	height: 17px;
+	background:
+		url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');
+}
+
+.info .close:hover {
+	cursor: pointer;
+}
+
+.info .body {
+	position: relative;
+	overflow: hidden;
+}
+
+.info .desc {
+	position: relative;
+	margin: 13px 0 0 90px;
+	height: 75px;
+}
+
+.desc .ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.desc .jibun {
+	font-size: 11px;
+	color: #888;
+	margin-top: -2px;
+}
+
+.info .img {
+	position: absolute;
+	top: 6px;
+	left: 5px;
+	width: 73px;
+	height: 71px;
+	border: 1px solid #ddd;
+	color: #888;
+	overflow: hidden;
+}
+
+.info:after {
+	content: '';
+	position: absolute;
+	margin-left: -12px;
+	left: 50%;
+	bottom: 0;
+	width: 22px;
+	height: 12px;
+	background:
+		url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
+}
+
+.info .link {
+	color: #5085BB;
+}
 </style>
 </head>
 <body>
@@ -219,18 +327,19 @@
 			</div>
 			<div class="col-xs-8 pad-no">
 				<div class="map_wrap">
-					<div id="map" style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
+					<div id="map"
+						style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
 				</div>
 			</div>
-			
+
 		</div>
-<hr>
-<input type="text" value="" id="areaName" style="width: 100%" readonly="readonly" placeholder="지역이름">
-<input type="text" value="" id="area" style="width: 100%" readonly="readonly">
-<button type="button" class="btn btn-dark btn-block" id="sendmap">선택하기</button>
+		<hr>
+		<input type="text" value="" id="areaName" style="width: 100%"
+			readonly="readonly" placeholder="지역이름"> <input type="text"
+			value="" id="area" style="width: 100%" readonly="readonly">
+		<button type="button" class="btn btn-dark btn-block" id="sendmap">선택하기</button>
 
 	</div>
-
 	<script>
 		var area = document.getElementById('area');
 		var areaName = document.getElementById('areaName');
@@ -285,7 +394,7 @@
 				// 페이지 번호를 표출합니다
 				displayPagination(pagination);
 				
-				overlayInnerContent(data)
+				
 
 			} else if (status === kakao.maps.services.Status.ZERO_RESULT) {
 
@@ -302,30 +411,33 @@
 		//장소검색이 완료되었을때 이쁜 네모를 만드는 함수입니다.(첫번째껏만 하기 )
 		//이걸 만드는 시점을 고민해야겟나?(클릭시 지우고 다시호출하기)
 		//data를 받지말고 places를 받아서 클릭시 
-		function overlayInnerContent(data){
-			for(var i = 0,len = data.length||0;i<len;i++){
-				console.log(data[i])
+		function setOveray(place,map,marker){
 				var content = '<div class="wrap">' + 
-	            '    <div class="info">' + 
-	            '        <div class="title">' + 
-	            '            카카오 스페이스닷원' + 
-	            '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
-	            '        </div>' + 
-	            '        <div class="body">' + 
-	            '            <div class="img">' +
-	            '                <img src="http://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
-	            '           </div>' + 
-	            '            <div class="desc">' + 
-	            '                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' + 
-	            '                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' + 
-	            '                <div><a href="http://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
-	            '            </div>' + 
-	            '        </div>' + 
-	            '    </div>' +    
-	            '</div>';
-				console.log(content)
+	           				  '    <div class="info">' + 
+	                          '        <div class="title">' + place.place_name +
+	            			  '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
+	            			  '        </div>' + 
+	            			  '        <div class="body">' + 
+	              			  '            <div class="img">' +
+	             			  '                <img src="http://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
+	            			  '           </div>' + 
+	                          '            <div class="desc">' + 
+	                          '                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' + 
+	                          '                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' + 
+	                          '                <div><a href="http://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
+	                          '            </div>' + 
+	                          '        </div>' + 
+	                          '    </div>' +    
+	                          '</div>';
+	                          
+				var overlay = new kakao.maps.CustomOverlay({
+				    content: content,
+				    map: map,
+				    position: marker.getPosition()       
+				});
+				
 			}
-		}
+		
 
 		// 검색 결과 목록과 마커를 표출하는 함수입니다
 		function displayPlaces(places) {
@@ -359,18 +471,15 @@
 				// mouseout 했을 때는 인포윈도우를 닫습니다
 				
 				// ++ displayInfowindow 없애고 
-				(function(marker, title, placePosition) {
-					kakao.maps.event.addListener(marker, 'mouseover',
-							function() {
-								displayInfowindow(marker, title);
-							});
+				// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+				kakao.maps.event.addListener(marker, 'click', function() {
+				    overlay.setMap(map);
+				});
 
-					kakao.maps.event.addListener(marker, 'mouseout',
-							function() {
-								infowindow.close();
-							});
-					
-				})(marker, places[i].place_name);
+				// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+				function closeOverlay() {
+				    overlay.setMap(null);     
+				}
 				
 				fragment.appendChild(itemEl);
 			}
@@ -407,8 +516,7 @@
 			el.innerHTML = itemStr;
 			el.className = 'item';
 			//검색창 눌렀을때 저장되는 그것임 ..
-			el.addEventListener('click',
-			function() {
+			el.addEventListener('click', function() {
 				var coordList = new kakao.maps.LatLng(places.y, places.x);
 				map.setCenter(coordList);
 				map.setLevel(3);
@@ -441,10 +549,12 @@
 						map.setCenter(position);
 						map.setLevel(3);
 						//마커 선택시 
+						setOveray(title,map,marker)
 						areaName.value = title.place_name;
 						area.value = title.y+","+tite.x;
 						console.log(title.x+","+tite.y)
 					});
+			
 			marker.setMap(map); // 지도 위에 마커를 표출합니다
 			markers.push(marker); // 배열에 생성된 마커를 추가합니다
 
@@ -512,5 +622,6 @@
 			window.close();
 		});
 	</script>
+
 </body>
 </html>
