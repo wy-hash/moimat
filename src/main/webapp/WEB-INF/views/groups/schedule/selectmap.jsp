@@ -8,8 +8,6 @@
 <!-- services 라이브러리 불러오기 -->
 <script type="text/javascript"
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6213368344dd87ee3c46139e0d1df7cd&libraries=services,clusterer,drawing"></script>
-<script type="text/javascript"
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6213368344dd87ee3c46139e0d1df7cd"></script>
 <title>주소 선택</title>
 <style type="text/css">
 .map_wrap, .map_wrap * {
@@ -345,7 +343,7 @@
 		var areaName = document.getElementById('areaName');
 		// 마커를 담을 배열입니다
 		var markers = [];
-		
+		var overlay = '';
 
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		mapOption = {
@@ -362,9 +360,6 @@
 
 		// 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
 		//++++++없애야할 것 !!@#
-		var infowindow = new kakao.maps.InfoWindow({
-			zIndex : 1
-		});
 
 		// 키워드로 장소를 검색합니다
 		/* searchPlaces(); */
@@ -411,7 +406,7 @@
 		//장소검색이 완료되었을때 이쁜 네모를 만드는 함수입니다.(첫번째껏만 하기 )
 		//이걸 만드는 시점을 고민해야겟나?(클릭시 지우고 다시호출하기)
 		//data를 받지말고 places를 받아서 클릭시 
-		function setOveray(place,map,marker){
+		function setOvelay(place,map,marker){
 				var content = '<div class="wrap">' + 
 	           				  '    <div class="info">' + 
 	                          '        <div class="title">' + place.place_name +
@@ -430,13 +425,17 @@
 	                          '    </div>' +    
 	                          '</div>';
 	                          
-				var overlay = new kakao.maps.CustomOverlay({
+				overlay = new kakao.maps.CustomOverlay({
 				    content: content,
 				    map: map,
 				    position: marker.getPosition()       
 				});
 				
 			}
+		// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+		function closeOverlay() {
+		    overlay.setMap(null);     
+		}
 		
 
 		// 검색 결과 목록과 마커를 표출하는 함수입니다
@@ -463,24 +462,14 @@
 				// 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
 				// LatLngBounds 객체에 좌표를 추가합니다
 				bounds.extend(placePosition);
-				 
 				
-
-				// 마커와 검색결과 항목에 mouseover 했을때
-				// 해당 장소에 인포윈도우에 장소명을 표시합니다
-				// mouseout 했을 때는 인포윈도우를 닫습니다
 				
-				// ++ displayInfowindow 없애고 
-				// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
-				kakao.maps.event.addListener(marker, 'click', function() {
-				    overlay.setMap(map);
-				});
-
-				// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
-				function closeOverlay() {
-				    overlay.setMap(null);     
-				}
 				
+				
+					
+				
+				
+						
 				fragment.appendChild(itemEl);
 			}
 
@@ -543,17 +532,17 @@
 				position : position, // 마커의 위치
 				image : markerImage
 			});
-			kakao.maps.event.addListener(marker,'click',
-					function() {
-						console.log(position.place_name);
-						map.setCenter(position);
-						map.setLevel(3);
-						//마커 선택시 
-						setOveray(title,map,marker)
-						areaName.value = title.place_name;
-						area.value = title.y+","+tite.x;
-						console.log(title.x+","+tite.y)
-					});
+			//마커 클릭이벤트
+			kakao.maps.event.addListener(marker,'click',function() {
+				map.setCenter(position);
+				map.setLevel(3);
+				if(overlay){ //overlay!='';
+					overlay.setMap(null);
+				}
+				setOvelay(title,map,marker)
+				areaName.value = title.place_name;
+				area.value = title.y+","+title.x;
+			});
 			
 			marker.setMap(map); // 지도 위에 마커를 표출합니다
 			markers.push(marker); // 배열에 생성된 마커를 추가합니다
@@ -567,6 +556,9 @@
 				markers[i].setMap(null);
 			}
 			markers = [];
+			if(overlay){ //overlay!='';
+				overlay.setMap(null);
+			}
 		}
 
 		// 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
@@ -601,12 +593,6 @@
 
 		// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
 		// 인포윈도우에 장소명을 표시합니다
-		function displayInfowindow(marker, title) {
-			var content = '<div style="padding:5px;z-index:1;">' + title
-					+ '</div>';
-			infowindow.setContent(content);
-			infowindow.open(map, marker);
-		}
 
 		// 검색결과 목록의 자식 Element를 제거하는 함수입니다
 		function removeAllChildNods(el) {
