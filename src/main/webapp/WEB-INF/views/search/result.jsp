@@ -33,6 +33,7 @@
        -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
+
 .ui-autocomplete > li {
   padding: 3px 20px;
 }
