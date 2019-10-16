@@ -12,8 +12,8 @@ public class TeamDomain {
 	private String teamName;
 	private String teamShortContent;
 	private String teamComment;
-	private String teamArea;
+	private Long areaId;
 	private Date teamRegdate;
-	private int teamMax;
+	private Long teamMax;
 	private Long memId;
 }

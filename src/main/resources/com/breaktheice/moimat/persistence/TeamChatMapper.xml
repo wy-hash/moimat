@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.breaktheice.moimat.persistence.TeamChatMapper">
+
+	<insert id="insertMessage">
+		insert into TEAM_CHAT(chat_id, team_id, tmem_id, chat_content, chat_regdate)
+		values(team_chat_seq.nextval, #{ groupId }, #{ senderId }, #{ message }, to_date(#{ sendTime }, 'YYYY-MM-DD HH24:MI:SS'))
+	</insert>
+
+	<select id="selectMessages" resultType="com.breaktheice.moimat.domain.ChatMessage" >
+		select tc.CHAT_CONTENT message, tc.CHAT_REGDATE sendTime, m.MEM_NICKNAME sender, m.mem_photo profilePhoto, m.mem_id senderId
+		from (select * from team_chat where team_id = #{ teamId }) tc
+		join member m
+		on tc.TMEM_ID = m.MEM_ID
+		order by chat_regdate asc
+	</select>
+	
+</mapper>
