@@ -38,9 +38,9 @@
 		 					var count = 0 ;
 		 					$("input[name=upperInte]").on("click", function(){
 		 						count++;
-		 						console.log(count);
 		 						
-		 						if(count == 1){
+		 						if(count == 1)
+		 						{
 		 							$("#lowerInner").children().hide();
 		 						}
 		 						
@@ -49,15 +49,15 @@
 								var size = $("input[name=lowerInte]").length;
 								count--;
 								
-									for(var i=0; i<size; i++) {
-										var lowerId = $("input[name=lowerInte]").eq(i).attr("id");
-										var lowerStrId = lowerId.substr(1,1);
-										if(upperStrId == lowerStrId && count == 0){
-											$("#"+lowerId+"").show();
-										} 
-									}
+								for(var i=0; i<size; i++) {
+									var lowerId = $("input[name=lowerInte]").eq(i).attr("id");
+									var lowerStrId = lowerId.substr(1,1);
+									if(upperStrId == lowerStrId && count == 0){
+										$("#"+lowerId+"").show();
+									} 
+								}
 		 					});
-	 				},
+	 					},
 	 					
 	 					error: function(request, status, error) {
 	 		 				var msg = "ERROR : " + request.status + "<br>"
@@ -75,7 +75,6 @@
 	 				return false;
 	 			}
  			});
-	 		
 	 		
 	 		$('#searchKeyword').autocomplete({
 				source:	function(request, response) {
@@ -96,8 +95,6 @@
 					})
 				},
 			});
-	 		
-	 		
 	 		
 	 		$("#selectType").change(function(){
 	 			$("#selectType option:selected").each(function(){

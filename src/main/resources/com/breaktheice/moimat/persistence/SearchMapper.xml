@@ -24,7 +24,7 @@
 
 	<select id="recommend" resultType="com.breaktheice.moimat.domain.SearchVO">
 		<![CDATA[
-		SELECT	t.team_name, t.team_short_content, a.area_region_name
+		SELECT	t.team_name, t.team_short_content, t.team_photo, a.area_region_name
 		FROM 	team t, area a
 		WHERE	t.area_id = a.area_id and
 		]]>

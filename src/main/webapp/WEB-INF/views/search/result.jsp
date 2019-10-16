@@ -119,14 +119,13 @@
 					                <div class="panel-body demo-nifty-btn">
 					                <input type="hidden" class="btn btn-default btn-rounded" name="interest"/>
 				                    <div id="upperInner"></div>
+				                    <hr></hr>
 				                    <div id="lowerInner"></div>
 					             	</div>
 					          </div>
 					     </div>	
 					 </div>
-           			 </form>
-           			 
-           			 <form action="/home/result" method="post">
+					 
 	           		 <div class="row">
 	   					<c:forEach items="${keyword}" var="searchVO" varStatus="status">
 						<c:if test="${status.index eq 0}">
@@ -135,7 +134,7 @@
 	           					<div class="pad-all">
 	           						<div class="media mar-btm">
 	          							<div class="media-left">
-	          								<img src="/resources/img/bg-img/이미지캡처.PNG" class="img-md img-circle" alt="Avatar">
+	          								<img src="/resources/uploads/profile-team/${searchVO.teamPhoto}" class="img-md img-circle" alt="Avatar">
 	          							</div>
 	          							<div class="media-body">
 	          							<p class="text-lg text-main text-semibold mar-no">${searchVO.teamName}</p>
@@ -160,7 +159,7 @@
 	      						<div class="pad-all">
 	           						<div class="media mar-btm">
 	          							<div class="media-left">
-	          								<img src="/resources/img/bg-img/이미지캡처.PNG" class="img-md img-circle" alt="Avatar">
+	          								<img src="/resources/uploads/profile-team/${searchVO.teamPhoto}" class="img-md img-circle" alt="Avatar">
 	          							</div>
 	          							<div class="media-body">
 	          							<p class="text-lg text-main text-semibold mar-no">${searchVO.teamName}</p>
@@ -185,7 +184,7 @@
 	           					<div class="pad-all">
 	           						<div class="media mar-btm">
 	          							<div class="media-left">
-	          								<img src="/resources/img/bg-img/이미지캡처.PNG" class="img-md img-circle" alt="Avatar">
+	          								<img src="/resources/uploads/profile-team/${searchVO.teamPhoto}" class="img-md img-circle" alt="Avatar">
 	          							</div>
 	          							<div class="media-body">
 	          							<p class="text-lg text-main text-semibold mar-no">${searchVO.teamName}</p>
