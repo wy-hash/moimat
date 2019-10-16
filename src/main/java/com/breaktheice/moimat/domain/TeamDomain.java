@@ -12,9 +12,9 @@ public class TeamDomain {
 	private String teamName;
 	private String teamShortContent;
 	private String teamContent;
-	private String areaId;
+	private Long areaId;
 	private Date teamRegdate;
-	private int teamMax;
+	private Long teamMax;
 	private Long memId;
 	
 	//출력용 관심사, 활동지역, 작성자

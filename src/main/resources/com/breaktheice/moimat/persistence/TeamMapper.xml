@@ -147,4 +147,14 @@
 		FROM 	interest
 	</select>
 	
+	<select id="selectJoinedGroupList" resultType="com.breaktheice.moimat.domain.TeamDomain">
+		select * from team
+		where team_id in (
+			select team_id from team_member where mem_id = #{ memId }
+		)
+	</select>
+
+	<select id="selectTeamInfo" resultType="com.breaktheice.moimat.domain.TeamDomain">
+		select * from team where team_id = #{ teamId }
+	</select>
 </mapper>

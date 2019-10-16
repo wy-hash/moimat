@@ -37,5 +37,8 @@ public interface TeamMapper {
 	public List<AreaDomain> selectAllAreas();
 	// 관심사
 	public List<InterestDomain> selectAllInterest();
-	
+
+	List<TeamDomain> selectJoinedGroupList(Long memId);
+
+	TeamDomain selectTeamInfo(Long teamId);
 }
