@@ -7,15 +7,8 @@
 
 <!-- HEAD -->
 <%@ include file="../includes/head.jsp"%>
-<link href="/resources/plugins/fullcalendar/fullcalendar.min.css"
-	rel="stylesheet">
-<link
-	href="/resources/plugins/fullcalendar/nifty-skin/fullcalendar-nifty.min.css"
-	rel="stylesheet">
-<link href="/resources/plugins/font-awesome/css/font-awesome.min.css"
-	rel="stylesheet">
-<link href="/resources/css/moimat.css" rel="stylesheet">
-<title>모임일정 - ${ group.teamName } | moim@</title>
+
+<title>모임일정 - ${ team.teamName } | moim@</title>
 
 <style>
 @media screen and (max-width: 768px) {
@@ -36,6 +29,16 @@
 	}
 }
 </style>
+<link href="/resources/plugins/fullcalendar/fullcalendar.min.css"
+	rel="stylesheet">
+<link
+	href="/resources/plugins/fullcalendar/nifty-skin/fullcalendar-nifty.min.css"
+	rel="stylesheet">
+<link href="/resources/plugins/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet">
+<link href="/resources/css/moimat.css" rel="stylesheet">
+<!--Bootbox Modals [ OPTIONAL ]-->
+<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 </head>
 <!-- END HEAD -->
 
@@ -67,7 +70,7 @@
 				<!--Page Title-->
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<div id="page-title">
-					<h1 class="page-header text-overflow">${ group.teamName }</h1>
+					<h1 class="page-header text-overflow">{ _team.teamName_ }</h1>
 				</div>
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<!--End page title-->
@@ -86,14 +89,14 @@
 
 						<!--Nav Tabs-->
 						<ul class="nav nav-tabs">
-							<li><a href="/groups/${ group.teamId }">홈</a></li>
-							<li><a href="/groups/${ group.teamId }/member">구성원</a></li>
-							<li class="active"><a href="/groups/${ group.teamId }/schedule">모임일정</a>
+							<li><a href="${ team.teamId }">홈</a></li>
+							<li><a href="${ team.teamId }/member">구성원</a></li>
+							<li class="active"><a href="${ team.teamId }/schedule">모임일정</a>
 							</li>
-							<li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
-							<li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
-							<li><a href="/groups/${ group.teamId }/chat">채팅</a></li>
-							<li><a href="/groups/${ group.teamId }/settings">설정</a></li>
+							<li><a href="${ team.teamId }/photos">사진첩</a></li>
+							<li><a href="${ team.teamId }/posts">게시판</a></li>
+							<li><a href="${ team.teamId }/chat">채팅</a></li>
+							<li><a href="${ team.teamId }/settings">설정</a></li>
 						</ul>
 
 						<!--Default Dropdown button-->
@@ -104,14 +107,14 @@
 								<i class="fa fa-bars"></i> 모임일정
 							</button>
 							<ul class="dropdown-menu dropdown-menu-left">
-								<li><a href="/groups/${ group.teamId }">홈</a></li>
-								<li><a href="/groups/${ group.teamId }/member">구성원</a></li>
-								<li class="active"><a href="/groups/${ group.teamId }/schedule">모임일정</a></li>
-								<li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
-								<li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
-								<li><a href="/groups/${ group.teamId }/chat">채팅</a></li>
+								<li><a href="${ team.teamId }">홈</a></li>
+								<li><a href="${ team.teamId }/member">구성원</a></li>
+								<li class="active"><a href="${ team.teamId }/schedule">모임일정</a></li>
+								<li><a href="${ team.teamId }/photos">사진첩</a></li>
+								<li><a href="${ team.teamId }/posts">게시판</a></li>
+								<li><a href="${ team.teamId }/chat">채팅</a></li>
 								<li class="divider"></li>
-								<li><a href="/groups/${ group.teamId }/settings">설정</a></li>
+								<li><a href="${ team.teamId }/settings">설정</a></li>
 							</ul>
 						</div>
 						<!--===================================================-->
@@ -250,10 +253,10 @@
 					});
 			}
 			
-			showMeetList(pageNum);
+			showMeetList();
 
-			function showMeetList(page){
-				meetListService.getList(groupid,page,memberid,function(list){
+			function showMeetList(){
+				meetListService.getList(groupid,pageNum,memberid,function(list){
 					var meetListStr = '';
 					for(var i = 0, len = list.meetList.length||0; i<len; i++){ //일단 3개만(페이징 완성되면 수정할 부분)
 						var button = '';
@@ -264,11 +267,8 @@
 							button = '<button type="button" class="btn btn-warning pull-right attendBtn" data-mid="'+list.meetList[i].meetId+'">참석하기</button>';
 						}
 						if(list.isWriter[list.meetList[i].meetId]){
-							mdButton += '<form id="mdButton'+i+'" method="Post">'
-									 +      '<input type="hidden" name="meetId" value="'+list.meetList[i].meetId+'">'
-									 + 		'<button id="mod'+i+'" type="button" class="btn btn-primary">수정하기</button>'
-								   	 +		'<button id="del'+i+'" type="button" class="btn btn-danger">삭제하기</button>'
-								   	 +	'</form>'
+							mdButton += '<button id="mod'+i+'" type="button" class="btn btn-primary" data-mid="'+list.meetList[i].meetId+'">수정하기</button>'
+								   	  +	'<button id="del'+i+'" type="button" class="btn btn-danger" data-mid="'+list.meetList[i].meetId+'">삭제하기</button>'
 						}
 						meetListStr +='<div class="row">'
 								   +	'<div class="col-lg-4 moimat-m">'
@@ -346,8 +346,8 @@
 					meetList.innerHTML = meetListStr;
 					for(var i = 0, len = list.meetList.length||0; i<len; i++){
 						setMap(list.meetList[i].meetArea,"map"+i)
-						dButtonEvent("mdButton"+i,"del"+i);
-						mButtonEvent("mdButton"+i,"mod"+i);
+						dButtonEvent("del"+i);
+						mButtonEvent("mod"+i);
 					}
 					var paginationBtn = document.querySelectorAll(".page-link");
 					paginationBtn.forEach(function(e){
@@ -355,11 +355,12 @@
 							e.preventDefault();
 							var targetPageNum = this.getAttribute('href');
 							pageNum = targetPageNum;
-							showMeetList(pageNum);
+							showMeetList();
 						});
 					});
 					detailedMeet();
 					moimCEvent();
+					console.log("asdasd");
 				});
 			}
 			
@@ -443,8 +444,7 @@
 							for(var i = 0, len = data.memberList.length||0; i<len; i++){
 								mmhtml += '<a href="#" class="list-group-item">'
 		                           	   +  	'<div class="media-left pos-rel">'
-		                               + 		'<img class="img-circle img-xs" src="/resources/img/profile-photos/2.png" alt="Profile Picture">'
-		                               + 		'<i class="badge badge-success badge-stat badge-icon pull-left"></i>'
+		                               + 		'<img class="img-circle img-xs" src="/resources/img/profile-photos/'+data.memberList[i].mmemPhoto+'" alt="Profile Picture">'
 		                               + 	'</div>'
 		                               +	'<div class="media-body">'
 		                               +		'<p class="mar-no">'+data.memberList[i].mmemNickName+'</p>'
@@ -456,36 +456,140 @@
 							mmodalbody.innerHTML = mmhtml;
 						});
 					});
-					// 이거 구현방식을 바꿔야함 
-					cancelBtn.forEach(function(e){
-						e.addEventListener('click',function(){
-							var meetid = this.getAttribute("data-mid");
-							location.href = '/groups/'+groupid+'/schedule/cancel?meetid='+meetid;
-						})
-					})
-					attendBtn.forEach(function(e){
-						e.addEventListener('click',function(){
-							var meetid = this.getAttribute("data-mid");
-							location.href = '/groups/'+groupid+'/schedule/attend?meetid='+meetid;
-						})
-					})
 				});//end meetMember.forEach
+				// 이거 구현방식을 바꿔야함 
+				cancelBtn.forEach(function(e){
+					e.addEventListener('click',function(){
+						console.log(e)
+						var meetId = this.getAttribute("data-mid");
+						var data = {'meetId' : meetId,'teamId' : groupid};
+						bootbox.confirm("참여하지 않으시겠습니까?",function(result){
+							if(result){
+								$.ajax({
+				            		type : 'delete',
+				            		url : '/meet/cancelMeet',
+				            		datatype : "json",
+				            		data : JSON.stringify(data),
+				            		contentType : "application/json; charset=utf-8",
+				            		success : function(result){
+				            			showMeetList();
+				            		}
+				            	});
+								$.niftyNoty({
+				                    type: 'success',
+				                    icon : 'pli-like-2 icon-2x',
+				                    message :'이 만남에 참여하지 않습니다.',
+				                    container : 'floating',
+				                    timer : 5000
+				                });
+							}else{
+								 $.niftyNoty({
+					                    type: 'danger',
+					                    icon : 'pli-cross icon-2x',
+					                    message : '취소하였습니다.',
+					                    container : 'floating',
+					                    timer : 5000
+					          	});
+							}
+						});
+					})
+				})
+				attendBtn.forEach(function(e){
+					e.addEventListener('click',function(){
+						var meetId = this.getAttribute("data-mid");
+						var data = {'meetId' : meetId,'teamId' : groupid};
+						bootbox.confirm("만남에 참여하시겠습니까?",function(result){
+							if(result){
+								$.ajax({
+				            		type : 'post',
+				            		url : '/meet/attendMeet',
+				            		datatype : "json",
+				            		data : JSON.stringify(data),
+				            		contentType : "application/json; charset=utf-8",
+				            		success : function(result){
+				            			showMeetList();
+				            		}
+				            	});
+								$.niftyNoty({
+				                    type: 'success',
+				                    icon : 'pli-like-2 icon-2x',
+				                    message :'이 만남에 참여합니다.',
+				                    container : 'floating',
+				                    timer : 5000
+				                });
+							}else{
+								 $.niftyNoty({
+					                    type: 'danger',
+					                    icon : 'pli-cross icon-2x',
+					                    message : '취소하였습니다.',
+					                    container : 'floating',
+					                    timer : 5000
+					          	});
+							}
+						});
+					})
+				})
 			}
-			function dButtonEvent(formid,buttonid){
+			function dButtonEvent(buttonid){
 				var btn = document.querySelector('#'+buttonid);
-				btn.addEventListener('click',function(){
-					var buttonForm = document.querySelector('#'+formid);
-					buttonForm.setAttribute("action","/groups/"+groupid+"/schedule/delete");
-					buttonForm.submit();
-				});
+				if(btn){
+					btn.addEventListener('click',function(){
+						var meetId = this.getAttribute("data-mid");
+						var data = {'meetId' : meetId };
+						bootbox.confirm("삭제하시겠습니까?",function(result){
+							if(result){
+								$.ajax({
+				            		type : 'delete',
+				            		url : '/meet/deleteMeet',
+				            		datatype : "json",
+				            		data : JSON.stringify(data),
+				            		contentType : "application/json; charset=utf-8",
+				            		success : function(result){
+				            			showMeetList();
+				            		}
+				            	});
+								$.niftyNoty({
+				                    type: 'success',
+				                    icon : 'pli-like-2 icon-2x',
+				                    message :'삭제해였습니다.',
+				                    container : 'floating',
+				                    timer : 5000
+				                });
+							}else{
+								 $.niftyNoty({
+					                    type: 'danger',
+					                    icon : 'pli-cross icon-2x',
+					                    message : '취소하였습니다.',
+					                    container : 'floating',
+					                    timer : 5000
+					                });
+							}
+						});
+					});
+				}
 			}
-			function mButtonEvent(formid,buttonid){
+			function mButtonEvent(buttonid){
 				var btn = document.querySelector('#'+buttonid);
-				btn.addEventListener('click',function(){
-					var buttonForm = document.querySelector('#'+formid);
-					buttonForm.setAttribute("action","/groups/"+groupid+"/schedule/modify");
-					buttonForm.submit();
-				});
+				if(btn){
+					btn.addEventListener('click',function(){
+						var meetId = this.getAttribute("data-mid");
+						bootbox.confirm("수정하시겠습니까?",function(result){
+							if(result){
+								location.href = "/groups/"+groupid+"/schedule/modify?meetid="+meetId;
+							}else{
+								 $.niftyNoty({
+					                    type: 'danger',
+					                    icon : 'pli-cross icon-2x',
+					                    message : '취소하였습니다.',
+					                    container : 'floating',
+					                    timer : 5000
+					                });
+							}
+						})
+						
+					});
+				}
+				
 			}
 			function removeMoimatContent(){ //혹시몰라서 하나의 모달창을 돌려쓰니까... 내용을 다 비우고 넣을려고 제이쿼리면 안만들어도됬음... 더좋은방법?? 몰르르르르르
 				for(var i = 0, len = arguments.length||0; i<len; i++){
