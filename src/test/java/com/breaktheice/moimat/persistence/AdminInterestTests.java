@@ -41,7 +41,7 @@ public class AdminInterestTests {
 		log.info("시작 : listTest");
 
 		try {
-			log.info("성공 : " + mapper.list());
+			log.info("성공 : " + mapper.listAll());
 			
 		} catch (Exception e) {
 			log.error(e.getMessage());

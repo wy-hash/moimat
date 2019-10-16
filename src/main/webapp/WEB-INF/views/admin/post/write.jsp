@@ -16,15 +16,6 @@
 <link href="/resources/plugins/x-editable/css/bootstrap-editable.css" rel="stylesheet">
 <!-- 썸머노트 css-->
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
-<style>
-	.mt-20 {
-		margin-top: 20px;
-	}
-
-	.color {
-		color: yellowgreen;
-	}
-</style>
 
 <title>Page Template | moim@</title>
 </head>

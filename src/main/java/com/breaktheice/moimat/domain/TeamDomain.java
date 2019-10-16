@@ -1,19 +1,24 @@
 package com.breaktheice.moimat.domain;
 
-import java.sql.Date;
+import java.util.Date;
 
 import lombok.Data;
 
 @Data
 public class TeamDomain {
 
-	private int teamId;
+	private Long teamId;
 	private int intId;
 	private String teamName;
 	private String teamShortContent;
 	private String teamContent;
-	private String teamArea;
+	private Long areaId;
 	private Date teamRegdate;
-	private int teamMax;
-	private int memId;
+	private Long teamMax;
+	private Long memId;
+	
+	//출력용 관심사, 활동지역, 작성자
+	private String intName;
+	private String areaRegionName;
+	private String memNickName;
 }

@@ -86,14 +86,14 @@
 
 						<!--Nav Tabs-->
 						<ul class="nav nav-tabs">
-							<li><a href="${ group.teamId }">홈</a></li>
-							<li><a href="${ group.teamId }/member">구성원</a></li>
-							<li class="active"><a href="${ group.teamId }/schedule">모임일정</a>
+							<li><a href="/groups/${ group.teamId }">홈</a></li>
+							<li><a href="/groups/${ group.teamId }/member">구성원</a></li>
+							<li class="active"><a href="/groups/${ group.teamId }/schedule">모임일정</a>
 							</li>
-							<li><a href="${ group.teamId }/photos">사진첩</a></li>
-							<li><a href="${ group.teamId }/posts">게시판</a></li>
-							<li><a href="${ group.teamId }/chat">채팅</a></li>
-							<li><a href="${ group.teamId }/settings">설정</a></li>
+							<li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
+							<li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
+							<li><a href="/groups/${ group.teamId }/chat">채팅</a></li>
+							<li><a href="/groups/${ group.teamId }/settings">설정</a></li>
 						</ul>
 
 						<!--Default Dropdown button-->
@@ -104,14 +104,14 @@
 								<i class="fa fa-bars"></i> 모임일정
 							</button>
 							<ul class="dropdown-menu dropdown-menu-left">
-								<li><a href="${ group.teamId }">홈</a></li>
-								<li><a href="${ group.teamId }/member">구성원</a></li>
-								<li class="active"><a href="${ group.teamId }/schedule">모임일정</a></li>
-								<li><a href="${ group.teamId }/photos">사진첩</a></li>
-								<li><a href="${ group.teamId }/posts">게시판</a></li>
-								<li><a href="${ group.teamId }/chat">채팅</a></li>
+								<li><a href="/groups/${ group.teamId }">홈</a></li>
+								<li><a href="/groups/${ group.teamId }/member">구성원</a></li>
+								<li class="active"><a href="/groups/${ group.teamId }/schedule">모임일정</a></li>
+								<li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
+								<li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
+								<li><a href="/groups/${ group.teamId }/chat">채팅</a></li>
 								<li class="divider"></li>
-								<li><a href="${ group.teamId }/settings">설정</a></li>
+								<li><a href="/groups/${ group.teamId }/settings">설정</a></li>
 							</ul>
 						</div>
 						<!--===================================================-->
