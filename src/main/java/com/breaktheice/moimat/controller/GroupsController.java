@@ -91,10 +91,8 @@ public class GroupsController {
 	}
 	
 	@GetMapping("/{groupId}/settings")
-	public String settings(@PathVariable Long groupId) {
-		
-		
-		
+	public String settings(@PathVariable Long groupId, Model model) {
+		model.addAttribute("group", teamService.getGroupInfo(groupId));
 		return "groups/settings";
 
 	}
