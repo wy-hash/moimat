@@ -3,7 +3,7 @@ package com.breaktheice.moimat.domain;
 import lombok.Data;
 
 @Data
-public class SearchDomain {
+public class SearchVO {
 
 	private int intId; //관심사PK
 	private String intName; //관심사이름

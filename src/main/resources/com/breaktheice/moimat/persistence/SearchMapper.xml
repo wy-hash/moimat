@@ -22,7 +22,7 @@
 	</trim>
 </sql>
 
-	<select id="recommend" resultType="com.breaktheice.moimat.domain.SearchDomain">
+	<select id="recommend" resultType="com.breaktheice.moimat.domain.SearchVO">
 		<![CDATA[
 		SELECT	t.team_name, t.team_short_content, a.area_region_name
 		FROM 	team t, area a
@@ -31,7 +31,7 @@
 		<include refid="criteria"></include>
 	</select>
 	
-	<select id="autocompleteInte" parameterType="string" resultType="com.breaktheice.moimat.domain.SearchDomain">
+	<select id="autocompleteInte" parameterType="string" resultType="string">
 		<![CDATA[
 		SELECT	DISTINCT int_name
 		FROM	interest
@@ -39,7 +39,7 @@
 		]]>
 	</select>
 	
-	<select id="autocompleteArea" parameterType="string" resultType="com.breaktheice.moimat.domain.SearchDomain">
+	<select id="autocompleteArea" parameterType="string" resultType="string">
 		<![CDATA[
 		SELECT	DISTINCT area_region_name
 		FROM	area

@@ -1,7 +1,6 @@
 package com.breaktheice.moimat.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,9 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.breaktheice.moimat.domain.Criteria;
 import com.breaktheice.moimat.domain.InterestDomain;
-import com.breaktheice.moimat.domain.SearchDomain;
 import com.breaktheice.moimat.service.SearchService;
-import com.google.gson.JsonArray;
+
 
 
 @Controller
@@ -48,7 +46,7 @@ public class SearchController {
 	//관심사를 json형태로 전달
 	@PostMapping("/search")
 	@ResponseBody
-	public List<InterestDomain> ttest() throws IOException {
+	public List<InterestDomain> interestList() throws IOException {
 		
 		return service.list();
 	}		
@@ -56,46 +54,28 @@ public class SearchController {
 	//관심사에 대한 자동완성
 	@PostMapping("/searchinterest")
 	@ResponseBody
-	public void recommend(HttpServletRequest request,HttpServletResponse response) throws IOException {
+	public List<String> autoInterestList(HttpServletRequest request,HttpServletResponse response) throws IOException {
 		
 		response.setContentType("text/html;charset=UTF-8");
 		
-		String keyword = request.getParameter("term");
+		String keyword = request.getParameter("keyword");
 		Criteria cri = new Criteria();
 		cri.setKeyword(keyword);
 		
-		JsonArray json = new JsonArray();
-		
-		List<SearchDomain> list = service.autocompleteInte(cri);
-		
-		for(int i = 0; i < list.size(); i++) {
-			json.add(list.get(i).getIntName());
-		}
-		
-		PrintWriter out = response.getWriter();
-		out.print(json.toString());
+		return service.autocompleteInte(cri);
 	}
 	
 	//지역에 대한 자동완성
 	@PostMapping("/searcharea")
 	@ResponseBody
-	public void searchInterest(HttpServletRequest request,HttpServletResponse response) throws IOException {
+	public List<String> autoAreaList(HttpServletRequest request,HttpServletResponse response) throws IOException {
 		
 		response.setContentType("text/html;charset=UTF-8");
 		
-		String keyword = request.getParameter("term");
+		String keyword = request.getParameter("keyword");
 		Criteria cri = new Criteria();
 		cri.setKeyword(keyword);
 		
-		JsonArray json = new JsonArray();
-		
-		List<SearchDomain> list = service.autocompleteArea(cri);
-		
-		for(int i = 0; i < list.size(); i++) {
-			json.add(list.get(i).getAreaRegionName());
-		}
-		
-		PrintWriter out = response.getWriter();
-		out.print(json.toString());
+		return service.autocompleteArea(cri);
 	}
 }

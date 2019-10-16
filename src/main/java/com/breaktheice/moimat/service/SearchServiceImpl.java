@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.breaktheice.moimat.domain.Criteria;
 import com.breaktheice.moimat.domain.InterestDomain;
-import com.breaktheice.moimat.domain.SearchDomain;
+import com.breaktheice.moimat.domain.SearchVO;
 import com.breaktheice.moimat.persistence.SearchMapper;
 
 
@@ -19,24 +19,26 @@ public class SearchServiceImpl implements SearchService {
 	
 	//관심사 기반 모임 찾기
 	@Override
-	public List<SearchDomain> recommend(Criteria cri) {
+	public List<SearchVO> recommend(Criteria cri) {
 		
 		return mapper.recommend(cri);
 	}
 	
 	//자동 완성 관심사 리스트
 	@Override
-	public List<SearchDomain> autocompleteInte(Criteria cri) {
+	public List<String> autocompleteInte(Criteria cri) {
 
 		return mapper.autocompleteInte(cri);
 	}
-
+	
+	//자동 완성 지역 리스트
 	@Override
-	public List<SearchDomain> autocompleteArea(Criteria cri) {
+	public List<String> autocompleteArea(Criteria cri) {
 		
 		return mapper.autocompleteArea(cri);
 	}
-
+	
+	//관심사 리스트
 	@Override
 	public List<InterestDomain> list() {
 		

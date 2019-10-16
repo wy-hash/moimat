@@ -98,7 +98,7 @@
 		   	 	 				</select>
        	    				</div>
             	    		<div class="col-xs-9">
-	    						<input type="text" class="form-control" id="searchKeyword" name="keyword" placeholder="Search...">
+	    						<input type="text" class="form-control" id="searchKeyword" name="keyword" placeholder="Search..."  autocomplete="off">
 	    					</div>
 	    					<div class="col-sm-1">
 	    						<button class="btn btn-default btn-icon" type="submit">
