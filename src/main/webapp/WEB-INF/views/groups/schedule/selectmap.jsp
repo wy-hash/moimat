@@ -415,12 +415,7 @@
 				// 네모창에 네모네모 저장저장 네모네모 
 				console.log(places)
 				areaName.value = places.place_name;
-				if (places.road_address_name) {
-					area.value = places.road_address_name;
-				} else {
-					area.value = places.address_name; 
-				}
-				
+				area.value = places.y+","+places.x;
 			});
 			
 			return el;
@@ -447,12 +442,8 @@
 						map.setLevel(3);
 						//마커 선택시 
 						areaName.value = title.place_name;
-						//도로명 주소는 있는데도있고 없는데도 있기때문에 
-						if (title.road_address_name) {
-							area.value = title.road_address_name;
-						} else {
-							area.value = title.address_name;
-						}
+						area.value = title.y+","+tite.x;
+						console.log(title.x+","+tite.y)
 					});
 			marker.setMap(map); // 지도 위에 마커를 표출합니다
 			markers.push(marker); // 배열에 생성된 마커를 추가합니다

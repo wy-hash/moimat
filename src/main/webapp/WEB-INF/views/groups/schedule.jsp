@@ -224,18 +224,8 @@
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6213368344dd87ee3c46139e0d1df7cd"></script>
 	<script>
 		window.onload = function() {
-			var places = new kakao.maps.services.Places();
-
-			var callback = function(result, status) {
-			    if (status === kakao.maps.services.Status.OK) {
-			        console.log(result);
-			    }
-			};
-
-			places.keywordSearch('헌릉', callback);
 			
 			var meetList = document.getElementById("meetList");
-			
 			var geocoder = new kakao.maps.services.Geocoder();
 			var mRegBtn = document.querySelector("#mRegBtn");
 			var groupid = '<c:out value="${groupId}"/>';
@@ -248,23 +238,24 @@
 				self.location.href = '/groups/'+groupid+'/schedule/new'
 			})
 			
-			function setMap(area, idx) {geocoder.addressSearch(area,
-					function(result, status) {
-						if (status === kakao.maps.services.Status.OK) {
-							var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-							console.log(coords)
-						}
-						var mapContainer = document.getElementById(idx), mapOption = {
-							center : coords,
-							level : 3
-						};
-						var map = new kakao.maps.Map(mapContainer, mapOption);
-						var marker = new kakao.maps.Marker({
-							map : map,
-							position : coords
-						});
-					});
+			function setMap(area, idx) {
+					var areaXY = area.split(',')
+					console.log(area)
+					var coords = new kakao.maps.LatLng(areaXY[0],areaXY[1]);
+					console.log(coords)
+				
+				var mapContainer = document.getElementById(idx), mapOption = {
+					center : coords,
+					level : 3
+				};
+				var map = new kakao.maps.Map(mapContainer, mapOption);
+				var marker = new kakao.maps.Marker({
+					map : map,
+					position : coords
+				});
+				
 			}
+
 			
 			showMeetList();
 
@@ -342,7 +333,7 @@
 								   +			'</div>'
 						           +		'</div>'
 								   +		'<div class="btn-group" style="height:40px;display:block;">'
-								   +			'<div class="clearfix">'
+								   +			'<div class="clearfix pad-top">'
 								   +				'<div class="col-xs-6 pad-no">'
 								   +					mdButton
 								   +				'</div>'
