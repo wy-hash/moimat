@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.breaktheice.moimat.domain.BoardDomain;
+import com.breaktheice.moimat.domain.PostDomain;
 import com.breaktheice.moimat.service.AdminBoardService;
+import com.breaktheice.moimat.util.AdminCriteria;
+import com.breaktheice.moimat.util.AdminPageDTO;
 
 @Controller
 @RequestMapping("/admin/board")
@@ -22,11 +25,14 @@ public class AdminBoardController {
 	
 	//게시판 목록출력 
 	@RequestMapping(value = {"", "list"})
-	public String list(Model model) throws Exception{
+	public String list(Model model, AdminCriteria cri) throws Exception{
 		System.out.println("list()");
 		
-		List<BoardDomain> list = service.list();
+		List<BoardDomain> list = service.list(cri);
+		Long totalCount = service.totalCount(cri);
 		
+		
+		model.addAttribute("pageMaker", new AdminPageDTO(cri, totalCount));//페이지네이션
 		model.addAttribute("list", list);
 		
 		return "/admin/board/list";

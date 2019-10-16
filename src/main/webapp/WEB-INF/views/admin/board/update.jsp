@@ -177,18 +177,14 @@
 				location.href = url;
 			});
 		});
-
 		function validation() {
 			// 유효성 검사
-
 			// 게시판 코드 
 			$('#brdKey').on(
 					'keyup',
 					function() {
-
 						$("#brdKey").val(
 								$("#brdKey").val().replace(/[^a-z0-9]/gi, ''));
-
 						let brdKeyPrev = $('#brdKeyPrev').val();
 						let brdKeyVal = $("#brdKey").val();
 						
@@ -225,7 +221,6 @@
 							}
 						}
 					});
-
 			// 게시판 정렬 우선순위 숫자만 입력받기. 정규식 사용
 			$('#brdOrder').on(
 					'keyup',
@@ -233,21 +228,15 @@
 						$('#brdOrder').val(
 								$('#brdOrder').val().replace(/[^0-9]/g, ""));
 					});
-
 		}
-
 		function submitCheck() {
-
 			let result = true;
-
 			let brdKeyPrev = $('#brdKeyPrev').val();
 			
 			let brdKey = $('#brdKey').val();
 			let brdKeyHint = $('#brdKeyHint');
-
 			let brdName = $('#brdName').val();
 			let brdNameHint = $('#brdNameHint');
-
 			let brdOrder = $('#brdOrder').val();
 			let brdOrderHint = $('#brdOrderHint');
 			
@@ -273,27 +262,21 @@
 			}
 			
 			if (brdName === '' || brdName.length === 0) {
-
 				$('#brdName').focus();
 				brdNameHint.css('color', 'red');
 				brdNameHint.html('게시판 이름을 입력해 주세요.');
-
 				result = false;
 			}
 			if (brdOrder === '' || brdOrder.length === 0) {
-
 				$('#brdOrder').focus();
 				brdOrderHint.css('color', 'red');
 				brdOrderHint.html('게시판 우선순위를 입력해 주세요.');
-
 				result = false;
 			}
-
 			// 모든 조건이 올바르게 입력되었다면 폼 전송
 			if (result) {
 				$('#boardForm').submit();
 			}
-
 		}
 	</script>
 
