@@ -21,6 +21,8 @@ import com.breaktheice.moimat.service.TeamService;
 
 import lombok.extern.log4j.Log4j;
 
+import com.breaktheice.moimat.service.TeamSettingsService;
+
 @Controller
 @RequestMapping("/groups")
 @Log4j
@@ -35,6 +37,10 @@ public class GroupsController {
 
 	private final ChatRoomManager chatRoomManager;
 
+	
+	@Autowired
+	private TeamSettingsService tss;
+	
 	@GetMapping("")
 	public String index(@ModelAttribute("loginVO") MemberDomain member, Model model) {
 		log.info("session value: " + member);
@@ -83,4 +89,14 @@ public class GroupsController {
 
 		return "groups/chat";
 	}
+	
+	@GetMapping("/{groupId}/settings")
+	public String settings(@PathVariable Long groupId) {
+		
+		
+		
+		return "groups/settings";
+
+	}
+	
 }
