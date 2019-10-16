@@ -19,6 +19,13 @@ public class InfoController {
 	@Autowired
 	private AdminPostService postService;
 	
+	//faq
+	@RequestMapping(value= "faq")
+	public String faq() {
+		return "/info/faq";
+	}
+
+	
 	//공지
 	@RequestMapping(value= {"notice", "notice/list"})
 	public String notice(Model model, AdminCriteria cri) {// 게시글 전체 관리 접속

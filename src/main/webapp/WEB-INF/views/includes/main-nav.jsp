@@ -131,7 +131,7 @@
 						            
 						            <!-- Menu list item -->
 						            <li>
-						            	<a href="/faq">
+						            	<a href="/info/faq">
 						            		<i class="fa fa-quote-right"></i>
 						            		<span class="menu-title">
 						            			<strong>자주묻는질문</strong>
