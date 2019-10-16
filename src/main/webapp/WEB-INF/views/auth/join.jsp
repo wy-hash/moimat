@@ -183,49 +183,58 @@
 					                            </select>
 		                                    </div>
 		                                </div>
-		                                <div class="form-group">
+		                                <div class="form-group" id="myDropzone">
 		                                	<label class="col-lg-3 control-label">프로필사진</label>
 		                                	<div class="col-lg-7">
-		                                		<!--Dropzonejs using Bootstrap theme-->
-										        <!--===================================================-->
-										        <p style="text-align: left; margin-bottom: 0; padding: 6px 12px;">프로필에 쓰일 사진을 선택해주세요.</p>
-										
-										        <div class="bord-top pad-ver" style="border-top: none; text-align: left; padding: 6px 12px;">
-										            <!-- The fileinput-button span is used to style the file input field as button -->
-										            <span class="btn btn-success fileinput-button dz-clickable">
-										                <i class="fa fa-plus"></i>
-										                <span>사진선택</span>
-										            </span>
-										        </div>
-										        <div id="dz-previews" style="border-top:none; text-align: left; padding: 6px 12px;">
-										            <div id="dz-template" class="pad-top bord-top">
-										                <div class="media">
-										                    <div class="media-body">
-										                         <!--This is used as the file preview template-->
-										                        <div class="media-block">
-										                            <div class="media-left">
-										                                <img class="dz-img" data-dz-thumbnail>
-										                            </div>
-										                            <div class="media-body">
-										                                <p class="text-main text-bold mar-no text-overflow" data-dz-name></p>
-										                                <span class="dz-error text-danger text-sm" data-dz-errormessage></span>
-										                                <p class="text-sm" data-dz-size></p>
-										                                <div id="dz-total-progress" style="opacity:0">
-										                                     <div class="progress progress-xs active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-										                                        <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
-										                                    </div>
-										                                </div>
-										                            </div>
-										                        </div>
-										                    </div>
-										                    <div class="media-right">
-										                        <button data-dz-remove class="btn btn-xs btn-danger dz-cancel"><i class="demo-pli-cross"></i></button>
-										                    </div>
-										                </div>
-										            </div>
-										        </div>
-										        <!--===================================================-->
-										        <!--End Dropzonejs using Bootstrap theme-->
+
+
+												<!--Dropzonejs using Bootstrap theme-->
+												<!--===================================================-->
+												<p style="text-align: left; margin-bottom: 0; padding: 6px 12px;">프로필에 쓰일 사진을 선택해주세요.</p>
+
+												<div class="bord-top pad-ver" style="border-top: none; text-align: left; padding: 6px 12px;">
+													<!-- The fileinput-button span is used to style the file input field as button -->
+													<span class="btn btn-success fileinput-button dz-clickable">
+														<i class="fa fa-plus"></i>
+														<span>사진선택</span>
+													</span>
+
+
+
+												</div>
+												<div id="dz-previews" style="border-top:none; text-align: left; padding: 6px 12px;">
+													<div id="dz-template" class="pad-top bord-top">
+														<div class="media">
+															<div class="media-body">
+																 <!--This is used as the file preview template-->
+																<div class="media-block">
+																	<div class="media-left">
+																		<img class="dz-img" data-dz-thumbnail>
+																	</div>
+																	<div class="media-body">
+																		<p class="text-main text-bold mar-no text-overflow" data-dz-name></p>
+																		<span class="dz-error text-danger text-sm" data-dz-errormessage></span>
+																		<p class="text-sm" data-dz-size></p>
+																		<div id="dz-total-progress" style="opacity:0">
+																			 <div class="progress progress-xs active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+																				<div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="media-right">
+																<button data-dz-remove class="btn btn-xs btn-danger dz-cancel"><i class="demo-pli-cross"></i></button>
+															</div>
+														</div>
+													</div>
+												</div>
+												<!--===================================================-->
+												<!--End Dropzonejs using Bootstrap theme-->
+
+
+
+
 		                                	</div>
 		                                </div>
 		                                <div class="form-group">
@@ -564,62 +573,90 @@
 		    // TODO: 메서드 전체적으로 고쳐야함
 		    //			- required upload url.
 		    /***** FILE UPLOAD USING DROPZONE.JS *****/
+
+
+
+
+
+
+
+
+
+
+
 		    
 		    var previewNode = document.querySelector("#dz-template");
 		    previewNode.id = "";
 		    var previewTemplate = previewNode.parentNode.innerHTML;
 		    previewNode.parentNode.removeChild(previewNode);
-		
+
 		    var uplodaBtn = $('#dz-upload-btn'); //TODO : 필요없음
 		    var removeBtn = $('#dz-remove-btn'); //TODO : 필요없음
-		    var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
-		        url: "/target-url", // Set the url
+		    var myDropzone = new Dropzone("div#myDropzone", { // Make the whole body a dropzone
+		        url: "/upload", // Set the url
+				headers: {'Content-Type': 'multipart/form-data'},
+				uploadMultiple: true,
 		        thumbnailWidth: 50,
 		        thumbnailHeight: 50,
 		        parallelUploads: 20,
 		        previewTemplate: previewTemplate,
-		        autoQueue: false, // Make sure the files aren't queued until manually added
+		        autoQueue: true, // Make sure the files aren't queued until manually added
 		        previewsContainer: "#dz-previews", // Define the container to display the previews
 		        clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
 		        maxFiles: 1,
 		        dictMaxFilesExceeded: '프로필 사진은 한장만 가능합니다.'
 		    });
-		
-		
-		    myDropzone.on("addedfile", function(file) {
-		        // Hookup the button
-		        uplodaBtn.prop('disabled', true); //TODO: 필요없음
-		        removeBtn.prop('disabled', false); //TODO: 필요없음
-		    });
-		
-		    // Update the total progress bar
-		    myDropzone.on("totaluploadprogress", function(progress) {
-		        $("#dz-total-progress .progress-bar").css({'width' : progress + "%"});
-		    });
-		
-		    myDropzone.on("sending", function(file) {
-		        // Show the total progress bar when upload starts
-		        document.querySelector("#dz-total-progress").style.opacity = "1";
-		    });
-		
-		    // Hide the total progress bar when nothing's uploading anymore
-		    myDropzone.on("queuecomplete", function(progress) {
-		        document.querySelector("#dz-total-progress").style.opacity = "0";
-		    });
-		
-		
-		    // Setup the buttons for all transfers
-		    uplodaBtn.on('click', function() {
-		        //Upload all files
-		        //myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
-		    });
-		
-		    removeBtn.on('click', function() {
-		        myDropzone.removeAllFiles(true);
-		        uplodaBtn.prop('disabled', true);
-		        removeBtn.prop('disabled', true);
-		    });
-		    
+
+		    $('.finish').on('click', function(e) {
+		    	e.preventDefault();
+		    	e.stopPropagation();
+				myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
+				//myDropzone.processQueue();
+
+				return false;
+			});
+
+		    myDropzone.on("success", function(file, response) {
+		    	alert(response);
+				$('#myDropzone').remove();
+				$('#demo-bv-wz-form').attr('action', '/auth/join').submit();
+			});
+
+
+		    // myDropzone.on("addedfile", function(file) {
+		    //     // Hookup the button
+		    //     uplodaBtn.prop('disabled', true); //TODO: 필요없음
+		    //     removeBtn.prop('disabled', false); //TODO: 필요없음
+		    // });
+			//
+		    // // Update the total progress bar
+		    // myDropzone.on("totaluploadprogress", function(progress) {
+		    //     $("#dz-total-progress .progress-bar").css({'width' : progress + "%"});
+		    // });
+			//
+		    // myDropzone.on("sending", function(file) {
+		    //     // Show the total progress bar when upload starts
+		    //     document.querySelector("#dz-total-progress").style.opacity = "1";
+		    // });
+			//
+		    // // Hide the total progress bar when nothing's uploading anymore
+		    // myDropzone.on("queuecomplete", function(progress) {
+		    //     document.querySelector("#dz-total-progress").style.opacity = "0";
+		    // });
+			//
+			//
+		    // // Setup the buttons for all transfers
+		    // uplodaBtn.on('click', function() {
+		    //     //Upload all files
+		    //     //myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
+		    // });
+			//
+		    // removeBtn.on('click', function() {
+		    //     myDropzone.removeAllFiles(true);
+		    //     uplodaBtn.prop('disabled', true);
+		    //     removeBtn.prop('disabled', true);
+		    // });
+		    //
 		    /***** END FILE UPLOAD *****/
 		    
 		    

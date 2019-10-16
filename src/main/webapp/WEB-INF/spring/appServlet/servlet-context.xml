@@ -42,7 +42,8 @@
 			<beans:bean class="com.breaktheice.moimat.util.AuthInterceptor"></beans:bean>
 		</interceptor>
 	</interceptors>
-	
+
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"></beans:bean>
 	
 	
 </beans:beans>
