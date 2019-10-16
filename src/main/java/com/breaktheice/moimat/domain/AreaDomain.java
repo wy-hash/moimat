@@ -10,4 +10,5 @@ public class AreaDomain {
 	private String areaName;
 	private String areaRegionKey;
 	private String areaRegionName;
+
 }

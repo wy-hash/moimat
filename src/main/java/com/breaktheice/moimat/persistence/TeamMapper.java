@@ -8,4 +8,8 @@ public interface TeamMapper {
 
 	//for indexpage
 	List<TeamDomain> getRandomList();
+	
+	List<TeamDomain> selectJoinedGroupList(Long memId);
+
+	TeamDomain selectTeamInfo(Long teamId);
 }
