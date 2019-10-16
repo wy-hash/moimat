@@ -7,13 +7,14 @@
 
 <!-- HEAD -->
 <%@ include file="/WEB-INF/views/includes/head.jsp"%>
-<link
-	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.css"
-	rel="stylesheet" type="text/css" />
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.css.map"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.js"></script>
+    <!--Bootstrap Timepicker [ OPTIONAL ]-->
+    <link href="/resources/plugins/bootstrap-timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+    <!--Bootstrap Datepicker [ OPTIONAL ]-->
+    <link href="/resources/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
+    <!--Bootstrap Timepicker [ OPTIONAL ]-->
+    <script src="/resources/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
+    <!--Bootstrap Datepicker [ OPTIONAL ]-->
+    <script src="/resources/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 
 <title>모임일정 - ${ group.teamName } | moim@</title>
 
@@ -138,8 +139,9 @@
 										<label class="col-lg-2 control-label">모임 장소</label>
 										<div class="col-lg-9">
 											<div class="input-group mar-btm">
-												<input type="text" id="getMap" class="form-control"
-													name="meetArea" readonly="readonly" placeholder="장소검색을 눌러주세요..">
+												<input type="text" id="getAreaName" class="form-control"
+													name="meetAreaName" readonly="readonly" placeholder="장소검색을 눌러주세요..">
+												<input type="hidden" id="getArea" name="meetArea">
 												<span class="input-group-btn">
 													<button class="btn btn-dark" type="button" id="selectmap">장소검색</button>
 												</span>
@@ -151,15 +153,13 @@
 										<div class="col-lg-9 pad-no">
 											<div class="clearfix">
 												<div class="col-lg-8">
-													<input type="text" class="form-control" id="meetDay"
-														placeholder="yyyyMMdd 형식으로 작성해 주세요 ex)20190319..">
+													<input type="text" class="form-control" id="meetDay">
 												</div>
 												<div class="col-lg-2 text-lg-right">
 													<label class="control-label">시간</label>
 												</div>
 												<div class="col-lg-2">
-													<input type="text" class="form-control" id="meetTime"
-														placeholder="시간선택..">
+													<input type="text" class="form-control" id="meetTime">
 												</div>
 												<input type="hidden" id="meetDate" name="meetDate" value="">
 											</div>
@@ -234,26 +234,25 @@
 	$(document).ready(function(){
 		var openWin;
 		
+		var sysDate = new Date();
+		
 		$('#selectmap').on('click',function(){
 			window.name = "/group/${groupId}/schedule/new";
 			// window.open("open할 window", "자식창 이름", "팝업창 옵션");
 			openWin = window.open("/groups/${groupId}/schedule/map", "childForm",
 					"width=1200, height=600");
 		});
+		$('#meetDay').datepicker({
+			startDate: new Date(),
+			endDate: new Date(sysDate.getFullYear()+1,(sysDate.getMonth() - 1), sysDate.getDate()),
+			format: "yyyymmdd",
+	        autoclose: true,
+	        todayHighlight: true,
+	        
+	    });
 		$("#meetTime").timepicker({
-			timeFormat: 'H:i'
-		});
-		
-		$('#meetDay').keyup(function(){
-			var temp = this.value;
-			if(isNaN(temp) == true) {
-				alert("숫자만 입력 가능합니다.");
-				this.value = '';
-			}
-		});		
-		
-		$('#meetTime').keyup(function(){
-			$(this).val('');
+			disableFocus: true,
+			showMeridian: false
 		});
 		
 		$('input[name=meetMax]').keyup(function(){
@@ -263,7 +262,7 @@
 		$('#subbtn').on('click',function(e){
 			e.preventDefault();//submit 버튼 동작안하게만듬
 			var meetDay = $('#meetDay').val()
-			
+			setDate(meetDay);
 			if($("input[name=meetTitle]").val()==""){
 				alert("글 제목이 작성되지 않았습니다.")
 				return false;
@@ -271,7 +270,7 @@
 				alert("장소가 작성되지 않았습니다.")
 				return false;
 			}else if($("#meetDay").val()==""){
-				alert("날짜가 작성되지 않았습니다.")
+				alert("날짜가 선택되지 않았습니다.")
 				return false;
 			}else if($("#meetTime").val()==""){
 				alert("시간이 선택되지 않았습니다.")
@@ -285,44 +284,23 @@
 			}else if($("input[name='meetMax']").val()==""){
 				alert("인원이 작성되지 않았습니다.")
 				return false;
-			}else if(vaildDate(meetDay)){
-				$('#meetDate').val(inputDate);
+			}else{
 				$('#meetRegForm').submit();
 			};
 		});
-		function vaildDate(meetDay){
-			inputDate = new Date();
-			nowDate = new Date();
+		function setDate(meetDay){
+			var inputDate = new Date();
 			var yy = Number(meetDay.substring(0,4));
 			var MM = Number(meetDay.substring(4,6));
 			var dd = Number(meetDay.substring(6,8));
-			var hh = $('#meetTime').timepicker("getTime").getHours();
-			var mi = $('#meetTime').timepicker("getTime").getMinutes();
-			maxDay = new Date(new Date(yy,MM,1) - 86400000).getDate();
+			var hh = $('#meetTime').data("timepicker").hour;
+			var mi = $('#meetTime').data("timepicker").minute;
 			inputDate.setFullYear(yy);
 			inputDate.setMonth(MM-1);
 			inputDate.setDate(dd);
 			inputDate.setHours(hh);
 			inputDate.setMinutes(mi);
-			function now(){
-				var nYear = nowDate.getFullYear();
-				var nMounth = nowDate.getMonth()+1;
-				var nDay = nowDate.getDate();
-				return [nYear,(nMounth > 9 ? '' : '0')+nMounth,(nDay > 9 ? '' : '0')+nDay].join('');
-			}
-			if(meetDay.length != 8||isNaN(meetDay) == true||MM<1||MM>12||dd<1||dd>maxDay){
-				alert("날짜 형식이 맞지 않습니다.");
-				$('#meetDay').val('');
-				return false;
-			}else if(meetDay-now()>10000){
-				alert("1년 이내의 날자로 입력해주세요!");
-				$('#meetDay').val('');
-				return false;
-			}else if(inputDate-nowDate<0){
-				alert('과거에선 만날 수 없잖아요?')
-				return false;
-			}
-			return true;
+			$('#meetDate').val(inputDate);
 		}
 		
 	})
