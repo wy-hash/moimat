@@ -70,7 +70,7 @@
 						</div>
 						<form id="teamForm" name="teamForm" action="/admin/groups/new" class="panel-body form-horizontal form-padding"
 							method="post">
-							<input type="hidden" name="memId" value="31"> <!-- 추후 세션 -->
+							<input type="hidden" name="memId" value="${sessionScope.loginVO.memId }">
 							<input type="hidden" name="type" value="${pageMaker.cri.type }">
 							<input type="hidden" name="keyword" value="${pageMaker.cri.keyword }">
 							<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">

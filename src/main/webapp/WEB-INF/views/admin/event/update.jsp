@@ -74,11 +74,11 @@
 						</div>
 							<form id="eventForm" name="eventForm" action="/admin/event/edit"
 							class="panel-body form-horizontal form-padding" method="post">
-							<input type="hidden" id="postId" name="postId" value="${view.postId}"><!-- 추후 el태그로 이용할 예정 -->
-							<input type="hidden" id="brdId" name="brdId" value="${view.brdId}"><!-- 추후 el태그로 이용할 예정 -->
-							<input type="hidden" id="memId" name="memId" value="${view.memId }"><!-- 추후 세션으로 이용할 예정 -->
-							<input type="hidden" id="postNickname" name="postNickname" value="${view.postNickname}"><!-- 추후 세션으로 이용할 예정 -->
-							<input type="hidden" id="postEmail" name="postEmail" value="${view.postEmail }"><!-- 추후 세션으로 이용할 예정 -->
+							<input type="hidden" id="postId" name="postId" value="${view.postId}">
+							<input type="hidden" id="brdId" name="brdId" value="${view.brdId}">
+							<input type="hidden" id="memId" name="memId" value="${view.memId }">
+							<input type="hidden" id="postNickname" name="postNickname" value="${view.postNickname}">
+							<input type="hidden" id="postEmail" name="postEmail" value="${view.postEmail }">
 							<input type="hidden" id="postReply" name="postReply" value="${view.postReply }">
 							<input type="hidden" id="postDepth" name="postDepth" value="${view.postDepth }">
 

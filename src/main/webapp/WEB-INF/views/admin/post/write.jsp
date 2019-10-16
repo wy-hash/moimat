@@ -69,12 +69,10 @@
 						</div>
 						<form id="postForm" name="postForm" action="/admin/post/new"
 							class="panel-body form-horizontal form-padding" method="post">
-							<input type="hidden" id="postId" name="brdId" value="${pageMaker.cri.brdId}"><!-- 추후 el태그로 이용할 예정 -->
-							<input type="hidden" id="memId" name="memId" value="1"><!-- 추후 세션으로 이용할 예정 -->
-							<input type="hidden" id="postNickname" name="postNickname" value="관리자"><!-- 추후 세션으로 이용할 예정 -->
-							<input type="hidden" id="postEmail" name="postEmail" value="moimMaster@master.com"><!-- 추후 세션으로 이용할 예정 -->
-							<input type="hidden" id="postReply" name="postReply" value="">
-							<input type="hidden" id="postDepth" name="postDepth" value="0">
+							<input type="hidden" id="postId" name="brdId" value="${pageMaker.cri.brdId}">
+							<input type="hidden" id="memId" name="memId" value="${sessionScope.loginVO.memId }">
+							<input type="hidden" id="postNickname" name="postNickname" value="${sessionScope.loginVO.memNickname }">
+							<input type="hidden" id="postEmail" name="postEmail" value="${sessionScope.loginVO.memEmail }">
 
 							<!--게시글 정렬순서-->
 							<div class="form-group">

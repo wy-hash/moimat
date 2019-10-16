@@ -193,5 +193,10 @@
 		where	mem_email = #{memEmail}
 	</select>
 	
-	
+	<select id="regdateCount"  resultType="com.breaktheice.moimat.domain.AdminVO">
+		select TO_CHAR(mem_regdate,'yy/MM/dd') regdate, count(TO_CHAR(mem_regdate,'yy/MM/dd')) count
+		from member
+		group by TO_CHAR(mem_regdate,'yy/MM/dd')
+		order by TO_CHAR(mem_regdate,'yy/MM/dd') desc
+	</select>
 </mapper>

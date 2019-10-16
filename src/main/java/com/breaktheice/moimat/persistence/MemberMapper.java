@@ -2,6 +2,7 @@ package com.breaktheice.moimat.persistence;
 
 import java.util.List;
 
+import com.breaktheice.moimat.domain.AdminVO;
 import com.breaktheice.moimat.domain.AreaDomain;
 import com.breaktheice.moimat.domain.InterestDomain;
 import com.breaktheice.moimat.domain.MemberDomain;
@@ -36,5 +37,7 @@ public interface MemberMapper {
 	public Long changeStatus(MemberDomain domain);
 	// 이메일 중복체크
 	public Long emailCheck(MemberDomain domain);
+	// 가입일자 별로 카운트
+	public List<AdminVO> regdateCount();
 	
 }

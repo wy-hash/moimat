@@ -69,13 +69,11 @@
 						</div>
 							<form id="postForm" name="postForm" action="/admin/post/reply"
 							class="panel-body form-horizontal form-padding" method="post">
-							<input type="hidden" id="postId" name="postId" value="${view.postId}"><!-- 추후 el태그로 이용할 예정 -->
-							<input type="hidden" id="brdId" name="brdId" value="${view.brdId}"><!-- 추후 el태그로 이용할 예정 -->
-							<input type="hidden" id="memId" name="memId" value="${view.memId }"><!-- 추후 답글 작성자의 세션 -->
-							<input type="hidden" id="postNickname" name="postNickname" value="${view.postNickname}"><!-- 추후 세션으로 이용할 예정 -->
-							<input type="hidden" id="postEmail" name="postEmail" value="${view.postEmail }"><!-- 추후 세션으로 이용할 예정 -->
-							<input type="hidden" id="postReply" name="postReply" value="${view.postReply }">
-							<input type="hidden" id="postDepth" name="postDepth" value="${view.postDepth }">
+							<input type="hidden" id="postId" name="postId" value="${view.postId}">
+							<input type="hidden" id="brdId" name="brdId" value="${view.brdId}">
+							<input type="hidden" id="memId" name="memId" value="${sessionScope.loginVO.memId}">
+							<input type="hidden" id="postNickname" name="postNickname" value="${sessionScope.loginVO.memNickname}">
+							<input type="hidden" id="postEmail" name="postEmail" value="${sessionScope.loginVO.memEmail}">
 
 							<!--게시글 정렬순서-->
 							<div class="form-group">

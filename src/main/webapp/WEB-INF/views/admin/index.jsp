@@ -46,15 +46,10 @@
 		        <!--Page Title-->
 		        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 		        <div id="page-title">
-					<div class="panel panel-bordered panel-dark">
+<!-- 					<div class="panel panel-bordered panel-dark"> -->
 			            <div class="panel-heading">
-			                <h3 class="panel-title">관리자
-			                <div class="pull-right">asdasd	</div>
-			                </h3>
-			                
-			                
 			            </div>
-			        </div>
+<!-- 			        </div> -->
                 </div>
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <!--End page title-->
@@ -66,53 +61,15 @@
             	    <!-- #################################### -->
 					<!--  관리자 인덱스 -->
 					<!--===================================================-->
+
+	                <div id="regdateChart" style="height:212px"></div>
 		
-							        <!--Panel with Tabs-->
-					        <!--===================================================-->
-					        <div class="panel panel-mint">
-					
-					            <!--Panel heading-->
-					            <div class="panel-heading">
-					                <div class="panel-control">
-					
-					                    <!--Nav tabs-->
-					                    <ul class="nav nav-tabs">
-					                        <li class="active"><a href="#">First Tab</a></li>
-					                        <li><a href="#">Second Tab</a></li>
-					                    </ul>
-					
-					                </div>
-					                <h3 class="panel-title">With tabs</h3>
-					            </div>
-					
-					            <!--Panel body-->
-					            <div class="panel-body">
-					
-					                <!--Tabs content-->
-					                <div class="tab-content">
-					                    <div id="tab-content-box" class="tab-pane in active">
-					                        <p class="text-main text-lg mar-no">첫번째 제목</p>
-					                        	여기엔 내용이.
-					                    </div>
-					                </div>
-					            </div>
-					        </div>
-		
-		
-					<!--===================================================-->    
-                
-					
                 </div>
                 <!--===================================================-->
                 <!--End page content-->
-
-
             </div>
             <!--===================================================-->
             <!--END CONTENT CONTAINER-->			
-			
-			
-			
 		</div>
 		<!-- END BOXED -->
 		
@@ -139,6 +96,80 @@
     <!--Bootstrap Table Extension [ OPTIONAL ]-->
     <script src="/resources/plugins/bootstrap-table/extensions/editable/bootstrap-table-editable.js"></script>
 
+    <!--Flot Chart [ OPTIONAL ]-->
+    <script src="/resources/plugins/flot-charts/jquery.flot.min.js"></script>
+	<script src="/resources/plugins/flot-charts/jquery.flot.resize.min.js"></script>
+<script>
+$(document).ready(function(){
+
+//  등록일 차트용
+var pageviews = [[1, 1700], [2, 1200], [3, 1090], [4, 1550], [5, 1700], [6, 1850], [7, 2736], [8, 3045], [9, 3779], [10, 4895], [11, 5209], [12, 5100]],
+    visitor = [[1, 456], [2, 589], [3, 354], [4, 558], [5, 254], [6, 656], [7, 124], [8, 523], [9, 256], [10, 987], [11, 854], [12, 965]];
+
+ var plot = $.plot("#regdateChart", [
+     {
+         label: 'Pageviews',
+         data: pageviews,
+         lines: {
+             show: true,
+             lineWidth:2,
+             fill: true,
+             fillColor: {
+                 colors: [{opacity: 0.5}, {opacity: 0.5}]
+             }
+         },
+         points: {
+             show: true,
+             radius: 4
+         }
+     },
+     {
+         label: 'Visitors',
+         data: visitor,
+         lines: {
+             show: true,
+             lineWidth:2,
+             fill: true,
+             fillColor: {
+                 colors: [{opacity: 0.5}, {opacity: 0.5}]
+             }
+         },
+         points: {
+             show: true,
+             radius: 4
+         }
+     }
+ ],{
+ series: {
+     lines: {
+         show: true
+     },
+     points: {
+         show: true
+     },
+     shadowSize: 0	// Drawing is faster without shadows
+ },
+ colors: ['#177bbb', '#177bbb'],
+ legend: {
+     show: true,
+     position: 'nw',
+     margin: [15, 0]
+ },
+ grid: {
+     borderWidth: 0,
+     hoverable: true,
+     clickable: true
+ },
+ yaxis: {
+     ticks: 4, tickColor: '#eeeeee'
+ },
+ xaxis: {
+     ticks: 12,
+     tickColor: '#ffffff'
+ }
+});
+});
+</script>
 	
 </body>
 </html>

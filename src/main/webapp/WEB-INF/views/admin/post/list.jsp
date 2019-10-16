@@ -88,6 +88,9 @@
 										<option value="T" <c:if test="${pageMaker.cri.type eq 'T'}">selected</c:if> >제목</option>
 										<option value="C" <c:if test="${pageMaker.cri.type eq 'C'}">selected</c:if> >내용</option>
 										<option value="W" <c:if test="${pageMaker.cri.type eq 'W'}">selected</c:if> >작성자</option>
+										<c:if test="${pageMaker.cri.brdId == 3}">
+											<option value="Q" <c:if test="${pageMaker.cri.type eq 'Q'}">selected</c:if> >미답변 게시글</option>
+										</c:if>
 									</select>
 									<input type="text" name="keyword" class="form-control" value="${pageMaker.cri.keyword }"
 										placeholder="검색어를 입력해 주세요.">
