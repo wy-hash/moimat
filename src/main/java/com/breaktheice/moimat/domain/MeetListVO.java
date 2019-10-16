@@ -13,4 +13,5 @@ public class MeetListVO {
 	private Map<Long,Integer> countMeetMember;
 	private Map<Long,Boolean> isAttend;
 	private Map<Long,Boolean> isWriter;
+	private int meetCount;
 }

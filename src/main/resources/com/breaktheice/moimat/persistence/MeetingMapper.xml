@@ -4,7 +4,35 @@
 	
 	<select id="getMeetList" resultType="com.breaktheice.moimat.domain.MeetVO">
 	<![CDATA[
-		select meet.*,meet_date-sysdate from meet where team_id = #{teamId} and meet_date-sysdate > 0 order by meet_date-sysdate
+		select
+			meet.*,
+			meet_date-sysdate
+		from meet
+		where 
+			team_id = #{teamId} 
+		and meet_date-sysdate > 0 
+		order by meet_date-sysdate
+	]]>
+	</select>
+	
+	<select id="meetWithPaging" resultType="com.breaktheice.moimat.domain.MeetVO">
+	<![CDATA[
+	select meet_id, team_id,meet_title,meet_content,meet_date,meet_regdate,meet_max,meet_pay,tmem_id,meet_nickname,meet_email,meet_area
+	from
+		(
+			select
+				rownum rn, meetlist.*
+			from
+				(select
+					meet.*,
+					meet_date-sysdate
+				from meet
+				where 
+					team_id = #{teamId} 
+				and meet_date-sysdate > 0 
+				order by meet_date-sysdate) meetlist
+			where rownum <= #{cri.pageNum} * #{cri.amount}
+		) where rn > (#{cri.pageNum} -1) * #{cri.amount}
 	]]>
 	</select>
 	
@@ -156,6 +184,22 @@
 			from team_member
 				where team_id = #{groupId})
 		
+	</select>
+	
+	<select id="getTotalMeet" resultType="int">
+		select 
+			count(team_id) 
+		from
+			(
+			select
+				meet.*,
+				meet_date-sysdate
+			from meet
+			where 
+				team_id = #{teamId} 
+			and meet_date-sysdate > 0 
+			order by meet_date-sysdate
+			)	
 	</select>
 	
 	<sql id="getTmemId">

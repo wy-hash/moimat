@@ -31,7 +31,7 @@
 			,#{memEmail}
 			,#{memPassword}
 			,#{memNickname}
-			,#{memBirthday}	 
+			,to_date(#{memBirthday}, 'YYMMDD')
 			,#{memGender}	
 			,#{areaId}
 			,SYSDATE

@@ -16,6 +16,7 @@ import com.breaktheice.moimat.domain.CalendarEventVO;
 import com.breaktheice.moimat.domain.MeetListVO;
 import com.breaktheice.moimat.domain.MeetingPageVO;
 import com.breaktheice.moimat.service.MeetingService;
+import com.breaktheice.moimat.util.AdminCriteria;
 
 import lombok.AllArgsConstructor;
 
@@ -31,8 +32,17 @@ public class GroupsMeetRestController {
 			produces = {
 					MediaType.APPLICATION_JSON_UTF8_VALUE
 			})
-	public ResponseEntity<MeetListVO> getList(@PathVariable("groupid")Long a,@PathVariable("memberid")Long b){
-		return new ResponseEntity<>(service.getMeetList(a, b),HttpStatus.OK);
+	public ResponseEntity<MeetListVO> getList(@PathVariable("groupid")Long groupId,@PathVariable("memberid")Long memberId){
+		return new ResponseEntity<>(service.getMeetList(groupId, memberId),HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/getList/{groupid}/{page}/{memberid}",
+			produces = {
+					MediaType.APPLICATION_JSON_UTF8_VALUE
+			})
+	public ResponseEntity<MeetListVO> getListWithPasing(@PathVariable("groupid")Long groupId,@PathVariable("page")Long page,@PathVariable("memberid")Long memberId){
+		AdminCriteria cri = new AdminCriteria(page,3L);
+		return new ResponseEntity<>(service.meetWithPaging(groupId, memberId, cri),HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/detailedmeet/{meetid}/{groupid}/{memberid}",

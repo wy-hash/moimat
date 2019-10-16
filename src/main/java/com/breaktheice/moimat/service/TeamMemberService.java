@@ -6,12 +6,13 @@ import com.breaktheice.moimat.domain.GroupMemberVO;
 import com.breaktheice.moimat.domain.MessageVO;
 import com.breaktheice.moimat.domain.TeamMemberDomain;
 import com.breaktheice.moimat.domain.TeamMemberListVO;
+import com.breaktheice.moimat.util.AdminCriteria;
 
 public interface TeamMemberService {
 	
 	public TeamMemberDomain getMember(Long memberId);
 	
-	public TeamMemberListVO getMemberList(Long teamId,String keyword);
+	public TeamMemberListVO getMemberList(Long teamId,String status,AdminCriteria cri);
 	
 	public int updatemember(GroupMemberVO groupMemberVO,MessageVO vo);
 	
