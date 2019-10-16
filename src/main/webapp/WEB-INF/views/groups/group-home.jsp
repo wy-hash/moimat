@@ -6,7 +6,7 @@
 
 <!-- HEAD -->
 <%@ include file="../includes/head.jsp" %>
-	<title>모임홈 - ${ team.teamName } | moim@</title>
+	<title>모임홈 - ${ group.teamName } | moim@</title>
 	
 	<style>
 		@media screen and (max-width: 768px) {
@@ -61,7 +61,7 @@
                 <!--Page Title-->
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <div id="page-title">
-                    <h1 class="page-header text-overflow">{ team.teamName }</h1>
+                    <h1 class="page-header text-overflow">${ group.teamName }</h1>
                 </div>
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <!--End page title-->
@@ -81,25 +81,25 @@
 			            <!--Nav Tabs-->
 			            <ul class="nav nav-tabs">
 			                <li class="active">
-			                    <a href="${ team.teamId }">홈</a>
+			                    <a href="/groups/${ group.teamId }">홈</a>
 			                </li>
 			                <li>
-			                    <a href="${ team.teamId }/member">구성원</a>
+			                    <a href="/groups/${ group.teamId }/member">구성원</a>
 			                </li>
 			                <li>
-			                    <a href="${ team.teamId }/schedule">모임일정</a>
+			                    <a href="/groups/${ group.teamId }/schedule">모임일정</a>
 			                </li>
 			                <li>
-			                    <a href="${ team.teamId }/photos">사진첩</a>
+			                    <a href="/groups/${ group.teamId }/photos">사진첩</a>
 			                </li>
 			                <li>
-			                    <a href="${ team.teamId }/posts">게시판</a>
+			                    <a href="/groups/${ group.teamId }/posts">게시판</a>
 			                </li>
 			                <li>
-			                    <a href="${ team.teamId }/chat">채팅</a>
+			                    <a href="/groups/${ group.teamId }/chat">채팅</a>
 			                </li>
 			                <li>
-			                    <a href="${ team.teamId }/settings">설정</a>
+			                    <a href="/groups/${ group.teamId }/settings">설정</a>
 			                </li>
 			            </ul>
 			            
@@ -110,14 +110,14 @@
 								<i class="fa fa-bars"></i> 홈
                             </button>
                             <ul class="dropdown-menu dropdown-menu-left">
-                                <li class="active"><a href="${ team.teamId }">홈</a></li>
-                                <li><a href="${ team.teamId }/member">구성원</a></li>
-                                <li><a href="${ team.teamId }/schedule">모임일정</a></li>
-                                <li><a href="${ team.teamId }/photos">사진첩</a></li>
-                                <li><a href="${ team.teamId }/posts">게시판</a></li>
-                                <li><a href="${ team.teamId }/chat">채팅</a></li>
+                                <li class="active"><a href="/groups/${ group.teamId }">홈</a></li>
+                                <li><a href="/groups/${ group.teamId }/member">구성원</a></li>
+								<li><a href="/groups/${ group.teamId }/schedule">모임일정</a></li>
+								<li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
+								<li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
+                                <li><a href="/groups/${ group.teamId }/chat">채팅</a></li>
                                 <li class="divider"></li>
-                                <li><a href="${ team.teamId }/settings">설정</a></li>
+                                <li><a href="/groups/${ group.teamId }/settings">설정</a></li>
                             </ul>
                         </div>
                         <!--===================================================-->
