@@ -111,7 +111,7 @@
 						            <li class="list-header">인포</li>
 						            
 						            <li>
-						            	<a href="#">
+						            	<a href="<c:url value='/info/notice'/>">
 						            		<i class="fa fa-bullhorn"></i>
 						            		<span class="menu-title">
 						            			<strong>공지사항</strong>
@@ -121,7 +121,7 @@
 						            
 						            <!-- Menu list item -->
 						            <li>
-						            	<a href="#">
+						            	<a href="<c:url value='/info/event'/>">
 						            		<i class="fa fa-gift"></i>
 						            		<span class="menu-title">
 						            			<strong>이벤트</strong>
@@ -131,7 +131,7 @@
 						            
 						            <!-- Menu list item -->
 						            <li>
-						            	<a href="/faq">
+						            	<a href="/info/faq">
 						            		<i class="fa fa-quote-right"></i>
 						            		<span class="menu-title">
 						            			<strong>자주묻는질문</strong>
@@ -141,7 +141,7 @@
 						            
 						            <!-- Menu list item -->
 						            <li>
-						            	<a href="#">
+						            	<a href="<c:url value='/info/qna'/>">
 						            		<i class="fa fa-pencil-square-o"></i>
 						            		<span class="menu-title">
 						            			<strong>문의하기</strong>

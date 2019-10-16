@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.breaktheice.moimat.domain.InterestDomain;
 import com.breaktheice.moimat.service.AdminInterestService;
+import com.breaktheice.moimat.util.AdminCriteria;
+import com.breaktheice.moimat.util.AdminPageDTO;
 
 @Controller
 @RequestMapping("/admin/interest")
@@ -21,11 +23,13 @@ public class AdminInterestController {
 	
 	//관심사 목록출력 
 	@RequestMapping(value = {"", "list"})
-	public String list(Model model) throws Exception{
+	public String list(Model model, AdminCriteria cri) throws Exception{
 		System.out.println("list()");
 		
-		List<InterestDomain> list = service.list();
-		
+		List<InterestDomain> list = service.list(cri);
+		Long totalCount = service.totalCount(cri);
+
+		model.addAttribute("pageMaker", new AdminPageDTO(cri, totalCount));//페이지네이션
 		model.addAttribute("list", list);
 		
 		return "/admin/interest/list";
