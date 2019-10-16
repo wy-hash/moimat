@@ -74,7 +74,7 @@
 			position: absolute;
 			top: 0;
 			left: 0;
-			background-image: url('resources/img/bg-img/home.png');
+			background-image: url('/resources/img/bg-img/home.png');
 			width: 100%;
 			height: 100%;
 			z-index: -1;
@@ -151,7 +151,7 @@
             	    
             	    
             	    <!-- 메인 타이틀, 검색 -->
-            	    <div class="row"">
+            	    <div class="row">
             	                	    
             	    
     					<!-- JUMBOTRON -->

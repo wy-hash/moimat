@@ -30,7 +30,7 @@
 
 		<c:forEach items="${meetList.meetList }" var="list" begin="0"
 			varStatus="status">
-			<div class="card mb-3"">
+			<div class="card mb-3">
 				<div class="row no-gutters">
 					<div class="col-md-4" id="map${status.index }"></div>
 					<div class="col-md-8">
