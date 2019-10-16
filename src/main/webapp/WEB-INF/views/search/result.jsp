@@ -128,7 +128,7 @@
            			 
            			 <form action="/home/result" method="post">
 	           		 <div class="row">
-	   					<c:forEach items="${keyword}" var="searchDomain" varStatus="status">
+	   					<c:forEach items="${keyword}" var="searchVO" varStatus="status">
 						<c:if test="${status.index eq 0}">
 	           			<div class="col-md-6 col-lg-4">
 	           				<div class="panel">
@@ -138,11 +138,11 @@
 	          								<img src="/resources/img/bg-img/이미지캡처.PNG" class="img-md img-circle" alt="Avatar">
 	          							</div>
 	          							<div class="media-body">
-	          							<p class="text-lg text-main text-semibold mar-no">${searchDomain.teamName}</p>
-	          							<p>${searchDomain.areaName}</p>
+	          							<p class="text-lg text-main text-semibold mar-no">${searchVO.teamName}</p>
+	          							<p>${searchVO.areaRegionName}</p>
 	          							</div>
 	           						</div>
-	       							<blockquote class="bq-sm bq-open bq-close">${searchDomain.teamShortContent}</blockquote>
+	       							<blockquote class="bq-sm bq-open bq-close">${searchVO.teamShortContent}</blockquote>
 	           					</div>
 	           				</div>
 	           			</div>
@@ -153,7 +153,7 @@
            		
            		
 	           		 <div class="row">
-	  					<c:forEach items="${keyword}" var="searchDomain" varStatus="status">
+	  					<c:forEach items="${keyword}" var="searchVO" varStatus="status">
 						<c:if test="${status.index eq 1}">
 	           			<div class="col-md-6 col-lg-4">
 	           				<div class="panel">
@@ -163,11 +163,11 @@
 	          								<img src="/resources/img/bg-img/이미지캡처.PNG" class="img-md img-circle" alt="Avatar">
 	          							</div>
 	          							<div class="media-body">
-	          							<p class="text-lg text-main text-semibold mar-no">${searchDomain.teamName}</p>
-	          							<p>${searchDomain.areaName}</p>
+	          							<p class="text-lg text-main text-semibold mar-no">${searchVO.teamName}</p>
+	          							<p>${searchVO.areaRegionName}</p>
 	          							</div>
 	       							</div>
-	       								<blockquote class="bq-sm bq-open bq-close">${searchDomain.teamShortContent}</blockquote>
+	       								<blockquote class="bq-sm bq-open bq-close">${searchVO.teamShortContent}</blockquote>
 	       						</div>
 	           				</div>
 	           			</div>
@@ -178,7 +178,7 @@
            		
            		
 	           		 <div class="row">
-	  					<c:forEach items="${keyword}" var="searchDomain" varStatus="status">
+	  					<c:forEach items="${keyword}" var="searchVO" varStatus="status">
 						<c:if test="${status.index eq 2}">
 	           			<div class="col-md-6 col-lg-4">
 	           				<div class="panel">
@@ -188,11 +188,11 @@
 	          								<img src="/resources/img/bg-img/이미지캡처.PNG" class="img-md img-circle" alt="Avatar">
 	          							</div>
 	          							<div class="media-body">
-	          							<p class="text-lg text-main text-semibold mar-no">${searchDomain.teamName}</p>
-	          							<p>${searchDomain.areaName}</p>
+	          							<p class="text-lg text-main text-semibold mar-no">${searchVO.teamName}</p>
+	          							<p>${searchVO.areaRegionName}</p>
 	          							</div>
 	           						</div>
-	       							<blockquote class="bq-sm bq-open bq-close">${searchDomain.teamShortContent}</blockquote>
+	       							<blockquote class="bq-sm bq-open bq-close">${searchVO.teamShortContent}</blockquote>
 	           					</div>
 	           				</div>
 	           			</div>
