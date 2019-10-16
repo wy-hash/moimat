@@ -8,7 +8,9 @@
 <!-- HEAD -->
 <%@ include file="../includes/head.jsp"%>
 
-<title>모임일정 - ${ team.teamName } | moim@</title>
+
+<title>모임일정 - ${ group.teamName } | moim@</title>
+
 
 <style>
 @media screen and (max-width: 768px) {
@@ -70,7 +72,7 @@
 				<!--Page Title-->
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<div id="page-title">
-					<h1 class="page-header text-overflow">{ _team.teamName_ }</h1>
+					<h1 class="page-header text-overflow">${ group.teamName }</h1>
 				</div>
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<!--End page title-->
@@ -89,14 +91,14 @@
 
 						<!--Nav Tabs-->
 						<ul class="nav nav-tabs">
-							<li><a href="${ team.teamId }">홈</a></li>
-							<li><a href="${ team.teamId }/member">구성원</a></li>
-							<li class="active"><a href="${ team.teamId }/schedule">모임일정</a>
+							<li><a href="/groups/${ group.teamId }">홈</a></li>
+							<li><a href="/groups/${ group.teamId }/member">구성원</a></li>
+							<li class="active"><a href="/groups/${ group.teamId }/schedule">모임일정</a>
 							</li>
-							<li><a href="${ team.teamId }/photos">사진첩</a></li>
-							<li><a href="${ team.teamId }/posts">게시판</a></li>
-							<li><a href="${ team.teamId }/chat">채팅</a></li>
-							<li><a href="${ team.teamId }/settings">설정</a></li>
+							<li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
+							<li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
+							<li><a href="/groups/${ group.teamId }/chat">채팅</a></li>
+							<li><a href="/groups/${ group.teamId }/settings">설정</a></li>
 						</ul>
 
 						<!--Default Dropdown button-->
@@ -107,14 +109,14 @@
 								<i class="fa fa-bars"></i> 모임일정
 							</button>
 							<ul class="dropdown-menu dropdown-menu-left">
-								<li><a href="${ team.teamId }">홈</a></li>
-								<li><a href="${ team.teamId }/member">구성원</a></li>
-								<li class="active"><a href="${ team.teamId }/schedule">모임일정</a></li>
-								<li><a href="${ team.teamId }/photos">사진첩</a></li>
-								<li><a href="${ team.teamId }/posts">게시판</a></li>
-								<li><a href="${ team.teamId }/chat">채팅</a></li>
+								<li><a href="${ group.teamId }">홈</a></li>
+								<li><a href="${ group.teamId }/member">구성원</a></li>
+								<li class="active"><a href="${ group.teamId }/schedule">모임일정</a></li>
+								<li><a href="${ group.teamId }/photos">사진첩</a></li>
+								<li><a href="${ group.teamId }/posts">게시판</a></li>
+								<li><a href="${ group.teamId }/chat">채팅</a></li>
 								<li class="divider"></li>
-								<li><a href="${ team.teamId }/settings">설정</a></li>
+								<li><a href="${ group.teamId }/settings">설정</a></li>
 							</ul>
 						</div>
 						<!--===================================================-->
@@ -222,6 +224,16 @@
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6213368344dd87ee3c46139e0d1df7cd"></script>
 	<script>
 		window.onload = function() {
+			var places = new kakao.maps.services.Places();
+
+			var callback = function(result, status) {
+			    if (status === kakao.maps.services.Status.OK) {
+			        console.log(result);
+			    }
+			};
+
+			places.keywordSearch('헌릉', callback);
+			
 			var meetList = document.getElementById("meetList");
 			
 			var geocoder = new kakao.maps.services.Geocoder();
@@ -240,6 +252,7 @@
 					function(result, status) {
 						if (status === kakao.maps.services.Status.OK) {
 							var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+							console.log(coords)
 						}
 						var mapContainer = document.getElementById(idx), mapOption = {
 							center : coords,
@@ -302,7 +315,7 @@
 								   +								'<i class="fa fa-map-marker"></i>'
 								   +							'</span>'
 								   +							'&ensp;'
-								   +								list.meetList[i].meetArea
+								   +								list.meetList[i].meetAreaName
 								   +						'</div>'
 								   +						'<div class="col-lg-3">'
 								   +							'<span style="color:green;">'
@@ -360,7 +373,6 @@
 					});
 					detailedMeet();
 					moimCEvent();
-					console.log("asdasd");
 				});
 			}
 			

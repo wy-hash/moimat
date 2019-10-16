@@ -17,7 +17,20 @@
 	
 	<select id="meetWithPaging" resultType="com.breaktheice.moimat.domain.MeetVO">
 	<![CDATA[
-	select meet_id, team_id,meet_title,meet_content,meet_date,meet_regdate,meet_max,meet_pay,tmem_id,meet_nickname,meet_email,meet_area
+	select 
+		meet_id, 
+		team_id,
+		meet_title,
+		meet_content,
+		meet_date,
+		meet_regdate,
+		meet_max,
+		meet_pay,
+		tmem_id,
+		meet_nickname,
+		meet_email,
+		meet_area,
+		meet_area_name
 	from
 		(
 			select
@@ -61,7 +74,8 @@
 				meet_nickname,
 				meet_email,
 				meet_area,
-				meet_photo)
+				meet_photo,
+				meet_area_name)
 		values
 			(
 			meet_seq.nextval, 
@@ -76,7 +90,8 @@
 			#{meetNickName},
 			#{meetEmail},
 			#{meetArea},
-			#{meetPhoto})
+			#{meetPhoto},
+			#{meetAreaName})
 		<!-- to use getMeetId  -->
 		<selectKey order="AFTER" keyProperty="meetId" resultType="Long">
 			select meet_seq.currval from dual
@@ -92,7 +107,8 @@
 			meet_max = #{meetMax},
 			meet_title = #{meetTitle},
 			meet_content = #{meetContent},
-			meet_pay = #{meetPay}
+			meet_pay = #{meetPay},
+			meet_area_name = #{meetAreaName}
 		where meet_Id = #{meetId}		
 	</update>
 	

@@ -9,7 +9,9 @@
 <!-- HEAD -->
 <%@ include file="../includes/head.jsp"%>
 
+
 <title>구성원 - ${ team.teamName } | moim@</title>
+
 
 <style>
 @media screen and (max-width: 768px) {
@@ -69,7 +71,7 @@
 				<!--Page Title-->
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<div id="page-title">
-					<h1 class="page-header text-overflow">{ _team.teamName_ }</h1>
+					<h1 class="page-header text-overflow">${ group.teamName }</h1>
 				</div>
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<!--End page title-->
@@ -88,14 +90,14 @@
 
 						<!--Nav Tabs-->
 						<ul class="nav nav-tabs">
-							<li><a href="${ team.teamId }">홈</a></li>
-							<li class="active"><a href="${ team.teamId }/member">구성원</a>
+							<li><a href="/groups/${ group.teamId }">홈</a></li>
+							<li class="active"><a href="/groups/${ group.teamId }/member">구성원</a>
 							</li>
-							<li><a href="${ team.teamId }/schedule">모임일정</a></li>
-							<li><a href="${ team.teamId }/photos">사진첩</a></li>
-							<li><a href="${ team.teamId }/posts">게시판</a></li>
-							<li><a href="${ team.teamId }/chat">채팅</a></li>
-							<li><a href="${ team.teamId }/settings">설정</a></li>
+							<li><a href="/groups/${ group.teamId }/schedule">모임일정</a></li>
+							<li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
+							<li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
+							<li><a href="/groups/${ group.teamId }/chat">채팅</a></li>
+							<li><a href="/groups/${ group.teamId }/settings">설정</a></li>
 						</ul>
 
 						<!--Default Dropdown button-->
@@ -106,14 +108,14 @@
 								<i class="fa fa-bars"></i> 구성원
 							</button>
 							<ul class="dropdown-menu dropdown-menu-left">
-								<li><a href="${ team.teamId }">홈</a></li>
-								<li class="active"><a href="${ team.teamId }/member">구성원</a></li>
-								<li><a href="${ team.teamId }/schedule">모임일정</a></li>
-								<li><a href="${ team.teamId }/photos">사진첩</a></li>
-								<li><a href="${ team.teamId }/posts">게시판</a></li>
-								<li><a href="${ team.teamId }/chat">채팅</a></li>
+								<li><a href="/groups/${ group.teamId }">홈</a></li>
+								<li class="active"><a href="/groups/${ group.teamId }/member">구성원</a></li>
+								<li><a href="/groups/${ group.teamId }/schedule">모임일정</a></li>
+								<li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
+								<li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
+								<li><a href="/groups/${ group.teamId }/chat">채팅</a></li>
 								<li class="divider"></li>
-								<li><a href="${ team.teamId }/settings">설정</a></li>
+								<li><a href="/groups/${ group.teamId }/settings">설정</a></li>
 							</ul>
 						</div>
 						<!--===================================================-->
@@ -166,7 +168,7 @@
 														</tbody>
 													</table>
 												</div>
-												<div class="paginationBtn" style="height: 32px"></div>
+												<div class="paginationBtn text-right"></div>
 											</div>
 											<div class="tab-pane fade" id="demo-tabs-box-2">
 												<div class="table-toolbar-right pad-no">
@@ -220,7 +222,7 @@
 															class="btn btn-default btn-hover-danger">삭제하기</button>
 													</p>
 												</div>
-												<div class="paginationBtn" style="height: 32px"></div>
+												<div class="paginationBtn text-right"></div>
 											</div>
 										</div>
 									</div>
@@ -281,6 +283,8 @@
 	<c:if test="${ !empty loginVO }">
 		<%@ include file="../includes/modals.jsp"%>
 	</c:if>
+	<!--Bootbox Modals [ OPTIONAL ]-->
+	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 	<%-- for modal --%>
 	<script type="text/javascript" src="/resources/js/teammember.js"></script>
 	<script>
@@ -940,7 +944,7 @@
 					next = true;
 				}
 				
-				var paginationBtn  = "<ul class='pagination pull-right mar-no'>";
+				var paginationBtn  = "<ul class='pagination mar-no'>";
 				
 				if(prev){
 					paginationBtn += "<li class='page-item'><a class='page-link' href='"+(startNum -1)+"'>Previous</a></li>";

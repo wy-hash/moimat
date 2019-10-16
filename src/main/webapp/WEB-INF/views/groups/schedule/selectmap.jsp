@@ -225,21 +225,22 @@
 			
 		</div>
 <hr>
-
-<input type="text" value="" id="abcd" style="width: 100%" readonly="readonly">
+<input type="text" value="" id="areaName" style="width: 100%" readonly="readonly" placeholder="지역이름">
+<input type="text" value="" id="area" style="width: 100%" readonly="readonly">
 <button type="button" class="btn btn-dark btn-block" id="sendmap">선택하기</button>
 
 	</div>
 
 	<script>
-		var abcd = document.getElementById('abcd');
-		
+		var area = document.getElementById('area');
+		var areaName = document.getElementById('areaName');
 		// 마커를 담을 배열입니다
 		var markers = [];
+		
 
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		mapOption = {
-			center : new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+			center : new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표 이거 처음떳을때 서울시청임 .
 			level : 3
 		// 지도의 확대 레벨
 		};
@@ -251,6 +252,7 @@
 		var ps = new kakao.maps.services.Places();
 
 		// 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
+		//++++++없애야할 것 !!@#
 		var infowindow = new kakao.maps.InfoWindow({
 			zIndex : 1
 		});
@@ -282,6 +284,8 @@
 
 				// 페이지 번호를 표출합니다
 				displayPagination(pagination);
+				
+				overlayInnerContent(data)
 
 			} else if (status === kakao.maps.services.Status.ZERO_RESULT) {
 
@@ -293,6 +297,33 @@
 				alert('검색 결과 중 오류가 발생했습니다.');
 				return;
 
+			}
+		}
+		//장소검색이 완료되었을때 이쁜 네모를 만드는 함수입니다.(첫번째껏만 하기 )
+		//이걸 만드는 시점을 고민해야겟나?(클릭시 지우고 다시호출하기)
+		//data를 받지말고 places를 받아서 클릭시 
+		function overlayInnerContent(data){
+			for(var i = 0,len = data.length||0;i<len;i++){
+				console.log(data[i])
+				var content = '<div class="wrap">' + 
+	            '    <div class="info">' + 
+	            '        <div class="title">' + 
+	            '            카카오 스페이스닷원' + 
+	            '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
+	            '        </div>' + 
+	            '        <div class="body">' + 
+	            '            <div class="img">' +
+	            '                <img src="http://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
+	            '           </div>' + 
+	            '            <div class="desc">' + 
+	            '                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' + 
+	            '                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' + 
+	            '                <div><a href="http://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
+	            '            </div>' + 
+	            '        </div>' + 
+	            '    </div>' +    
+	            '</div>';
+				console.log(content)
 			}
 		}
 
@@ -313,7 +344,7 @@
 
 				// 마커를 생성하고 지도에 표시합니다
 				var placePosition = new kakao.maps.LatLng(places[i].y,
-						places[i].x), marker = addMarker(placePosition, i), itemEl = getListItem(
+						places[i].x), marker = addMarker(placePosition, i,places[i]), itemEl = getListItem(
 						i, places[i]); // 검색 결과 항목 Element를 생성합니다
 				
 					
@@ -326,6 +357,8 @@
 				// 마커와 검색결과 항목에 mouseover 했을때
 				// 해당 장소에 인포윈도우에 장소명을 표시합니다
 				// mouseout 했을 때는 인포윈도우를 닫습니다
+				
+				// ++ displayInfowindow 없애고 
 				(function(marker, title, placePosition) {
 					kakao.maps.event.addListener(marker, 'mouseover',
 							function() {
@@ -373,16 +406,19 @@
 
 			el.innerHTML = itemStr;
 			el.className = 'item';
-			
-			el.addEventListener('dblclick',
+			//검색창 눌렀을때 저장되는 그것임 ..
+			el.addEventListener('click',
 			function() {
 				var coordList = new kakao.maps.LatLng(places.y, places.x);
 				map.setCenter(coordList);
 				map.setLevel(3);
+				// 네모창에 네모네모 저장저장 네모네모 
+				console.log(places)
+				areaName.value = places.place_name;
 				if (places.road_address_name) {
-					abcd.value = places.road_address_name;
+					area.value = places.road_address_name;
 				} else {
-					abcd.value = places.address_name; 
+					area.value = places.address_name; 
 				}
 				
 			});
@@ -406,18 +442,17 @@
 			});
 			kakao.maps.event.addListener(marker,'click',
 					function() {
-						console.log(position);
+						console.log(position.place_name);
 						map.setCenter(position);
 						map.setLevel(3);
-						var callback = function(result, status) {
-						    if (status === kakao.maps.services.Status.OK) {
-						    	
-						        	abcd.value = result[0].address.address_name; 
-						    }
-						};
-						var gc = new kakao.maps.services.Geocoder();
-						gc.coord2Address(position.getLng(), position.getLat(), callback);
-						
+						//마커 선택시 
+						areaName.value = title.place_name;
+						//도로명 주소는 있는데도있고 없는데도 있기때문에 
+						if (title.road_address_name) {
+							area.value = title.road_address_name;
+						} else {
+							area.value = title.address_name;
+						}
 					});
 			marker.setMap(map); // 지도 위에 마커를 표출합니다
 			markers.push(marker); // 배열에 생성된 마커를 추가합니다
@@ -481,7 +516,8 @@
 		
 		var sendmap = document.getElementById('sendmap');
 		sendmap.addEventListener('click',function(){
-			opener.document.getElementById("getMap").value = abcd.value
+			opener.document.getElementById("getAreaName").value = areaName.value
+			opener.document.getElementById("getArea").value = area.value
 			window.close();
 		});
 	</script>
