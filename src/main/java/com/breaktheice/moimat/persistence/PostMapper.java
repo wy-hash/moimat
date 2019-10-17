@@ -25,6 +25,6 @@ public interface PostMapper {
 	// 게시글 삭제
 	public Long remove(PostDomain domain);
 	
-	// 게시글 작성자 확인 mem_id 를 int 형으로 반환
+	// 게시글 작성자 확인 mem_id 를 Long 형으로 반환
 	public Long memberCheck(PostDomain domain);
 }

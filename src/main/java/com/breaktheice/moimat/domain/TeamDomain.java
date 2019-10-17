@@ -11,9 +11,14 @@ public class TeamDomain {
 	private int intId;
 	private String teamName;
 	private String teamShortContent;
-	private String teamComment;
+	private String teamContent;
 	private Long areaId;
 	private Date teamRegdate;
 	private Long teamMax;
 	private Long memId;
+	
+	//출력용 관심사, 활동지역, 작성자
+	private String intName;
+	private String areaRegionName;
+	private String memNickName;
 }
