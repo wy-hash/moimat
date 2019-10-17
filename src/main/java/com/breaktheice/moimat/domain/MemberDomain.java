@@ -11,7 +11,7 @@ public class MemberDomain {
 	private String memNickname;
 	private String memBirthday;
 	private String memGender;
-	private Long areaId;
+	private Long areaId = 0L;
 	private String memRegdate;
 	private String memUpdate;
 	private String memLastlogin;
@@ -19,8 +19,8 @@ public class MemberDomain {
 	private String memPhoto;
 	private Long memLevel;
 	private Long memStatus;
-	private Long memInt1;
-	private Long memInt2;
-	private Long memInt3;
+	private Long memInt1 = 0L;
+	private Long memInt2 = 0L;
+	private Long memInt3 = 0L;
 	
 }

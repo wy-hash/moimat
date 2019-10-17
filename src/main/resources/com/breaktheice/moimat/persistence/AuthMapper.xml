@@ -4,19 +4,8 @@
 	
 	<select id="login" resultType="com.breaktheice.moimat.domain.MemberDomain">
 
-		select 
-			MEM_EMAIL
-			,MEM_PASSWORD
-			,MEM_NICKNAME
-			,MEM_GENDER
-			,TO_CHAR(MEM_BIRTHDAY, 'YYYYMMDD') MEM_BIRTHDAY <!-- 시분초변환 -->
-			,AREA_ID
-			,MEM_PHOTO
-			,AREA_ID
-			,MEM_INT1
-			,MEM_INT2
-			,MEM_INT3 from member
-		where mem_email = #{ memEmail } 
+		select * from member
+		where mem_email = #{ memEmail }
 		
 	</select>
 	

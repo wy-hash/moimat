@@ -6,13 +6,6 @@
 
 <!-- HEAD -->
 <%@ include file="../includes/head.jsp"%>
-
-<!--Select2 [ OPTIONAL ]-->
- <link href="/resources/plugins/select2/css/select2.min.css" rel="stylesheet">
-
-<!--Select2 [ OPTIONAL ]-->
-<script src="/resources/plugins/select2/js/select2.min.js"></script>
-
 <title>마이페이지 | moim@</title>
 </head>
 <!-- END HEAD -->
@@ -102,11 +95,11 @@
 					                    <label class="col-md-3 control-label">성별</label>
 					                    <div class="col-md-9">
 					                        <div>
-					                            <input class="magic-radio" type="radio" name="memGender" value="M" id="mem"  onclick="return(false);"/>
+					                            <input class="magic-radio" type="radio" name="memGender" value="M" id="mem">
 					                            <label for="mem">남성</label>
 					                        </div>
 					                        <div>
-					                            <input class="magic-radio" type="radio" name="memGender" value="W" id="women" onclick="return(false);"/>
+					                            <input class="magic-radio" type="radio" name="memGender" value="W" id="women">
 					                            <label for="women">여성</label>
 					                        </div>
 					                    </div>
@@ -116,23 +109,39 @@
 					                <div class="form-group">
 					                    <label class="col-md-3 control-label" for="demo-password-input">관심지역</label>
 					                    <div class="col-md-9">
-                                      	 	<select id="areaId" class="form-control" name="areaId" disabled>
-                                      	 	
-                                       		</select>
-                                    </div>
+					                        <input type="text" id="memArea" name="memArea" class="form-control" >
+					                    </div>
 					                </div>
 					                
-					                <!-- 관심사 -->
+					                <!-- 관심사1 -->
 					             	<div class="form-group pad-ver" >
 					                    <label class="col-md-3 control-label">관심사1</label>
 					                    <div class="col-md-9">
-                                      		<select id="intKey" class="form-control" multiple="multiple" disabled>
-                                                                     
-                                     		</select>
+					                       <div class="radio interest" id="interest1">
+					                           
+					                        </div>
 					                    </div> 
 					                </div>
 					                
-					              
+					                <!-- 관심사2 -->
+					             	<div class="form-group pad-ver">
+					                    <label class="col-md-3 control-label">관심사2</label>
+					                    <div class="col-md-9">
+					                        <div class="radio interest" id="interest2">
+					                            
+					                        </div>
+					                    </div> 
+					                </div>
+									
+									<!-- 관심사3 -->
+					             	<div class="form-group pad-ver">
+					                    <label class="col-md-3 control-label">관심사3</label>
+					                    <div class="col-md-9">
+					                        <div class="radio interest" id="interest3">
+					                          
+					                        </div>
+					                    </div>
+					                </div>
 					                
 					               <div class="panel-footer text-right">
 					                    	<a class="btn btn-success" href="/mypage/edit/">회원정보수정</a>
@@ -168,7 +177,7 @@
 <script>
 
 $(document).ready(function(){  //onload 함수
-	 getInterest();
+	// getInterest();
 	 getMyInfo();
 	
 });
@@ -177,113 +186,91 @@ $(document).ready(function(){  //onload 함수
 
 // 개인정보를 갖고와서 찍기
 function getMyInfo(){
-	   
-	   let data = null;
-	   let url = "/mypage/selectUser";
-	   let error="에러가발생했습니다. 다시시작해 주세요";
-	   
-	   let resultData = callAjax(data, url, error);
-	   
-	   // 여기서 부터 화면에 찍는로직
-	   let user = resultData.user;   // user 정보만 갖고오고
-	   console.log(user);
-	   var codeList = [] ;      // 관심코드 배열로 받을거
-	   for (var key in user) {
-	         $('#'+key).val(user[key]);   
-	         
-	         if(key == "memGender"){
-	            $('input:radio[name="memGender"][value="'+user[key]+'"]').prop('checked', true);
-	         }else if(key == "areaId"){
-	            $('#areaId').val(user[key]).prop("selected", true);
-	         }else if(key == "memPhoto"){
-	            // 자바스크립에서 contextPath(localhost:8080/moimat 구하는 방법 : 위와 동일
-	           // var ctx = window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
-	             //alert(window.location.pathname);
-	            $('#memPhoto').attr("src", '${pageContext.request.contextPath}' + user[key]);
-	         }else if(key == "memInt1"){
-	            codeList.push(user[key]);                       
-	         }else if(key == "memInt2"){
-	            codeList.push(user[key]);
-	         }else if(key == "memInt3"){
-	            codeList.push(user[key]);
-	         }
-	   }
-	   $('#intKey').val(codeList).trigger('change')
+	
+	let data = null;
+	let url = "/mypage/selectUser";
+	let error="에러가발생했습니다. 다시시작해 주세요";
+	
+	let resultData = callAjax(data, url, error);
+	
+	console.log(resultData);
+	
+	// 여기서 부터 화면에 찍는로직
+	let user = resultData.user;	// user 정보만 갖고오고
+	
+	var array = new Array();	// arrayList생성 (키만 담을ㄹ고)
+	for (var key in user) {
+	      $('#'+key).val(user[key]);	
+	      
+	      if(key == "memGender"){
+	    	  $('input:radio[name="memGender"][value="'+user[key]+'"]').prop('checked', true);
+	      
+	      }else if(key == "memInt1"){
+	    	  $('input:radio[name="memInt1"][value="'+user[key]+'"]').prop('checked', true);
+	    	  
+	      }else if(key == "memInt2"){
+	    	  $('input:radio[name="memInt2"][value="'+user[key]+'"]').prop('checked', true);
+	    	  
+	      }else if(key == "memInt3"){
+	    	  $('input:radio[name="memInt3"][value="'+user[key]+'"]').prop('checked', true);
+	      }else if(key == "memPhoto"){
+	    	  // 자바스크립에서 contextPath(localhost:8080/moimat 구하는 방법 : 위와 동일
+		    	 // var ctx = window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
+		    		//alert(window.location.pathname);
+		    	  $('#memPhoto').attr("src", '${pageContext.request.contextPath}' + user[key]);
+		      }
+	}
 }
 
 // 관심사 코드를 갖고온다(문항 동적으로 생성)
 function getInterest(){
 	
-
-	 let data = null;
-	   let url = "/mypage/getCodeList";
-	   let error="에러가발생했습니다. 다시시작해 주세요";
-	      
-	   let resultData = callAjax(data, url, error);
-	   
-	   // 지역
-	   let areaList = resultData.areas;
-	   let areaStr="";   
-	   // 1차카테고리 : Map에 담아서 지역 중복제거, 2차카테고리: 구군option 추가
-	   for(let i=0; i<areaList.length; i++){
-	      // 2차카테고리 문자열 생성
-	      areaStr += "<option value='"+ areaList[i].areaId +"' >"+areaList[i].areaName+" "+areaList[i].areaRegionName+"</option>";
-	   }
-	   
-	   $('#areaId').append(areaStr);   // 2차 카테고리 추가
-	   
-	   
-	   // 관심사
-	   let interList = resultData.interest;
-	   let interHidden = $('.interest');
-	   let interStr ='';
-
-	   for(let i=0; i<interList.length; i++){
-	      interStr += "<option value='"+interList[i].intId+"'>"+ interList[i].intName +"</option>"
-	   }
-	   $('#intKey').append(interStr);
-
+	let data = null;
+	let url = "/auth/codeList";
+	let error="에러가발생했습니다. 다시시작해 주세요";
+	
+	let resultData = callAjax(data, url, error);
+	let codeList = resultData.codeList
+	let interests = $('.interest');
+	
+	for(let i=0; i<interests.length; i++){
+		let str='';
+		for(let j=0; j<codeList.length; j++){
+			str += '<input  class="magic-radio" type="radio" name="memInt'+(i+1)+'" value="'+codeList[j].intId+'"'
+					+'id="interest'+(i+1)+'_'+(j+1)+'"' +'checked>'
+					+ '<label for="interest'+(i+1)+'_'+(j+1)+'">'+codeList[j].intName+'</label>';	
+		}
+		console.log(str);
+		
+		$('#interest'+(i+1)).append(str);
+	}
+	
 }
 
-	//ajax 호출 코드
-	function callAjax(data, url, error) {
+//ajax 호출 코드
+function callAjax(data, url, error) {
 
-		let resultData = null;
+	let resultData = null;
 
-		$.ajax({
-			type : "POST",
-			url : url,
-			data : data,
-			dataType : "json",
-			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
-			async : false,
-			success : function(data, status, xhr) {
-				console.log(data);
-				resultData = data;
-			},
-			error : function(jqXHR, textStatus, errorThrown) {
-				alert(error);
-			}
-		});
-
-		return resultData
-	}
-	//SELECTBOX 검색기능
-	$('#areaId').select2({
-		width : '100%'
-	}).ready(function() {
-		$('#areaId').css({
-			'padding-left' : '12px',
-			'text-align' : 'left'
-		});
+	$.ajax({
+		type : "POST",
+		url : url,
+		data : data,
+		dataType : "json",
+		contentType : "application/x-www-form-urlencoded; charset=UTF-8",
+		async : false,
+		success : function(data, status, xhr) {
+			console.log(data);
+			resultData = data;
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			alert(error);
+		}
 	});
 
-	//SELECTBOX 멀티 검색기능
-	$('#intKey').select2({
-		width : '100%',
-		placeholder : '찾아보기',
-		maximumSelectionLength : 3
-	});
+	return resultData
+}
+
 </script>	
 	
 	
