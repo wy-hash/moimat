@@ -334,12 +334,13 @@
 		<input type="hidden" value="" id="areaName" style="width: 100%"
 			readonly="readonly" placeholder="지역이름"> <input type="hidden"
 			value="" id="area" style="width: 100%" readonly="readonly">
-		<button type="button" class="btn btn-dark btn-block" id="sendmap">선택하기</button>
+		<button type="button" class="btn btn-dark btn-block" id="sendmap" disabled="disabled">선택하기</button>
 
 	</div>
 	<script>
 		var area = document.getElementById('area');
 		var areaName = document.getElementById('areaName');
+		var sendmap = document.getElementById('sendmap');
 		// 마커를 담을 배열입니다
 		var markers = [];
 		var overlay = '';
@@ -515,6 +516,7 @@
 				setOvelay(places,map,marker)
 				areaName.value = places.place_name;
 				area.value = places.y+","+places.x;
+				sendmap.removeAttribute("disabled");
 			});
 			
 			return el;
@@ -544,6 +546,7 @@
 				setOvelay(title,map,marker)
 				areaName.value = title.place_name;
 				area.value = title.y+","+title.x;
+				sendmap.removeAttribute("disabled");
 			});
 			
 			marker.setMap(map); // 지도 위에 마커를 표출합니다
@@ -603,7 +606,7 @@
 			}
 		}
 		
-		var sendmap = document.getElementById('sendmap');
+		
 		sendmap.addEventListener('click',function(){
 			opener.document.getElementById("getAreaName").value = areaName.value
 			opener.document.getElementById("getArea").value = area.value

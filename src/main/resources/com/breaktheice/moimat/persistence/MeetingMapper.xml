@@ -248,7 +248,7 @@
 			from team_member
 				where team_id = #{groupId}
 			)
-			]]>
+		]]>
 	</select>
 	
 	<select id="getTotalMeet" resultType="int">

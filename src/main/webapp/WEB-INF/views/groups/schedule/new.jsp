@@ -230,6 +230,8 @@
 
 	</div>
 	<!-- END CONTAINER -->
+	<!--Bootbox Modals [ OPTIONAL ]-->
+	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function(){
 		var openWin;
@@ -263,30 +265,42 @@
 			e.preventDefault();//submit 버튼 동작안하게만듬
 			var meetDay = $('#meetDay').val()
 			setDate(meetDay);
-			if($("input[name=meetTitle]").val()==""){
-				alert("글 제목이 작성되지 않았습니다.")
-				return false;
-			}else if($("input[name='meetArea']").val()==""){
-				alert("장소가 작성되지 않았습니다.")
-				return false;
-			}else if($("#meetDay").val()==""){
-				alert("날짜가 선택되지 않았습니다.")
-				return false;
-			}else if($("#meetTime").val()==""){
-				alert("시간이 선택되지 않았습니다.")
-				return false;
-			}else if($("textarea[name='meetContent']").val()==""){
-				alert("내용이 작성되지 않았습니다.")
-				return false;
-			}else if($("input[name='meetPay']").val()==""){
-				alert("비용이 작성되지 않았습니다.")
-				return false;
-			}else if($("input[name='meetMax']").val()==""){
-				alert("인원이 작성되지 않았습니다.")
-				return false;
-			}else{
-				$('#meetRegForm').submit();
-			};
+			bootbox.confirm("정모를 수정하시겠습니까?",function(result){
+				if (result) {
+					if($("input[name=meetTitle]").val()==""){
+						alert("글 제목이 작성되지 않았습니다.")
+						return false;
+					}else if($("input[name='meetArea']").val()==""){
+						alert("장소가 작성되지 않았습니다.")
+						return false;
+					}else if($("#meetDay").val()==""){
+						alert("날짜가 선택되지 않았습니다.")
+						return false;
+					}else if($("#meetTime").val()==""){
+						alert("시간이 선택되지 않았습니다.")
+						return false;
+					}else if($("textarea[name='meetContent']").val()==""){
+						alert("내용이 작성되지 않았습니다.")
+						return false;
+					}else if($("input[name='meetPay']").val()==""){
+						alert("비용이 작성되지 않았습니다.")
+						return false;
+					}else if($("input[name='meetMax']").val()==""){
+						alert("인원이 작성되지 않았습니다.")
+						return false;
+					}else{
+						$('#meetRegForm').submit();
+					};
+	            }else{
+	                $.niftyNoty({
+	                    type: 'danger',
+	                    icon : 'pli-cross icon-2x',
+	                    message : '취소하였습니다.',
+	                    container : 'floating',
+	                    timer : 5000
+	                });
+	            };
+			});
 		});
 		function setDate(meetDay){
 			var inputDate = new Date();
