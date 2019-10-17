@@ -131,7 +131,7 @@
 							<div class="panel-heading">
 								<h3 class="panel-title">모임 등록</h3>
 							</div>
-							<form id="meetRegForm" class="form-horizontal" action="/groups/${groupId}/schedule/new" method="post" disabled="disabled">
+							<form id="meetRegForm" class="form-horizontal" action="/groups/${groupId}/schedule/new" method="post" disabled="disabled"> 
 								<input type="hidden" name="teamId" value="${groupId }">
 								<div class="panel-body">
 									<div class="form-group">
@@ -144,17 +144,18 @@
 										<label class="col-lg-2 control-label">모임 장소</label>
 										<div class="col-lg-9">
 											<div class="input-group mar-btm">
-												<input type="text" id="getAreaName" class="form-control"
-													name="meetAreaName" readonly="readonly" placeholder="장소검색을 눌러주세요..">
-												<input type="hidden" id="getArea" name="meetArea">
+												<input type="text" id="keyword" class="form-control"
+													placeholder="검색어를 입력해주세요!">
+												<input type="hidden" id="areaName" name="meetAreaName">	
+												<input type="hidden" id="area" name="meetArea">
 												<span class="input-group-btn">
-													<button class="btn btn-dark" type="button" id="selectmap">장소검색</button>
+													<button class="btn btn-dark" type="button" id="mapSearchBtn">장소검색</button>
 												</span>
 											</div>
 										</div>
 									</div>
 									<!--  지도 -->
-												<div class="container" style="display:none">
+												<div class="container hidden" id="mapBox">
 		<div class="row  mar-lft mar-rgt">
 			<div class="col-sm-8 col-sm-push-4 pad-no mar-top">
 				<div class="map_wrap">
@@ -164,15 +165,6 @@
 			</div>
 			<div class="col-sm-4 col-sm-pull-8 pad-no mar-top">
 				<div id="menu_wrap" class="bg_white">
-					<div class="option mar-top">
-						<div>
-							<form onsubmit="searchPlaces(); return false;">
-								키워드 : <input type="text" value="" id="keyword" style="width:45%">
-								<button class="btn btn-dark btn-sm" type="submit">검색하기</button>
-							</form>
-						</div>
-					</div>
-					<hr>
 					<ul id="placesList" class="pad-no"></ul>
 					<div id="pagination"></div>
 				</div>
@@ -182,7 +174,7 @@
 			readonly="readonly" placeholder="지역이름"> <input type="hidden"
 			value="" id="area" style="width: 100%" readonly="readonly">
 		<div class="text-center">
-			<button type="button" class="btn btn-dark mar-ver" id="sendmap" disabled="disabled">선택하기</button>
+			<button type="button" class="btn btn-dark mar-ver" id="saveArea" disabled="disabled">선택하기</button>
 		</div>
 	</div>
 	<!--  지도 끝 여긴 계속 수정해야함 !! -->
@@ -273,9 +265,39 @@
 	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function(){
+		//지도 켜는?? 이벤트입니다 !!!
+		var inputKeyword = document.querySelector('#keyword');
+		var areaName = document.querySelector('#areaName');
+		var area = document.querySelector('#area');
+		$('#selectmap').on('click',function(){
+			//window.name = "/group/${groupId}/schedule/new";
+			// window.open("open할 window", "자식창 이름", "팝업창 옵션");
+			//openWin = window.open("/groups/${groupId}/schedule/map", "childForm",'width=1000, height=420, left='+ popupX + ', top='+ popupY);
+		});
 		
+		$('#saveArea').on('click',function(){
+			
+		})
+		var msb = document.getElementById('mapSearchBtn');
+		
+		msb.addEventListener('click',function(){
+			var keyword = document.getElementById('keyword').value;
+			
+			if (!keyword.replace(/^\s+|\s+$/g, '')) {
+				alert('키워드를 입력해주세요!');
+				return false;
+			}
+			
+			$('#mapBox').removeClass('hidden');
+			//버그가 있어서 이걸 또 호출함 .. 맨처음에 호출한건 작동안하는건 아닌거 같은데 중앙을 제대로 못찾는거같음 .. 
+			//내가 잘못쓰고잇나??
+			map.relayout();
+			// 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+			ps.keywordSearch(keyword, placesSearchCB);
+		});
 		// 마커를 담을 배열입니다
 		var markers = [];
+		//오버레이 닫을수있게!!
 		var overlay = '';
 
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
@@ -448,9 +470,10 @@
 					overlay.setMap(null);
 				}
 				setOvelay(places,map,marker)
+				inputKeyword.value = places.place_name;
 				areaName.value = places.place_name;
 				area.value = places.y+","+places.x;
-				sendmap.removeAttribute("disabled");
+				saveArea.removeAttribute("disabled");
 			});
 			return el;
 		}
@@ -471,15 +494,18 @@
 			});
 			//마커 클릭이벤트
 			kakao.maps.event.addListener(marker,'click',function() {
+				//내생각에는 이걸 계속 호출하게 되는 상황이 문제인데 어절수없음
+				map.relayout();
 				map.setCenter(position);
 				map.setLevel(3);
 				if(overlay){ //overlay!='';
 					overlay.setMap(null);
 				}
 				setOvelay(title,map,marker)
+				inputKeyword.value = title.place_name;
 				areaName.value = title.place_name;
 				area.value = title.y+","+title.x;
-				sendmap.removeAttribute("disabled");
+				saveArea.removeAttribute("disabled");
 			});
 			
 			marker.setMap(map); // 지도 위에 마커를 표출합니다
@@ -551,14 +577,7 @@
 		//셀렉트 맵 선택시 화면에 지도 보여주기
 		// 1. 미리 만들어놓고 숨겨놓느냐
 		// 2. 누르고나서 이벤트가 시작되느냐의 문제 !!
-		$('#selectmap').on('click',function(){
-			//window.name = "/group/${groupId}/schedule/new";
-			// window.open("open할 window", "자식창 이름", "팝업창 옵션");
-			//openWin = window.open("/groups/${groupId}/schedule/map", "childForm",'width=1000, height=420, left='+ popupX + ', top='+ popupY);
 		
-		
-		
-		});
 		$('#meetDay').datepicker({
 			startDate: new Date(),
 			endDate: new Date(sysDate.getFullYear()+1,(sysDate.getMonth() - 1), sysDate.getDate()),
