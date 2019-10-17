@@ -1,7 +1,9 @@
 package com.breaktheice.moimat.controller;
 
+import java.io.File;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.breaktheice.moimat.domain.CertDomain;
@@ -38,6 +41,9 @@ public class AuthController {
 	
 	@Autowired
 	SHA256 sha256;
+
+	@Autowired
+	ServletContext servletContext;
 	
 	@GetMapping("/login") // 사용자에게 로그인 입력 양식을 주는 페이지
 	public String login(Model model) {
@@ -118,7 +124,11 @@ public class AuthController {
 	}
 	
 	@PostMapping("/join")
-	public String registerAccount(MemberDomain member, @RequestParam("areaRegionKey") String areaRegionKey, @RequestParam("intKey") String intKey) {
+	@ResponseBody
+	public String registerAccount(MemberDomain member,
+								  @RequestParam("areaRegionKey") String areaRegionKey,
+								  @RequestParam("intKey") String intKey,
+								  @RequestParam(value = "file", required = false) MultipartFile file) {
 		
 		log.info("member: " + member);
 		log.info("area: " + areaRegionKey);
@@ -130,12 +140,37 @@ public class AuthController {
 		member.setMemInt1(authService.getInterestKey(interestKeyList[0]));
 		member.setMemInt2(authService.getInterestKey(interestKeyList[1]));
 		member.setMemInt3(authService.getInterestKey(interestKeyList[2]));
-		
+
+		log.info("file name: " + file.getOriginalFilename());
+		log.info("file size: " + file.getSize());
+
+		String uploadDir = servletContext.getRealPath("/resources/uploads/profile-photos");
+		log.info("upload path: " + uploadDir);
+		String originFileName = file.getOriginalFilename();
+		String fileName = "";
+
+		if (file.getSize() <= 0) {
+			fileName = String.valueOf((int) (Math.random() * 10) + 1) + ".png";
+			log.info("no file, file name is: " + fileName);
+		} else {
+			String ext = originFileName.substring(originFileName.lastIndexOf("."));
+			fileName = member.getMemEmail() + ext;
+			File saveFile = new File(uploadDir, fileName);
+
+			try {
+				file.transferTo(saveFile);
+			} catch (Exception e) {
+				log.error(e.getMessage());
+			}
+		}
+
+		member.setMemPhoto(fileName);
+
+
 		authService.joinMember(member);
-		
+
 		log.info("inserted member info: " + member);
-		
-		return "redirect:/";
+
+		return "true";
 	}
-	
 }

@@ -285,7 +285,6 @@
 		            </div>
 		            <!--===================================================-->
 		            <!-- End Form wizard with Validation -->
-			
 
 
 
@@ -592,35 +591,64 @@
 
 		    var uplodaBtn = $('#dz-upload-btn'); //TODO : 필요없음
 		    var removeBtn = $('#dz-remove-btn'); //TODO : 필요없음
-		    var myDropzone = new Dropzone("div#myDropzone", { // Make the whole body a dropzone
-		        url: "/upload", // Set the url
-				headers: {'Content-Type': 'multipart/form-data'},
-				uploadMultiple: true,
+		    var myDropzone = new Dropzone('div#myDropzone', { // Make the whole body a dropzone
+		        url: "/auth/join", // Set the url
+				headers: {'Content-Type': /*'multipart/form-data'*/false},
+				//uploadMultiple: true,
+				acceptedFiles: 'image/*',
+				autoProcessQueue: false,
 		        thumbnailWidth: 50,
 		        thumbnailHeight: 50,
 		        parallelUploads: 20,
 		        previewTemplate: previewTemplate,
-		        autoQueue: true, // Make sure the files aren't queued until manually added
+		        //autoQueue: false, // Make sure the files aren't queued until manually added
 		        previewsContainer: "#dz-previews", // Define the container to display the previews
 		        clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
 		        maxFiles: 1,
-		        dictMaxFilesExceeded: '프로필 사진은 한장만 가능합니다.'
+		        dictMaxFilesExceeded: '프로필 사진은 한장만 가능합니다.',
+				//paramName: 'uploadfile',
+				//autoDiscover: false,
+				init: function() {
+
+		        	var closuredz = this;
+
+		        	$('.finish').on('click', function(e) {
+		        		e.preventDefault();
+		        		e.stopPropagation();
+
+		        		if (closuredz.getQueuedFiles().length > 0) {
+		        			closuredz.processQueue();
+						} else {
+		        			var blob = new Blob();
+		        			blob.upload = { 'chunked': closuredz.defaultOptions.chunking };
+		        			closuredz.uploadFile(blob);
+
+						}
+					});
+
+		        	this.on('sending', function(file, xhr, formData) {
+		        		formData.append('memEmail', $('input[name="memEmail"]').val());
+		        		formData.append('memPassword', $('input[name="memPassword"]').val());
+		        		formData.append('memNickname', $('input[name="memNickname"]').val());
+		        		formData.append('memBirthday', $('input[name="memBirthday"]').val());
+		        		formData.append('memGender', $('input[name="memGender"]:checked').val());
+		        		formData.append('areaRegionKey', $('select[name="areaRegionKey"]').val());
+		        		formData.append('memContent', $('textarea[name="memContent"]').val());
+		        		formData.append('intKey', $('select[name="intKey"]').val().toString());
+					});
+
+		        	this.on('success', function(file, response) {
+		        		if (response) {
+		        			window.location.href = '/';
+						}
+					});
+
+				}
 		    });
 
-		    $('.finish').on('click', function(e) {
-		    	e.preventDefault();
-		    	e.stopPropagation();
-				myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
-				//myDropzone.processQueue();
 
-				return false;
-			});
 
-		    myDropzone.on("success", function(file, response) {
-		    	alert(response);
-				$('#myDropzone').remove();
-				$('#demo-bv-wz-form').attr('action', '/auth/join').submit();
-			});
+
 
 
 		    // myDropzone.on("addedfile", function(file) {
@@ -656,7 +684,7 @@
 		    //     uplodaBtn.prop('disabled', true);
 		    //     removeBtn.prop('disabled', true);
 		    // });
-		    //
+
 		    /***** END FILE UPLOAD *****/
 		    
 		    
