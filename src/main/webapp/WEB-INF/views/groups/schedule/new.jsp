@@ -444,6 +444,14 @@
 				areaName.value = places.place_name;
 				area.value = places.y+","+places.x;
 				
+				$.niftyNoty({
+                    type: 'success',
+                    icon : 'pli-like-2 icon-2x',
+                    message :'장소 ('+places.place_name+')가 선택 되었습니다.',
+                    container : 'floating',
+                    timer : 5000
+                });
+				
 			});
 			return el;
 		}
@@ -477,6 +485,13 @@
 				areaName.value = title.place_name;
 				area.value = title.y+","+title.x;
 				
+				$.niftyNoty({
+                    type: 'success',
+                    icon : 'pli-like-2 icon-2x',
+                    message :'장소 ('+title.place_name+')가 선택 되었습니다.',
+                    container : 'floating',
+                    timer : 5000
+                });
 			});
 			marker.setMap(map); // 지도 위에 마커를 표출합니다
 			markers.push(marker); // 배열에 생성된 마커를 추가합니다
