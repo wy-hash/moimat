@@ -1,6 +1,8 @@
 package com.breaktheice.moimat.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.breaktheice.moimat.domain.MemberDomain;
@@ -67,24 +70,32 @@ public class UserController {
       return "user/userEdit";
    }
    
-   @PostMapping("/edit")
-   public String userEdit(MemberDomain user, MultipartFile photoFile) {
-      log.info("post : /users/edit..호출");
-      log.info(user);
-      log.info("photoFile"+photoFile);
+   @RequestMapping(value = "/photo", method = RequestMethod.POST)
+   public String uploadPhoto(MultipartFile photoFile) {
       
+      log.info("Post : /photo ..호출");
       // 작업순서(원리)
       // 1. 파일을 저장한다
       // 2. 저장한 파일경로를 받아서 db에 저장(member 테이블의 photo)... db에는 파일저장경로만!!!
       // ex.) upload/파일명.확장자
-      // 저장은 c하위폴더에 upload폴더
-      
+      // 저장은 c하위폴더에 upload폴더     
       // 파일을 저장한뒤
+      if(photoFile == null)
+    	  System.out.println("photoFile == null");
+      
       String fileUrl = fileUploadService.restore(photoFile);
       
       // 파일경로명 찾아서 updateMember하기
-      user.setMemPhoto(fileUrl);
+      //user.setMemPhoto(fileUrl);
       
+      return "edit/mypage";
+   }
+   
+
+   @PostMapping("/edit")
+   public String userEdit(MemberDomain user) {
+      log.info("post : /users/edit..호출");
+      log.info(user);
             
       //  회원정보 수정
       userService.updateMember(user);
@@ -92,8 +103,54 @@ public class UserController {
       return "redirect:/mypage/";
    }
    
+	/**
+	 * 사진럽로드
+	 * 
+	 * @param
+	 * @return String
+	 * @throws Exception
+	 */
+	
+	@RequestMapping(value = "/photoUpload", method = RequestMethod.POST)
+	@ResponseBody 
+	public String photoUpload(HttpServletRequest request, MultipartHttpServletRequest multiRequest) throws Exception {
+	
+		log.info("/photoUpload 호출..");
+			
+		HttpSession session = request.getSession(false);
+		MemberDomain member = (MemberDomain)session.getAttribute("loginVO");
+		
+		 Map<String, MultipartFile> fileMap = multiRequest.getFileMap();
+
+        // Maintain a list to send back the files info. to the client side
+        List uploadedFiles = new ArrayList();
+
+        // Iterate through the map
+        for (MultipartFile multipartFile : fileMap.values()) {
+
+               String fileUrl = fileUploadService.restore(multipartFile);
+               
+               // 파일명 저장
+               member.setMemPhoto(fileUrl);	
+               
+               //  회원정보 수정
+               userService.updateMember(member);
+        }
+
+		
+		MemberDomain user = userService.selectUserDomain(member.getMemEmail());
+		
+		Map map = new HashMap();
+		Gson gson = new Gson();
+		
+		String resultJson = gson.toJson(map);	
+		log.info("result to json : " +resultJson);
+		
+		return resultJson;	//json 형식으로 전송
+	}
+   
    /**
-    * 회원정보 갖고오기
+    * 1명의 회원정보 갖고오기
     * 
     * @param
     * @return String
@@ -213,11 +270,7 @@ public class UserController {
       
       // 인터셉터 처리해서 세션감지
       HttpSession session = request.getSession(false);
-      
-      if(session == null) { return "redirect:/auth/login"; }               // 세션이 없을시 로그인페이지
       MemberDomain member = (MemberDomain)session.getAttribute("loginVO");   
-      if(member == null) { return "redirect:/auth/login"; }
-      
       
       return "user/withdraw";
    }
@@ -227,11 +280,8 @@ public class UserController {
       
       log.info("get : /users/withdraw ..호출");
       
-      // 인터셉터 처리해서 세션감지
       HttpSession session = request.getSession(false);
-      if(session == null) { return "redirect:/auth/login"; }               // 세션이 없을시 로그인페이지
       MemberDomain member = (MemberDomain)session.getAttribute("loginVO");   
-      if(member == null) { return "redirect:/auth/login"; }
       
       boolean result = userService.withdrawMember(member);
       
@@ -259,8 +309,8 @@ public class UserController {
       log.info("getCodeList 호출..");
             
       Map map = new HashMap();
-      map.put("areas", authService.getAllAreas());
-      map.put("interest", authService.getAllInterest());
+      map.put("areas", authService.getAllAreas());			// 지역코드
+      map.put("interest", authService.getAllInterest());	//관심사 코드
       
       Gson gson = new Gson();
       
@@ -269,23 +319,5 @@ public class UserController {
       
       return resultJson;   //json 형식으로 전송
    }
-   
-   /*@GetMapping("/photo")
-   public String withdrawPage(Model model, HttpServletRequest request) {
-      
-      log.info("get : /photo ..호출");
-      
-         
-      return "user/photo";
-   }
-   
-   @PostMapping("/photo")
-   public String withdraw(Model model, HttpServletRequest request, RedirectAttributes reAttr) {
-      
-      log.info("get : /photo ..호출");
-      
-      
-      return "redirect:/photo";
-   }*/
-   
+  
 }
