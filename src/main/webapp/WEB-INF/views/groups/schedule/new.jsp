@@ -169,7 +169,7 @@
 										<label class="col-lg-2 control-label">모임 글내용</label>
 										<div class="col-lg-9">
 											<textarea rows="9" class="form-control" name="meetContent"
-												placeholder="Your content here.."></textarea>
+												placeholder="Your content here.." style="resize:none;"></textarea>
 										</div>
 									</div>
 									<div class="form-group">

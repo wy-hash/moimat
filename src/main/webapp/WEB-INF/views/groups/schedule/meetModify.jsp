@@ -144,9 +144,9 @@
 												<div class="col-lg-9">
 													<div class="input-group mar-btm">
 														<input type="text" id="getAreaName" class="form-control"
-															value="${MeetVO.meetVO.meetArea }" name="meetAreaName"
+															value="${MeetVO.meetVO.meetAreaName }" name="meetAreaName"
 															readonly="readonly" placeholder="장소검색을 눌러주세요..">
-														<input type="hidden" id="getArea" name="meetArea">
+														<input type="hidden" id="getArea" name="meetArea" value="${MeetVO.meetVO.meetArea }">
 														<span class="input-group-btn">
 															<button class="btn btn-dark" type="button" id="selectmap">장소검색</button>
 														</span>
@@ -178,7 +178,7 @@
 												<label class="col-lg-2 control-label">모임 글내용</label>
 												<div class="col-lg-9">
 													<textarea rows="9" class="form-control" name="meetContent"
-														placeholder="Your content here..">${MeetVO.meetVO.meetContent }</textarea>
+														placeholder="Your content here.." style="resize:none;">${MeetVO.meetVO.meetContent }</textarea>
 												</div>
 											</div>
 											<div class="form-group">
