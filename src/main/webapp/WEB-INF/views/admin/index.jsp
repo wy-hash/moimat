@@ -12,6 +12,9 @@
 
     <!--X-editable [ OPTIONAL ]-->
     <link href="/resources/plugins/x-editable/css/bootstrap-editable.css" rel="stylesheet">
+    
+    <!-- Material Design Bootstrap Chart-->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.10/css/mdb.min.css" rel="stylesheet">
 
 	<title>Page Template | moim@</title>
 </head>
@@ -61,9 +64,53 @@
             	    <!-- #################################### -->
 					<!--  관리자 인덱스 -->
 					<!--===================================================-->
+				    <div class="eq-height">
+			            <div class="panel col-sm-12">
+			                <div class="panel-heading">
+			                    <h4 class="panel-title">최근 가입자 수</h4>
+			                </div>
+			                <div class="panel-body">
+			            		<canvas id="regdateCount" ></canvas>
+			                </div>
+			            </div>
+					</div>
+					<div class="eq-height">
+			            <div class="panel col-sm-6">
+			            	<div class="panel-heading">
+			                    <h4 class="panel-title">회원이 가장 선호하는 관심사</h4>
+			                </div>
+			                <div class="panel-body">
+			            		<canvas id="userInterest" ></canvas>
+			                </div>
+			            </div>
+			            <div class="panel col-sm-6">
+			            	<div class="panel-heading">
+			                    <h4 class="panel-title">회원이 가장 선호하는 활동지역</h4>
+			                </div>
+			                <div class="panel-body">
+			            		<canvas id="userArea" ></canvas>
+			                </div>
+			            </div>
+					</div>
+					<div class="eq-height">
+			            <div class="panel col-sm-6">
+			            	<div class="panel-heading">
+			                    <h4 class="panel-title">모임에서 인기 많은 지역</h4>
+			                </div>
+			                <div class="panel-body">
+			            		<canvas id="groupArea" ></canvas>
+			                </div>
+			            </div>
+			            <div class="panel col-sm-6">
+			            	<div class="panel-heading">
+			                    <h4 class="panel-title">모임에서 인기 많은 관심사</h4>
+			                </div>
+			                <div class="panel-body">
+			            		<canvas id="groupInterest" ></canvas>
+			                </div>
+			            </div>
+					</div>
 
-	                <div id="regdateChart" style="height:212px"></div>
-		
                 </div>
                 <!--===================================================-->
                 <!--End page content-->
@@ -97,78 +144,69 @@
     <script src="/resources/plugins/bootstrap-table/extensions/editable/bootstrap-table-editable.js"></script>
 
     <!--Flot Chart [ OPTIONAL ]-->
-    <script src="/resources/plugins/flot-charts/jquery.flot.min.js"></script>
-	<script src="/resources/plugins/flot-charts/jquery.flot.resize.min.js"></script>
+<!--     <script src="/resources/plugins/flot-charts/jquery.flot.min.js"></script> -->
+<!-- 	<script src="/resources/plugins/flot-charts/jquery.flot.resize.min.js"></script> -->
+
+	<!-- MDB core JavaScript -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.10/js/mdb.min.js"> </script>
+	<script src="/resources/js/admin/chart.js"></script>
+	
 <script>
 $(document).ready(function(){
-
-//  등록일 차트용
-var pageviews = [[1, 1700], [2, 1200], [3, 1090], [4, 1550], [5, 1700], [6, 1850], [7, 2736], [8, 3045], [9, 3779], [10, 4895], [11, 5209], [12, 5100]],
-    visitor = [[1, 456], [2, 589], [3, 354], [4, 558], [5, 254], [6, 656], [7, 124], [8, 523], [9, 256], [10, 987], [11, 854], [12, 965]];
-
- var plot = $.plot("#regdateChart", [
-     {
-         label: 'Pageviews',
-         data: pageviews,
-         lines: {
-             show: true,
-             lineWidth:2,
-             fill: true,
-             fillColor: {
-                 colors: [{opacity: 0.5}, {opacity: 0.5}]
-             }
-         },
-         points: {
-             show: true,
-             radius: 4
-         }
-     },
-     {
-         label: 'Visitors',
-         data: visitor,
-         lines: {
-             show: true,
-             lineWidth:2,
-             fill: true,
-             fillColor: {
-                 colors: [{opacity: 0.5}, {opacity: 0.5}]
-             }
-         },
-         points: {
-             show: true,
-             radius: 4
-         }
-     }
- ],{
- series: {
-     lines: {
-         show: true
-     },
-     points: {
-         show: true
-     },
-     shadowSize: 0	// Drawing is faster without shadows
- },
- colors: ['#177bbb', '#177bbb'],
- legend: {
-     show: true,
-     position: 'nw',
-     margin: [15, 0]
- },
- grid: {
-     borderWidth: 0,
-     hoverable: true,
-     clickable: true
- },
- yaxis: {
-     ticks: 4, tickColor: '#eeeeee'
- },
- xaxis: {
-     ticks: 12,
-     tickColor: '#ffffff'
- }
+	lineChartAjax('regdateCount', '/admin/index/users/regdate');
+	pieChartAjax('groupInterest', '/admin/index/groups/interest', 'pie');
+	pieChartAjax('groupArea', '/admin/index/groups/area', 'pie');
+	pieChartAjax('userArea', '/admin/index/users/area', 'doughnut');
+	pieChartAjax('userInterest', '/admin/index/users/interest', 'doughnut');
 });
-});
+
+
+function lineChartAjax(canvasId, url){//캔버스에 출력하고자 사용
+	$.ajax({
+		method : 'POST',
+		url : url,
+		dataType : 'JSON',
+		data : {}
+	}).done(function(result) {
+		// 값 5개 까지만 사용.
+		let regdate = [];	//하단 라벨
+		let count 	= [];	//그래프 표시 될 수치 값
+		for (let i=0; i<result.length && i<5 ;i++){
+			regdate[i] = result[i].value;
+			count[i] = result[i].count;
+		}
+		//function lineChart(canvasId, labelName, labelList, dataList)// canvas영역의 id값, 출력할 데이터의 이름, 항목, 값
+		lineChart(canvasId,'가입자 수',regdate.reverse(), count.reverse());
+	});
+}
+
+function pieChartAjax(canvasId, url, type){//캔버스에 출력하고자 사용 -- >type : pie, doughnut
+	$.ajax({
+		method : 'POST',
+		url : url,
+		dataType : 'JSON',
+		data : {}
+	}).done(function(result) {
+		const backgroundColor = ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"];
+		const hoverBackgroundColor = ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"];
+		
+		// 값 5개 까지만 사용.
+		let value = [];		//하단 라벨
+		let count 	= [];	//그래프 표시 될 수치 값
+		let bgColor = [];	//파이색상
+		let hbgColor = [];	//마우스올릴 때 파이색상
+				
+		for (let i=0; i<result.length && i<5 ;i++){
+			value[i] = result[i].value;
+			count[i] = result[i].count;
+			bgColor[i] = backgroundColor[i];
+			hbgColor[i] = hoverBackgroundColor[i];
+		}
+		//function pieChart(canvasId, labelList, dataList, bgColorList, hbgColorList)// canvas영역의 id값, 항목, 값, 항목색상, 항목hover 색상
+		pieChart(canvasId, type, value, count, bgColor, hbgColor);
+	});
+}
+	
 </script>
 	
 </body>

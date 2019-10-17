@@ -5,7 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.breaktheice.moimat.domain.PostDomain;
 import com.breaktheice.moimat.service.AdminPostService;
@@ -24,7 +27,6 @@ public class InfoController {
 	public String faq() {
 		return "/info/faq";
 	}
-
 	
 	//공지
 	@RequestMapping(value= {"notice", "notice/list"})
@@ -41,6 +43,7 @@ public class InfoController {
 		
 		return "/info/notice/list";
 	}
+	
 	// 공지사항 상세
 	@RequestMapping("notice/{postId}/view")
 	public String noticeView(Model model, PostDomain domain, AdminCriteria cri) {
@@ -110,4 +113,39 @@ public class InfoController {
 		
 		return "/info/qna/view";
 	}
+
+	// qna 작성화면
+	@GetMapping("qna/new")
+	public String add(Model model, PostDomain domain, AdminCriteria cri, RedirectAttributes rttr) {
+		Long totalCount = postService.totalCount(cri);
+		
+		//페이지 정보
+//		model.addAttribute("pageMaker", new AdminPageDTO(cri, totalCount));//페이지네이션
+		rttr.addAttribute("brdId",cri.getBrdId());
+		rttr.addAttribute("pageNum",cri.getPageNum());
+		rttr.addAttribute("amount",cri.getAmount());
+		rttr.addAttribute("type",cri.getType());
+		rttr.addAttribute("keyword",cri.getKeyword());
+		return "/info/qna/write";
+	}
+	// qna 작성 쿼리실행
+	@PostMapping("qna/new")
+	public String addQuery(Model model, PostDomain domain, AdminCriteria cri, RedirectAttributes rttr) {
+		domain.setBrdId(3L);
+		domain.setPostReply("Q");
+		domain.setPostDepth(0L);
+		// 게시글 등록 성공시 1이상 반환
+		Long result = postService.add(domain);
+		
+		//페이지 정보
+		rttr.addAttribute("brdId",cri.getBrdId());
+		rttr.addAttribute("pageNum",cri.getPageNum());
+		rttr.addAttribute("amount",cri.getAmount());
+		rttr.addAttribute("type",cri.getType());
+		rttr.addAttribute("keyword",cri.getKeyword());
+		
+		return "redirect:/info/qna";
+	}
+	
+	
 }

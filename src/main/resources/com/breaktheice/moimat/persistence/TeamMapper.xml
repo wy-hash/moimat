@@ -157,4 +157,18 @@
 	<select id="selectTeamInfo" resultType="com.breaktheice.moimat.domain.TeamDomain">
 		select * from team where team_id = #{ teamId }
 	</select>
+	<select id="interestCount" resultType="com.breaktheice.moimat.domain.AdminVO">
+		SELECT	i.int_name value, count(int_name) count
+		FROM 	team t, interest i
+		WHERE 	t.int_id = i.int_id 
+		GROUP BY i.int_name
+		ORDER BY count DESC
+	</select>
+	<select id="areaCount" resultType="com.breaktheice.moimat.domain.AdminVO">
+		SELECT	a.area_region_name value, count(a.area_region_name) count
+		FROM 	team t, area a
+		WHERE 	t.area_id = a.area_id
+		GROUP BY a.area_region_name
+		ORDER BY count DESC
+	</select>
 </mapper>

@@ -2,6 +2,7 @@ package com.breaktheice.moimat.persistence;
 
 import java.util.List;
 
+import com.breaktheice.moimat.domain.AdminVO;
 import com.breaktheice.moimat.domain.AreaDomain;
 import com.breaktheice.moimat.domain.InterestDomain;
 import com.breaktheice.moimat.domain.TeamDomain;
@@ -41,4 +42,9 @@ public interface TeamMapper {
 	List<TeamDomain> selectJoinedGroupList(Long memId);
 
 	TeamDomain selectTeamInfo(Long teamId);
+
+	// 전체 관심사 카운트
+	public List<AdminVO> interestCount();
+	// 전체 지역 카운트
+	public List<AdminVO> areaCount();
 }

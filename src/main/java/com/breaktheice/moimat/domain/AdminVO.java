@@ -1,12 +1,17 @@
 package com.breaktheice.moimat.domain;
 
+import java.io.Serializable;
+
 import lombok.Data;
 
 @Data
-public class AdminVO {
+public class AdminVO implements Serializable{
+	
 
-	// 멤버 차트 가입일, 카운트
-	private String regdate;
+	private static final long serialVersionUID = 1L;
+
+	// 값 , 수량
+	private String value;
 	private String count;
 	
 }

@@ -39,5 +39,10 @@ public interface MemberMapper {
 	public Long emailCheck(MemberDomain domain);
 	// 가입일자 별로 카운트
 	public List<AdminVO> regdateCount();
+
+	// 관심사전체 순위 카운트
+	public List<AdminVO> interestCount();
 	
+	// 전체 지역 카운트
+	public List<AdminVO> areaCount();
 }
