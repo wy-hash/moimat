@@ -213,21 +213,42 @@
 	</delete>
 	
 	<select id="getEvent" resultType="com.breaktheice.moimat.domain.CalendarEventVO">
+		<![CDATA[
 		select * from
+			(
+			select 
+				title,
+				"start",
+				className
+			from
 			(select
 				meet_title as title,
-				meet_date as "start",
-				'mint' as className 
-			from meet
-				where team_id = #{groupId}
+					meet_date as "start",
+					'warning' as className,
+					meet_date-sysdate 
+				from meet
+					where team_id = #{groupId}
+					and meet_date-sysdate >= 0	
 				UNION ALL
+			select
+				meet_title as title,
+					meet_date as "start",
+					'gray' as className,
+					meet_date-sysdate 
+				from meet
+					where team_id = #{groupId}
+					and meet_date-sysdate < 0	
+					
+			)
+			UNION ALL
 			select 
 				tmem_nickname as title,
-				tmem_birthday as "start",
+				to_date(concat(to_char(sysdate,'yyyy'),TO_char(tmem_birthday,'MMdd')),'yyyymmdd') as "start",
 				'pink' as className
 			from team_member
-				where team_id = #{groupId})
-		
+				where team_id = #{groupId}
+			)
+			]]>
 	</select>
 	
 	<select id="getTotalMeet" resultType="int">
