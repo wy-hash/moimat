@@ -247,10 +247,14 @@
 		
 		var sysDate = new Date();
 		
+		var popupX = (window.screen.width/2)-(1000/2);
+
+		var popupY= (window.screen.height/2)-(420/2);
+		
 		$('#selectmap').on('click',function(){
 			window.name = "/group/${groupId}/meetings/new";
 			openWin = window.open("/groups/${groupId}/schedule/map", "childForm",
-					"width=1200, height=600");
+					'width=1000, height=420, left='+ popupX + ', top='+ popupY);
 		});
 		$('#meetDay').datepicker({
 			startDate: new Date(),
@@ -273,32 +277,31 @@
 			e.preventDefault();//submit 버튼 동작안하게만듬
 			var meetDay = $('#meetDay').val()
 			setDate(meetDay);
+			if($("input[name=meetTitle]").val()==""){
+				bootbox.alert("글 제목이 작성되지 않았습니다.")
+				return false;
+			}else if($("input[name='meetArea']").val()==""){
+				bootbox.alert("장소가 작성되지 않았습니다.")
+				return false;
+			}else if($("#meetDay").val()==""){
+				bootbox.alert("날짜가 작성되지 않았습니다.")
+				return false;
+			}else if($("#meetTime").val()==""){
+				bootbox.alert("시간이 선택되지 않았습니다.")
+				return false;
+			}else if($("textarea[name='meetContent']").val()==""){
+				bootbox.alert("내용이 작성되지 않았습니다.")
+				return false;
+			}else if($("input[name='meetPay']").val()==""){
+				bootbox.alert("비용이 작성되지 않았습니다.")
+				return false;
+			}else if($("input[name='meetMax']").val()==""){
+				bootbox.alert("인원이 작성되지 않았습니다.")
+				return false;
+			}
 			bootbox.confirm("정모를 수정하시겠습니까?",function(result){
 				if (result) {
-					if($("input[name=meetTitle]").val()==""){
-						alert("글 제목이 작성되지 않았습니다.")
-						return false;
-					}else if($("input[name='meetArea']").val()==""){
-						alert("장소가 작성되지 않았습니다.")
-						return false;
-					}else if($("#meetDay").val()==""){
-						alert("날짜가 작성되지 않았습니다.")
-						return false;
-					}else if($("#meetTime").val()==""){
-						alert("시간이 선택되지 않았습니다.")
-						return false;
-					}else if($("textarea[name='meetContent']").val()==""){
-						alert("내용이 작성되지 않았습니다.")
-						return false;
-					}else if($("input[name='meetPay']").val()==""){
-						alert("비용이 작성되지 않았습니다.")
-						return false;
-					}else if($("input[name='meetMax']").val()==""){
-						alert("인원이 작성되지 않았습니다.")
-						return false;
-					}else{
-						$('#meetRegForm').submit();
-					};
+					$('#meetRegForm').submit();
 	            }else{
 	                $.niftyNoty({
 	                    type: 'danger',

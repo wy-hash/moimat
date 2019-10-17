@@ -25,16 +25,16 @@
 .map_wrap {
 	position: relative;
 	width: 100%;
-	height: 500px;
+	height: 350px;
 }
 
 #menu_wrap {
-	position: absolute;
+	position: relative;
 	top: 0;
 	left: 0;
 	bottom: 0;
 	width: 100%;
-	height: 500px;
+	height: 350px;
 	padding: 5px;
 	overflow-y: auto;
 	background: rgba(255, 255, 255, 0.7);
@@ -201,7 +201,7 @@
 	left: 0;
 	bottom: 40px;
 	width: 288px;
-	height: 132px;
+	height: 112px;
 	margin-left: -144px;
 	text-align: left;
 	overflow: hidden;
@@ -217,7 +217,7 @@
 
 .wrap .info {
 	width: 286px;
-	height: 120px;
+	height: 100px;
 	border-radius: 5px;
 	border-bottom: 2px solid #ccc;
 	border-right: 1px solid #ccc;
@@ -301,18 +301,25 @@
 
 .info .link {
 	color: #5085BB;
+	margin-right: 5px;
 }
 </style>
 </head>
 <body>
 	<div class="container">
-		<div class="row">
-			<div class="col-xs-3 pad-no">
+		<div class="row  mar-lft mar-rgt">
+			<div class="col-sm-8 col-sm-push-4 pad-no mar-top">
+				<div class="map_wrap">
+					<div id="map"
+						style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
+				</div>
+			</div>
+			<div class="col-sm-4 col-sm-pull-8 pad-no mar-top">
 				<div id="menu_wrap" class="bg_white">
-					<div class="option">
+					<div class="option mar-top">
 						<div>
 							<form onsubmit="searchPlaces(); return false;">
-								키워드 : <input type="text" value="" id="keyword" size="15">
+								키워드 : <input type="text" value="" id="keyword" style="width:45%">
 								<button class="btn btn-dark btn-sm" type="submit">검색하기</button>
 							</form>
 						</div>
@@ -322,20 +329,13 @@
 					<div id="pagination"></div>
 				</div>
 			</div>
-			<div class="col-xs-8 pad-no">
-				<div class="map_wrap">
-					<div id="map"
-						style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
-				</div>
-			</div>
-
 		</div>
-		<hr>
 		<input type="hidden" value="" id="areaName" style="width: 100%"
 			readonly="readonly" placeholder="지역이름"> <input type="hidden"
 			value="" id="area" style="width: 100%" readonly="readonly">
-		<button type="button" class="btn btn-dark btn-block" id="sendmap" disabled="disabled">선택하기</button>
-
+		<div class="text-center">
+			<button type="button" class="btn btn-dark mar-ver" id="sendmap" disabled="disabled">선택하기</button>
+		</div>
 	</div>
 	<script>
 		var area = document.getElementById('area');
@@ -428,8 +428,9 @@
 	                          '            <div class="desc">' + 
 	                          '                <div class="ellipsis">'+place.category_group_name+'</div>' + 
 	                          '                <div class="ellipsis">'+address+'</div>' + 
-	                          '                <div class="ellipsis">'+place.phone+'</div>' + 
-	                          '                <div><a href="'+place.place_url+'" target="_blank" class="link">자세히보기</a></div>' + 
+	                          '                <div class="ellipsis">'+place.phone +
+	                          '                    <a href="'+place.place_url+'" target="_blank" class="link pull-right">자세히보기</a>' +
+	                          '                </div>' + 
 	                          '            </div>' + 
 	                          '        </div>' + 
 	                          '    </div>' +    
