@@ -241,7 +241,6 @@
 
 .info .close {
 	position: absolute;
-	top: 10px;
 	right: 10px;
 	color: #888;
 	width: 17px;
@@ -261,7 +260,7 @@
 
 .info .desc {
 	position: relative;
-	margin: 13px 0 0 90px;
+	margin: 13px 0 0 10px;
 	height: 75px;
 }
 
@@ -332,8 +331,8 @@
 
 		</div>
 		<hr>
-		<input type="text" value="" id="areaName" style="width: 100%"
-			readonly="readonly" placeholder="지역이름"> <input type="text"
+		<input type="hidden" value="" id="areaName" style="width: 100%"
+			readonly="readonly" placeholder="지역이름"> <input type="hidden"
 			value="" id="area" style="width: 100%" readonly="readonly">
 		<button type="button" class="btn btn-dark btn-block" id="sendmap">선택하기</button>
 
@@ -407,19 +406,29 @@
 		//이걸 만드는 시점을 고민해야겟나?(클릭시 지우고 다시호출하기)
 		//data를 받지말고 places를 받아서 클릭시 
 		function setOvelay(place,map,marker){
+				var address = '';
+				if(place.road_address_name){
+					address = place.road_address_name;
+				}else{
+					address = place.address_name;
+				}
 				var content = '<div class="wrap">' + 
 	           				  '    <div class="info">' + 
-	                          '        <div class="title">' + place.place_name +
-	            			  '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
+	                          '        <div class="title">' +
+	                          '            <div class="clearfix">' +
+	                          '                <div class="col-xs-10 ellipsis">' + place.place_name +
+	                          '                </div>' +
+	                          '                <div class="col-xs-2" style="height:17px">' + 
+	                          '                    <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
+	                          '                </div>' +
+	                          '            </div>' +
 	            			  '        </div>' + 
 	            			  '        <div class="body">' + 
-	              			  '            <div class="img">' +
-	             			  '                <img src="http://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
-	            			  '           </div>' + 
 	                          '            <div class="desc">' + 
-	                          '                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' + 
-	                          '                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' + 
-	                          '                <div><a href="http://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
+	                          '                <div class="ellipsis">'+place.category_group_name+'</div>' + 
+	                          '                <div class="ellipsis">'+address+'</div>' + 
+	                          '                <div class="ellipsis">'+place.phone+'</div>' + 
+	                          '                <div><a href="'+place.place_url+'" target="_blank" class="link">자세히보기</a></div>' + 
 	                          '            </div>' + 
 	                          '        </div>' + 
 	                          '    </div>' +    
@@ -447,7 +456,6 @@
 
 			// 검색 결과 목록에 추가된 항목들을 제거합니다
 			removeAllChildNods(listEl);
-
 			// 지도에 표시되고 있는 마커를 제거합니다
 			removeMarker();
 			
@@ -456,20 +464,11 @@
 				// 마커를 생성하고 지도에 표시합니다
 				var placePosition = new kakao.maps.LatLng(places[i].y,
 						places[i].x), marker = addMarker(placePosition, i,places[i]), itemEl = getListItem(
-						i, places[i]); // 검색 결과 항목 Element를 생성합니다
-				
+						i, places[i],marker); // 검색 결과 항목 Element를 생성합니다
 					
 				// 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
 				// LatLngBounds 객체에 좌표를 추가합니다
 				bounds.extend(placePosition);
-				
-				
-				
-				
-					
-				
-				
-						
 				fragment.appendChild(itemEl);
 			}
 
@@ -483,7 +482,7 @@
 		
 
 		// 검색결과 항목을 Element로 반환하는 함수입니다
-		function getListItem(index, places) {
+		function getListItem(index, places,marker) {
 
 			var el = document.createElement('li'), itemStr = '<span class="markerbg marker_'
 					+ (index + 1)
@@ -510,7 +509,10 @@
 				map.setCenter(coordList);
 				map.setLevel(3);
 				// 네모창에 네모네모 저장저장 네모네모 
-				console.log(places)
+				if(overlay){ //overlay!='';
+					overlay.setMap(null);
+				}
+				setOvelay(places,map,marker)
 				areaName.value = places.place_name;
 				area.value = places.y+","+places.x;
 			});
