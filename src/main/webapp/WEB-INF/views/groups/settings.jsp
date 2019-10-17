@@ -28,11 +28,6 @@
 	}
 }
 
-.centerm {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
 </style>
 <!--Chosen [ OPTIONAL ]-->
 <link href="/resources/plugins/chosen/chosen.min.css" rel="stylesheet">

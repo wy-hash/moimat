@@ -41,6 +41,11 @@
 		display: none;
 	}
 }
+.centerm {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 </style>
 </head>
 <!-- END HEAD -->
@@ -155,26 +160,24 @@
 										</div>
 									</div>
 									<!--  지도 -->
-												<div class="container hidden" id="mapBox">
-		<div class="row  mar-lft mar-rgt">
-			<div class="col-sm-8 col-sm-push-4 pad-no mar-top">
+												<div class="hidden" id="mapBox">
+		<div class="form-group centerm">
+		<div class="col-sm-10">
+		<div class="clearfix">
+			<div class="col-lg-8 col-lg-push-4">
 				<div class="map_wrap">
 					<div id="map"
 						style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
 				</div>
 			</div>
-			<div class="col-sm-4 col-sm-pull-8 pad-no mar-top">
-				<div id="menu_wrap" class="bg_white">
+			<div class="col-lg-4 col-lg-pull-8">
+				<div id="menu_wrap" class="bg-trans-dark">
 					<ul id="placesList" class="pad-no"></ul>
 					<div id="pagination"></div>
 				</div>
 			</div>
 		</div>
-		<input type="hidden" value="" id="areaName" style="width: 100%"
-			readonly="readonly" placeholder="지역이름"> <input type="hidden"
-			value="" id="area" style="width: 100%" readonly="readonly">
-		<div class="text-center">
-			<button type="button" class="btn btn-dark mar-ver" id="saveArea" disabled="disabled">선택하기</button>
+		</div>
 		</div>
 	</div>
 	<!--  지도 끝 여긴 계속 수정해야함 !! -->
@@ -265,21 +268,20 @@
 	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function(){
-		//지도 켜는?? 이벤트입니다 !!!
-		var inputKeyword = document.querySelector('#keyword');
+		
+		//장소명을 저장할 input태그
 		var areaName = document.querySelector('#areaName');
+		//장소를 저장할 input태그
 		var area = document.querySelector('#area');
-		$('#selectmap').on('click',function(){
-			//window.name = "/group/${groupId}/schedule/new";
-			// window.open("open할 window", "자식창 이름", "팝업창 옵션");
-			//openWin = window.open("/groups/${groupId}/schedule/map", "childForm",'width=1000, height=420, left='+ popupX + ', top='+ popupY);
-		});
-		
-		$('#saveArea').on('click',function(){
-			
-		})
+		//검색에 사용되는 input태그
+		var inputKeyword = document.querySelector('#keyword');
+		//검색 버튼
 		var msb = document.getElementById('mapSearchBtn');
-		
+		// 마커를 담을 배열입니다
+		var markers = [];
+		// 활성화된 overlay를 저장해 두는 변수입니다.
+		var overlay = '';
+		//검색 이벤트
 		msb.addEventListener('click',function(){
 			var keyword = document.getElementById('keyword').value;
 			
@@ -287,24 +289,13 @@
 				alert('키워드를 입력해주세요!');
 				return false;
 			}
-			
-			$('#mapBox').removeClass('hidden');
-			//버그가 있어서 이걸 또 호출함 .. 맨처음에 호출한건 작동안하는건 아닌거 같은데 중앙을 제대로 못찾는거같음 .. 
-			//내가 잘못쓰고잇나??
-			map.relayout();
-			// 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
 			ps.keywordSearch(keyword, placesSearchCB);
 		});
-		// 마커를 담을 배열입니다
-		var markers = [];
-		//오버레이 닫을수있게!!
-		var overlay = '';
-
-		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		// 지도 생성시의 설정입니다.(여기있는 mapOption은 hidden상태의 옵션입니다. 검색 이후 나타나는 지도 설정은 다른곳에서 변경!)
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div태그의 id
 		mapOption = {
-			center : new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표 이거 처음떳을때 서울시청임 .
+			center : new kakao.maps.LatLng(37.566826, 126.9786567), 
 			level : 3
-		// 지도의 확대 레벨
 		};
 
 		// 지도를 생성합니다    
@@ -313,22 +304,13 @@
 		// 장소 검색 객체를 생성합니다
 		var ps = new kakao.maps.services.Places();
 
-		// 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
-		//++++++없애야할 것 !!@#
-
-		// 키워드로 장소를 검색합니다
-		/* searchPlaces(); */
-
 		// 키워드 검색을 요청하는 함수입니다
 		function searchPlaces() {
-
 			var keyword = document.getElementById('keyword').value;
-
 			if (!keyword.replace(/^\s+|\s+$/g, '')) {
 				alert('키워드를 입력해주세요!');
 				return false;
 			}
-
 			// 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
 			ps.keywordSearch(keyword, placesSearchCB);
 		}
@@ -336,77 +318,66 @@
 		// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
 		function placesSearchCB(data, status, pagination) {
 			if (status === kakao.maps.services.Status.OK) {
-
-				// 정상적으로 검색이 완료됐으면
-				// 검색 목록과 마커를 표출합니다
+				//검색 성공시 검색결과목록창과 지도를 보여줍니다. 
+				$('#mapBox').removeClass('hidden');
+				//지도의 위치를 재설정하기 위한 함수입니다. 보여진상태(지도크기가 변경된 상태) 이후 사용해야합니다.
+				map.relayout();
 				displayPlaces(data);
-
-				// 페이지 번호를 표출합니다
 				displayPagination(pagination);
-				
-				
-
 			} else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-
 				alert('검색 결과가 존재하지 않습니다.');
 				return;
 
 			} else if (status === kakao.maps.services.Status.ERROR) {
-
 				alert('검색 결과 중 오류가 발생했습니다.');
 				return;
-
 			}
-		}
-		//장소검색이 완료되었을때 이쁜 네모를 만드는 함수입니다.(첫번째껏만 하기 )
-		//이걸 만드는 시점을 고민해야겟나?(클릭시 지우고 다시호출하기)
-		//data를 받지말고 places를 받아서 클릭시 
-		function setOvelay(place,map,marker){
-				var address = '';
-				if(place.road_address_name){
-					address = place.road_address_name;
-				}else{
-					address = place.address_name;
-				}
-				var content = '<div class="wrap">' + 
-	           				  '    <div class="info">' + 
-	                          '        <div class="title">' +
-	                          '            <div class="clearfix">' +
-	                          '                <div class="col-xs-10 ellipsis">' + place.place_name +
-	                          '                </div>' +
-	                          '                <div class="col-xs-2" style="height:17px">' + 
-	                          '                    <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
-	                          '                </div>' +
-	                          '            </div>' +
-	            			  '        </div>' + 
-	            			  '        <div class="body">' + 
-	                          '            <div class="desc">' + 
-	                          '                <div class="ellipsis">'+place.category_group_name+'</div>' + 
-	                          '                <div class="ellipsis">'+address+'</div>' + 
-	                          '                <div class="ellipsis">'+place.phone +
-	                          '                    <a href="'+place.place_url+'" target="_blank" class="link pull-right">자세히보기</a>' +
-	                          '                </div>' + 
-	                          '            </div>' + 
-	                          '        </div>' + 
-	                          '    </div>' +    
-	                          '</div>';
-	                          
-				overlay = new kakao.maps.CustomOverlay({
-				    content: content,
-				    map: map,
-				    position: marker.getPosition()       
-				});
-				
-			}
-		// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
-		function closeOverlay() {
-		    overlay.setMap(null);     
 		}
 		
-
+		//overlay[마커위에 생성되는 정보창] 태그 생성과 보여주는 함수입니다.
+		function setOverlay(place,map,marker){
+			var address = '';
+			if(place.road_address_name){
+				address = place.road_address_name;
+			}else{
+				address = place.address_name;
+			}
+			var content = '<div class="wrap">' + 
+           				  '    <div class="info">' + 
+                          '        <div class="title">' +
+                          '            <div class="clearfix">' +
+                          '                <div class="col-xs-10 ellipsis">' + place.place_name +
+                          '                </div>' +
+                          '                <div class="col-xs-2" style="height:17px">' + 
+                          '                    <div class="close" id="closeOverlay" title="닫기"></div>' + 
+                          '                </div>' +
+                          '            </div>' +
+            			  '        </div>' + 
+            			  '        <div class="body">' + 
+                          '            <div class="desc">' + 
+                          '                <div class="ellipsis">'+place.category_group_name+'</div>' + 
+                          '                <div class="ellipsis">'+address+'</div>' + 
+                          '                <div class="ellipsis">'+place.phone +
+                          '                    <a href="'+place.place_url+'" target="_blank" class="link pull-right">자세히보기</a>' +
+                          '                </div>' + 
+                          '            </div>' + 
+                          '        </div>' + 
+                          '    </div>' +    
+                          '</div>';
+                          
+			overlay = new kakao.maps.CustomOverlay({
+			    content: content,
+			    map: map,
+			    position: marker.getPosition()       
+			});
+			
+		}
+		//오버레이 닫기 이벤트입니다. (기능상 문제 없는거 같아보이나 시간나면 고칠 예정)
+		$("#mapBox").on("click","#closeOverlay",function(){
+			overlay.setMap(null);
+		});
 		// 검색 결과 목록과 마커를 표출하는 함수입니다
 		function displayPlaces(places) {
-
 			var listEl = document.getElementById('placesList'), menuEl = document
 					.getElementById('menu_wrap'), fragment = document
 					.createDocumentFragment(), bounds = new kakao.maps.LatLngBounds(), listStr = '';
@@ -417,7 +388,6 @@
 			removeMarker();
 			
 			for (var i = 0; i < places.length; i++) {
-
 				// 마커를 생성하고 지도에 표시합니다
 				var placePosition = new kakao.maps.LatLng(places[i].y,
 						places[i].x), marker = addMarker(placePosition, i,places[i]), itemEl = getListItem(
@@ -469,11 +439,11 @@
 				if(overlay){ //overlay!='';
 					overlay.setMap(null);
 				}
-				setOvelay(places,map,marker)
+				setOverlay(places,map,marker);
 				inputKeyword.value = places.place_name;
 				areaName.value = places.place_name;
 				area.value = places.y+","+places.x;
-				saveArea.removeAttribute("disabled");
+				
 			});
 			return el;
 		}
@@ -495,19 +465,19 @@
 			//마커 클릭이벤트
 			kakao.maps.event.addListener(marker,'click',function() {
 				//내생각에는 이걸 계속 호출하게 되는 상황이 문제인데 어절수없음
-				map.relayout();
 				map.setCenter(position);
 				map.setLevel(3);
-				if(overlay){ //overlay!='';
+				//새로운 오버레이 생성전에 기존 오버레이를 닫습니다.
+				if(overlay){
 					overlay.setMap(null);
 				}
-				setOvelay(title,map,marker)
+				//오버레이 셋팅
+				setOverlay(title,map,marker)
 				inputKeyword.value = title.place_name;
 				areaName.value = title.place_name;
 				area.value = title.y+","+title.x;
-				saveArea.removeAttribute("disabled");
+				
 			});
-			
 			marker.setMap(map); // 지도 위에 마커를 표출합니다
 			markers.push(marker); // 배열에 생성된 마커를 추가합니다
 
@@ -566,17 +536,8 @@
 		}
 		
 		/*==================*/
-		//var openWin;
 		
 		var sysDate = new Date();
-		
-		// var popupX = (window.screen.width/2) - (1000/2); 팝업창관련된거 일단 주석!
-
-		//var popupY = (window.screen.height/2) - (420/2);
-		
-		//셀렉트 맵 선택시 화면에 지도 보여주기
-		// 1. 미리 만들어놓고 숨겨놓느냐
-		// 2. 누르고나서 이벤트가 시작되느냐의 문제 !!
 		
 		$('#meetDay').datepicker({
 			startDate: new Date(),
@@ -649,8 +610,6 @@
 			inputDate.setMinutes(mi);
 			$('#meetDate').val(inputDate);
 		}
-		
-		
 	})
 	</script>
 </body>
