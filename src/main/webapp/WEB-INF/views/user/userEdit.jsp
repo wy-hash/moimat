@@ -284,6 +284,7 @@ $(document).ready(function(){  //onload 함수
 	$('#newPasswordCheck').blur(rePasswordCheck);	// 이벤트등록 (비밀번호 다시 입력확인)
 });
 
+
 function changePassword(){
 	
 	// 유효성 검사 : 신규비밀번호, 비밀번호 확인
