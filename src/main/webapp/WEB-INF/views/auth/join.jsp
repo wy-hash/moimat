@@ -565,69 +565,77 @@
 		    //			- required upload url.
 		    /***** FILE UPLOAD USING DROPZONE.JS *****/
 		    
-		    var previewNode = document.querySelector("#dz-template");
-		    previewNode.id = "";
-		    var previewTemplate = previewNode.parentNode.innerHTML;
-		    previewNode.parentNode.removeChild(previewNode);
-		
-		    var uplodaBtn = $('#dz-upload-btn'); //TODO : 필요없음
-		    var removeBtn = $('#dz-remove-btn'); //TODO : 필요없음
-		    var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
-		        url: "/target-url", // Set the url
-		        thumbnailWidth: 50,
-		        thumbnailHeight: 50,
-		        parallelUploads: 20,
-		        previewTemplate: previewTemplate,
-		        autoQueue: false, // Make sure the files aren't queued until manually added
-		        previewsContainer: "#dz-previews", // Define the container to display the previews
-		        clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
-		        maxFiles: 1,
-		        dictMaxFilesExceeded: '프로필 사진은 한장만 가능합니다.'
-		    });
-		
-		
-		    myDropzone.on("addedfile", function(file) {
-		        // Hookup the button
-		        uplodaBtn.prop('disabled', true); //TODO: 필요없음
-		        removeBtn.prop('disabled', false); //TODO: 필요없음
-		    });
-		
-		    // Update the total progress bar
-		    myDropzone.on("totaluploadprogress", function(progress) {
-		        $("#dz-total-progress .progress-bar").css({'width' : progress + "%"});
-		    });
-		
-		    myDropzone.on("sending", function(file) {
-		        // Show the total progress bar when upload starts
-		        document.querySelector("#dz-total-progress").style.opacity = "1";
-		    });
-		
-		    // Hide the total progress bar when nothing's uploading anymore
-		    myDropzone.on("queuecomplete", function(progress) {
-		        document.querySelector("#dz-total-progress").style.opacity = "0";
-		    });
-		
-		
-		    // Setup the buttons for all transfers
-		    uplodaBtn.on('click', function() {
-		        //Upload all files
-		        //myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
-		    });
-		
-		    removeBtn.on('click', function() {
-		        myDropzone.removeAllFiles(true);
-		        uplodaBtn.prop('disabled', true);
-		        removeBtn.prop('disabled', true);
-		    });
-		    
-		    /***** END FILE UPLOAD *****/
-		    
-		    
-		    
-		    
-		    
-		    
+		   var previewNode = document.querySelector("#dz-template");
+			previewNode.id = "";
+			var previewTemplate = previewNode.parentNode.innerHTML;
+			previewNode.parentNode.removeChild(previewNode);
 			
+			var uplodaBtn = $('#dz-upload-btn'); //TODO : 필요없음
+			var removeBtn = $('#dz-remove-btn'); //TODO : 필요없음
+			var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
+				url: "/target-url", // Set the url
+			    thumbnailWidth: 50,
+			    thumbnailHeight: 50,
+			    parallelUploads: 20,
+			    previewTemplate: previewTemplate,
+			    autoQueue: false, // Make sure the files aren't queued until manually added
+			    previewsContainer: "#dz-previews", // Define the container to display the previews
+			    clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
+			    maxFiles: 1,
+			    acceptedFiles: "image/jpeg,image/png,image/gif",
+			    dictMaxFilesExceeded: '프로필 사진은 한장만 가능합니다.',
+			   
+			});
+				    	  
+			myDropzone.on("addedfile", function(file) {
+				
+			    uplodaBtn.prop('disabled', true); 	//TODO: 필요없음
+			    removeBtn.prop('disabled', false); 	//TODO: 필요없음
+			    myDropzone.processQueue();
+				console.log(myDropzone.getUploadingFiles())
+				console.log(Dropzone.QUEUED);
+				console.log(Dropzone.options.parallelUploads)
+				console.log($(this).get(0))
+				var dropzone = $(this).get(0);
+			    dropzone.processQueue();
+			});
+			
+			// Update the total progress bar
+			myDropzone.on("totaluploadprogress", function(progress) {
+				
+			    $("#dz-total-progress .progress-bar").css({'width' : progress + "%"});
+			    alert(2)
+			});
+			
+			myDropzone.on("sending", function(file) {
+				 alert(3)
+			    // Show the total progress bar when upload starts
+			    document.querySelector("#dz-total-progress").style.opacity = "1";
+			});
+			
+			// Hide the total progress bar when nothing's uploading anymore
+			myDropzone.on("queuecomplete", function(progress) {
+				 alert(4)
+			    document.querySelector("#dz-total-progress").style.opacity = "0";
+			});
+			
+			
+			// Setup the buttons for all transfers
+			uplodaBtn.on('click', function() {
+				 alert(5)
+			    //Upload all files
+			    //myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
+			});
+			
+			removeBtn.on('click', function() {
+				 alert(6)
+			    myDropzone.removeAllFiles(true);
+			    uplodaBtn.prop('disabled', true);
+			    removeBtn.prop('disabled', true);
+			});
+					    
+					    /***** END FILE UPLOAD *****/
+		    
 		});
 	
 	</script>
