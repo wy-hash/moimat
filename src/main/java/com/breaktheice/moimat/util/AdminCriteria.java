@@ -9,6 +9,8 @@ import lombok.ToString;
 @Getter
 public class AdminCriteria {
 	private Long brdId;//게시판 타입
+	private Long memLevel;//회원 레벨
+	private Long memStatus;//회원 상태
 	
 	private Long pageNum;
 	private Long amount;

@@ -102,12 +102,12 @@ public class AdminPostServiceImpl implements AdminPostService{
 		
 		Long result = -1L;// 결과값 : 정상등록 : 1, 실패 : -1
 
-		result = mapper.remove(domain);// 게시글 수정
+		result = mapper.remove(domain);// 게시글 삭제
 		
 		if(result >= 1L) {
-			log.info("정상 수정 되었습니다.");
+			log.info("정상 삭제 되었습니다.");
 		} else {
-			log.info("수정실패 / 에러");
+			log.info("삭제실패 / 에러");
 		}
 		
 		return result;

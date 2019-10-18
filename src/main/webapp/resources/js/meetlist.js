@@ -4,8 +4,8 @@
 
 //=========================
 var meetListService = (function(){
-	function getList(groupid,memberid,callback,error){
-		$.getJSON("/meet/getList/"+groupid+"/"+memberid+".json",
+	function getList(groupid,page,memberid,callback,error){
+		$.getJSON("/meet/getList/"+groupid+"/"+page+"/"+memberid+".json",
 				function(data){
 					if(callback){
 						callback(data);
@@ -16,7 +16,6 @@ var meetListService = (function(){
 			}
 		});
 	}
-	
 	
 	function parseDate(meetDate){
 		var dateObj = new Date(meetDate);

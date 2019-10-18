@@ -2,10 +2,70 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.breaktheice.moimat.persistence.BoardMapper">
 
-	<select id="list" resultType="com.breaktheice.moimat.domain.BoardDomain">
-		SELECT	brd_id, brd_key, brd_name, brd_order, brd_use
-		FROM	board
+	<select id="totalCount" resultType="Long">
+		<![CDATA[		
+		SELECT  count(*)
+		FROM 	
+		(	
+			SELECT  rownum rn, brd_id, brd_key, brd_name, brd_order, brd_use
+			FROM 	board
+			WHERE 
+		]]>
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+			<trim prefix="OR">
+				<choose>
+					<when test="type == 'K'.toString()">
+						brd_key like '%'||#{keyword}||'%'
+					</when>	
+					<when test="type == 'N'.toString()">
+						brd_name like '%'||#{keyword}||'%'
+					</when>			
+				</choose>
+			</trim>
+			</foreach>
+		</trim>
+		<![CDATA[
+			1=1
+		)
+		]]>
+	</select>
+	
+	<select id="listAll" resultType="com.breaktheice.moimat.domain.BoardDomain">
+		SELECT  brd_id, brd_key, brd_name, brd_order, brd_use
+		FROM 	board
 		ORDER BY brd_order DESC, brd_id ASC
+	</select>
+
+	<select id="list" resultType="com.breaktheice.moimat.domain.BoardDomain">
+	<![CDATA[		
+		SELECT  rownum rn, brd_id, brd_key, brd_name, brd_order, brd_use
+		FROM 	
+		(	
+			SELECT  rownum rn, brd_id, brd_key, brd_name, brd_order, brd_use
+			FROM 	board
+			WHERE 
+		]]>
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+			<trim prefix="OR">
+				<choose>
+					<when test="type == 'K'.toString()">
+						brd_key like '%'||#{keyword}||'%'
+					</when>	
+					<when test="type == 'N'.toString()">
+						brd_name like '%'||#{keyword}||'%'
+					</when>			
+				</choose>
+			</trim>
+			</foreach>
+		</trim>
+		<![CDATA[
+			rownum <= #{pageNum} * #{amount}
+		)
+		WHERE rn > (#{pageNum} -1 )* #{amount}
+		ORDER BY brd_order DESC, brd_id ASC
+		]]>
 	</select>
 	
 	<select id="view" resultType="com.breaktheice.moimat.domain.BoardDomain">

@@ -3,9 +3,10 @@ package com.breaktheice.moimat.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.breaktheice.moimat.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,9 +21,12 @@ import com.breaktheice.moimat.service.MeetingService;
 public class GroupsMeetController {
 	@Autowired
 	private MeetingService service;
+	@Autowired
+	TeamService teamService;
 
 	@GetMapping("/new")
-	public String meetingsNew(@PathVariable Long groupId) {
+	public String meetingsNew(@PathVariable Long groupId, Model model) {
+		model.addAttribute("group", teamService.getGroupInfo(groupId));
 		return "/groups/schedule/new";
 	}
 

@@ -16,6 +16,7 @@ import com.breaktheice.moimat.domain.MessageVO;
 import com.breaktheice.moimat.domain.TeamMemberDomain;
 import com.breaktheice.moimat.domain.TeamMemberListVO;
 import com.breaktheice.moimat.service.TeamMemberService;
+import com.breaktheice.moimat.util.AdminCriteria;
 
 
 @RestController
@@ -24,12 +25,22 @@ public class TeamMemberController {
 	@Autowired
 	private TeamMemberService tms;
 	
-	@GetMapping(value = "/getMemberList/{groupid}/{keyword}",
+	@GetMapping(value = "/getMemberList/{groupid}/{status}/{page}",
 			produces = {
 					MediaType.APPLICATION_JSON_UTF8_VALUE
 			})
-	public ResponseEntity<TeamMemberListVO> getList(@PathVariable("groupid")Long groupId,@PathVariable("keyword")String keyword){
-		return new ResponseEntity<>(tms.getMemberList(groupId,keyword),HttpStatus.OK);
+	public ResponseEntity<TeamMemberListVO> getList(@PathVariable("groupid")Long groupId,@PathVariable("status")String status,@PathVariable("page")Long page){
+		AdminCriteria cri = new AdminCriteria(page,10L);
+		return new ResponseEntity<>(tms.getMemberList(groupId,status,cri),HttpStatus.OK);
+	}
+	//getListX
+	@GetMapping(value = "/getMemberList/{groupid}/{status}",
+			produces = {
+					MediaType.APPLICATION_JSON_UTF8_VALUE
+			})
+	public ResponseEntity<TeamMemberListVO> getList(@PathVariable("groupid")Long groupId,@PathVariable("status")String status,AdminCriteria cri){
+		cri.setAmount(10L);
+		return new ResponseEntity<>(tms.getMemberList(groupId,status,cri),HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/getMember/{memberid}",
@@ -103,6 +114,5 @@ public class TeamMemberController {
 		 return tms.updateMaster(groupMemberVO) == 1 ? new ResponseEntity<>("success",HttpStatus.OK)
 				 : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	 }
-	
 	
 }

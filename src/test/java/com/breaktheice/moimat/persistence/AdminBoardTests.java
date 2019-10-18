@@ -41,7 +41,7 @@ public class AdminBoardTests {
 		System.out.println("시작 : listTest");
 
 		try {
-			System.out.println("성공 : " + mapper.list());
+			System.out.println("성공 : " + mapper.listAll());
 
 		} catch (Exception e) {
 //			log.error(e.getMessage());

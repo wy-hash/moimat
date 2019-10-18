@@ -28,8 +28,12 @@ public class AdminPostController {
 	
 	@RequestMapping(value= {"", "list"})
 	public String post(Model model, AdminCriteria cri) {// 게시글 전체 관리 접속
+		 //Info 게시판 BO00~BO99
+		AdminCriteria infoCri = new AdminCriteria();
+		infoCri.setType("K");
+		infoCri.setKeyword("BO");
 		
-		List<BoardDomain> boardList =  boardService.list();// 게시판 목록을 출력해 주기 위함
+		List<BoardDomain> boardList =  boardService.list(infoCri);// 게시판 목록을 출력해 주기 위함
 		
 		if (cri.getBrdId() == null || cri.getBrdId() <= 0L) {//게시판의 번호가 없거나 0보다 낮을때 기본값으로 처음 게시판 선택
 			if ( boardList != null && boardList.size()>0) {
@@ -37,10 +41,8 @@ public class AdminPostController {
 				}
 		}
 		
-		System.out.println(cri);
 		//총 게시글 수
 		Long totalCount = postService.totalCount(cri);
-		System.out.println(totalCount);
 		//게시글 리스트
 		List<PostDomain> postList = postService.list(cri);
 		
@@ -55,11 +57,6 @@ public class AdminPostController {
 	// 게시글 작성화면
 	@GetMapping("new")
 	public String add(Model model, PostDomain domain, AdminCriteria cri) {
-		
-		System.out.println(domain.getBrdId());
-		System.out.println(cri.getBrdId());
-		
-
 		Long totalCount = postService.totalCount(cri);
 		model.addAttribute("pageMaker", new AdminPageDTO(cri, totalCount));//페이지네이션
 		
@@ -68,10 +65,7 @@ public class AdminPostController {
 	// 게시글 작성 쿼리실행
 	@PostMapping("new")
 	public String addQuery(Model model, PostDomain domain, AdminCriteria cri, RedirectAttributes rttr) {
-		System.out.println("add POST()");
-		System.out.println(domain);
-		
-		
+		domain.setPostDepth(0L);
 		// 게시글 등록 성공시 1이상 반환
 		Long result = postService.add(domain);
 		
@@ -110,8 +104,6 @@ public class AdminPostController {
 	// 게시글 수정
 	@PostMapping("edit")
 	public String updateQuery(Model model, PostDomain domain, AdminCriteria cri, RedirectAttributes rttr) {
-		System.out.println("수정");		
-		System.out.println(domain);
 		//수정
 		postService.update(domain);
 		
@@ -146,14 +138,10 @@ public class AdminPostController {
 	// 답글작성 쿼리실행
 	@PostMapping("reply")
 	public String replyQuery(Model model, PostDomain domain, AdminCriteria cri, RedirectAttributes rttr) {
-		System.out.println("reply POST()");
-		System.out.println(domain);
-		
 		// 답글 작성시  Origin의 값 -> 현재 postId , depth + 1, reply 값 -> A
 		domain.setPostOrigin(domain.getPostId());
 		domain.setPostDepth(1L);
 		domain.setPostReply("A");
-		
 		
 		// 게시글 등록 성공시 1이상 반환
 		Long result = postService.reply(domain);
