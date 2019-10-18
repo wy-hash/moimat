@@ -299,6 +299,9 @@
 		var msb = document.getElementById('mapSearchBtn');
 		// 마커를 담을 배열입니다
 		
+		
+
+		
 		var markers = [];
 		// 활성화된 overlay를 저장해 두는 변수입니다.
 		var overlay = '';
@@ -312,6 +315,24 @@
 			}
 			ps.keywordSearch(keyword, placesSearchCB);
 		});
+		//검색 엔터키 이벤트
+		$('input[type="text"]').keydown(function(event) {
+  			if (event.keyCode === 13) {
+   				 event.preventDefault();
+  			};
+		});
+		inputKeyword.addEventListener('keydown',function(key){
+			 if (key.keyCode == 13) {
+				 var keyword = document.getElementById('keyword').value;
+					if (!keyword.replace(/^\s+|\s+$/g, '')) {
+						alert('키워드를 입력해주세요!');
+						return false;
+					}
+					// 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+					ps.keywordSearch(keyword, placesSearchCB);
+            }
+		});
+		
 		// 지도 생성시의 설정입니다.(여기있는 mapOption은 hidden상태의 옵션입니다. 검색 이후 나타나는 지도 설정은 다른곳에서 변경!)
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div태그의 id
 		mapOption = {
@@ -325,7 +346,7 @@
 		// 장소 검색 객체를 생성합니다
 		var ps = new kakao.maps.services.Places();
 
-		// 키워드 검색을 요청하는 함수입니다
+		/* // 키워드 검색을 요청하는 함수입니다
 		function searchPlaces() {
 			var keyword = document.getElementById('keyword').value;
 			if (!keyword.replace(/^\s+|\s+$/g, '')) {
@@ -334,7 +355,7 @@
 			}
 			// 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
 			ps.keywordSearch(keyword, placesSearchCB);
-		}
+		} */
 
 		// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
 		function placesSearchCB(data, status, pagination) {

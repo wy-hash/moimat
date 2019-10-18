@@ -303,6 +303,25 @@
 			}
 			ps.keywordSearch(keyword, placesSearchCB);
 		});
+		
+		$('input[type="text"]').keydown(function(event) {
+  			if (event.keyCode === 13) {
+   				 event.preventDefault();
+  			};
+		});
+		
+		inputKeyword.addEventListener('keydown',function(key){
+			 if (key.keyCode == 13) {
+				 var keyword = document.getElementById('keyword').value;
+					if (!keyword.replace(/^\s+|\s+$/g, '')) {
+						alert('키워드를 입력해주세요!');
+						return false;
+					}
+					// 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+					ps.keywordSearch(keyword, placesSearchCB);
+            }
+		});
+		
 		// 지도 생성시의 설정입니다.(여기있는 mapOption은 hidden상태의 옵션입니다. 검색 이후 나타나는 지도 설정은 다른곳에서 변경!)
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div태그의 id
 		mapOption = {

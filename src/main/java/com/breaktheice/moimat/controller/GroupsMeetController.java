@@ -32,11 +32,6 @@ public class GroupsMeetController {
 		return "/groups/schedule/new";
 	}
 
-	@GetMapping("/map")
-	public String map() {
-		return "/groups/schedule/selectmap";
-	}
-
 	@PostMapping("/new")
 	public String newMeet(MeetVO meetVO, @PathVariable Long groupId, HttpServletRequest request) {
 		HttpSession session = request.getSession();
