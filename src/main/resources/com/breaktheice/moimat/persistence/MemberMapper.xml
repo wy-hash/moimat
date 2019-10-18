@@ -193,5 +193,32 @@
 		where	mem_email = #{memEmail}
 	</select>
 	
+	<select id="regdateCount"  resultType="com.breaktheice.moimat.domain.AdminVO">
+		SELECT	TO_CHAR(mem_regdate,'yy/MM/dd') value, count(TO_CHAR(mem_regdate,'yy/MM/dd')) count
+		FROM 	member
+		GROUP BY TO_CHAR(mem_regdate,'yy/MM/dd')
+		ORDER BY TO_CHAR(mem_regdate,'yy/MM/dd') DESC
+	</select>
 	
+	<select id="areaCount" resultType="com.breaktheice.moimat.domain.AdminVO">
+		SELECT 	a.area_region_name value, count(a.area_region_name) count
+		FROM 	member m, area a
+		WHERE 	m.area_id = a.area_id
+		GROUP 	BY a.area_region_name
+		ORDER 	BY count DESC
+	</select>
+	<select id="interestCount" resultType="com.breaktheice.moimat.domain.AdminVO">
+		SELECT 	i.int_name value, count(i.int_name) count
+		FROM (	select mem_int1 mem_int
+				from member
+			UNION ALL
+				select mem_int2 mem_int
+				from member
+			UNION ALL
+				select mem_int3 mem_int
+				from member) m, interest i
+		WHERE 	m.mem_int = i.int_id 
+		GROUP BY i.int_name
+		ORDER BY count DESC
+	</select>
 </mapper>

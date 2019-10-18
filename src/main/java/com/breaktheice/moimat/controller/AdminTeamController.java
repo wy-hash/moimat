@@ -36,11 +36,8 @@ public class AdminTeamController {
 	
 	@RequestMapping(value= {"","list"})
 	public String list(Model model, AdminCriteria cri) {
-
-		System.out.println(cri);
 		// 총 모임 수
 		Long totalCount = service.totalCount(cri);
-		System.out.println(totalCount);
 		// 모임 리스트
 		List<TeamDomain> teamList = service.list(cri);
 
@@ -105,7 +102,6 @@ public class AdminTeamController {
 	// 모임 수정 쿼리실행
 	@PostMapping("edit")
 	public String editQuery(Model model, TeamDomain domain, AdminCriteria cri, RedirectAttributes rttr) {
-		System.out.println(domain);
 		Long result = service.update(domain);
 		
 		//페이지 정보

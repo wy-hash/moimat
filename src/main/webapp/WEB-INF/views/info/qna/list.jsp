@@ -134,6 +134,7 @@
 																aria-hidden="true">&raquo;</span></a></li>
 												</c:if>
 											</ul>
+											<button id="newPost" type="button" class="btn btn-success pull-right mar-top"> 문의하기</button>
 										</nav>
 									</div>
 								</div>
@@ -175,6 +176,13 @@
 				location.href = url;
 			});
 
+			
+			$('#newPost').on('click', function(){
+				const param = $('#searchForm').serialize();
+				
+				const url = location.origin+'/info/qna/new'+'?'+param;
+				location.href = url;
+			});
 			
 			$('.pagination > li > a').on('click', function(e){
 				const searchForm = $('#searchForm');

@@ -70,7 +70,7 @@
 						</div>
 						<form id="teamForm" name="teamForm" action="/admin/groups/new" class="panel-body form-horizontal form-padding"
 							method="post">
-							<input type="hidden" name="memId" value="31"> <!-- 추후 세션 -->
+							<input type="hidden" name="memId" value="${sessionScope.loginVO.memId }">
 							<input type="hidden" name="type" value="${pageMaker.cri.type }">
 							<input type="hidden" name="keyword" value="${pageMaker.cri.keyword }">
 							<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
@@ -81,7 +81,7 @@
 							<div class="form-group">
 								<label class="col-lg-3 control-label">모임 명</label>
 								<div class="col-lg-7">
-									<input type="email" class="form-control" id="teamName" name="teamName" placeholder="모임 명">
+									<input type="email" class="form-control" id="teamName" name="teamName" placeholder="모임 명" maxlength="13">
 									<small class="help-block" id="teamNameHint"></small>
 								</div>
 							</div>
