@@ -8,11 +8,12 @@
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd">
 
+
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
-
+	
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 
@@ -32,6 +33,10 @@
 		<websocket:sockjs></websocket:sockjs>
 	</websocket:handlers>
 	
+	<!-- resource mapping -->
+	<!-- location : 물리적 주소 / mapping : 가상 주소 -->
+	<resources location="file:/upload/" mapping="/upload/*"/>
+	
 	<!-- Interceptor -->	
 	<interceptors>
 		<interceptor>
@@ -49,5 +54,7 @@
 	</interceptors>
 	
 	
+	<!-- Defines a resolver implementation bean. It gets applied to all requests handled by that DispatcherServlet -->
+    <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 	
 </beans:beans>
