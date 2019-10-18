@@ -373,16 +373,13 @@
 			
 			var meetListFooter = document.querySelector("#meetListFooter");
 			function meetPageBtn(meetCount){
-				var endNum = Math.ceil(pageNum/3.0) * 10;
+				var endNum = Math.ceil(pageNum/10.0) * 10;
 				var startNum = endNum - 9;
-				
 				var prev = startNum != 1;
 				var next = false;
-				
 				if(endNum * 10 > meetCount){
 					endNum = Math.ceil(meetCount/3.0);
 				}
-				
 				if(endNum * 10 < meetCount){
 					next = true;
 				}

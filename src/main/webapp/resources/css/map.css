@@ -270,7 +270,7 @@
 	overflow: hidden;
 }
 
-.info:after {
+.wrap .info:after {
 	content: '';
 	position: absolute;
 	margin-left: -12px;

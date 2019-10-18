@@ -7,19 +7,29 @@
 
 <!-- HEAD -->
 <%@ include file="/WEB-INF/views/includes/head.jsp"%>
-    <!--Bootstrap Timepicker [ OPTIONAL ]-->
-    <link href="/resources/plugins/bootstrap-timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
-    <!--Bootstrap Datepicker [ OPTIONAL ]-->
-    <link href="/resources/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
-    <link href="/resources/css/map.css" rel="stylesheet">
-    <!--Bootstrap Timepicker [ OPTIONAL ]-->
-    <script src="/resources/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
-    <!--Bootstrap Datepicker [ OPTIONAL ]-->
-    <script src="/resources/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-    <!-- services 라이브러리 불러오기 -->
+<!--Bootstrap Timepicker [ OPTIONAL ]-->
+<link
+	href="/resources/plugins/bootstrap-timepicker/bootstrap-timepicker.min.css"
+	rel="stylesheet">
+<!--Bootstrap Datepicker [ OPTIONAL ]-->
+<link
+	href="/resources/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css"
+	rel="stylesheet">
+<link href="/resources/css/map.css" rel="stylesheet">
+<!--noUiSlider [ OPTIONAL ]-->
+    <link href="/resources/plugins/noUiSlider/nouislider.min.css" rel="stylesheet">
+<!--Bootstrap Timepicker [ OPTIONAL ]-->
+<script
+	src="/resources/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
+<!--Bootstrap Datepicker [ OPTIONAL ]-->
+<script
+	src="/resources/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+<!--noUiSlider [ OPTIONAL ]-->
+    <script src="/resources/plugins/noUiSlider/nouislider.min.js"></script>	
+<!-- services 라이브러리 불러오기 -->
 <script type="text/javascript"
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6213368344dd87ee3c46139e0d1df7cd&libraries=services,clusterer,drawing"></script>
-    
+
 
 <title>모임일정 - ${ group.teamName } | moim@</title>
 
@@ -41,7 +51,8 @@
 		display: none;
 	}
 }
-.centerm {
+
+.customCenter {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -99,8 +110,8 @@
 						<ul class="nav nav-tabs">
 							<li><a href="/groups/${ group.teamId }">홈</a></li>
 							<li><a href="/groups/${ group.teamId }/member">구성원</a></li>
-							<li class="active"><a href="/groups/${ group.teamId }/schedule">모임일정</a>
-							</li>
+							<li class="active"><a
+								href="/groups/${ group.teamId }/schedule">모임일정</a></li>
 							<li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
 							<li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
 							<li><a href="/groups/${ group.teamId }/chat">채팅</a></li>
@@ -117,7 +128,8 @@
 							<ul class="dropdown-menu dropdown-menu-left">
 								<li><a href="/groups/${ group.teamId }">홈</a></li>
 								<li><a href="/groups/${ group.teamId }/member">구성원</a></li>
-								<li class="active"><a href="/groups/${ group.teamId }/schedule">모임일정</a></li>
+								<li class="active"><a
+									href="/groups/${ group.teamId }/schedule">모임일정</a></li>
 								<li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
 								<li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
 								<li><a href="/groups/${ group.teamId }/chat">채팅</a></li>
@@ -131,112 +143,116 @@
 						<div class="tab-content">
 							<div class="content-box">
 								<!--Dark Panel-->
-						<!--===================================================-->
-						<div class="panel panel-bordered panel-dark">
-							<div class="panel-heading">
-								<h3 class="panel-title">모임 등록</h3>
-							</div>
-							<form id="meetRegForm" class="form-horizontal" action="/groups/${groupId}/schedule/new" method="post" disabled="disabled"> 
-								<input type="hidden" name="teamId" value="${groupId }">
-								<div class="panel-body">
-									<div class="form-group">
-										<label class="col-lg-2 control-label">모임 글제목</label>
-										<div class="col-lg-9">
-											<input type="text" class="form-control" name="meetTitle">
-										</div>
+								<!--===================================================-->
+								<div class="panel panel-bordered panel-dark">
+									<div class="panel-heading">
+										<h3 class="panel-title">모임 등록</h3>
 									</div>
-									<div class="form-group">
-										<label class="col-lg-2 control-label">모임 장소</label>
-										<div class="col-lg-9">
-											<div class="input-group mar-btm">
-												<input type="text" id="keyword" class="form-control"
-													placeholder="검색어를 입력해주세요!">
-												<input type="hidden" id="areaName" name="meetAreaName">	
-												<input type="hidden" id="area" name="meetArea">
-												<span class="input-group-btn">
-													<button class="btn btn-dark" type="button" id="mapSearchBtn">장소검색</button>
-												</span>
-											</div>
-										</div>
-									</div>
-									<!--  지도 -->
-												<div class="hidden" id="mapBox">
-		<div class="form-group centerm">
-		<div class="col-sm-10">
-		<div class="clearfix">
-			<div class="col-lg-8 col-lg-push-4">
-				<div class="map_wrap">
-					<div id="map"
-						style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
-				</div>
-			</div>
-			<div class="col-lg-4 col-lg-pull-8">
-				<div id="menu_wrap" class="bg-trans-dark">
-					<ul id="placesList" class="pad-no"></ul>
-					<div id="pagination"></div>
-				</div>
-			</div>
-		</div>
-		</div>
-		</div>
-	</div>
-	<!--  지도 끝 여긴 계속 수정해야함 !! -->
-									<div class="form-group">
-										<label class="col-lg-2 control-label">만나는날</label>
-										<div class="col-lg-9 pad-no">
-											<div class="clearfix">
-												<div class="col-lg-8">
-													<input type="text" class="form-control" id="meetDay">
-												</div>
-												<div class="col-lg-2 text-lg-right">
-													<label class="control-label">시간</label>
-												</div>
-												<div class="col-lg-2">
-													<input type="text" class="form-control" id="meetTime">
-												</div>
-												<input type="hidden" id="meetDate" name="meetDate" value="">
-											</div>
-										</div>
-									</div>
-									
-									<div class="form-group">
-										<label class="col-lg-2 control-label">모임 글내용</label>
-										<div class="col-lg-9">
-											<textarea rows="9" class="form-control" name="meetContent"
-												placeholder="Your content here.." style="resize:none;"></textarea>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-lg-2 control-label">모임 회비</label>
-										<div class="col-lg-9 pad-no">
-											<div class="clearfix">
-												<div class="col-lg-4">
-													<input type="text" name="meetPay" class="form-control"
-														placeholder="모임 회비..">
-												</div>
-												<div class="col-lg-4 text-lg-right">
-													<label class="control-label">모임 인원</label>
-												</div>
-												<div class="col-lg-4">
-													<input type="text" name="meetMax" class="form-control"
-														placeholder="모임최대인원..">
+									<form id="meetRegForm" class="form-horizontal"
+										action="/groups/${groupId}/schedule/new" method="post">
+										<input type="hidden" name="teamId" value="${groupId }">
+										<div class="panel-body">
+											<div class="row">
+											<div class="col-xs-1"></div>
+											<div class="col-xs-10">
+											<div class="form-group">
+												<label class="col-lg-2 control-label">모임 글제목</label>
+												<div class="col-lg-10">
+													<input type="text" class="form-control" name="meetTitle">
 												</div>
 											</div>
+											<div class="form-group">
+												<label class="col-lg-2 control-label">모임 장소</label>
+												<div class="col-lg-10">
+													<div class="input-group mar-btm">
+														<input type="text" id="keyword" class="form-control" placeholder="검색어를 입력해주세요!">
+														<input type="hidden" id="areaName" name="meetAreaName">
+														<input type="hidden" id="area" name="meetArea">
+														<span class="input-group-btn">
+															<button class="btn btn-dark" type="button" id="mapSearchBtn">장소검색</button>
+														</span>
+													</div>	
+												</div>
+  											</div>
+											<!--  지도 -->
+											<div class="hidden" id="mapBox">
+												<div class="form-group">
+													<div class="clearfix">
+														<div class="col-lg-8 col-lg-push-4">
+															<div class="map_wrap">
+																<div id="map" style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
+															</div>
+														</div>
+														<div class="col-lg-4 col-lg-pull-8">
+															<div id="menu_wrap" class="bg-trans-dark">
+																<ul id="placesList" class="pad-no"></ul>
+																<div id="pagination"></div>
+															</div>
+														</div>
+													</div>		
+												</div>
+											</div>
+											<!--  지도끝 -->
+											<div class="form-group">
+												<label class="col-lg-2 control-label">만나는날</label>
+												<div class="col-lg-10 pad-no">
+													<div class="clearfix">
+														<div class="col-lg-5">
+															<input type="text" class="form-control" id="meetDay">
+														</div>
+														<div class="col-lg-2 text-lg-right">
+															<label class="control-label">시간</label>
+														</div>
+														<div class="col-lg-5">
+															<input type="text" class="form-control" id="meetTime">
+														</div>
+														<input type="hidden" id="meetDate" name="meetDate">
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-lg-2 control-label">모임 글내용</label>
+												<div class="col-lg-10">
+													<textarea rows="9" class="form-control" name="meetContent" style="resize: none;"></textarea>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-lg-2 control-label">모임 회비</label>
+												<div class="col-lg-10 pad-no">
+													<div class="clearfix">
+														<div class="col-lg-5">
+															<input type="text" name="meetPay" class="form-control">
+														</div>
+														<div class="col-lg-2 text-lg-right">
+															<label class="control-label">모임 인원</label>
+														</div>
+														<div class="col-lg-5">
+					                                   			<div id="meetMaxBar" class="mar-top">
+					                                    		</div>
+														</div>
+													</div>
+													<div class="text-right mar-rgt">
+														 <label class="control-label" id="meetMax">2</label>
+					                                     <strong>명 </strong>
+													</div>
+													<input type="hidden" name="meetMax" class="form-control">
+												</div>
+											</div>
+											<div class="form-group text-right">
+												<div class="col-xs-12">
+													<button type="button" class="btn btn-default btn-hover-warning" id="cnlbtn" onclick="location.href='/groups/${ group.teamId }/schedule' ">
+														&ensp;&ensp;목록&ensp;&ensp;</button>
+													<button type="submit" class="btn btn-default btn-hover-info" id="subbtn">등록하기</button>
+												</div>
+											</div>
+											</div>
+											<div class="col-xs-1"></div>
+											</div>
 										</div>
-									</div>
-									<div class="clearfix">
-										<div class="col-lg-3"></div>
-										<div class="col-lg-6">
-											<button type="submit" class="btn btn-dark btn-block"
-												id="subbtn">등록하기</button>
-										</div>
-										<div class="col-lg-3"></div>
-									</div>
+									</form>
 								</div>
-							</form>
-						</div>
-						<!--===================================================-->
-						<!--End Dark Panel-->
+								<!--===================================================-->
+								<!--End Dark Panel-->
 							</div>
 						</div>
 					</div>
@@ -261,9 +277,13 @@
 		<!-- FOOTER -->
 		<%@ include file="/WEB-INF/views/includes/footer.jsp"%>
 		<!-- END FOOTER -->
-
 	</div>
 	<!-- END CONTAINER -->
+	<%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="/WEB-INF/views/includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 	<!--Bootbox Modals [ OPTIONAL ]-->
 	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 	<script type="text/javascript">
@@ -278,6 +298,7 @@
 		//검색 버튼
 		var msb = document.getElementById('mapSearchBtn');
 		// 마커를 담을 배열입니다
+		
 		var markers = [];
 		// 활성화된 overlay를 저장해 두는 변수입니다.
 		var overlay = '';
@@ -567,9 +588,30 @@
 			showMeridian: false
 		});
 		
-		$('input[name=meetMax]').keyup(function(){
-			$(this).val($(this).val().replace(/[^0-9]/g,""));
-		});
+		// RANGE SLIDER - SLIDER STEP BY STEP
+	    // =================================================================
+	    // Require noUiSlider
+	    // http://refreshless.com/nouislider/
+	    // =================================================================
+
+	    var rs_step = document.querySelector("#meetMaxBar");
+	    var rs_step_value = document.querySelector("#meetMax");
+
+	    noUiSlider.create(rs_step,{
+	        start   : [ 2 ],
+	        connect : 'lower',
+	        step    : 1,
+	        range   : {
+	            'min': [ 2 ],
+	            'max': [ 100 ]
+	        }
+	    });
+
+	    rs_step.noUiSlider.on('update', function( values, handle ) {
+	    	var person = values[handle].split('.')
+	    	$('input[name=meetMax]').val(person[0]);
+	        rs_step_value.innerHTML = person[0];
+	    });
 		
 		$('#subbtn').on('click',function(e){
 			e.preventDefault();//submit 버튼 동작안하게만듬
@@ -597,7 +639,7 @@
 				bootbox.alert("인원이 작성되지 않았습니다.")
 				return false;
 			}
-			bootbox.confirm("정모를 수정하시겠습니까?",function(result){
+			bootbox.confirm("모임을 여시겠습니까?",function(result){
 				if (result) {
 					$('#meetRegForm').submit();
 	            }else{
