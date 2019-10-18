@@ -35,7 +35,9 @@ public class UserServiceImpl implements UserService {
 		log.info(memberDomain);
 		
 		String password = sha256.encrypt(memberDomain.getMemPassword());
-		MemberDomain member = authMapper.login(memberDomain);
+
+		MemberDomain member = authMapper.login(memberDomain.getMemEmail());
+
 		
 		log.info(member);
 		if(password.equals(member.getMemPassword())) {
