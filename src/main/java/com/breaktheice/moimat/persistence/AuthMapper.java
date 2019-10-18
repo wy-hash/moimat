@@ -10,7 +10,7 @@ import com.breaktheice.moimat.domain.MemberDomain;
 
 public interface AuthMapper {
 	
-	public MemberDomain login(String memEmail);
+	public MemberDomain login(String string);
 	
 	
 	/* --------------------------------------------- */
@@ -36,5 +36,8 @@ public interface AuthMapper {
 	public List<InterestDomain> selectAllInterest();
 	
 	public Long selectAreaId(String areaRegionKey);
+
+
+	
 	
 }
