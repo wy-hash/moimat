@@ -39,7 +39,12 @@
 			<exclude-mapping path="/resources/**"></exclude-mapping>
 			<exclude-mapping path="/"></exclude-mapping>
 			<exclude-mapping path="/auth/**"></exclude-mapping>
+			<exclude-mapping path="/admin/**"></exclude-mapping>
 			<beans:bean class="com.breaktheice.moimat.util.AuthInterceptor"></beans:bean>
+		</interceptor>
+		<interceptor>
+			<mapping path="/admin/**"></mapping>
+			<beans:bean class="com.breaktheice.moimat.util.AdminInterceptor"></beans:bean>
 		</interceptor>
 	</interceptors>
 	

@@ -132,6 +132,11 @@ public class AdminTeamServiceImpl implements AdminTeamService {
 		}
         return list;
 	  }
-	
+
+	@Override
+	public List<TeamDomain> recentOneWeek(AdminCriteria cri) {
+		// 최근 일주일간 등록된 모임 목록
+		return getInfo(mapper.recentOneWeek(cri));
+	}
 
 }
