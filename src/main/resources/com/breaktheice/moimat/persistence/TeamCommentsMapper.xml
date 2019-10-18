@@ -5,6 +5,10 @@
 	<select id="selectAllComments" resultType="com.breaktheice.moimat.domain.TeamCommentsDomain">
 		select * from TEAM_COMMENTS where POST_ID = #{ postId }
 	</select>
-	
+
+	<insert id="insertComment" parameterType="com.breaktheice.moimat.domain.TeamCommentsDomain">
+		insert into TEAM_COMMENTS(cmt_id, post_id, brd_id, cmt_content, tmem_id, cmt_nickname, cmt_email, cmt_regdate, cmt_update)
+		values(TEAM_COMMENTS_SEQ.nextval, #{ postId }, #{ brdId }, #{ cmtContent }, #{ tmemId }, #{ cmtNickname }, #{ cmtEmail }, sysdate, sysdate)
+	</insert>
 	
 </mapper>

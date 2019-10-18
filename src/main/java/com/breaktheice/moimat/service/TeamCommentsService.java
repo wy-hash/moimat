@@ -7,4 +7,6 @@ import java.util.List;
 public interface TeamCommentsService {
 
     List<TeamCommentsDomain> getAllComments(Long postId);
+
+    boolean writeComment(TeamCommentsDomain comment);
 }

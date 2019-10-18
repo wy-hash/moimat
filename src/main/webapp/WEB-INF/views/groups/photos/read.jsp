@@ -291,27 +291,51 @@
 	<script>
 		$(document).ready(function() {
 			$('#comment-input-box').on('click', function() {
-				var commentDiv = $('#comment');
+				var commentDiv = $('#comment-input-box');
 				var content = commentDiv.find('textarea');
+				var commentContainer = $('#comment-container');
+				var message = content.val();
 
-				if (content.val() == null || content.val() == '') {
+				if (message == null || message == '') {
 					return false;
 				}
 
 				$.ajax({
-					url: '/groups/${ group.teamId }/photos/${ post.postId }',
+					url: '/groups/${ group.teamId }/photos/${ post.postId }/comment',
 					type: 'post',
-					data: { 'tmemId': ${ loginVO.memId }, 'content': content.val() },
-					dataType: text,
+					data: { "postId": ${ post.postId },
+							"brdId" : 22,
+							"cmtContent": message,
+							"tmemId" : "${ loginVO.memId }",
+							"cmtNickname": "${ loginVO.memNickname }",
+							"cmtEmail": "${ loginVO.memEmail }"
+					},
+					dataType: 'json',
 					success: function(result) {
+						if (result) {
+							var commentData = '<div class="media pad-btm">'
+											+ 	'<a class="media-left" href="#"><img class="img-circle img-xs" alt="Profile Picture" src="/resources/img/profile-photos/5.png"></a>'
+											+	'<div class="media-body">'
+											+ 		'<div>'
+											+ 			'<a href="#" class="btn-link text-semibold media-heading box-inline">' + data.cmtNickname + '</a>'
+											+ 			'<small class="text-muted pad-lft">' + data.cmtRegdate + '</small>'
+											+ 		'</div>'
+											+     data.cmtContent
+											+ 	'</div>'
+											+ '</div>';
 
-						content.val('');
+							commentDiv.prepend(commentData);
+
+							content.val('');
+						} else {
+							alert('잠시후 다시 작업을 진행해주세요.');
+						}
+					},
+					error: function(e) {
+						console.log(e.responseText);
 					}
-
-
 				});
 			});
-			
 		});
 	</script>
 

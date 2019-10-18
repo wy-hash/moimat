@@ -17,4 +17,13 @@ public class TeamCommentsServiceImpl implements TeamCommentsService {
     public List<TeamCommentsDomain> getAllComments(Long postId) {
         return mapper.selectAllComments(postId);
     }
+
+    @Override
+    public boolean writeComment(TeamCommentsDomain comment) {
+        if (mapper.insertComment(comment) == 1) {
+            return true;
+        }
+
+        return false;
+    }
 }
