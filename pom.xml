@@ -229,6 +229,16 @@
 			<artifactId>commons-io</artifactId>
 			<version>1.4</version>
 		</dependency>
+
+		<!-- 메일발송 라이브러리 추가 끝 -->
+
+		<!-- for websocket -->
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-websocket -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-websocket</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

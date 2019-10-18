@@ -16,11 +16,29 @@
 <!-- 		검색조건 -->
 		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
 			<foreach item='type' collection="typeArr">
+			<trim prefix="OR">
 				<choose>
 					<when test="type == 'T'.toString()">
 						post_title like '%'||#{keyword}||'%'
+					</when>	
+					<when test="type == 'C'.toString()">
+						post_content like '%'||#{keyword}||'%'
+					</when>	
+					<when test="type == 'W'.toString()">
+						post_nickname like '%'||#{keyword}||'%'
+					</when>		
+					<when test="type == 'Q'.toString()">
+						((post_title like '%'||#{keyword}||'%' )OR
+						(post_content like '%'||#{keyword}||'%') OR
+						(post_nickname like '%'||#{keyword}||'%') )
+						AND
+						(post_reply = 'Q' AND 
+							post_id NOT IN (select post_origin
+						                    from post
+						                    where post_reply = 'A'))
 					</when>				
 				</choose>
+			</trim>
 			</foreach>
 		</trim>
 		<![CDATA[
@@ -68,6 +86,16 @@
 					</when>	
 					<when test="type == 'W'.toString()">
 						post_nickname like '%'||#{keyword}||'%'
+					</when>	
+					<when test="type == 'Q'.toString()">
+						((post_title like '%'||#{keyword}||'%' )OR
+						(post_content like '%'||#{keyword}||'%') OR
+						(post_nickname like '%'||#{keyword}||'%'))
+						AND
+						(post_reply = 'Q' AND 
+							post_id NOT IN (select post_origin
+						                    from post
+						                    where post_reply = 'A'))
 					</when>				
 				</choose>
 			</trim>

@@ -11,4 +11,200 @@
 		]]>
 	</select>
 	
+	<select id="totalCount" resultType="Long">
+	<![CDATA[		
+		SELECT  count(*)
+		FROM 	
+		(	
+			SELECT  rownum rn, team_id, int_id, team_name, team_short_content,
+					team_content, area_id, team_regdate, team_max, mem_id
+			FROM 	team
+			WHERE 
+		]]>
+<!-- 		검색조건 -->
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+			<trim prefix="OR">
+				<choose>
+					<when test="type == 'N'.toString()">
+						team_name like '%'||#{keyword}||'%'
+					</when>	
+					<when test="type == 'C'.toString()">
+						team_content like '%'||#{keyword}||'%'
+					</when>			
+				</choose>
+			</trim>
+			</foreach>
+		</trim>
+
+		<![CDATA[
+			1=1
+		)
+		]]>
+	
+	</select>
+
+
+	<select id="list" resultType="com.breaktheice.moimat.domain.TeamDomain">
+	<![CDATA[		
+		SELECT  rownum rn, team_id, int_id, team_name, team_short_content,
+				team_content, area_id, team_regdate, team_max, mem_id
+		FROM 	
+		(	
+			SELECT  rownum rn, team_id, int_id, team_name, team_short_content,
+					team_content, area_id, team_regdate, team_max, mem_id
+			FROM 	team
+			WHERE 
+		]]>
+<!-- 		검색조건 -->
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+			<trim prefix="OR">
+				<choose>
+					<when test="type == 'N'.toString()">
+						team_name like '%'||#{keyword}||'%'
+					</when>	
+					<when test="type == 'C'.toString()">
+						team_content like '%'||#{keyword}||'%'
+					</when>				
+				</choose>
+			</trim>
+			</foreach>
+		</trim>
+		<![CDATA[
+			rownum <= #{pageNum} * #{amount}
+		)
+		WHERE rn > (#{pageNum} -1 )* #{amount}
+		ORDER BY team_id DESC
+		]]>
+	</select>
+	
+
+	
+	<select id="view" resultType="com.breaktheice.moimat.domain.TeamDomain">
+       	SELECT  team_id, int_id, team_name, team_short_content,
+				team_content, area_id, team_regdate, team_max, mem_id
+       	FROM 	team
+		WHERE 	team_id = #{teamId}
+	</select>
+	
+	<insert id="add">
+		INSERT INTO team
+		(
+			team_id, int_id, team_name, team_short_content,
+			team_content, area_id, team_regdate, team_max, mem_id
+		)
+		VALUES
+		(
+			team_seq.nextval, #{intId}, #{teamName}, #{teamShortContent},
+			#{teamContent}, #{areaId}, sysdate, #{teamMax}, #{memId}
+		)
+	</insert>
+
+	
+	<update id="update">
+		UPDATE 	team
+		SET		int_id 	 			= #{intId},
+				team_name	 		= #{teamName},
+				team_short_content	= #{teamShortContent},
+				team_content	 	= #{teamContent},
+				area_id	 			= #{areaId},
+				team_max	 		= #{teamMax}
+		WHERE 	team_id = #{teamId}
+	</update>
+	
+	<delete id="remove">
+		DELETE FROM team
+		WHERE		team_id = #{teamId}
+	</delete>
+	
+	<select id="getInterest" resultType="String">
+		SELECT  int_name
+		FROM    interest
+		WHERE   int_id = #{intId}
+	</select>
+	
+	<select id="getArea" resultType="String">
+		SELECT  area_region_name
+		FROM    area
+		WHERE   area_id = #{areaId}
+	</select>
+	
+	<select id="getNickname" resultType="String">
+		SELECT	mem_nickname
+		FROM 	member
+		WHERE 	mem_id = #{memId}
+	</select>
+	
+		
+	<select id="selectAllAreas" resultType="com.breaktheice.moimat.domain.AreaDomain">
+		SELECT	area_id, area_key, area_name, area_region_key, area_region_name
+		FROM 	area
+	</select>
+	
+	<select id="selectAllInterest" resultType="com.breaktheice.moimat.domain.InterestDomain">
+		SELECT	int_id, int_key, int_name, int_order, int_use
+		FROM 	interest
+	</select>
+	
+	<select id="selectJoinedGroupList" resultType="com.breaktheice.moimat.domain.TeamDomain">
+		select * from team
+		where team_id in (
+			select team_id from team_member where mem_id = #{ memId }
+		)
+	</select>
+
+	<select id="selectTeamInfo" resultType="com.breaktheice.moimat.domain.TeamDomain">
+		select * from team where team_id = #{ teamId }
+	</select>
+	<select id="interestCount" resultType="com.breaktheice.moimat.domain.AdminVO">
+		SELECT	i.int_name value, count(int_name) count
+		FROM 	team t, interest i
+		WHERE 	t.int_id = i.int_id 
+		GROUP BY i.int_name
+		ORDER BY count DESC
+	</select>
+	<select id="areaCount" resultType="com.breaktheice.moimat.domain.AdminVO">
+		SELECT	a.area_region_name value, count(a.area_region_name) count
+		FROM 	team t, area a
+		WHERE 	t.area_id = a.area_id
+		GROUP BY a.area_region_name
+		ORDER BY count DESC
+	</select>
+	
+	<select id="recentOneWeek" resultType="com.breaktheice.moimat.domain.TeamDomain">
+	<![CDATA[		
+		SELECT  rownum rn, team_id, int_id, team_name, team_short_content,
+				team_content, area_id, team_regdate, team_max, mem_id
+		FROM 	
+		(	
+			SELECT  rownum rn, team_id, int_id, team_name, team_short_content,
+					team_content, area_id, team_regdate, team_max, mem_id
+			FROM 	team
+			WHERE 
+		]]>
+<!-- 		검색조건 -->
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+			<trim prefix="OR">
+				<choose>
+					<when test="type == 'N'.toString()">
+						team_name like '%'||#{keyword}||'%'
+					</when>	
+					<when test="type == 'C'.toString()">
+						team_content like '%'||#{keyword}||'%'
+					</when>				
+				</choose>
+			</trim>
+			</foreach>
+		</trim>
+		<![CDATA[
+			team_regdate BETWEEN sysdate-7 AND sysdate and
+			rownum <= #{pageNum} * #{amount}
+		)
+		WHERE rn > (#{pageNum} -1 )* #{amount}
+		ORDER BY team_id DESC
+		]]>
+	</select>
+	
 </mapper>

@@ -10,7 +10,7 @@
 <%@ include file="../includes/head.jsp"%>
 <!--Bootbox Modals [ OPTIONAL ]-->
 <script src="/resources/plugins/bootbox/bootbox.min.js"></script>
-<title>구성원 - ${ team.teamName } | moim@</title>
+<title>구성원 - ${ group.teamName } | moim@</title>
 
 <style>
 @media screen and (max-width: 768px) {
@@ -68,7 +68,7 @@
 				<!--Page Title-->
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<div id="page-title">
-					<h1 class="page-header text-overflow">{ _team.teamName_ }</h1>
+					<h1 class="page-header text-overflow">${ group.teamName }</h1>
 				</div>
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<!--End page title-->
@@ -87,14 +87,14 @@
 
 						<!--Nav Tabs-->
 						<ul class="nav nav-tabs">
-							<li><a href="${ team.teamId }">홈</a></li>
-							<li class="active"><a href="${ team.teamId }/member">구성원</a>
+							<li><a href="/groups/${ group.teamId }">홈</a></li>
+							<li class="active"><a href="/groups/${ group.teamId }/member">구성원</a>
 							</li>
-							<li><a href="${ team.teamId }/schedule">모임일정</a></li>
-							<li><a href="${ team.teamId }/photos">사진첩</a></li>
-							<li><a href="${ team.teamId }/posts">게시판</a></li>
-							<li><a href="${ team.teamId }/chat">채팅</a></li>
-							<li><a href="${ team.teamId }/settings">설정</a></li>
+							<li><a href="/groups/${ group.teamId }/schedule">모임일정</a></li>
+							<li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
+							<li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
+							<li><a href="/groups/${ group.teamId }/chat">채팅</a></li>
+							<li><a href="/groups/${ group.teamId }/settings">설정</a></li>
 						</ul>
 
 						<!--Default Dropdown button-->
@@ -105,14 +105,14 @@
 								<i class="fa fa-bars"></i> 구성원
 							</button>
 							<ul class="dropdown-menu dropdown-menu-left">
-								<li><a href="${ team.teamId }">홈</a></li>
-								<li class="active"><a href="${ team.teamId }/member">구성원</a></li>
-								<li><a href="${ team.teamId }/schedule">모임일정</a></li>
-								<li><a href="${ team.teamId }/photos">사진첩</a></li>
-								<li><a href="${ team.teamId }/posts">게시판</a></li>
-								<li><a href="${ team.teamId }/chat">채팅</a></li>
+								<li><a href="/groups/${ group.teamId }">홈</a></li>
+								<li class="active"><a href="/groups/${ group.teamId }/member">구성원</a></li>
+								<li><a href="/groups/${ group.teamId }/schedule">모임일정</a></li>
+								<li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
+								<li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
+								<li><a href="/groups/${ group.teamId }/chat">채팅</a></li>
 								<li class="divider"></li>
-								<li><a href="${ team.teamId }/settings">설정</a></li>
+								<li><a href="/groups/${ group.teamId }/settings">설정</a></li>
 							</ul>
 						</div>
 						<!--===================================================-->
@@ -126,7 +126,7 @@
 									<div class="panel-heading">
 										<div class="panel-control">
 											<ul class="nav nav-tabs" id="moimTab">
-												
+
 											</ul>
 										</div>
 										<h3 class="panel-title">Panel With tabs</h3>
@@ -136,6 +136,21 @@
 									<div class="panel-body">
 										<div class="tab-content">
 											<div class="tab-pane fade active in" id="demo-tabs-box-1">
+												<div class="table-toolbar-right pad-no">
+													<select id="memberSearchType">
+														<option value="">--</option>
+														<option value="E">이메일</option>
+														<option value="N">별명</option>
+													</select>
+													<div class="form-group">
+														<input type="text" class="form-control"
+															id="memberSearchKeyword" />
+													</div>
+													<button id="memberSearchBtn" type="button"
+														class="btn btn-dark">
+														<i class="fa fa-search"> </i>
+													</button>
+												</div>
 												<div class="table-responsive">
 													<table class="table table-striped">
 														<thead>
@@ -147,25 +162,42 @@
 															</tr>
 														</thead>
 														<tbody id="memberList">
-
 														</tbody>
 													</table>
 												</div>
+												<div class="paginationBtn text-right"></div>
 											</div>
 											<div class="tab-pane fade" id="demo-tabs-box-2">
-												<select id="select">
-													<option value="member">멤버보기</option>
-													<option value="waiting">가입대기인원</option>
-													<option value="block">차단멤버보기</option>
-												</select>
-
+												<div class="table-toolbar-right pad-no">
+													<select id="adminSearchType">
+														<option value="">--</option>
+														<option value="E">이메일</option>
+														<option value="N">별명</option>
+													</select>
+													<div class="form-group">
+														<input type="text" class="form-control"
+															id="adminSearchKeyword" />
+													</div>
+													<button id="adminSearchBtn" type="button"
+														class="btn btn-dark">
+														<i class="fa fa-search"> </i>
+													</button>
+												</div>
+												<div>
+													<select id="select">
+														<option value="member">멤버보기</option>
+														<option value="manager">운영진보기</option>
+														<option value="waiting">가입대기인원</option>
+														<option value="block">차단멤버보기</option>
+													</select>
+												</div>
 												<div class="table-responsive">
 													<table class="table table-striped">
 														<thead>
 															<tr>
 																<th class="col-md-1 text-center">
-																	<p class="text-xs">전체선택</p>
-																	<input type="checkbox" id="chkall">
+																	<p class="text-xs">전체선택</p> <input type="checkbox"
+																	id="chkall">
 																</th>
 																<th class="col-md-1 text-center">#</th>
 																<th class="col-md-1">Photo</th>
@@ -187,6 +219,7 @@
 															class="btn btn-default btn-hover-danger">삭제하기</button>
 													</p>
 												</div>
+												<div class="paginationBtn text-right"></div>
 											</div>
 										</div>
 									</div>
@@ -197,8 +230,8 @@
 					<!--===================================================-->
 					<!--End Default Tabs (Left Aligned)-->
 					<!-- modal -->
-					<div class="modal" tabindex="-1" style="display: none;"
-						id="moimat-modal">
+					<div class="modal" id="memberModal" tabindex="-1"
+						style="display: none;" id="moimat-modal">
 						<div class="modal-dialog modal-sm">
 							<div class="modal-content">
 								<div class="modal-header">
@@ -218,9 +251,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="modal-footer centerm" id="buttonBox">
-									
-								</div>
+								<div class="modal-footer centerm" id="buttonBox"></div>
 							</div>
 						</div>
 					</div>
@@ -245,12 +276,22 @@
 
 	</div>
 	<!-- END CONTAINER -->
+	<%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../includes/modals.jsp"%>
+	</c:if>
+	<!--Bootbox Modals [ OPTIONAL ]-->
+	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
+	<%-- for modal --%>
 	<script type="text/javascript" src="/resources/js/teammember.js"></script>
 	<script>
 		$(document).ready(function() {
 			var groupId = '<c:out value="${groupId}"/>';
-			var memberId = '<c:out value="${id}"/>';
+			var memberId = '<c:out value="${sessionScope.loginVO.memId}"/>';
 			var teamName = '임시 모임명';
+			var pageNum = 1;
+			var type = "";
+			var keyword = "";
 			
 			teamMember.isAdmin(groupId,memberId,function(a){
 				var test = '';
@@ -272,8 +313,10 @@
 			});
 			
 			
-			function showList(tabid,keyword,withcheck){
-				teamMember.getList(groupId,keyword,function(data){
+			function showList(tabid,status,withcheck){
+				console.log("showList"+pageNum);
+				var param = {"groupId" : groupId,"status" : status, "pageNum" : pageNum,"type":type, "keyword":keyword};
+				teamMember.getList(param,function(data){
 					var listHtml = '';
 					var checkbox = '';
 					for(var i = 0, len = data.getMember.length||0; i<len; i++){
@@ -310,19 +353,73 @@
 								 +	'</tr>'
 					}
 					$("#"+tabid).html(listHtml);
+					$(".paginationBtn").html(memberPageBtn(data.teamMemberCount))
+					$(".paginationBtn").on('click','.page-link', function(e){
+						e.preventDefault();
+						var targetPageNum = $(this).attr("href");
+						pageNum = targetPageNum;
+						console.log(pageNum);
+						showList(tabid,$('#select').val(),(tabid=='adminList'));
+					});
+					
 				});
 			}
 			
 			showList('memberList','member',false);
 			
+			$("#adminSearchBtn").on('click',function(){
+				var searchType = $("#adminSearchType").val();
+				var searchKeyword = $("#adminSearchKeyword").val();
+				if(searchType == ''){
+					alert("검색조건을 선택해주세요");
+					return;
+				}else if(searchKeyword == ''){
+					alert("검색어를 입력해주세요");
+					return;
+				}
+				type = searchType;
+				keyword = searchKeyword;
+				showList('adminList',$('#select').val(),true);
+			});
+			$("#memberSearchBtn").on('click',function(){
+				var searchType = $("#memberSearchType").val();
+				var searchKeyword = $("#memberSearchKeyword").val();
+				if(searchType == ''){
+					alert("검색조건을 선택해주세요");
+					return;
+				}else if(searchKeyword == ''){
+					alert("검색어를 입력해주세요");
+					return;
+				}
+				type = searchType;
+				keyword = searchKeyword;
+				showList('memberList',$('#select').val(),false);
+			});
+			
 			$("#moimTab").on('show.bs.tab','#memberTab',function(){ // 다시 멤버탭으로 돌아왔을때 갱신이 필요함 .. 흠 ...
 				showList('memberList','member',false);
 			});
+			$("#moimTab").on('hide.bs.tab','#memberTab',function(){ // 탭에서 벗어날때 초기화해야한다.
+				pageNum = 1;
+				type = '';
+				keyword = '';
+				$("#memberSearchType").val('');
+				$("#memberSearchKeyword").val('');
+			});
 			
-			$("#moimTab").on('shown.bs.tab','#adminonly',function(){ 
+			$("#moimTab").on('shown.bs.tab','#adminonly',function(){
 				var selected = $("#select").val();
 				showList('adminList',selected,true);
 			});
+			$("#moimTab").on('hide.bs.tab','#adminonly',function(){
+				pageNum = 1;
+				type = '';
+				keyword = '';
+				$("#select").val('member');
+				$("#adminSearchType").val('');
+				$("#adminSearchKeyword").val('');
+			});
+			
 			$("#adminList").on("click",".memclick",function(){
 				var gradeBox = '';
 				var buttonBox = '';
@@ -377,11 +474,11 @@
 									 + '</select>';
 							}
 							buttonBox = '<button id="modalUpdateBtn" type="button"'
-								  +		'class="btn btn-default btn-hover-info">등급조정</button>'
-								  +	'<button id="modalBlockBtn" type="button"'
-								  +	'class="btn btn-default btn-hover-warning">차단하기</button>'
-								  + '<button id="modalDeleteBtn" type="button"'
-								  + 	'class="btn btn-default btn-hover-danger">삭제하기</button>';
+									  +		'class="btn btn-default btn-hover-info">등급조정</button>'
+									  +	'<button id="modalBlockBtn" type="button"'
+									  +		'class="btn btn-default btn-hover-warning">차단하기</button>'
+									  + '<button id="modalDeleteBtn" type="button"'
+									  + 	'class="btn btn-default btn-hover-danger">삭제하기</button>';
 						}
 						$("#gradeBox").html(gradeBox);
 						$("#buttonBox").html(buttonBox);
@@ -391,9 +488,10 @@
 					$("#modalMNickName").text(e.tmemNickName);
 					$("#modalMId").text(e.tmemEmail);
 				});
-				$(".modal").modal("show");
+				$("#memberModal").modal('show');
 			});
 			$('#select').on('change',function(e){
+				pageNum = 1;
 				showList('adminList',$(this).val(),true);
 				var btnhtml = ''
 				if($(this).val()=='member'){
@@ -602,7 +700,7 @@
 			 
 			
 			$("#buttonBox").on("click","#modalUpdateBtn",function(){
-				$(".modal").modal("hide");
+				$("#memberModal").modal("hide");
 				var mNickName = $("#modalMNickName").text();
 				var mGrade = $("#modalSelect option:selected").attr("name");
 				var modalData = {};
@@ -636,7 +734,7 @@
 				                    container : 'floating',
 				                    timer : 5000
 				                });
-				                $(".modal").modal("show");
+				                $("#memberModal").modal("show");
 				            };
 
 				        });
@@ -661,7 +759,7 @@
 				                    container : 'floating',
 				                    timer : 5000
 				                });
-				            	$(".modal").modal("show"); //왠진 모르겠지만 여기 말고 success에 넣으면 이상하게 작동함??
+				            	$("#memberModal").modal("show"); //왠진 모르겠지만 여기 말고 success에 넣으면 이상하게 작동함??
 				            }else{
 				                $.niftyNoty({
 				                    type: 'danger',
@@ -670,7 +768,7 @@
 				                    container : 'floating',
 				                    timer : 5000
 				                });
-				                $(".modal").modal("show");
+				                $("#memberModal").modal("show");
 				            };
 
 				        });
@@ -678,7 +776,7 @@
 			});
 			
 			$('#buttonBox').on('click','#modalBlockBtn',function(){
-				$(".modal").modal("hide");
+				$("#memberModal").modal("hide");
 				var mNickName = $("#modalMNickName").text();
 				var confirmText = mNickName + " 님을 차단하시겠습니까?";
 				var modalData = {"tmemIds" : [$('#modalTmemId').val()], "teamName" : teamName, "memberId" : memberId, "tmemLevel" : 0 };
@@ -711,13 +809,13 @@
 		                    timer : 5000
 		                });
 		                
-		                $(".modal").modal("show");
+		                $("#memberModal").modal("show");
 		            };
 				})
 			});
 			
 			$('#buttonBox').on('click','#modalDeleteBtn',function(){
-				$(".modal").modal("hide");
+				$("#memberModal").modal("hide");
 				var mNickName = $("#modalMNickName").text();
 				var confirmText = mNickName + " 님을 강제탈퇴 하시겠습니까?";
 				var modalData = {"tmemIds" : [$('#modalTmemId').val()], "teamName" : teamName, "memberId" : memberId};
@@ -749,13 +847,12 @@
 		                    container : 'floating',
 		                    timer : 5000
 		                });
-		                
-		                $(".modal").modal("show");
+		                $("#memberModal").modal("show");
 		            };
 				})
 			});
 			$('#gradeBox').on('click','#modalReleseBtn',function(){
-				$(".modal").modal("hide");
+				$("#memberModal").modal("hide");
 				var mNickName = $("#modalMNickName").text();
 				var confirmText = mNickName + " 님을 차단해제 하시겠습니까?";
 				var modalData = {"tmemIds" : [$('#modalTmemId').val()], "teamName" : teamName, "memberId" : memberId,"tmemLevel" : 2};
@@ -786,13 +883,13 @@
 		                    container : 'floating',
 		                    timer : 5000
 		                });
-		                $(".modal").modal("show");
+		                $("#memberModal").modal("show");
 		            };
 				})
 			});
 			
 			$('#gradeBox').on('click','#modalAdmissionBtn',function(){
-				$(".modal").modal("hide");
+				$("#memberModal").modal("hide");
 				var mNickName = $("#modalMNickName").text();
 				var confirmText = mNickName + " 님을 가입승인 하시겠습니까?";
 				var modalData = {"tmemIds" : [$('#modalTmemId').val()], "teamName" : teamName, "memberId" : memberId,"tmemLevel" : 2};
@@ -824,10 +921,46 @@
 		                    container : 'floating',
 		                    timer : 5000
 		                });
-		                $(".modal").modal("show");
+		                $("#memberModal").modal("show");
 		            };
-				})
+				});
 			});
+			
+			function memberPageBtn(memberCount){
+				var endNum = Math.ceil(pageNum/10.0) * 10;
+				var startNum = endNum - 9;
+				
+				var prev = startNum != 1;
+				var next = false;
+				
+				if(endNum * 10 > memberCount){
+					endNum = Math.ceil(memberCount/10.0);
+				}
+				
+				if(endNum * 10 < memberCount){
+					next = true;
+				}
+				
+				var paginationBtn  = "<ul class='pagination mar-no'>";
+				
+				if(prev){
+					paginationBtn += "<li class='page-item'><a class='page-link' href='"+(startNum -1)+"'>Previous</a></li>";
+				}
+				
+				for(var i = startNum ; i <= endNum; i++){
+					var active = pageNum == i ? "active" : "";
+					
+					paginationBtn += "<li class='page-item "+active+"'><a class='page-link' href='"+i+"'>"+i+"</a></li>";
+				}
+				
+				if(next){
+					paginationBtn += "<li class='page-item'><a class='page-link' href='" + (endNum + 1) +"'>Next</a></li>'";
+				}
+				
+				paginationBtn += "</ul>"
+				
+				return paginationBtn;
+			}
 		});
 	</script>
 </body>

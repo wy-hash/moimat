@@ -7,15 +7,8 @@
 
 <!-- HEAD -->
 <%@ include file="../includes/head.jsp"%>
-<link href="/resources/plugins/fullcalendar/fullcalendar.min.css"
-	rel="stylesheet">
-<link
-	href="/resources/plugins/fullcalendar/nifty-skin/fullcalendar-nifty.min.css"
-	rel="stylesheet">
-<link href="/resources/plugins/font-awesome/css/font-awesome.min.css"
-	rel="stylesheet">
-<link href="/resources/css/moimat.css" rel="stylesheet">
-<title>모임일정 - ${ team.teamName } | moim@</title>
+
+<title>모임일정 - ${ group.teamName } | moim@</title>
 
 <style>
 @media screen and (max-width: 768px) {
@@ -36,6 +29,16 @@
 	}
 }
 </style>
+<link href="/resources/plugins/fullcalendar/fullcalendar.min.css"
+	rel="stylesheet">
+<link
+	href="/resources/plugins/fullcalendar/nifty-skin/fullcalendar-nifty.min.css"
+	rel="stylesheet">
+<link href="/resources/plugins/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet">
+<link href="/resources/css/moimat.css" rel="stylesheet">
+<!--Bootbox Modals [ OPTIONAL ]-->
+<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 </head>
 <!-- END HEAD -->
 
@@ -67,7 +70,7 @@
 				<!--Page Title-->
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<div id="page-title">
-					<h1 class="page-header text-overflow">{ _team.teamName_ }</h1>
+					<h1 class="page-header text-overflow">${ group.teamName }</h1>
 				</div>
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<!--End page title-->
@@ -86,14 +89,14 @@
 
 						<!--Nav Tabs-->
 						<ul class="nav nav-tabs">
-							<li><a href="${ team.teamId }">홈</a></li>
-							<li><a href="${ team.teamId }/member">구성원</a></li>
-							<li class="active"><a href="${ team.teamId }/schedule">모임일정</a>
+							<li><a href="/groups/${ group.teamId }">홈</a></li>
+							<li><a href="/groups/${ group.teamId }/member">구성원</a></li>
+							<li class="active"><a href="/groups/${ group.teamId }/schedule">모임일정</a>
 							</li>
-							<li><a href="${ team.teamId }/photos">사진첩</a></li>
-							<li><a href="${ team.teamId }/posts">게시판</a></li>
-							<li><a href="${ team.teamId }/chat">채팅</a></li>
-							<li><a href="${ team.teamId }/settings">설정</a></li>
+							<li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
+							<li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
+							<li><a href="/groups/${ group.teamId }/chat">채팅</a></li>
+							<li><a href="/groups/${ group.teamId }/settings">설정</a></li>
 						</ul>
 
 						<!--Default Dropdown button-->
@@ -104,14 +107,14 @@
 								<i class="fa fa-bars"></i> 모임일정
 							</button>
 							<ul class="dropdown-menu dropdown-menu-left">
-								<li><a href="${ team.teamId }">홈</a></li>
-								<li><a href="${ team.teamId }/member">구성원</a></li>
-								<li class="active"><a href="${ team.teamId }/schedule">모임일정</a></li>
-								<li><a href="${ team.teamId }/photos">사진첩</a></li>
-								<li><a href="${ team.teamId }/posts">게시판</a></li>
-								<li><a href="${ team.teamId }/chat">채팅</a></li>
+								<li><a href="${ group.teamId }">홈</a></li>
+								<li><a href="${ group.teamId }/member">구성원</a></li>
+								<li class="active"><a href="${ group.teamId }/schedule">모임일정</a></li>
+								<li><a href="${ group.teamId }/photos">사진첩</a></li>
+								<li><a href="${ group.teamId }/posts">게시판</a></li>
+								<li><a href="${ group.teamId }/chat">채팅</a></li>
 								<li class="divider"></li>
-								<li><a href="${ team.teamId }/settings">설정</a></li>
+								<li><a href="${ group.teamId }/settings">설정</a></li>
 							</ul>
 						</div>
 						<!--===================================================-->
@@ -149,10 +152,9 @@
 											</div>
 										</div>
 										<div class="panel-body" id='meetList'></div>
-										<div class="panel-footer">
+										<div class="panel-footer" id='meetListFooter'>
 											<!-- pagination button 들어갈 공간 -->
-											<button data-target="#moimat-modal" data-toggle="modal"
-												class="btn btn-warning">페이지 버튼 들어갈공간</button>
+											
 										</div>
 									</div>
 								</div>
@@ -204,6 +206,11 @@
 
 	</div>
 	<!-- END CONTAINER -->
+	<%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 	<script src="/resources/plugins/fullcalendar/lib/moment.min.js"></script>
 	<script
 		src="/resources/plugins/fullcalendar/lib/jquery-ui.custom.min.js"></script>
@@ -216,11 +223,12 @@
 	<script>
 		window.onload = function() {
 			var meetList = document.getElementById("meetList");
-			var meetListStr = '';
+			
 			var geocoder = new kakao.maps.services.Geocoder();
 			var mRegBtn = document.querySelector("#mRegBtn");
 			var groupid = '<c:out value="${groupId}"/>';
-			var memberid = '<c:out value="${id}"/>';
+			var memberid = '<c:out value="${sessionScope.loginVO.memId}"/>';
+			var pageNum = 1;
 			
 			CalendarEvent.getEvent('#meet-calendar',groupid);
 			
@@ -245,107 +253,153 @@
 					});
 			}
 			
+			showMeetList();
+
+			function showMeetList(){
+				meetListService.getList(groupid,pageNum,memberid,function(list){
+					var meetListStr = '';
+					for(var i = 0, len = list.meetList.length||0; i<len; i++){ //일단 3개만(페이징 완성되면 수정할 부분)
+						var button = '';
+						var mdButton = '';
+						if(list.isAttend[list.meetList[i].meetId]){
+							button = '<button type="button" class="btn btn-danger pull-right cancelBtn" data-mid="'+list.meetList[i].meetId+'">불참하기</button>'
+						}else{
+							button = '<button type="button" class="btn btn-warning pull-right attendBtn" data-mid="'+list.meetList[i].meetId+'">참석하기</button>';
+						}
+						if(list.isWriter[list.meetList[i].meetId]){
+							mdButton += '<button id="mod'+i+'" type="button" class="btn btn-primary" data-mid="'+list.meetList[i].meetId+'">수정하기</button>'
+								   	  +	'<button id="del'+i+'" type="button" class="btn btn-danger" data-mid="'+list.meetList[i].meetId+'">삭제하기</button>'
+						}
+						meetListStr +='<div class="row">'
+								   +	'<div class="col-lg-4 moimat-m">'
+								   +		'<div id="map'+i+'"></div>'
+								   +	'</div>'
+								   +	'<div class="col-lg-8 moimat-mc">'
+								   +		'<div class="panel panel-bordered panel-dark mar-no">'
+						           +			'<div class="row panel-heading mar-no">'
+						           +				'<div class="col-xs-8 pad-no">'
+					               +					'<h3 class="panel-title">'
+						           +						'<span class="meetTitle" data-mid="'+list.meetList[i].meetId+'">'
+						           +							list.meetList[i].meetTitle
+						           +						'</span></h3>'
+					               +				'</div>'
+					               +				'<div class="col-xs-4 my">'
+					               +					'<p class="text-bold mar-no text-overflow">'+list.meetList[i].meetNickName+'님이 작성...</p>'
+					               +				'</div>'
+					               +			'</div>'
+					           	   +			'<div class="panel-body">'
+								   +				'<div class="list-group">'
+								   +    				'<div class="row list-group-item">'
+								   +						'<div class="col-lg-3">'
+								   +							'<span style="color:red;">'
+								   +								'<i class="fa fa-calendar"></i>'
+								   +							'</span>'
+								   +							'&ensp;'
+								   +							meetListService.parseDate(list.meetList[i].meetDate)
+								   +						'</div>'
+								   +						'<div class="col-lg-3">'
+								   +							'<span style="color:orange;">'
+								   +								'<i class="fa fa-map-marker"></i>'
+								   +							'</span>'
+								   +							'&ensp;'
+								   +								list.meetList[i].meetArea
+								   +						'</div>'
+								   +						'<div class="col-lg-3">'
+								   +							'<span style="color:green;">'
+								   +								'<i class="fa fa-krw"></i>'
+								   +							'</span>'
+								   +							'&ensp;'
+								   +							list.meetList[i].meetPay
+								   +						'</div>'
+								   +						'<div class="col-lg-3">'
+								   +							'<span style="color:black;">'
+								   +								'<i class="fa fa-users"></i>'
+								   +							'</span>'
+								   +							'<a class="meetMember" data-target="#moimat-modal" data-toggle="modal" data-mid="'
+								   +								list.meetList[i].meetId+'"> 참여인원 :'
+								   +								list.countMeetMember[list.meetList[i].meetId]+'/'
+					               +								list.meetList[i].meetMax
+					               +							'</a>'
+					               +						'</div>'
+								   +					'</div>'
+								   +				'</div>'
+								   +				'<div class="moimat-ellipsis">'
+								   +					'<a class="meetContent" data-target="#moimat-modal" data-toggle="modal">'+list.meetList[i].meetContent+'</a>'
+								   +				'</div>'
+								   +			'</div>'
+						           +		'</div>'
+								   +		'<div class="btn-group" style="height:40px;display:block;">'
+								   +			'<div class="clearfix">'
+								   +				'<div class="col-xs-6 pad-no">'
+								   +					mdButton
+								   +				'</div>'
+								   +				'<div class="col-xs-6 pad-no">'
+								   +					button
+								   +				'</div>'
+								   +			'</div>'
+								   +		'</div>'
+								   +	'</div>'
+								   + '</div>'
+						 		   + '<hr>';
+					}
+					meetListStr += meetPageBtn(list.meetCount);
+					meetList.innerHTML = meetListStr;
+					for(var i = 0, len = list.meetList.length||0; i<len; i++){
+						setMap(list.meetList[i].meetArea,"map"+i)
+						dButtonEvent("del"+i);
+						mButtonEvent("mod"+i);
+					}
+					var paginationBtn = document.querySelectorAll(".page-link");
+					paginationBtn.forEach(function(e){
+						e.addEventListener('click',function(e){
+							e.preventDefault();
+							var targetPageNum = this.getAttribute('href');
+							pageNum = targetPageNum;
+							showMeetList();
+						});
+					});
+					detailedMeet();
+					moimCEvent();
+					console.log("asdasd");
+				});
+			}
 			
-			meetListService.getList(groupid,memberid,function(list){
-				//meetList,countMeetMember, isAttend
-				var zxzx = (list.meetList.length > 3 ? 3 : list.meetList.length );
-				console.log(zxzx);
-				for(var i = 0, len = list.meetList.length||0; i<zxzx; i++){ //일단 3개만(페이징 완성되면 수정할 부분)
-					var button = '';
-					var mdButton = '';
-					if(list.isAttend[list.meetList[i].meetId]){
-						button = '<button type="button" class="btn btn-danger pull-right cancelBtn" data-mid="'+list.meetList[i].meetId+'">불참하기</button>'
-					}else{
-						button = '<button type="button" class="btn btn-warning pull-right attendBtn" data-mid="'+list.meetList[i].meetId+'">참석하기</button>';
-					}
-					if(list.isWriter[list.meetList[i].meetId]){
-						mdButton += '<form id="mdButton'+i+'" method="Post">'
-								 +      '<input type="hidden" name="meetId" value="'+list.meetList[i].meetId+'">'
-								 + 		'<button id="mod'+i+'" type="button" class="btn btn-primary">수정하기</button>'
-							   	 +		'<button id="del'+i+'" type="button" class="btn btn-danger">삭제하기</button>'
-							   	 +	'</form>'
-					}
-					meetListStr +='<div class="row">'
-							   +	'<div class="col-lg-4 moimat-m">'
-							   +		'<div id="map'+i+'"></div>'
-							   +	'</div>'
-							   +	'<div class="col-lg-8 moimat-mc">'
-							   +		'<div class="panel panel-bordered panel-dark mar-no">'
-					           +			'<div class="row panel-heading mar-no">'
-					           +				'<div class="col-xs-8 pad-no">'
-				               +					'<h3 class="panel-title">'
-					           +						'<span class="meetTitle" data-mid="'+list.meetList[i].meetId+'">'
-					           +							list.meetList[i].meetTitle
-					           +						'</span></h3>'
-				               +				'</div>'
-				               +				'<div class="col-xs-4 my">'
-				               +					'<p class="text-bold mar-no text-overflow">'+list.meetList[i].meetNickName+'님이 작성...</p>'
-				               +				'</div>'
-				               +			'</div>'
-				           	   +			'<div class="panel-body">'
-							   +				'<div class="list-group">'
-							   +    				'<div class="row list-group-item">'
-							   +						'<div class="col-lg-3">'
-							   +							'<span style="color:red;">'
-							   +								'<i class="fa fa-calendar"></i>'
-							   +							'</span>'
-							   +							'&ensp;'
-							   +							meetListService.parseDate(list.meetList[i].meetDate)
-							   +						'</div>'
-							   +						'<div class="col-lg-3">'
-							   +							'<span style="color:orange;">'
-							   +								'<i class="fa fa-map-marker"></i>'
-							   +							'</span>'
-							   +							'&ensp;'
-							   +								list.meetList[i].meetArea
-							   +						'</div>'
-							   +						'<div class="col-lg-3">'
-							   +							'<span style="color:green;">'
-							   +								'<i class="fa fa-krw"></i>'
-							   +							'</span>'
-							   +							'&ensp;'
-							   +							list.meetList[i].meetPay
-							   +						'</div>'
-							   +						'<div class="col-lg-3">'
-							   +							'<span style="color:black;">'
-							   +								'<i class="fa fa-users"></i>'
-							   +							'</span>'
-							   +							'<a class="meetMember" data-target="#moimat-modal" data-toggle="modal" data-mid="'
-							   +								list.meetList[i].meetId+'"> 참여인원 :'
-							   +								list.countMeetMember[list.meetList[i].meetId]+'/'
-				               +								list.meetList[i].meetMax
-				               +							'</a>'
-				               +						'</div>'
-							   +					'</div>'
-							   +				'</div>'
-							   +				'<div class="moimat-ellipsis">'
-							   +					'<a class="meetContent" data-target="#moimat-modal" data-toggle="modal">'+list.meetList[i].meetContent+'</a>'
-							   +				'</div>'
-							   +			'</div>'
-					           +		'</div>'
-							   +		'<div class="btn-group" style="height:40px;display:block;">'
-							   +			'<div class="clearfix">'
-							   +				'<div class="col-xs-6 pad-no">'
-							   +					mdButton
-							   +				'</div>'
-							   +				'<div class="col-xs-6 pad-no">'
-							   +					button
-							   +				'</div>'
-							   +			'</div>'
-							   +		'</div>'
-							   +	'</div>'
-							   + '</div>'
-					 		   + '<hr>';
+			var meetListFooter = document.querySelector("#meetListFooter");
+			function meetPageBtn(meetCount){
+				var endNum = Math.ceil(pageNum/3.0) * 10;
+				var startNum = endNum - 9;
+				
+				var prev = startNum != 1;
+				var next = false;
+				
+				if(endNum * 10 > meetCount){
+					endNum = Math.ceil(meetCount/3.0);
 				}
-				meetList.innerHTML = meetListStr;
-				for(var i = 0, len = list.meetList.length||0; i<zxzx; i++){
-					setMap(list.meetList[i].meetArea,"map"+i)
-					dButtonEvent("mdButton"+i,"del"+i);
-					mButtonEvent("mdButton"+i,"mod"+i);
+				
+				if(endNum * 10 < meetCount){
+					next = true;
 				}
-				detailedMeet();
-				moimCEvent();
-			})
+				
+				var paginationBtn  = "<div id='paginationBtn'><ul class='pagination pull-right mar-no'>";
+				
+				if(prev){
+					paginationBtn += "<li class='page-item'><a class='page-link' href='"+(startNum -1)+"'>Previous</a></li>";
+				}
+				
+				for(var i = startNum ; i <= endNum; i++){
+					var active = pageNum == i ? "active" : "";
+					
+					paginationBtn += "<li class='page-item "+active+"'><a class='page-link' href='"+i+"'>"+i+"</a></li>";
+				}
+				
+				if(next){
+					paginationBtn += "<li class='page-item'><a class='page-link' href='" + (endNum + 1) +"'>Next</a></li>'";
+				}
+				
+				paginationBtn += "</ul></div>"
+				
+				return paginationBtn;
+			}
 			
 			function detailedMeet(){
 				var meetTitle = document.querySelectorAll(".meetTitle");
@@ -390,8 +444,7 @@
 							for(var i = 0, len = data.memberList.length||0; i<len; i++){
 								mmhtml += '<a href="#" class="list-group-item">'
 		                           	   +  	'<div class="media-left pos-rel">'
-		                               + 		'<img class="img-circle img-xs" src="/resources/img/profile-photos/2.png" alt="Profile Picture">'
-		                               + 		'<i class="badge badge-success badge-stat badge-icon pull-left"></i>'
+		                               + 		'<img class="img-circle img-xs" src="/resources/img/profile-photos/'+data.memberList[i].mmemPhoto+'" alt="Profile Picture">'
 		                               + 	'</div>'
 		                               +	'<div class="media-body">'
 		                               +		'<p class="mar-no">'+data.memberList[i].mmemNickName+'</p>'
@@ -403,36 +456,140 @@
 							mmodalbody.innerHTML = mmhtml;
 						});
 					});
-					
-					cancelBtn.forEach(function(e){
-						e.addEventListener('click',function(){
-							var meetid = this.getAttribute("data-mid");
-							location.href = '/groups/'+groupid+'/schedule/cancel?meetid='+meetid;
-						})
-					})
-					attendBtn.forEach(function(e){
-						e.addEventListener('click',function(){
-							var meetid = this.getAttribute("data-mid");
-							location.href = '/groups/'+groupid+'/schedule/attend?meetid='+meetid;
-						})
-					})
 				});//end meetMember.forEach
+				// 이거 구현방식을 바꿔야함 
+				cancelBtn.forEach(function(e){
+					e.addEventListener('click',function(){
+						console.log(e)
+						var meetId = this.getAttribute("data-mid");
+						var data = {'meetId' : meetId,'teamId' : groupid};
+						bootbox.confirm("참여하지 않으시겠습니까?",function(result){
+							if(result){
+								$.ajax({
+				            		type : 'delete',
+				            		url : '/meet/cancelMeet',
+				            		datatype : "json",
+				            		data : JSON.stringify(data),
+				            		contentType : "application/json; charset=utf-8",
+				            		success : function(result){
+				            			showMeetList();
+				            		}
+				            	});
+								$.niftyNoty({
+				                    type: 'success',
+				                    icon : 'pli-like-2 icon-2x',
+				                    message :'이 만남에 참여하지 않습니다.',
+				                    container : 'floating',
+				                    timer : 5000
+				                });
+							}else{
+								 $.niftyNoty({
+					                    type: 'danger',
+					                    icon : 'pli-cross icon-2x',
+					                    message : '취소하였습니다.',
+					                    container : 'floating',
+					                    timer : 5000
+					          	});
+							}
+						});
+					})
+				})
+				attendBtn.forEach(function(e){
+					e.addEventListener('click',function(){
+						var meetId = this.getAttribute("data-mid");
+						var data = {'meetId' : meetId,'teamId' : groupid};
+						bootbox.confirm("만남에 참여하시겠습니까?",function(result){
+							if(result){
+								$.ajax({
+				            		type : 'post',
+				            		url : '/meet/attendMeet',
+				            		datatype : "json",
+				            		data : JSON.stringify(data),
+				            		contentType : "application/json; charset=utf-8",
+				            		success : function(result){
+				            			showMeetList();
+				            		}
+				            	});
+								$.niftyNoty({
+				                    type: 'success',
+				                    icon : 'pli-like-2 icon-2x',
+				                    message :'이 만남에 참여합니다.',
+				                    container : 'floating',
+				                    timer : 5000
+				                });
+							}else{
+								 $.niftyNoty({
+					                    type: 'danger',
+					                    icon : 'pli-cross icon-2x',
+					                    message : '취소하였습니다.',
+					                    container : 'floating',
+					                    timer : 5000
+					          	});
+							}
+						});
+					})
+				})
 			}
-			function dButtonEvent(formid,buttonid){
+			function dButtonEvent(buttonid){
 				var btn = document.querySelector('#'+buttonid);
-				btn.addEventListener('click',function(){
-					var buttonForm = document.querySelector('#'+formid);
-					buttonForm.setAttribute("action","/groups/"+groupid+"/schedule/delete");
-					buttonForm.submit();
-				});
+				if(btn){
+					btn.addEventListener('click',function(){
+						var meetId = this.getAttribute("data-mid");
+						var data = {'meetId' : meetId };
+						bootbox.confirm("삭제하시겠습니까?",function(result){
+							if(result){
+								$.ajax({
+				            		type : 'delete',
+				            		url : '/meet/deleteMeet',
+				            		datatype : "json",
+				            		data : JSON.stringify(data),
+				            		contentType : "application/json; charset=utf-8",
+				            		success : function(result){
+				            			showMeetList();
+				            		}
+				            	});
+								$.niftyNoty({
+				                    type: 'success',
+				                    icon : 'pli-like-2 icon-2x',
+				                    message :'삭제해였습니다.',
+				                    container : 'floating',
+				                    timer : 5000
+				                });
+							}else{
+								 $.niftyNoty({
+					                    type: 'danger',
+					                    icon : 'pli-cross icon-2x',
+					                    message : '취소하였습니다.',
+					                    container : 'floating',
+					                    timer : 5000
+					                });
+							}
+						});
+					});
+				}
 			}
-			function mButtonEvent(formid,buttonid){
+			function mButtonEvent(buttonid){
 				var btn = document.querySelector('#'+buttonid);
-				btn.addEventListener('click',function(){
-					var buttonForm = document.querySelector('#'+formid);
-					buttonForm.setAttribute("action","/groups/"+groupid+"/schedule/modify");
-					buttonForm.submit();
-				});
+				if(btn){
+					btn.addEventListener('click',function(){
+						var meetId = this.getAttribute("data-mid");
+						bootbox.confirm("수정하시겠습니까?",function(result){
+							if(result){
+								location.href = "/groups/"+groupid+"/schedule/modify?meetid="+meetId;
+							}else{
+								 $.niftyNoty({
+					                    type: 'danger',
+					                    icon : 'pli-cross icon-2x',
+					                    message : '취소하였습니다.',
+					                    container : 'floating',
+					                    timer : 5000
+					                });
+							}
+						})
+						
+					});
+				}
+				
 			}
 			function removeMoimatContent(){ //혹시몰라서 하나의 모달창을 돌려쓰니까... 내용을 다 비우고 넣을려고 제이쿼리면 안만들어도됬음... 더좋은방법?? 몰르르르르르
 				for(var i = 0, len = arguments.length||0; i<len; i++){

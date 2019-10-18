@@ -36,9 +36,7 @@
 		                    <input type="text" id="memEmail" name="memEmail" class="form-control" placeholder="이메일" autofocus>
 		                </div>
 		                <div class="form-group">
-		                   
 		                    <input type="password" id="memPassword" name="memPassword" class="form-control" placeholder="비밀번호" onkeypress="javascript:if(event.keyCode == 13) checkValue();">
-
 		                </div>
 		                <div class="checkbox pad-btm text-left">
 		                    <input id="demo-form-checkbox" class="magic-checkbox" type="checkbox">

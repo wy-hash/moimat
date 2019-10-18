@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.breaktheice.moimat.persistence.MemberMapper">
+
+	<select id="totalCount" resultType="Long">
+	<![CDATA[		
+		SELECT  count(*)
+		FROM 	
+		(	
+			SELECT  rownum rn, mem_id, mem_email, mem_password, mem_nickname,
+					mem_birthday, mem_gender, area_id, mem_regdate, mem_update,
+					mem_lastlogin, mem_content, mem_photo, mem_level, mem_status,
+					mem_int1, mem_int2, mem_int3
+			FROM 	member
+			WHERE 
+		]]>
+<!-- 		검색조건 -->
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+			<trim prefix="OR">
+				<choose>
+					<when test="type == 'E'.toString()">
+						mem_email like '%'||#{keyword}||'%'
+					</when>	
+					<when test="type == 'N'.toString()">
+						mem_nickname like '%'||#{keyword}||'%'
+					</when>			
+				</choose>
+			</trim>
+			</foreach>
+		</trim>
+		<choose>
+			<when test = "memLevel == null || memLevel == 0">
+				mem_level > 0 and
+			</when>
+			<otherwise>
+				mem_level = #{memLevel} and
+			</otherwise>
+		</choose>
+		
+		<choose>
+			<when test = "memStatus == null || memStatus == 2">
+			<![CDATA[	mem_status < 2 and ]]>
+			</when>
+			<otherwise>
+				mem_status = #{memStatus} and
+			</otherwise>
+		</choose>
+		<![CDATA[
+			1=1
+		)
+		]]>
+	
+	</select>
+
+
+	<select id="list" resultType="com.breaktheice.moimat.domain.MemberDomain">
+	<![CDATA[		
+		SELECT  rownum rn, mem_id, mem_email, mem_password, mem_nickname,
+				mem_birthday, mem_gender, area_id, mem_regdate, mem_update,
+				mem_lastlogin, mem_content, mem_photo, mem_level, mem_status,
+				mem_int1, mem_int2, mem_int3
+		FROM 	
+		(	
+			SELECT  rownum rn, mem_id, mem_email, mem_password, mem_nickname,
+					mem_birthday, mem_gender, area_id, mem_regdate, mem_update,
+					mem_lastlogin, mem_content, mem_photo, mem_level, mem_status,
+					mem_int1, mem_int2, mem_int3
+			FROM 	member
+			WHERE 
+		]]>
+<!-- 		검색조건 -->
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+			<trim prefix="OR">
+				<choose>
+					<when test="type == 'E'.toString()">
+						mem_email like '%'||#{keyword}||'%'
+					</when>	
+					<when test="type == 'N'.toString()">
+						mem_nickname like '%'||#{keyword}||'%'
+					</when>			
+				</choose>
+			</trim>
+			</foreach>
+		</trim>
+		<choose>
+			<when test = "memLevel == null || memLevel == 0">
+				mem_level >= 0 and
+			</when>
+			<otherwise>
+				mem_level = #{memLevel} and
+			</otherwise>
+		</choose>
+		
+		<choose>
+			<when test = "memStatus == null || memStatus == 2">
+			<![CDATA[	mem_status <= 2 and ]]>
+			</when>
+			<otherwise>
+				mem_status = #{memStatus} and
+			</otherwise>
+		</choose>
+		<![CDATA[
+			rownum <= #{pageNum} * #{amount}
+		)
+		WHERE rn > (#{pageNum} -1 )* #{amount}
+		ORDER BY mem_id DESC
+		]]>
+	</select>
+	
+
+	
+	<select id="view" resultType="com.breaktheice.moimat.domain.MemberDomain">
+       	SELECT  mem_id, mem_email, mem_password, mem_nickname,
+				mem_birthday, mem_gender, area_id, mem_regdate, mem_update,
+				mem_lastlogin, mem_content, mem_photo, mem_level, mem_status,
+				mem_int1, mem_int2, mem_int3
+       	FROM 	member
+		WHERE 	mem_id = #{memId}
+	</select>
+	
+	<insert id="add">
+		INSERT INTO member
+		(
+			mem_id, mem_email, mem_password, mem_nickname,
+			mem_birthday, mem_gender, area_id, mem_regdate, mem_update,
+			mem_lastlogin, mem_content, mem_photo, mem_level, mem_status,
+			mem_int1, mem_int2, mem_int3
+		)
+		VALUES
+		(
+			member_seq.nextval, #{memEmail}, #{memPassword}, #{memNickname},
+			#{memBirthday}, #{memGender}, #{areaId}, sysdate, sysdate, 
+			sysdate, #{memContent}, #{memPhoto}, #{memLevel}, #{memStatus},
+			#{memInt1}, #{memInt2}, #{memInt3}
+		)
+	</insert>
+
+	
+	<update id="update">
+		UPDATE 	member
+		SET		mem_nickname = #{memNickname},
+				area_id 	 = #{areaId},
+				mem_content	 = #{memContent},
+				<if test="memPhoto != null">
+				mem_photo	 = #{memPhoto},
+				</if>
+				mem_update	 = sysdate,
+				mem_int1	 = #{memInt1},
+				mem_int2	 = #{memInt2},
+				mem_int3	 = #{memInt3}
+		WHERE 	mem_id = #{memId}
+	</update>
+	
+	<delete id="remove">
+		DELETE FROM member
+		WHERE		mem_id = #{memId}
+	</delete>
+	
+	
+	<select id="selectAllAreas" resultType="com.breaktheice.moimat.domain.AreaDomain">
+		SELECT	area_id, area_key, area_name, area_region_key, area_region_name
+		FROM 	area
+	</select>
+	
+	<select id="selectAllInterest" resultType="com.breaktheice.moimat.domain.InterestDomain">
+		SELECT	int_id, int_key, int_name, int_order, int_use
+		FROM 	interest
+	</select>
+	
+	<select id="selectAreaId" resultType="Long">
+		SELECT 	area_id 
+		FROM 	area 
+		WHERE 	area_region_key = #{ areaRegionKey }
+	</select>
+		
+	<update id="changeLevel">
+		UPDATE 	member
+		SET		mem_level	= #{memLevel}
+		WHERE 	mem_id		= #{memId}
+	</update>
+	
+	<update id="changeStatus">
+		UPDATE 	member
+		SET		mem_status	= #{memStatus}
+		WHERE 	mem_id		= #{memId}
+	</update>
+		
+	<select id="emailCheck" resultType="Long">
+		SELECT	count(*)
+		FROM 	member
+		where	mem_email = #{memEmail}
+	</select>
+	
+	<select id="regdateCount"  resultType="com.breaktheice.moimat.domain.AdminVO">
+		SELECT	TO_CHAR(mem_regdate,'yy/MM/dd') value, count(TO_CHAR(mem_regdate,'yy/MM/dd')) count
+		FROM 	member
+		GROUP BY TO_CHAR(mem_regdate,'yy/MM/dd')
+		ORDER BY TO_CHAR(mem_regdate,'yy/MM/dd') DESC
+	</select>
+	
+	<select id="areaCount" resultType="com.breaktheice.moimat.domain.AdminVO">
+		SELECT 	a.area_region_name value, count(a.area_region_name) count
+		FROM 	member m, area a
+		WHERE 	m.area_id = a.area_id
+		GROUP 	BY a.area_region_name
+		ORDER 	BY count DESC
+	</select>
+	<select id="interestCount" resultType="com.breaktheice.moimat.domain.AdminVO">
+		SELECT 	i.int_name value, count(i.int_name) count
+		FROM (	select mem_int1 mem_int
+				from member
+			UNION ALL
+				select mem_int2 mem_int
+				from member
+			UNION ALL
+				select mem_int3 mem_int
+				from member) m, interest i
+		WHERE 	m.mem_int = i.int_id 
+		GROUP BY i.int_name
+		ORDER BY count DESC
+	</select>
+</mapper>
