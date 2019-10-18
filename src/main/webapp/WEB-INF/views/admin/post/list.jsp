@@ -161,9 +161,11 @@
 																aria-hidden="true">&raquo;</span></a></li>
 												</c:if>
 											</ul>
+											<c:if test="${pageMaker.cri.brdId != 3}">
 											<button id="newPost" type="button" class="btn btn-success pull-right mar-top"><i
 													class="demo-pli-plus"></i> 게시글
 												추가</button>
+											</c:if>
 										</nav>
 									</div>
 								</div>
