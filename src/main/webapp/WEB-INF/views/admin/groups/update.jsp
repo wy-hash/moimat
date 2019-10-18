@@ -82,7 +82,7 @@
 								<label class="col-lg-3 control-label">모임 명</label>
 								<div class="col-lg-7">
 									<input type="email" class="form-control" id="teamName" name="teamName" 
-									placeholder="모임 명" value="${view.teamName}">
+									placeholder="모임 명" value="${view.teamName}" maxlength="13" >
 									<small class="help-block" id="teamNameHint"></small>
 								</div>
 							</div>

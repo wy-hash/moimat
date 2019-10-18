@@ -47,4 +47,7 @@ public interface TeamMapper {
 	public List<AdminVO> interestCount();
 	// 전체 지역 카운트
 	public List<AdminVO> areaCount();
+	
+	// 최근 7일간 등록된 모임
+	public List<TeamDomain> recentOneWeek(AdminCriteria cri);
 }
