@@ -100,12 +100,24 @@
 						            
 						            <!-- Menu list item -->
 						            <li>
+						            <c:choose>
+						            	<c:when test="${sessionScope.loginVO.memId >0}">
+						            	<a href="<c:url value='/users/${sessionScope.loginVO.memId}/qna'/>">
+						            	<i class="fa fa-pencil-square-o"></i>
+						            		<span class="menu-title">
+						            			<strong>내 문의내역</strong>
+						            		</span>
+						            	</a>
+						            	</c:when>
+						            	<c:otherwise>
 						            	<a href="#">
 						            		<i class="fa fa-pencil-square-o"></i>
 						            		<span class="menu-title">
 						            			<strong>내 문의내역</strong>
 						            		</span>
 						            	</a>
+						            	</c:otherwise>
+						            </c:choose>
 						            
 						            <!-- Category name -->
 						            <li class="list-header">인포</li>
