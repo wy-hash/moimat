@@ -20,10 +20,11 @@ import com.breaktheice.moimat.service.MeetingService;
 @Controller
 @RequestMapping("/groups/{groupId}/schedule")
 public class GroupsMeetController {
+	
 	@Autowired
 	private MeetingService service;
 	@Autowired
-	TeamService teamService;
+	private TeamService teamService;
 
 	@GetMapping("/new")
 	public String meetingsNew(@PathVariable Long groupId, Model model) {
@@ -51,7 +52,8 @@ public class GroupsMeetController {
 	}
 	
 	@GetMapping("/modify")
-	public String meetModify(@PathVariable Long groupId,@RequestParam("meetid")Long meetId, HttpServletRequest request) {
+	public String meetModify(@PathVariable Long groupId,@RequestParam("meetid")Long meetId,Model model, HttpServletRequest request) {
+		model.addAttribute("group", teamService.getGroupInfo(groupId));
 		HttpSession session = request.getSession();
 		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
 		Long id = md.getMemId();
