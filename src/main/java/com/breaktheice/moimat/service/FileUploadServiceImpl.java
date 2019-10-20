@@ -136,7 +136,10 @@ public class FileUploadServiceImpl implements FileUploadService {
 		log.info("saved path: " + fullPath);
 		log.info("-------------------");
 
-		return subDirPath + File.separator + uploadFileName;//for db insertion
+		String resultPath = "/uploads/" + subDirPath + "/" + uploadFileName;
+		log.info("path for db: " + resultPath);
+
+		return resultPath;//for db insertion
 	}
 
 	private String getDirectory(String caller) {

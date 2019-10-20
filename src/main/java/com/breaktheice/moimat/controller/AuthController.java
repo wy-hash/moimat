@@ -156,7 +156,7 @@ public class AuthController {
 			uploadPath = "resources" + File.separator + "img" + File.separator + "profile-photos" + File.separator + randomImage;
 
 		} else {
-			uploadPath = "/" + fileUploadService.saveFile("USER", file);
+			uploadPath = fileUploadService.saveFile("USER", file);
 		}
 
 		member.setMemPhoto(uploadPath);

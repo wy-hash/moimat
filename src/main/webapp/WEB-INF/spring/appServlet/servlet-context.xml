@@ -35,7 +35,8 @@
 	
 	<!-- resource mapping -->
 	<!-- location : 물리적 주소 / mapping : 가상 주소 -->
-	<resources location="file:/upload/" mapping="/upload/*"/>
+	<resources location="file:/uploads/" mapping="/uploads/**"/>
+<!--	<resources mapping="/uploads/**" location="file:/Users/hunyeong/playground/uploads/"/>-->
 	
 	<!-- Interceptor -->	
 	<interceptors>
