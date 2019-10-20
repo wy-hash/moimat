@@ -35,6 +35,9 @@
 	background-color: #848484 !important;
 	border-color: #6E6E6E !important;	
 }
+.page-link {
+	cursor: pointer;
+}
 </style>
 <link href="/resources/plugins/fullcalendar/fullcalendar.min.css"
 	rel="stylesheet">
@@ -158,27 +161,17 @@
 											</div>
 											<div class="col-xs-4 btn-group my">
 												<button type="button" id="mRegBtn"
-													class="btn btn-info pull-right">모임 등록</button>
+													class="btn btn-info pull-right mar-top mar-rgt">모임 등록</button>
 											</div>
 										</div>
 										<div class="panel-body" id='meetList'></div>
-										<div class="panel-footer" id='meetListFooter'>
-											<!-- pagination button 들어갈 공간 -->
-											
-										</div>
 									</div>
 								</div>
-								
-								
-					                        
-					                       
 					            </div>
-					            
-					        
 								<!-- modal -->
 								<div class="modal fade" tabindex="-1" style="display: none;"
 									id="moimat-modal">
-									<div class="modal-dialog modal-lg">
+									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header">
 												<button type="button" class="close" data-dismiss="modal">
@@ -275,13 +268,13 @@
 						var button = '';
 						var mdButton = '';
 						if(list.isAttend[list.meetList[i].meetId]){
-							button = '<button type="button" class="btn btn-hover-danger pull-right cancelBtn" data-mid="'+list.meetList[i].meetId+'">불참하기</button>'
+							button = '<button type="button" class="btn btn-sm btn-hover-danger pull-right cancelBtn" data-mid="'+list.meetList[i].meetId+'">불참</button>'
 						}else{
-							button = '<button type="button" class="btn btn-hover-warning pull-right attendBtn" data-mid="'+list.meetList[i].meetId+'">참석하기</button>';
+							button = '<button type="button" class="btn btn-sm btn-hover-warning pull-right attendBtn" data-mid="'+list.meetList[i].meetId+'">참석</button>';
 						}
 						if(list.isWriter[list.meetList[i].meetId]){
-							mdButton += '<button id="mod'+i+'" type="button" class="btn btn-hover-primary" data-mid="'+list.meetList[i].meetId+'">수정하기</button>'
-								   	  +	'<button id="del'+i+'" type="button" class="btn btn-hover-danger" data-mid="'+list.meetList[i].meetId+'">삭제하기</button>'
+							mdButton += '<button id="mod'+i+'" type="button" class="btn btn-sm btn-hover-primary" data-mid="'+list.meetList[i].meetId+'">수정</button>'
+								   	  +	'<button id="del'+i+'" type="button" class="btn btn-sm btn-hover-danger" data-mid="'+list.meetList[i].meetId+'">삭제</button>'
 						}
 						meetListStr +='<div class="row">'
 								   +	'<div class="col-lg-4 moimat-m">'
@@ -293,39 +286,39 @@
 						           +			'<div class="row panel-heading mar-no">'
 						           +				'<div class="col-xs-8 pad-no">'
 					               +					'<h3 class="panel-title">'
-						           +						'<span class="meetTitle" data-mid="'+list.meetList[i].meetId+'">'
+						           +						'<span class="meetTitle">'
 						           +							list.meetList[i].meetTitle
 						           +						'</span></h3>'
 					               +				'</div>'
 					               +				'<div class="col-xs-4 my">'
-					               +					'<p class="text-bold mar-no text-sm text-overflow">'+list.meetList[i].meetNickName+'</p>'
+					               +					'<p class="text-bold mar-no pad-rgt mar-rgt text-sm text-overflow">'+list.meetList[i].meetNickName+'</p>'
 					               +				'</div>'
 					               +			'</div>'
 					           	   +			'<div class="panel-body">'
 								   +				'<div class="list-group">'
 								   +    				'<div class="row list-group-item">'
-								   +						'<div class="col-lg-3">'
+								   +						'<div class="col-lg-6">'
 								   +							'<span style="color:red;">'
 								   +								'<i class="fa fa-calendar"></i>'
 								   +							'</span>'
 								   +							'&ensp;'
 								   +							meetListService.parseDate(list.meetList[i].meetDate)
 								   +						'</div>'
-								   +						'<div class="col-lg-3">'
+								   +						'<div class="col-lg-6">'
 								   +							'<span style="color:orange;">'
 								   +								'<i class="fa fa-map-marker"></i>'
 								   +							'</span>'
 								   +							'&ensp;'
 								   +								list.meetList[i].meetAreaName
 								   +						'</div>'
-								   +						'<div class="col-lg-3">'
+								   +						'<div class="col-lg-6">'
 								   +							'<span style="color:green;">'
 								   +								'<i class="fa fa-krw"></i>'
 								   +							'</span>'
 								   +							'&ensp;'
 								   +							list.meetList[i].meetPay
 								   +						'</div>'
-								   +						'<div class="col-lg-3">'
+								   +						'<div class="col-lg-6">'
 								   +							'<span style="color:black;">'
 								   +								'<i class="fa fa-users"></i>'
 								   +							'</span>'
@@ -335,15 +328,15 @@
 					               +								list.meetList[i].meetMax
 					               +							'</a>'
 					               +						'</div>'
-								   +					'</div>'
+					               +					'</div>'
 								   +				'</div>'
 								   +				'<div class="moimat-ellipsis">'
 								   +					'<a class="meetContent" data-target="#moimat-modal" data-toggle="modal">'+list.meetList[i].meetContent+'</a>'
 								   +				'</div>'
 								   +			'</div>'
 								   +			'<div class="panel-footer bg-trans-dark">'
-								   +						mdButton
-								   +						button
+								   +				mdButton
+								   +				button
 								   +			'</div>'
 								   +			'</div>'
 								   +		'</div>'
@@ -362,7 +355,7 @@
 					paginationBtn.forEach(function(e){
 						e.addEventListener('click',function(e){
 							e.preventDefault();
-							var targetPageNum = this.getAttribute('href');
+							var targetPageNum = this.getAttribute('data-pageNum');
 							pageNum = targetPageNum;
 							showMeetList();
 						});
@@ -373,31 +366,38 @@
 			
 			var meetListFooter = document.querySelector("#meetListFooter");
 			function meetPageBtn(meetCount){
-				var endNum = Math.ceil(pageNum/10.0) * 10;
-				var startNum = endNum - 9;
+				var endNum = Math.ceil(pageNum/2.0) * 2;
+				var realEndNum = Math.ceil(meetCount/3.0);
+				var startNum = endNum - 1;
 				var prev = startNum != 1;
 				var next = false;
-				if(endNum * 10 > meetCount){
+				if(endNum * 3 > meetCount){ // endNum과 곱해지는건 한 페이지당 들어가는 갯수
 					endNum = Math.ceil(meetCount/3.0);
 				}
-				if(endNum * 10 < meetCount){
+				if(endNum * 3 < meetCount){ 
 					next = true;
 				}
 				
 				var paginationBtn  = "<div id='paginationBtn'><ul class='pagination pull-right mar-no'>";
 				
 				if(prev){
-					paginationBtn += "<li class='page-item'><a class='page-link' href='"+(startNum -1)+"'>Previous</a></li>";
+					paginationBtn += "<li class='page-item'><a class='page-link' data-pageNum='"+(startNum -1)+"'>이전</a></li>";
+					if(next == false){
+						paginationBtn += "<li class='page-item'><a class='page-link' data-pageNum='1'>1</a></li>" +
+										 "<li class='page-item'><span>...</span></li>";
+					}
 				}
 				
 				for(var i = startNum ; i <= endNum; i++){
 					var active = pageNum == i ? "active" : "";
 					
-					paginationBtn += "<li class='page-item "+active+"'><a class='page-link' href='"+i+"'>"+i+"</a></li>";
+					paginationBtn += "<li class='page-item "+active+"'><a class='page-link' data-pageNum='"+i+"'>"+i+"</a></li>";
 				}
 				
 				if(next){
-					paginationBtn += "<li class='page-item'><a class='page-link' href='" + (endNum + 1) +"'>Next</a></li>'";
+					paginationBtn += "<li class='page-item'><span>...</span></li>"+
+									 "<li class='page-item'><a class='page-link' data-pageNum='" + realEndNum +"'>"+realEndNum+"</a></li>"+
+						             "<li class='page-item'><a class='page-link' data-pageNum='" + (endNum + 1) +"'>다음</a></li>";
 				}
 				
 				paginationBtn += "</ul></div>"
@@ -614,12 +614,12 @@
 				});
 				
 			}
-		// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+		// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 //이거 안됩니다 지금.
 		function closeOverlay() {
 		    overlay.setMap(null);     
 		}
 			
-		function removeMoimatContent(){ //혹시몰라서 하나의 모달창을 돌려쓰니까... 내용을 다 비우고 넣을려고 제이쿼리면 안만들어도됬음... 더좋은방법?? 몰르르르르르
+		function removeMoimatContent(){ //혹시몰라서 하나의 모달창을 돌려쓰니까..
 			for(var i = 0, len = arguments.length||0; i<len; i++){
 				while(arguments[i].firstChild) {
 					arguments[i].removeChild(arguments[i].firstChild);

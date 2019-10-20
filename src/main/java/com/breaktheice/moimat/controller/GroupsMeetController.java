@@ -56,12 +56,4 @@ public class GroupsMeetController {
 		return "/groups/schedule/meetModify";
 	}
 	
-	@GetMapping("/attend")
-	public String attendMeet(@PathVariable Long groupId,@RequestParam("meetid")Long meetId, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
-		service.attendMeet(meetId, groupId, md.getMemId());
-		return "redirect:/groups/" + groupId + "/schedule";
-	}
-	
 }

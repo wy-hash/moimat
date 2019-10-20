@@ -27,7 +27,11 @@
 		display: none;
 	}
 }
-
+.customCenter {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 </style>
 <!--Chosen [ OPTIONAL ]-->
 <link href="/resources/plugins/chosen/chosen.min.css" rel="stylesheet">
@@ -181,7 +185,7 @@
 													<input type="hidden" name="areaId">
 												</div>
 											</div>
-												<div class="form-group centerm">
+												<div class="form-group customCenter">
 													<div class="col-xs-10">
 														<textarea id="teamContent" name="teamContent"></textarea>
 													</div>

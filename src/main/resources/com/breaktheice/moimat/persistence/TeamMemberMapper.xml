@@ -40,10 +40,9 @@
 			<foreach collection="cri.typeArr" item="type">
 				<trim prefix="or"> 
 					<choose>
-						<when test="type == 'E'.toString()">
+						<when test="type == 'S'.toString()">
 							lower(tmem_email) like lower('%'||#{cri.keyword}||'%')
-						</when>
-						<when test="type == 'N'.toString()">
+							or
 							lower(tmem_nickname) like lower('%'||#{cri.keyword}||'%')
 						</when>
 					</choose>
@@ -79,10 +78,9 @@
 			<foreach collection="cri.typeArr" item="type">
 				<trim prefix="or"> 
 					<choose>
-						<when test="type == 'E'.toString()">
+						<when test="type == 'S'.toString()">
 							lower(tmem_email) like lower('%'||#{cri.keyword}||'%')
-						</when>
-						<when test="type == 'N'.toString()">
+							or
 							lower(tmem_nickname) like lower('%'||#{cri.keyword}||'%')
 						</when>
 					</choose>

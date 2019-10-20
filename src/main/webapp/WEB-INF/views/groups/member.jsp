@@ -21,6 +21,9 @@
 	.tab-base>.btn-group {
 		display: inline-block;
 	}
+	#adminList > div:nth-child(1) > div.col-xs-5.col-sm-6.col-md-6.col-lg-7 > p:nth-child(2){
+		display: none;
+	}
 }
 
 @media screen and (min-width: 768px) {
@@ -32,7 +35,7 @@
 	}
 }
 
-.centerm {
+.customCenter {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -91,8 +94,8 @@
 						<!--Nav Tabs-->
 						<ul class="nav nav-tabs">
 							<li><a href="/groups/${ group.teamId }">홈</a></li>
-							<li class="active"><a href="/groups/${ group.teamId }/member">구성원</a>
-							</li>
+							<li class="active"><a
+								href="/groups/${ group.teamId }/member">구성원</a></li>
 							<li><a href="/groups/${ group.teamId }/schedule">모임일정</a></li>
 							<li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
 							<li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
@@ -109,7 +112,8 @@
 							</button>
 							<ul class="dropdown-menu dropdown-menu-left">
 								<li><a href="/groups/${ group.teamId }">홈</a></li>
-								<li class="active"><a href="/groups/${ group.teamId }/member">구성원</a></li>
+								<li class="active"><a
+									href="/groups/${ group.teamId }/member">구성원</a></li>
 								<li><a href="/groups/${ group.teamId }/schedule">모임일정</a></li>
 								<li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
 								<li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
@@ -132,51 +136,39 @@
 
 											</ul>
 										</div>
-										<h3 class="panel-title">Panel With tabs</h3>
+										<h3 class="panel-title">모임원 관리</h3>
 									</div>
 
 									<!--Panel body-->
 									<div class="panel-body">
 										<div class="tab-content">
-											<div class="tab-pane fade active in" id="demo-tabs-box-1">
+											<!-- 유저 -->
+											<div class="tab-pane fade active in" id="member-tabs-box">
 												<div class="table-toolbar-right pad-no">
-													<select id="memberSearchType">
-														<option value="">--</option>
-														<option value="E">이메일</option>
-														<option value="N">별명</option>
-													</select>
 													<div class="form-group">
 														<input type="text" class="form-control"
-															id="memberSearchKeyword" />
+															id="memberSearchKeyword"
+															placeholder="모임원의 별명과 이메일로 검색 할 수 있습니다." />
 													</div>
 													<button id="memberSearchBtn" type="button"
 														class="btn btn-dark">
 														<i class="fa fa-search"> </i>
 													</button>
 												</div>
-												<div class="table-responsive">
-													<table class="table table-striped">
-														<thead>
-															<tr>
-																<th class="col-md-1 text-center">#</th>
-																<th class="col-md-1">Photo</th>
-																<th class="col-md-6">information</th>
-																<th class="col-md-2 text-center">grade</th>
-															</tr>
-														</thead>
-														<tbody id="memberList">
-														</tbody>
-													</table>
+												<div class="row mar-ver">
+													<div class="col-xs-1 text-center"></div>
+													<div class="col-xs-1 text-center"
+														style="width: 63px !important;">사진</div>
+													<div class="col-xs-6 col-sm-7 col-md-7 col-lg-8">모임원
+														정보</div>
+													<div class="col-xs-2 text-center">등급</div>
 												</div>
+												<div id="memberList"></div>
 												<div class="paginationBtn text-right"></div>
 											</div>
-											<div class="tab-pane fade" id="demo-tabs-box-2">
+											<!-- 관리 -->
+											<div class="tab-pane fade" id="admin-tabs-box">
 												<div class="table-toolbar-right pad-no">
-													<select id="adminSearchType">
-														<option value="">--</option>
-														<option value="E">이메일</option>
-														<option value="N">별명</option>
-													</select>
 													<div class="form-group">
 														<input type="text" class="form-control"
 															id="adminSearchKeyword" />
@@ -194,25 +186,16 @@
 														<option value="block">차단멤버보기</option>
 													</select>
 												</div>
-												<div class="table-responsive">
-													<table class="table table-striped">
-														<thead>
-															<tr>
-																<th class="col-md-1 text-center">
-																	<p class="text-xs">전체선택</p> <input type="checkbox"
-																	id="chkall">
-																</th>
-																<th class="col-md-1 text-center">#</th>
-																<th class="col-md-1">Photo</th>
-																<th class="col-md-6">information</th>
-																<th class="col-md-2 text-center">grade</th>
-															</tr>
-														</thead>
-														<tbody id="adminList">
-
-														</tbody>
-													</table>
+												<div class="row mar-ver">
+													<div class="col-xs-1 text-center">
+														<input type="checkbox" id="chkall">
+													</div>
+													<div class="col-xs-1 text-center"></div>
+													<div class="col-xs-1 text-center" style="width: 63px !important;">사진</div>
+													<div class="col-xs-5 col-sm-6 col-md-6 col-lg-7">모임원 정보</div>
+													<div class="col-xs-2 text-center">등급</div>
 												</div>
+												<div id="adminList"></div>
 												<div id="adminbutton">
 													<p>
 														선택한 회원을
@@ -254,7 +237,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="modal-footer centerm" id="buttonBox"></div>
+								<div class="modal-footer customCenter" id="buttonBox"></div>
 							</div>
 						</div>
 					</div>
@@ -296,28 +279,27 @@
 			var type = "";
 			var keyword = "";
 			
-			teamMember.isAdmin(groupId,memberId,function(a){
-				var test = '';
-				if(a){
-					test = '<li class="active">'
-						 +		'<a href="#demo-tabs-box-1"data-toggle="tab" id="memberTab" aria-expanded="false">모임원 목록</a>'
-						 + '</li>'
-						 + '<li class="">'
-						 + 		'<a href="#demo-tabs-box-2" data-toggle="tab" id="adminonly" aria-expanded="true">'
-						 +			'회원관리'
-						 +		'</a>'
-						 +	'</li>';
+			teamMember.isAdmin(groupId,memberId,function(result){
+				var tab = '';
+				if(result){
+					tab = '<li class="active">'
+						+		'<a href="#member-tabs-box" data-toggle="tab" id="memberTab" aria-expanded="false">모임원 목록</a>'
+						+ '</li>'
+					    + '<li class="">'
+						+ 	'<a href="#admin-tabs-box" data-toggle="tab" id="adminonly" aria-expanded="true">'
+						+		'회원관리'
+						+	'</a>'
+						+ '</li>';
 				}else{
-					test = '<li class="active">'
-						 +		'<a href="#demo-tabs-box-1"data-toggle="tab" id="memberTab" aria-expanded="false">모임원 목록</a>'
-						 + '</li>'
+					tab = '<li class="active">'
+						+     '<a href="#demo-tabs-box-1"data-toggle="tab" id="memberTab" aria-expanded="false">모임원 목록</a>'
+						+ '</li>'
 				}
-				$("#moimTab").html(test);
+				$("#moimTab").html(tab);
 			});
 			
 			
 			function showList(tabid,status,withcheck){
-				console.log("showList"+pageNum);
 				var param = {"groupId" : groupId,"status" : status, "pageNum" : pageNum,"type":type, "keyword":keyword};
 				teamMember.getList(param,function(data){
 					var listHtml = '';
@@ -325,35 +307,55 @@
 					for(var i = 0, len = data.getMember.length||0; i<len; i++){
 						if(withcheck){
 							if(data.getMember[i].tmemLevel<7){
-								checkbox =	'<td class="text-center" style="vertical-align: middle">'
+								checkbox =	'<div class="col-xs-1 customCenter" style="min-height:48px;">'
 										 +		'<input type="checkbox" class="chk" data-tid="'+data.getMember[i].tmemId+'">'
-										 +	'</td>'
+										 +	'</div>'
 							}else{
-								checkbox = '<td></td>'		 
+								checkbox = '<div class="col-xs-1" style="min-height:48px;"></div>'		 
 							}
+							listHtml +=     '<div class="row pad-ver '+(i%2==0 ? '' : 'bg-trans-dark')+'">'
+									 + 			checkbox
+									 +  	'<div class="col-xs-1 customCenter" style="vertical-align: middle; min-height:48px;">'
+									 +			'<strong>'+(i == 9 ? pageNum * 10 : (pageNum-1 == 0 ? i+1 : pageNum-1 +''+ (i+1)))+'</strong>'
+									 +		'</div>'
+									 +		'<div class="col-xs-1 text-center" style="width:63px !important;">'
+									 +			'<img class="img-sm" src="/resources/img/profile-photos/'+data.getMember[i].tmemPhoto+'" alt="Profile Picture">'
+									 +		'</div>'
+									 +   	'<div class="col-xs-5 col-sm-6 col-md-6 col-lg-7">'
+									 + 			'<a class="memclick" data-tid="'+data.getMember[i].tmemId+'"><h4 class="mar-no text-main">'+data.getMember[i].tmemNickName+'<small> '+data.getMember[i].tmemEmail+'</small></h4></a>'
+									 +			'<p class="mar-no text-right text-sm">'
+									 + 				'가입한날짜 : ' + teamMember.parseDate(data.getMember[i].tmemRegDate)
+									 +			'</p>'
+									 +			'<p class="mar-no text-right text-sm">'
+									 +				' 마지막 방문일 : ' + teamMember.parseDate(data.getMember[i].tmemLastVisit)
+									 +			'</p>'
+									 +		'</div>'
+									 + 		'<div class="col-xs-2 text-center" style="vertical-align: middle">'
+									 +			'<small>'+data.grade[data.getMember[i].tmemLevel]+'</small>'
+									 +		'</div>'
+									 +		'</div>'
+						}else{
+							listHtml +=     '<div class="row pad-ver '+(i%2==0 ? '' : 'bg-trans-dark')+'">'
+									 +  	'<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 customCenter" style="vertical-align: middle; min-height:48px;">'
+									 +			'<strong>'+(i == 9 ? pageNum * 10 : (pageNum-1 == 0 ? i+1 : pageNum-1 +''+ (i+1)))+'</strong>'
+									 +		'</div>'
+									 +		'<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 text-center" style="width:63px !important;">'
+									 +			'<img class="img-sm" src="/resources/img/profile-photos/'+data.getMember[i].tmemPhoto+'" alt="Profile Picture">'
+									 +		'</div>'
+									 +   	'<div class="col-xs-6 col-sm-7 col-md-7 col-lg-8">'
+									 + 			'<a class="memclick" data-tid="'+data.getMember[i].tmemId+'"><h4 class="mar-no text-main">'+data.getMember[i].tmemNickName+'<small> '+data.getMember[i].tmemEmail+'</small></h4></a>'
+									 +			'<p class="mar-no text-right text-sm">'
+									 + 				'가입한날짜 : ' + teamMember.parseDate(data.getMember[i].tmemRegDate)
+									 +			'</p>'
+									 +			'<p class="mar-no text-right text-sm">'
+									 +				' 마지막 방문일 : ' + teamMember.parseDate(data.getMember[i].tmemLastVisit)
+									 +			'</p>'
+									 +		'</div>'
+									 + 		'<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 text-center" style="vertical-align: middle">'
+									 +			'<small>'+data.grade[data.getMember[i].tmemLevel]+'</small>'
+									 +		'</div>'
+									 +		'</div>'
 						}
-						listHtml += '<tr>'
-								 +       checkbox
-								 +  	'<td class="text-center" style="vertical-align: middle">'
-								 +			'<strong>'+(i+1)+'</strong>'
-								 +		'</td>'
-								 +		'<td>photo</td>'
-								 +   	'<td>'
-								 + 			'<a class="memclick" data-tid="'+data.getMember[i].tmemId+'"><p class="mar-no text-2x">'+data.getMember[i].tmemNickName+'</p></a>'
-								 + 			'<p class="mar-no text-right text-sm col-lg-12">'+data.getMember[i].tmemEmail+'</p>'
-								 +			'<div class="clearfix">'
-								 +				'<p class="mar-no text-right text-sm col-lg-6">'
-								 + 					'가입한날짜 : ' + teamMember.parseDate(data.getMember[i].tmemRegDate)
-								 +				'</p>'
-								 +				'<p class="mar-no text-right text-sm col-lg-6">'
-								 +					' 마지막 방문일 : ' + teamMember.parseDate(data.getMember[i].tmemLastVisit)
-								 +				'</p>'
-								 +			'</div>'
-								 +		'</td>'
-								 + 		'<td class="text-center" style="vertical-align: middle">'
-								 +			data.grade[data.getMember[i].tmemLevel]
-								 +		'</td>'
-								 +	'</tr>'
 					}
 					$("#"+tabid).html(listHtml);
 					$(".paginationBtn").html(memberPageBtn(data.teamMemberCount))
@@ -371,30 +373,22 @@
 			showList('memberList','member',false);
 			
 			$("#adminSearchBtn").on('click',function(){
-				var searchType = $("#adminSearchType").val();
 				var searchKeyword = $("#adminSearchKeyword").val();
-				if(searchType == ''){
-					alert("검색조건을 선택해주세요");
-					return;
-				}else if(searchKeyword == ''){
+				if(searchKeyword == ''){
 					alert("검색어를 입력해주세요");
 					return;
 				}
-				type = searchType;
+				type = 'S';
 				keyword = searchKeyword;
 				showList('adminList',$('#select').val(),true);
 			});
 			$("#memberSearchBtn").on('click',function(){
-				var searchType = $("#memberSearchType").val();
 				var searchKeyword = $("#memberSearchKeyword").val();
-				if(searchType == ''){
-					alert("검색조건을 선택해주세요");
-					return;
-				}else if(searchKeyword == ''){
+				if(searchKeyword == ''){
 					alert("검색어를 입력해주세요");
 					return;
 				}
-				type = searchType;
+				type = 'S';
 				keyword = searchKeyword;
 				showList('memberList',$('#select').val(),false);
 			});
