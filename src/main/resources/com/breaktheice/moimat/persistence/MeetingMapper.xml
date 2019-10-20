@@ -157,7 +157,7 @@
 	</select>
 	
 	<select id="isWriter" resultType="boolean">
-		select #{tmemId} from dual
+		select count(*) from dual
 		where #{tmemId} = <include refid="getTmemId"></include>
 	</select>
 	

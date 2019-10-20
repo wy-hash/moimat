@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.breaktheice.moimat.persistence.SearchMapper">
+
+<sql id="criteria">
+	<trim prefix="(" suffix=")" prefixOverrides="OR">
+		<foreach item='type' collection="typeArr">
+			<trim prefix="OR">
+				<choose>
+					<when test="type == 'R'.toString()">
+						 t.int_id in (select int_id from interest where int_name like ('%'||#{keyword}||'%'))
+					</when>
+					<when test="type == 'M'.toString()">
+						t.team_name like ('%'||#{keyword}||'%')
+					</when>
+					<when test="type == 'A'.toString()">
+						a.area_region_name like ('%'||#{keyword}||'%')
+					</when>
+				</choose>
+			</trim>
+		</foreach>
+	</trim>
+</sql>
+
+	<select id="recommend" resultType="com.breaktheice.moimat.domain.SearchVO">
+		<![CDATA[
+		SELECT	t.team_name, t.team_short_content, t.team_photo, a.area_region_name
+		FROM 	team t, area a
+		WHERE	t.area_id = a.area_id and
+		]]>
+		<include refid="criteria"></include>
+	</select>
+	
+	<select id="autocompleteInte" parameterType="string" resultType="string">
+		<![CDATA[
+		SELECT	DISTINCT int_name
+		FROM	interest
+		WHERE	int_name like ('%'||#{keyword}||'%')
+		]]>
+	</select>
+	
+	<select id="autocompleteArea" parameterType="string" resultType="string">
+		<![CDATA[
+		SELECT	DISTINCT area_region_name
+		FROM	area
+		WHERE	area_region_name like ('%'||#{keyword}||'%')
+		]]>
+	</select>
+	
+	<select id="list" resultType="com.breaktheice.moimat.domain.InterestDomain">
+		<![CDATA[
+		SELECT	int_id, int_key, int_name
+		FROM	interest
+		WHERE	int_use = 'Y'
+		]]>
+	</select>
+	
+</mapper>

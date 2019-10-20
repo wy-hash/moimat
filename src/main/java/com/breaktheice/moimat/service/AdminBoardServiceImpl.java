@@ -7,16 +7,26 @@ import org.springframework.stereotype.Service;
 
 import com.breaktheice.moimat.domain.BoardDomain;
 import com.breaktheice.moimat.persistence.BoardMapper;
+import com.breaktheice.moimat.util.AdminCriteria;
 
 @Service
 public class AdminBoardServiceImpl implements AdminBoardService {
 	
 	@Autowired
 	private BoardMapper mapper;
+
+	@Override
+	public Long totalCount(AdminCriteria cri) {
+		return mapper.totalCount(cri);
+	}
 	
 	@Override
-	public List<BoardDomain> list() {
-		return mapper.list();
+	public List<BoardDomain> list(AdminCriteria cri) {
+		return mapper.list(cri);
+	}
+	@Override
+	public List<BoardDomain> listAll() {
+		return mapper.listAll();
 	}
 
 	@Override
