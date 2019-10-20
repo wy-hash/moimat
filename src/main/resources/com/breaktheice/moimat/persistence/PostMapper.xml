@@ -160,7 +160,7 @@
                 mem_id 		  =  #{memId}, 
                 post_nickname =  #{postNickname}, 
                 post_email 	  =  #{postEmail}, 
-                post_reply 	  =  #{postReply},
+<!--                 post_reply 	  =  #{postReply}, -->
                 post_update   =  sysdate
         WHERE   post_id 	  =  #{postId}
 	</update>
@@ -247,6 +247,12 @@
 		WHERE rn > (#{c.pageNum} -1 )* #{c.amount}
 		ORDER BY post_origin DESC, post_depth
 		]]>
+	</select>
+	
+	<select id="isReply" resultType="Long">
+        SELECT 	count(*) 
+        FROM 	post
+        WHERE 	post_origin= #{postId}
 	</select>
 	
 	

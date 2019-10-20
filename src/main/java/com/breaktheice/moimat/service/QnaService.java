@@ -18,4 +18,10 @@ public interface QnaService {
 	public Long add(PostDomain domain);
 	// 게시글 조회수 증가
 	public Long viewCount(PostDomain domain);
+	// 게시글 수정
+	public Long update(PostDomain domain);
+	// 게시글 삭제
+	public Long remove(PostDomain domain);
+	// 원글번호를 카운트 (답글이 있는 게시물인지 확인하기 위해 사용)
+	public boolean isReply(PostDomain domain);
 }

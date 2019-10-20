@@ -90,7 +90,7 @@
   	    		
   	    			<div class="row pad-ver bg-trans-dark">
            	    		<div class="col-xs-12 col-sm-10 col-sm-offset-1 pad-hor">
-           	    		<form id="searchForm" action="/home/result" method="post">
+           	    		<form id="searchForm" action="/result" method="post">
        	    				<div class="col-sm-2">
            	    				<select id="selectType" name="type" class="form-control"> 
 			      					<option value="R">관심사</option>
@@ -110,7 +110,7 @@
 						</div>
 					</div> 
 					
-					<form action="/home/result" method="post">
+					<form action="/result" method="post">
 					<div class="row">
 						<div class="col-sm-4 eq-box-sm">
 			            	<div class="panel">

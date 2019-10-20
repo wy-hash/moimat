@@ -58,6 +58,7 @@
 						<!--Panel body-->
 						<div class="panel-body">
 							<form id="searchForm" class="form-inline pull-right mar-btm" action="/info/qna" method="get">
+									<input type="hidden" id="memId" name="memId" value="${sessionScope.loginVO.memId }">
 								<div class="form-group">
 									<select id="type" name="type" class="form-control">
 										<option value="TCW" <c:if test="${pageMaker.cri.type eq 'TCW'}">selected</c:if>
@@ -155,6 +156,11 @@
 		<!-- END FOOTER -->
 	</div>
 	<!-- END CONTAINER -->
+	 <%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 	<!--Bootstrap Table Sample [ SAMPLE ]-->
 	<script src="/resources/js/demo/tables-bs-table.js"></script>
 
@@ -171,16 +177,17 @@
 
 			$('.view').on('click', function(){
 				const param = $('#searchForm').serialize();
-				const id = this.dataset.id;
-				const url = location.origin+'/info/qna/'+id +'/view'+'?'+param;
+				const postId = this.dataset.id;
+				const memId = $('#memId').val();
+				const url = location.origin+'/users/'+memId +'/qna/'+postId +'/view'+'?'+param;
 				location.href = url;
 			});
 
 			
 			$('#newPost').on('click', function(){
 				const param = $('#searchForm').serialize();
-				
-				const url = location.origin+'/info/qna/new'+'?'+param;
+				const memId = $('#memId').val();
+				const url = location.origin+'/users/'+memId +'/qna/new'+'?'+param;
 				location.href = url;
 			});
 			

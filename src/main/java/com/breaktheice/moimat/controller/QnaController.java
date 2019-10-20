@@ -53,6 +53,7 @@ public class QnaController {
 		Long totalCount = service.myqnaTotalCount(cri, domain.getMemId());
 		model.addAttribute("pageMaker", new AdminPageDTO(cri, totalCount));//검색정보 및 페이지 정보
 		model.addAttribute("view", service.view(domain));
+		model.addAttribute("answer", service.isReply(domain));
 		
 		return "/info/myqna/view";
 	}
@@ -86,7 +87,45 @@ public class QnaController {
 		rttr.addAttribute("type",cri.getType());
 		rttr.addAttribute("keyword",cri.getKeyword());
 		
-		return "redirect:/info/myqna";
+		String viewPage = "/users/"+domain.getMemId()+"/qna";
+		return "redirect:"+viewPage;
+	}
+	@GetMapping("/users/{memId}/qna/{postId}/edit")
+	public String edit(Model model, PostDomain domain, AdminCriteria cri) {
+		model.addAttribute("view", service.view(domain));
+		return "/info/myqna/update";
+	}
+	//  수정
+	@PostMapping("/users/{memId}/qna/edit")
+	public String updateQuery(Model model, PostDomain domain, AdminCriteria cri, RedirectAttributes rttr) {
+		//수정
+		service.update(domain);
+		
+		//페이지 정보
+		rttr.addAttribute("brdId",cri.getBrdId());
+		rttr.addAttribute("pageNum",cri.getPageNum());
+		rttr.addAttribute("amount",cri.getAmount());
+		rttr.addAttribute("type",cri.getType());
+		rttr.addAttribute("keyword",cri.getKeyword());
+		
+		String viewPage = "/users/"+domain.getMemId()+"/qna";
+		return "redirect:"+viewPage;
+	}
+	
+
+	// 게시글 삭제
+	@PostMapping("/users/{memId}/qna/delete")
+	public String remove(Model model, PostDomain domain, AdminCriteria cri, RedirectAttributes rttr) {
+		//삭제
+		service.remove(domain);
+		//페이지 정보
+		rttr.addAttribute("brdId",cri.getBrdId());
+		rttr.addAttribute("pageNum",cri.getPageNum());
+		rttr.addAttribute("amount",cri.getAmount());
+		rttr.addAttribute("type",cri.getType());
+		rttr.addAttribute("keyword",cri.getKeyword());
+		String viewPage = "/users/"+domain.getMemId()+"/qna";
+		return "redirect:"+viewPage;
 	}
 	
 }

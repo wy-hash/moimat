@@ -67,7 +67,7 @@
 
 						            <!--Menu list item-->
 						            <li>
-						                <a href="#">
+						                <a href="<c:url value='/search'/>">
 						                    <i class="fa fa-search"></i>
 						                    <span class="menu-title">
 												<strong>모임찾기</strong>

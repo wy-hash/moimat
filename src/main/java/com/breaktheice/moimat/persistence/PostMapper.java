@@ -34,5 +34,6 @@ public interface PostMapper {
 
 	// 게시글 전체 개수
 	public Long myqnaTotalCount(HashMap<String , Object> map);
-	
+	// 원글번호를 카운트
+	public Long isReply(PostDomain domain);
 }

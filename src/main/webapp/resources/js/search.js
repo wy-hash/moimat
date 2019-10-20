@@ -1,6 +1,6 @@
 	$(document).ready(function(){
 		$.ajax({
-			url:		"/home/search",
+			url:		"/search",
 		type:		"post",
 		dataType:	"json",
 		success:	function(data) {
@@ -78,7 +78,7 @@
 	$('#searchKeyword').autocomplete({
 		source:	function(request, response) {
 			$.ajax({
-	 			url:		"/home/searchinterest",
+	 			url:		"/searchinterest",
  				type:		"POST",
  				dataType:	"json",
  				data:		{ keyword : request.term },
@@ -101,7 +101,7 @@
 			$('#searchKeyword').autocomplete({
 				source:	function(request, response) {
 					$.ajax({
- 		 			url:		"/home/searchinterest",
+ 		 			url:		"/searchinterest",
  	 				type:		"POST",
  	 				dataType:	"json",
  	 				data:		{ keyword : request.term },
@@ -123,7 +123,7 @@
 			$('#searchKeyword').autocomplete({
 	 			source:	function(request, response) {
 	 				$.ajax({
-	 		 			url:		"/home/searcharea",
+	 		 			url:		"/searcharea",
 	 	 				type:		"POST",
 	 	 				dataType:	"json",
 	 	 				data:		{ keyword : request.term },

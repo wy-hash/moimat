@@ -21,21 +21,20 @@ import com.breaktheice.moimat.service.SearchService;
 
 
 @Controller
-@RequestMapping("/home")
 public class SearchController {
 
 	@Autowired
 	private SearchService service;
 	
 	//search 메인화면
-	@GetMapping("/search")
+	@GetMapping(value= {"/search","/search/"})
 	public String search(Model model) {
 		
 		return "search/result";
 	}
 	
 	//검색한 화면
-	@PostMapping("/result")
+	@PostMapping(value= {"/result","/result/"})
 	public String result(Criteria cri, Model model) {
 		
 		model.addAttribute("keyword", service.recommend(cri));

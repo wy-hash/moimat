@@ -1,11 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html lang="ko">
 
 <!-- HEAD -->
-<%@ include file="../../includes/head.jsp" %>
+<%@ include file="../../includes/head.jsp"%>
 
 <!--Bootstrap Table [ OPTIONAL ]-->
 <link href="/resources/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
@@ -13,7 +14,6 @@
 
 <!--X-editable [ OPTIONAL ]-->
 <link href="/resources/plugins/x-editable/css/bootstrap-editable.css" rel="stylesheet">
-
 <!-- 썸머노트 css-->
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
 
@@ -27,14 +27,14 @@
 	<div id="container" class="effect aside-float aside-bright mainnav-lg">
 
 		<!-- HEADER-NAVBAR -->
-		<%@ include file="../../includes/header-navbar.jsp" %>
+		<%@ include file="../../includes/header-navbar.jsp"%>
 		<!-- END NAVBAR -->
 
 		<!-- BOXED -->
 		<div class="boxed">
 
 			<!-- MAIN-NAV -->
-			<%@ include file="../../includes/main-nav.jsp" %>
+			<%@ include file="../../includes/main-nav.jsp"%>
 			<!-- END MAIN-NAV -->
 
 			<!-- ASIDE -->
@@ -50,7 +50,6 @@
 				<!--Page Title-->
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<div id="page-title">
-					<h1 class="page-header text-overflow">답변</h1>
 				</div>
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<!--End page title-->
@@ -65,44 +64,39 @@
 					<!--===================================================-->
 					<div class="panel">
 						<div class="panel-heading">
-							<h3 class="panel-title">답변</h3>
+							<h3 class="panel-title">질문 작성</h3>
 						</div>
-							<form id="postForm" name="postForm" action="/admin/post/reply"
+						<form id="postForm" name="postForm" action="/users/${sessionScope.loginVO.memId }/qna/new"
 							class="panel-body form-horizontal form-padding" method="post">
-							<input type="hidden" id="postId" name="postId" value="${view.postId}">
-							<input type="hidden" id="brdId" name="brdId" value="${view.brdId}">
-							<input type="hidden" id="memId" name="memId" value="${sessionScope.loginVO.memId}">
-							<input type="hidden" id="postNickname" name="postNickname" value="${sessionScope.loginVO.memNickname}">
-							<input type="hidden" id="postEmail" name="postEmail" value="${sessionScope.loginVO.memEmail}">
+							<input type="hidden" id="postId" name="brdId" value="${pageMaker.cri.brdId}">
+							<input type="hidden" id="memId" name="memId" value="${sessionScope.loginVO.memId }">
+							<input type="hidden" id="postNickname" name="postNickname" value="${sessionScope.loginVO.memNickname }">
+							<input type="hidden" id="postEmail" name="postEmail" value="${sessionScope.loginVO.memEmail }">
 
 
 							<!-- 제목 -->
 							<div class="form-group">
-								<label class="col-md-2 control-label" for="postTitle"><strong>답변 제목 </strong></label>
+								<label class="col-md-2 control-label" for="postTitle"><strong>제목 </strong></label>
 								<div class="col-md-10">
-									<input type="text" id="postTitle" name="postTitle" class="form-control" placeholder="제목을 입력해 주세요. " value="${view.postTitle}" readonly>
+									<input type="text" id="postTitle" name="postTitle" class="form-control" placeholder="제목을 입력해 주세요. ">
 									<small class="help-block" id="postTitleHint"></small>
 								</div>
 							</div>
 
 							<!-- 내용 -->
 							<div class="form-group">
-								<label class="col-md-2 control-label" for="postContent"><strong>답변 내용</strong></label>
+								<label class="col-md-2 control-label" for="postContent"><strong>내용</strong></label>
 								<div class="col-md-10">
-									<textarea id="postContent" name="postContent" class="form-control" >${view.postContent}
-									-----------------------------------
-									</textarea>
+									<textarea id="postContent" name="postContent" class="form-control"></textarea>
 									<small class="help-block" id="postContentHint"></small>
 								</div>
 							</div>
-
 
 							<div class="row pull-right">
 								<button type="button" id="postSubmit" class="btn btn-success mar-top">확인</button>
 								<button type="button" id="postCansel" class="btn btn-danger mar-top">취소</button>
 							</div>
 						</form>
-
 						<!--===================================================-->
 						<!-- END BASIC FORM ELEMENTS -->
 
@@ -126,7 +120,7 @@
 		<!-- END BOXED -->
 
 		<!-- FOOTER -->
-		<%@ include file="../../includes/footer.jsp" %>
+		<%@ include file="../../includes/footer.jsp"%>
 		<!-- END FOOTER -->
 
 
@@ -168,7 +162,8 @@
 			
 			$('#postSubmit').on('click', submitCheck);
 			$('#postCansel').on('click', function () {
-				let url = location.origin + '/admin/post/list';
+				const memId = $('#memId').val();
+				let url = location.origin + '/users/'+memId+'/qna';///users/{memId}/qna
 				location.href = url;
 			});
 			
@@ -179,7 +174,7 @@
 		function submitCheck() {
 		
 			let result = true;
-
+			
 			let postTitle = $('#postTitle').val();
 			let postTitleHint = $('#postTitleHint');
 
@@ -187,7 +182,7 @@
 			let postContentHint = $('#postContentHint');
 
 			// 폼 입력 체크
-
+			
 			if (postTitle === '' || postTitle.length === 0) {
 				$('#postTitle').focus();
 				postTitleHint.css('color', 'red');
@@ -215,8 +210,6 @@
 
 		}
 	</script>
-
-
 
 </body>
 
