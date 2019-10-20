@@ -21,7 +21,8 @@
 	.tab-base>.btn-group {
 		display: inline-block;
 	}
-	#adminList > div:nth-child(1) > div.col-xs-5.col-sm-6.col-md-6.col-lg-7 > p:nth-child(2){
+	#adminList>div:nth-child(1)>div.col-xs-5.col-sm-6.col-md-6.col-lg-7>p:nth-child(2)
+		{
 		display: none;
 	}
 }
@@ -144,59 +145,58 @@
 										<div class="tab-content">
 											<!-- 유저 -->
 											<div class="tab-pane fade active in" id="member-tabs-box">
-												<div class="table-toolbar-right pad-no">
-													<div class="form-group">
-														<input type="text" class="form-control"
-															id="memberSearchKeyword"
-															placeholder="모임원의 별명과 이메일로 검색 할 수 있습니다." />
+												<div class="row">
+													<div class="col-xs-6 col-sm-7 col-md-7 col-lg-8 text-left">
+														<label class="numberOfPeople mar-ver"></label>
 													</div>
-													<button id="memberSearchBtn" type="button"
-														class="btn btn-dark">
-														<i class="fa fa-search"> </i>
-													</button>
-												</div>
-												<div class="row mar-ver">
-													<div class="col-xs-1 text-center"></div>
-													<div class="col-xs-1 text-center"
-														style="width: 63px !important;">사진</div>
-													<div class="col-xs-6 col-sm-7 col-md-7 col-lg-8">모임원
-														정보</div>
-													<div class="col-xs-2 text-center">등급</div>
+													<div class="col-xs-6 col-sm-5 col-md-5 col-lg-4 text-right">
+														<div class="input-group">
+															<input type="text" class="form-control"
+																id="memberSearchKeyword" /> <span id="memberSearchBtn"
+																class="btn btn-dark input-group-addon"> <i
+																class="fa fa-search"> </i>
+															</span>
+														</div>
+													</div>
 												</div>
 												<div id="memberList"></div>
-												<div class="paginationBtn text-right"></div>
+												<div class="paginationBtn text-right mar-top"></div>
 											</div>
-											<!-- 관리 -->
+											<!-- 관리자용 -->
 											<div class="tab-pane fade" id="admin-tabs-box">
-												<div class="table-toolbar-right pad-no">
-													<div class="form-group">
-														<input type="text" class="form-control"
-															id="adminSearchKeyword" />
+												<div class="row">
+													<div class="col-xs-6 col-sm-7 col-md-7 col-lg-8 text-left">
+														<div class="input-group">
+															<select id="select" class="form-control">
+																<option value="member">멤버보기</option>
+																<option value="manager">운영진보기</option>
+																<option value="waiting">가입대기인원</option>
+																<option value="block">차단멤버보기</option>
+															</select>
+														</div>
 													</div>
-													<button id="adminSearchBtn" type="button"
-														class="btn btn-dark">
-														<i class="fa fa-search"> </i>
-													</button>
+													<div class="col-xs-6 col-sm-5 col-md-5 col-lg-4 text-right">
+														<div class="input-group">
+															<input type="text" class="form-control"
+																id="adminSearchKeyword" /> <span id="adminSearchBtn"
+																class="btn btn-dark input-group-addon"> <i
+																class="fa fa-search"> </i>
+															</span>
+														</div>
+													</div>
 												</div>
+
 												<div>
-													<select id="select">
-														<option value="member">멤버보기</option>
-														<option value="manager">운영진보기</option>
-														<option value="waiting">가입대기인원</option>
-														<option value="block">차단멤버보기</option>
-													</select>
+													<label class="numberOfPeople mar-ver"></label>
 												</div>
 												<div class="row mar-ver">
-													<div class="col-xs-1 text-center">
+													<div class="col-xs-1 text-center" id="chkdiv">
 														<input type="checkbox" id="chkall">
 													</div>
-													<div class="col-xs-1 text-center"></div>
-													<div class="col-xs-1 text-center" style="width: 63px !important;">사진</div>
-													<div class="col-xs-5 col-sm-6 col-md-6 col-lg-7">모임원 정보</div>
-													<div class="col-xs-2 text-center">등급</div>
+													<div class="col-xs-11"></div>
 												</div>
 												<div id="adminList"></div>
-												<div id="adminbutton">
+												<div id="adminbutton" class="mar-top">
 													<p>
 														선택한 회원을
 														<button type="button" id="block-confirm"
@@ -205,7 +205,7 @@
 															class="btn btn-default btn-hover-danger">삭제하기</button>
 													</p>
 												</div>
-												<div class="paginationBtn text-right"></div>
+												<div class="paginationBtn text-right mar-top"></div>
 											</div>
 										</div>
 									</div>
@@ -274,7 +274,7 @@
 		$(document).ready(function() {
 			var groupId = '<c:out value="${groupId}"/>';
 			var memberId = '<c:out value="${sessionScope.loginVO.memId}"/>';
-			var teamName = '임시 모임명';
+			var teamName = '<c:out value="${group.teamName}"/>';
 			var pageNum = 1;
 			var type = "";
 			var keyword = "";
@@ -315,50 +315,50 @@
 							}
 							listHtml +=     '<div class="row pad-ver '+(i%2==0 ? '' : 'bg-trans-dark')+'">'
 									 + 			checkbox
-									 +  	'<div class="col-xs-1 customCenter" style="vertical-align: middle; min-height:48px;">'
-									 +			'<strong>'+(i == 9 ? pageNum * 10 : (pageNum-1 == 0 ? i+1 : pageNum-1 +''+ (i+1)))+'</strong>'
+									 +		'<div class="col-xs-8 col-sm-9 clearfix">'
+									 +		'<div class="text-center mar-rgt" style="width:63px !important; display:inline-block;">'
+									 +			'<img class="img-sm img-circle" src="/resources/img/profile-photos/'+data.getMember[i].tmemPhoto+'" alt="Profile Picture">'
 									 +		'</div>'
-									 +		'<div class="col-xs-1 text-center" style="width:63px !important;">'
-									 +			'<img class="img-sm" src="/resources/img/profile-photos/'+data.getMember[i].tmemPhoto+'" alt="Profile Picture">'
+									 +   	'<div style="vertical-align: middle; display:inline-block;">'
+									 + 			'<a class="memclick" data-tid="'+data.getMember[i].tmemId+'"><h4 class="mar-no text-main">'+data.getMember[i].tmemNickName+'</h4></a>'
+									 +		'<small> 마지막 방문일 : '+teamMember.parseDate(data.getMember[i].tmemLastVisit)+'</small>'
+									 +		'</div>'			
 									 +		'</div>'
-									 +   	'<div class="col-xs-5 col-sm-6 col-md-6 col-lg-7">'
-									 + 			'<a class="memclick" data-tid="'+data.getMember[i].tmemId+'"><h4 class="mar-no text-main">'+data.getMember[i].tmemNickName+'<small> '+data.getMember[i].tmemEmail+'</small></h4></a>'
-									 +			'<p class="mar-no text-right text-sm">'
-									 + 				'가입한날짜 : ' + teamMember.parseDate(data.getMember[i].tmemRegDate)
-									 +			'</p>'
-									 +			'<p class="mar-no text-right text-sm">'
-									 +				' 마지막 방문일 : ' + teamMember.parseDate(data.getMember[i].tmemLastVisit)
-									 +			'</p>'
-									 +		'</div>'
-									 + 		'<div class="col-xs-2 text-center" style="vertical-align: middle">'
-									 +			'<small>'+data.grade[data.getMember[i].tmemLevel]+'</small>'
+									 + 		'<div class="col-xs-3 col-sm-2 customCenter" style="min-height:46px;">'
+									 +			'<strong>'+data.grade[data.getMember[i].tmemLevel]+'</strong>'
 									 +		'</div>'
 									 +		'</div>'
 						}else{
 							listHtml +=     '<div class="row pad-ver '+(i%2==0 ? '' : 'bg-trans-dark')+'">'
-									 +  	'<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 customCenter" style="vertical-align: middle; min-height:48px;">'
-									 +			'<strong>'+(i == 9 ? pageNum * 10 : (pageNum-1 == 0 ? i+1 : pageNum-1 +''+ (i+1)))+'</strong>'
+									 +		'<div class="col-xs-9 col-sm-10 clearfix">'
+									 +		'<div class="text-center mar-rgt" style="width:63px !important; display:inline-block;">'
+									 +			'<img class="img-sm img-circle" src="/resources/img/profile-photos/'+data.getMember[i].tmemPhoto+'" alt="Profile Picture">'
 									 +		'</div>'
-									 +		'<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 text-center" style="width:63px !important;">'
-									 +			'<img class="img-sm" src="/resources/img/profile-photos/'+data.getMember[i].tmemPhoto+'" alt="Profile Picture">'
+									 +   	'<div style="vertical-align: middle; display:inline-block;">'
+									 + 			'<a class="memclick" data-tid="'+data.getMember[i].tmemId+'"><h4 class="mar-no text-main">'+data.getMember[i].tmemNickName+'</h4></a>'
+									 +		'<small> 마지막 방문일 : '+teamMember.parseDate(data.getMember[i].tmemLastVisit)+'</small>'
+									 +		'</div>'			
 									 +		'</div>'
-									 +   	'<div class="col-xs-6 col-sm-7 col-md-7 col-lg-8">'
-									 + 			'<a class="memclick" data-tid="'+data.getMember[i].tmemId+'"><h4 class="mar-no text-main">'+data.getMember[i].tmemNickName+'<small> '+data.getMember[i].tmemEmail+'</small></h4></a>'
-									 +			'<p class="mar-no text-right text-sm">'
-									 + 				'가입한날짜 : ' + teamMember.parseDate(data.getMember[i].tmemRegDate)
-									 +			'</p>'
-									 +			'<p class="mar-no text-right text-sm">'
-									 +				' 마지막 방문일 : ' + teamMember.parseDate(data.getMember[i].tmemLastVisit)
-									 +			'</p>'
-									 +		'</div>'
-									 + 		'<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 text-center" style="vertical-align: middle">'
-									 +			'<small>'+data.grade[data.getMember[i].tmemLevel]+'</small>'
+									 + 		'<div class="col-xs-3 col-sm-2 customCenter" style="min-height:46px;">'
+									 +			'<strong>'+data.grade[data.getMember[i].tmemLevel]+'</strong>'
 									 +		'</div>'
 									 +		'</div>'
 						}
 					}
 					$("#"+tabid).html(listHtml);
-					$(".paginationBtn").html(memberPageBtn(data.teamMemberCount))
+					var numberOfPeople = "";
+					if(status == "manager"){
+						numberOfPeople = "운영진 : " + data.teamMemberCount + "명";
+					}else if(status == "block"){
+						numberOfPeople = "차단한 모임원 : " + data.teamMemberCount + "명";
+					}else if(status == "waiting"){
+						numberOfPeople = "가입 대기 : " + data.teamMemberCount + "명";
+					}else if(status == "member"){
+						numberOfPeople = "모임원 : " + data.teamMemberCount + "명";
+					}
+					
+					$(".numberOfPeople").text(numberOfPeople);
+					$(".paginationBtn").html(memberPageBtn(data.teamMemberCount));
 					$(".paginationBtn").on('click','.page-link', function(e){
 						e.preventDefault();
 						var targetPageNum = $(this).attr("href");
@@ -481,6 +481,7 @@
 						$("#buttonBox").html(buttonBox);
 						$("#modalSelect").val(e.tmemLevel);
 					});
+					// 여기에 사진 추가해야함 ..
 					$("#modalTmemId").val(e.tmemId);
 					$("#modalMNickName").text(e.tmemNickName);
 					$("#modalMId").text(e.tmemEmail);
@@ -491,6 +492,13 @@
 				pageNum = 1;
 				showList('adminList',$(this).val(),true);
 				var btnhtml = ''
+				if($(this).val()=='manager'){
+					$('#chkdiv').addClass("hidden");
+				}else{
+					if($('#chkdiv').hasClass("hidden")){
+						$('#chkdiv').removeClass("hidden");
+					}
+				}
 				if($(this).val()=='member'){
 					btnhtml = '<p> 선택한 회원을'
 							+	 '<button type="button" id="block-confirm" class="btn btn-default btn-hover-warning">차단하기</button>'
