@@ -4,8 +4,9 @@
 	
 	<select id="login" resultType="com.breaktheice.moimat.domain.MemberDomain">
 
-		select 
-			MEM_EMAIL
+		select
+			MEM_ID
+			,MEM_EMAIL
 			,MEM_PASSWORD
 			,MEM_NICKNAME
 			,MEM_GENDER
