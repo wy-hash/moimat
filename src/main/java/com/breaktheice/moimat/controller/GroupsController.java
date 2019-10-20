@@ -1,5 +1,13 @@
 package com.breaktheice.moimat.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import com.breaktheice.moimat.chat.ChatRoom;
+import com.breaktheice.moimat.chat.ChatRoomManager;
+import com.breaktheice.moimat.service.TeamChatService;
+import com.breaktheice.moimat.service.TeamPhotoService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +39,12 @@ public class GroupsController {
 	private TeamChatService teamChatService;
 
 	private final ChatRoomManager chatRoomManager;
+	
+	@Autowired
+	private TeamSettingsService tss;
 
+	@Autowired
+	private TeamPhotoService teamPhotoService;
 	
 	@GetMapping("")
 	public String index(@ModelAttribute("loginVO") MemberDomain member, Model model) {
@@ -62,6 +75,8 @@ public class GroupsController {
 	@GetMapping("/{groupId}/photos")
 	public String photos(@PathVariable Long groupId, Model model) {
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
+		model.addAttribute("photos", teamPhotoService.getAllPhotos(groupId));
+
 		return "groups/photos/list";
 	}
 

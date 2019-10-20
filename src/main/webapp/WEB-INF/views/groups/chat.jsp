@@ -148,7 +148,7 @@
 
 														<li class="mar-btm">
 															<div class="${ mediaWay }">
-																<img src="/resources/uploads/profile-photos/${ list.profilePhoto }" class="img-circle img-sm" alt="Profile Pricture"/>
+																<img src="${ list.profilePhoto }" class="img-circle img-sm" alt="Profile Pricture"/>
 															</div>
 															<div class="media-body pad-hor ${ speechWay }">
 																<div class="speech">
@@ -245,7 +245,7 @@
 				var messageDiv = ''
 						+ '<li class="mar-btm">'
 						+ 	'<div class="' + mediaWay + '">'
-						+		'<img src="/resources/uploads/profile-photos/' + content.profilePhoto + '" class="img-circle img-sm" alt="Profile Picture">'
+						+		'<img src="' + content.profilePhoto + '" class="img-circle img-sm" alt="Profile Picture">'
 						+ 	'</div>'
 						+	'<div class="media-body pad-hor ' + speechWay + '">'
 						+		'<div class="speech">'
