@@ -243,9 +243,6 @@
 					level : 3
 				};
 				var map = new kakao.maps.Map(mapContainer, mapOption);
-				if(mapContainer = map1){
-					map1 = new kakao.maps.Map(mapContainer, mapOption);
-				}
 				var marker = new kakao.maps.Marker({
 					map : map,
 					position : coords
@@ -595,7 +592,6 @@
 	                          '                <div class="col-xs-10 ellipsis">' + place.place_name +
 	                          '                </div>' +
 	                          '                <div class="col-xs-2" style="height:17px">' + 
-	                          '                    <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
 	                          '                </div>' +
 	                          '            </div>' +
 	            			  '        </div>' + 
@@ -614,10 +610,8 @@
 				});
 				
 			}
-		// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 //이거 안됩니다 지금.
-		function closeOverlay() {
-		    overlay.setMap(null);     
-		}
+			
+			
 			
 		function removeMoimatContent(){ //혹시몰라서 하나의 모달창을 돌려쓰니까..
 			for(var i = 0, len = arguments.length||0; i<len; i++){

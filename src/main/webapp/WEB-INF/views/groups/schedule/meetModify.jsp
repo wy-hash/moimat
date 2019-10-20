@@ -144,6 +144,7 @@
 									<form id="meetRegForm" class="form-horizontal"
 										action="/groups/${groupId}/schedule/meetmodify" method="post">
 										<input type="hidden" name="teamId" value="${groupId }">
+										<input type="hidden" name="meetId" value="${MeetVO.meetVO.meetId}">
 										<div class="panel-body">
 											<div class="row">
 											<div class="col-xs-1"></div>

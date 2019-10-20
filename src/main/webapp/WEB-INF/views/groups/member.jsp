@@ -229,7 +229,7 @@
 								<div class="modal-body" id="moimat-modal-body">
 									<div class="clearfix">
 										<div class="col-xs-3" id="modalMPhoto">Photo</div>
-										<div class="col-xs-9">
+										<div class="col-xs-9 text-center">
 											<input type="hidden" id="modalTmemId" value="">
 											<p id="modalMNickName"></p>
 											<p id="modalMId"></p>
@@ -421,6 +421,7 @@
 				var gradeBox = '';
 				var buttonBox = '';
 				teamMember.getMember($(this).data("tid"),function(e){
+					var photo = '<img class="img-sm img-circle" src="/resources/img/profile-photos/'+e.tmemPhoto+'" alt="Profile Picture">';
 					teamMember.isMaster(groupId,memberId,function(b){
 						if(e.tmemLevel == 9){
 							gradeBox = '<button type="button"'
@@ -482,6 +483,7 @@
 						$("#modalSelect").val(e.tmemLevel);
 					});
 					// 여기에 사진 추가해야함 ..
+					$("#modalMPhoto").html(photo);
 					$("#modalTmemId").val(e.tmemId);
 					$("#modalMNickName").text(e.tmemNickName);
 					$("#modalMId").text(e.tmemEmail);
@@ -490,9 +492,10 @@
 			});
 			$('#select').on('change',function(e){
 				pageNum = 1;
-				showList('adminList',$(this).val(),true);
 				var btnhtml = ''
-				if($(this).val()=='manager'){
+					// 운영진 등급은 체크박스를통한 설정을 할 수 없음 
+					// (네이버같은데 보니까 매니저 등록하면 하나하나 클릭해야했어서 이렇게 함)
+				if($(this).val()=='manager'){ 
 					$('#chkdiv').addClass("hidden");
 				}else{
 					if($('#chkdiv').hasClass("hidden")){
@@ -516,6 +519,7 @@
 						+ '</p>'
 				}
 				$('#adminbutton').html(btnhtml);
+				showList('adminList',$(this).val(),true);
 			});
 			
 			$('#chkall').on('click',function(){
