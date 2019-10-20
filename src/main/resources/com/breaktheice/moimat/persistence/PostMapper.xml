@@ -26,6 +26,16 @@
 					</when>	
 					<when test="type == 'W'.toString()">
 						post_nickname like '%'||#{keyword}||'%'
+					</when>		
+					<when test="type == 'Q'.toString()">
+						((post_title like '%'||#{keyword}||'%' )OR
+						(post_content like '%'||#{keyword}||'%') OR
+						(post_nickname like '%'||#{keyword}||'%') )
+						AND
+						(post_reply = 'Q' AND 
+							post_id NOT IN (select post_origin
+						                    from post
+						                    where post_reply = 'A'))
 					</when>				
 				</choose>
 			</trim>
@@ -76,6 +86,16 @@
 					</when>	
 					<when test="type == 'W'.toString()">
 						post_nickname like '%'||#{keyword}||'%'
+					</when>	
+					<when test="type == 'Q'.toString()">
+						((post_title like '%'||#{keyword}||'%' )OR
+						(post_content like '%'||#{keyword}||'%') OR
+						(post_nickname like '%'||#{keyword}||'%'))
+						AND
+						(post_reply = 'Q' AND 
+							post_id NOT IN (select post_origin
+						                    from post
+						                    where post_reply = 'A'))
 					</when>				
 				</choose>
 			</trim>

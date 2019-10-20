@@ -37,5 +37,7 @@ public interface AdminTeamService {
 	public List<AreaDomain> selectAllAreas();
 	// 관심사
 	public List<InterestDomain> selectAllInterest();
+	// 최근 7일간 등록된 모임
+	public List<TeamDomain> recentOneWeek(AdminCriteria cri);
 	
 }

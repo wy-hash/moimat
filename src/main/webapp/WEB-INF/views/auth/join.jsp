@@ -573,17 +573,6 @@
 		    //			- required upload url.
 		    /***** FILE UPLOAD USING DROPZONE.JS *****/
 
-
-
-
-
-
-
-
-
-
-
-		    
 		    var previewNode = document.querySelector("#dz-template");
 		    previewNode.id = "";
 		    var previewTemplate = previewNode.parentNode.innerHTML;
@@ -687,12 +676,6 @@
 
 		    /***** END FILE UPLOAD *****/
 		    
-		    
-		    
-		    
-		    
-		    
-			
 		});
 	
 	</script>
