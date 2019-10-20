@@ -1,13 +1,16 @@
 package com.breaktheice.moimat.persistence;
 
+import com.breaktheice.moimat.domain.TeamCommentsDTO;
 import com.breaktheice.moimat.domain.TeamCommentsDomain;
 
 import java.util.List;
 
 public interface TeamCommentsMapper {
 
-    List<TeamCommentsDomain> selectAllComments(Long postId);
+    List<TeamCommentsDTO> selectAllComments(Long postId);
 
-    int insertComment(TeamCommentsDomain comment);
+    Long insertComment(TeamCommentsDomain comment);
+
+    TeamCommentsDomain selectCommentById(Long cmtId);
 
 }

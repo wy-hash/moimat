@@ -222,7 +222,7 @@
 												<div class="mar-top pad-top bord-top">
 													<div class="media">
 														<i class="demo-pli-speech-bubble-3 icon-lg "></i>
-														<span class="text-semibold">${ fn:length(comments) }</span>
+														<span class="text-bold">${ fn:length(comments) }</span>
 													</div>
 
 
@@ -237,7 +237,7 @@
 													<div id="comment-container">
 														<c:forEach var="item" items="${ comments }">
 															<div class="media pad-btm">
-																<a class="media-left" href="#"><img class="img-circle img-xs" alt="Profile Picture" src="/resources/img/profile-photos/5.png"></a>
+																<a class="media-left" href="#"><img class="img-circle img-xs" alt="Profile Picture" src="${ item.memPhoto }"></a>
 																<div class="media-body">
 																	<div>
 																		<a href="#" class="btn-link text-semibold media-heading box-inline">${ item.cmtNickname }</a>
@@ -290,7 +290,7 @@
 	
 	<script>
 		$(document).ready(function() {
-			$('#comment-input-box').on('click', function() {
+			$('#comment-input-box').find('button').on('click', function() {
 				var commentDiv = $('#comment-input-box');
 				var content = commentDiv.find('textarea');
 				var commentContainer = $('#comment-container');
@@ -312,19 +312,19 @@
 					},
 					dataType: 'json',
 					success: function(result) {
-						if (result) {
+						if (!result.msg) {
 							var commentData = '<div class="media pad-btm">'
-											+ 	'<a class="media-left" href="#"><img class="img-circle img-xs" alt="Profile Picture" src="/resources/img/profile-photos/5.png"></a>'
+											+ 	'<a class="media-left" href="#"><img class="img-circle img-xs" alt="Profile Picture" src="${ loginVO.memPhoto }"></a>'
 											+	'<div class="media-body">'
 											+ 		'<div>'
-											+ 			'<a href="#" class="btn-link text-semibold media-heading box-inline">' + data.cmtNickname + '</a>'
-											+ 			'<small class="text-muted pad-lft">' + data.cmtRegdate + '</small>'
+											+ 			'<a href="#" class="btn-link text-semibold media-heading box-inline">${ loginVO.memNickname }</a>'
+											+ 			'<small class="text-muted pad-lft">' + result.cmtRegdate + '</small>'
 											+ 		'</div>'
-											+     data.cmtContent
+											+     result.cmtContent
 											+ 	'</div>'
 											+ '</div>';
 
-							commentDiv.prepend(commentData);
+							commentContainer.prepend(commentData);
 
 							content.val('');
 						} else {

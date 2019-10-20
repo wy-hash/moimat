@@ -52,14 +52,18 @@ public class PhotosController {
 		return "/groups/photos/read";
 	}
 
-	@PostMapping(value = "/{postId}/comment", consumes = "application/x-www-form-urlencoded;charset=UTF-8")
+	@PostMapping(value = "/{postId2}/comment", consumes = "application/x-www-form-urlencoded;charset=UTF-8", produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public String writeComment(@PathVariable("postId") Long postId, TeamCommentsDomain comment) {
+	public String writeComment(@PathVariable("postId2") Long postId2, TeamCommentsDomain comment) {
 
-		if (teamCommentsService.writeComment(comment)) {
-			return "{\"result\": \"true\"}";
+		Long cmtId = teamCommentsService.writeComment(comment);
+
+		if (cmtId != 0L) {
+			TeamCommentsDomain result = teamCommentsService.getCommentById(cmtId);
+
+			return new Gson().toJson(result);
 		}
 
-		return "{\"result\": \"false\"}";
+		return "{\"msg\": \"false\"}";
 	}
 }
