@@ -39,9 +39,6 @@ public class GroupsController {
 	private TeamChatService teamChatService;
 
 	private final ChatRoomManager chatRoomManager;
-	
-	@Autowired
-	private TeamSettingsService tss;
 
 	@Autowired
 	private TeamPhotoService teamPhotoService;
