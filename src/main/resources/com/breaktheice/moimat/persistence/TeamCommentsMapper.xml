@@ -19,7 +19,8 @@
 	</insert>
 
 	<select id="selectCommentById" resultType="com.breaktheice.moimat.domain.TeamCommentsDomain">
-		select * from TEAM_COMMENTS where CMT_ID = #{ cmtId }
+		select cmt_id, post_id, brd_id, cmt_num, cmt_content, tmem_id, cmt_nickname, cmt_email, CMT_REGDATE, CMT_UPDATE, cmt_like, cmt_dislike
+		 from TEAM_COMMENTS where CMT_ID = #{ cmtId }
 	</select>
 	
 </mapper>
