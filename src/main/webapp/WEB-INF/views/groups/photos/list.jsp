@@ -155,7 +155,7 @@
 			                    <a href="/groups/${ group.teamId }/posts">게시판</a>
 			                </li>
 			                <li>
-			                    <a href="/groups${ group.teamId }/chat">채팅</a>
+			                    <a href="/groups/${ group.teamId }/chat">채팅</a>
 			                </li>
 			                <li>
 			                    <a href="/groups/${ group.teamId }/settings">설정</a>
@@ -186,17 +186,18 @@
 			                <div class="content-box">
 			                    <div class="row">
 			                    
-			                    
 			                    	<div class="panel col-lg-4 col-xs-6">
-			                    		<div class="panel-body img-thumbnail-box">
-			                    			<div class="thumbnail">
-			                    				<div class="centered">
-					                    			<img src="/resources/img/thumbs/img1.jpg">			                    				
-			                    				</div>
-			                    			</div>
-			                    		</div>
+
+										<div class="panel-body img-thumbnail-box">
+											<div class="thumbnail">
+												<div class="centered">
+													<img src="/resources/img/thumbs/img1.jpg">
+												</div>
+											</div>
+										</div>
+
 			                    		<div class="panel-body img-desc-box">
-			                    			<div class="ellipsis text-bold">제목제목제목제목제목제목제목</div>
+											<div class="ellipsis text-bold"><a href="/groups/1/photos/28">제목제목제목제목제목제목제목</a></div>
 			                    			<div class="text-right mar-top">담배아저씨</div>
 			                    			<div class="text-right mar-btm">2019-10-02</div>
 			                    			<div class="text-right">
@@ -416,6 +417,10 @@
 			                    		</div>
 			                    	</div>
 			                    </div>
+
+								<div class="row pull-right mar-top">
+									<a href="/groups/${ group.teamId }/photos/new"><button class="btn btn-default">글쓰기</button></a>
+								</div>
 			                    
 			                    
 			                    <div class="row">
@@ -462,10 +467,13 @@
 			
 	</div>
 	<!-- END CONTAINER -->
-	
+
+
+
+
 	<script>
 		$(document).ready(function() {
-			
+
 		});
 	</script>
 </body>

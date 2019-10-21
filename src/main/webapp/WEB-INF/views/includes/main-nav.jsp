@@ -24,7 +24,7 @@
 	                               		<c:otherwise>
 	                               			<div class="profile-wrap">
 	                                   			<div class="pad-btm">
-	                                       			<img class="img-circle img-sm img-border" src="/resources/img/profile-photos/1.png" alt="Profile Picture">
+	                                       			<img class="img-circle img-sm img-border" src="${ loginVO.memPhoto }" alt="Profile Picture">
 	                                   			</div>
 	
 	                                  			<a href="#profile-nav" class="box-block" data-toggle="collapse" aria-expanded="false">

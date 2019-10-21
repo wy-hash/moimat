@@ -35,7 +35,8 @@
 	
 	<!-- resource mapping -->
 	<!-- location : 물리적 주소 / mapping : 가상 주소 -->
-	<resources location="file:/upload/" mapping="/upload/*"/>
+	<resources location="file:/uploads/" mapping="/uploads/**"/>
+<!--	<resources mapping="/uploads/**" location="file:/Users/hunyeong/playground/uploads/"/>-->
 	
 	<!-- Interceptor -->	
 	<interceptors>
@@ -68,9 +69,9 @@
 		</interceptor>
 	</interceptors>
 
-<!-- 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"></beans:bean> -->
 	
 	<!-- Defines a resolver implementation bean. It gets applied to all requests handled by that DispatcherServlet -->
     <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
-	
+
+
 </beans:beans>
