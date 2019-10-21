@@ -156,7 +156,7 @@
 			                    <a href="/groups/${ group.teamId }/posts">게시판</a>
 			                </li>
 			                <li>
-			                    <a href="/groups${ group.teamId }/chat">채팅</a>
+			                    <a href="/groups/${ group.teamId }/chat">채팅</a>
 			                </li>
 			                <li>
 			                    <a href="/groups/${ group.teamId }/settings">설정</a>
