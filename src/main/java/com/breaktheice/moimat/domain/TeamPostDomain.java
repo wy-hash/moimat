@@ -1,6 +1,8 @@
 package com.breaktheice.moimat.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 
@@ -19,4 +21,8 @@ public class TeamPostDomain {
     private Date postRegdate;
     private Date postUpdate;
     private Long postHit;
+
+    private String imgPath;
+
+    private Long commentNums;
 }

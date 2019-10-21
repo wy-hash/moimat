@@ -140,6 +140,10 @@
 	<sql id="getMemId">
 		select mem_id from team_member 
 		where tmem_id = #{tmemId}
-	</sql>	
+	</sql>
+
+	<select id="selectMemberByTeamIdAndMemId" resultType="com.breaktheice.moimat.domain.TeamMemberDomain">
+		select * from team_member where TEAM_ID = #{ teamId } and MEM_ID = #{ memId }
+	</select>
 	
 </mapper>

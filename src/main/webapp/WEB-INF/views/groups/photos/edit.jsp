@@ -6,139 +6,177 @@
 
 <!-- HEAD -->
 <%@ include file="../../includes/head.jsp" %>
-	<title>사진등록 - ${ group.teamName } | moim@</title>
-	
-	<style>
-		@media screen and (max-width: 768px) {
-			.tab-base > ul {
-				display: none;
-			}
-			
-			.tab-base > .btn-group {
-				display: inline-block;
-			}
-		}
-		
-		@media screen and (min-width: 768px) {
-			.tab-base > ul {
-				display: block;
-			}
-			
-			.tab-base > .btn-group {
-				display: none;
-			}
-		}
-		
-	</style>
-	
-    <!--Summernote [ OPTIONAL ]-->
-    <link href="/resources/plugins/summernote/summernote.min.css" rel="stylesheet">
-    
-    <!--Summernote [ OPTIONAL ]-->
-    <script src="/resources/plugins/summernote/summernote.min.js"></script>
-    
-    <!--Form File Upload [ SAMPLE ]-->
-    <!-- <script src="/resources/js/demo/form-text-editor.js"></script> -->
+<title>사진등록 - ${ group.teamName } | moim@</title>
+
+<style>
+    @media screen and (max-width: 768px) {
+        .tab-base > ul {
+            display: none;
+        }
+
+        .tab-base > .btn-group {
+            display: inline-block;
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+        .tab-base > ul {
+            display: block;
+        }
+
+        .tab-base > .btn-group {
+            display: none;
+        }
+    }
+
+</style>
+
+<!--Summernote [ OPTIONAL ]-->
+<link href="/resources/plugins/summernote/summernote.min.css" rel="stylesheet">
+
+<!--Dropzone [ OPTIONAL ]-->
+<link href="/resources/plugins/dropzone/dropzone.min.css" rel="stylesheet">
+
+<!--Summernote [ OPTIONAL ]-->
+<script src="/resources/plugins/summernote/summernote.min.js"></script>
+
+<!--Dropzone [ OPTIONAL ]-->
+<script src="/resources/plugins/dropzone/dropzone.min.js"></script>
+
+
 </head>
 <!-- END HEAD -->
 
 <body>
-	<!--TIPS-->
-	<!--You may remove all ID or Class names which contain "demo-", they are only used for demonstration. -->
-	<div id="container" class="effect aside-float aside-bright mainnav-lg">
-	
-		<!-- HEADER-NAVBAR -->
-		<%@ include file="../../includes/header-navbar.jsp" %>
-		<!-- END NAVBAR -->
-		
-		<!-- BOXED -->
-		<div class="boxed">
-		
-			<!-- MAIN-NAV -->
-			<%@ include file="../../includes/main-nav.jsp" %>
-			<!-- END MAIN-NAV -->
-			
-			<!-- ASIDE -->
-			<%-- <%@ include file="includes/aside.jsp" %> --%>
-			<!-- END ASIDE -->
-			
-					
-           <!--CONTENT CONTAINER-->
+<!--TIPS-->
+<!--You may remove all ID or Class names which contain "demo-", they are only used for demonstration. -->
+<div id="container" class="effect aside-float aside-bright mainnav-lg">
+
+    <!-- HEADER-NAVBAR -->
+    <%@ include file="../../includes/header-navbar.jsp" %>
+    <!-- END NAVBAR -->
+
+    <!-- BOXED -->
+    <div class="boxed">
+
+        <!-- MAIN-NAV -->
+        <%@ include file="../../includes/main-nav.jsp" %>
+        <!-- END MAIN-NAV -->
+
+        <!-- ASIDE -->
+        <%-- <%@ include file="includes/aside.jsp" %> --%>
+        <!-- END ASIDE -->
+
+
+        <!--CONTENT CONTAINER-->
+        <!--===================================================-->
+        <div id="content-container">
+
+            <!--Page Title-->
+            <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+            <div id="page-title">
+                <h1 class="page-header text-overflow">${ group.teamName }</h1>
+            </div>
+            <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+            <!--End page title-->
+
+            <!--Page content-->
             <!--===================================================-->
-            <div id="content-container">
-                
-                <!--Page Title-->
-                <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-                <div id="page-title">
-                    <h1 class="page-header text-overflow">${ group.teamName }</h1>
+            <div id="page-content">
+                <!-- #################################### -->
+                <!-- #### WRITE CODE BELOW THIS LINE #### -->
+                <!-- #################################### -->
+
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">즐거웠던 모임, 사진으로 남겨보세요!</h3>
+                    </div>
+
+                    <form class="form" method="post" action="/groups/${ group.teamId }/photos/${ post.postId }/edit">
+                        <div class="panel-body">
+
+                            <!--Summernote-->
+                            <!--===================================================-->
+                            <div class="form-group pad-ver clearfix">
+                                <input type="text" name="postTitle" placeholder="제목을 입력해주세요" id="postTitle" class="form-control input-lg" value="${ post.postTitle}">
+                            </div>
+
+                            <div class="form-group">
+                                <textarea id="summernote" name="postContent">${ post.postContent }</textarea>
+                            </div>
+                            <!--===================================================-->
+                            <!-- End Summernote -->
+
+                            <input type="hidden" name="brdId" value="22">
+                            <input type="hidden" name="postNickname" value="${ loginVO.memNickname }">
+                            <input type="hidden" name="postEmail" value="${ loginVO.memEmail }">
+                            <input type="hidden" name="teamId" value="${ group.teamId }">
+                            <input type="hidden" name="memId" value="${ loginVO.memId }">
+
+
+                            <div class="action-btn text-right">
+                                <a href="/groups/${ group.teamId }/photos/${ post.postId }"><button class="btn btn-danger btn-rounded mar-rgt">취소</button></a>
+                                <a href="/grous/${ group.teamId }/photos/${ post.postId }/edit"><button class="btn btn-success btn-rounded mar-lft">올리기</button></a>
+                            </div>
+                        </div>
+                    </form>
+
                 </div>
-                <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-                <!--End page title-->
 
-                <!--Page content-->
-                <!--===================================================-->
-                <div id="page-content">
-                	<!-- #################################### -->
-                	<!-- #### WRITE CODE BELOW THIS LINE #### -->
-            	    <!-- #################################### -->
-            	    
-					<div class="panel">
-					    <div class="panel-heading">
-					        <h3 class="panel-title">즐거웠던 모임, 사진으로 남겨보세요!</h3>
-					    </div>
-					    <div class="panel-body">
-					
-					        <!--Summernote-->
-					        <!--===================================================-->
-				            <form method="post">
-				            	<textarea id="summernote" name="editordata"></textarea>
-				            </form>
-					        <!--===================================================-->
-					        <!-- End Summernote -->
-					        
-					        <div class="action-btns text-right">
-							    <button class="btn btn-danger btn-rounded mar-rgt">취소</button>
-							    <button class="btn btn-success btn-rounded mar-lft">올리기</button>
-					        
-					        </div>
-	
-					
-					    </div>
-					    
-					</div>    
-					  
 
- 
 
-					
-                </div>
-                <!--===================================================-->
-                <!--End page content-->
 
 
             </div>
             <!--===================================================-->
-            <!--END CONTENT CONTAINER-->			
-			
-			
-			
-		</div>
-		<!-- END BOXED -->
-		
-		<!-- FOOTER -->
-		<%@ include file="../../includes/footer.jsp" %>
-		<!-- END FOOTER -->
-			
-	</div>
-	<!-- END CONTAINER -->
-	
-	<script>
-		$(document).ready(function() {
-			$('#summernote').summernote({
-				placeholder: '여기에서 사진을 등록하고 글을 작성하세요',
-				height: 300
-			});
-		});
-	</script>
+            <!--End page content-->
+
+
+        </div>
+        <!--===================================================-->
+        <!--END CONTENT CONTAINER-->
+
+
+
+    </div>
+    <!-- END BOXED -->
+
+    <!-- FOOTER -->
+    <%@ include file="../../includes/footer.jsp" %>
+    <!-- END FOOTER -->
+
+</div>
+<!-- END CONTAINER -->
+
+<script>
+    $(document).ready(function() {
+        var summernote = $('#summernote');
+
+        $('#summernote').summernote({
+            placeholder: '여기에 사진을 등록하고 글을 작성해보세요',
+            height: 300,
+        });
+
+        $('.action-btn > .btn-danger').on('click', function() {
+            window.location.href='/groups/${ groupId }/photos';
+        });
+
+        $('.action-btn > .btn-success').on('click', function() {
+            if ($('#postTitle').val() == null || $('#postTitle').val() == '') {
+                alert('제목을 입력해주세요.');
+                return false;
+            }
+
+            if (summernote.summernote('isEmpty')) {
+                alert('내용을 작성해주세요.');
+                return false;
+            }
+
+            $('form').submit();
+        });
+
+
+    });
+</script>
 </body>
 </html>

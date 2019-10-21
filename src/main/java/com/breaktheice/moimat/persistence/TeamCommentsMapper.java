@@ -13,4 +13,6 @@ public interface TeamCommentsMapper {
 
     TeamCommentsDTO selectCommentById(Long cmtId);
 
+    Long selectNumsOfComments(Long postId);
+
 }
