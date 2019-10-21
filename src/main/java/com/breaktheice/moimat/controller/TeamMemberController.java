@@ -25,15 +25,6 @@ public class TeamMemberController {
 	@Autowired
 	private TeamMemberService tms;
 	
-	@GetMapping(value = "/getMemberList/{groupid}/{status}/{page}",
-			produces = {
-					MediaType.APPLICATION_JSON_UTF8_VALUE
-			})
-	public ResponseEntity<TeamMemberListVO> getList(@PathVariable("groupid")Long groupId,@PathVariable("status")String status,@PathVariable("page")Long page){
-		AdminCriteria cri = new AdminCriteria(page,10L);
-		return new ResponseEntity<>(tms.getMemberList(groupId,status,cri),HttpStatus.OK);
-	}
-	//getListX
 	@GetMapping(value = "/getMemberList/{groupid}/{status}",
 			produces = {
 					MediaType.APPLICATION_JSON_UTF8_VALUE

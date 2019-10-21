@@ -120,9 +120,6 @@ public class AdminPostServiceImpl implements AdminPostService{
 		// 썸네일 추출해서 썸네일 등록
 		String content = "";
 		String src = "";
-	        
-//		String src = (content);
-//		domain.setSrc(src);
 		
 		for(PostDomain domain : list){
 		    content = domain.getPostContent() == null? "":domain.getPostContent();
@@ -144,4 +141,20 @@ public class AdminPostServiceImpl implements AdminPostService{
         
         return list;
 	  }
+
+	@Override
+	public boolean isReply(PostDomain domain) {
+
+		boolean result = false;// 결과값 : 답글이 있다면 true, 없다면 false
+		
+		if(mapper.isReply(domain) >= 2L) {
+			log.info("답변이 있는 글 입니다.");
+			result = true;
+		} else {
+			log.info("답변이 없는 글 입니다.");
+			result = false;
+		}
+		
+		return result;
+	}
 }

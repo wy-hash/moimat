@@ -16,15 +16,6 @@
 <!--X-editable [ OPTIONAL ]-->
 <link href="/resources/plugins/x-editable/css/bootstrap-editable.css"
 	rel="stylesheet">
-<style>
-.mt-20 {
-	margin-top: 20px;
-}
-
-.color {
-	color: yellowgreen;
-}
-</style>
 
 <title>Page Template | moim@</title>
 </head>
@@ -164,6 +155,11 @@
 
 	</div>
 	<!-- END CONTAINER -->
+	 <%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 
 	<!--Bootstrap Table Sample [ SAMPLE ]-->
 	<script src="/resources/js/demo/tables-bs-table.js"></script>

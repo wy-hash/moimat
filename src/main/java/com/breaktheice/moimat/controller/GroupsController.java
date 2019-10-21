@@ -17,8 +17,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.breaktheice.moimat.chat.ChatRoom;
+import com.breaktheice.moimat.chat.ChatRoomManager;
 import com.breaktheice.moimat.domain.MemberDomain;
+import com.breaktheice.moimat.service.TeamChatService;
+import com.breaktheice.moimat.service.TeamService;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
 import java.util.List;
@@ -36,9 +41,6 @@ public class GroupsController {
 	private TeamChatService teamChatService;
 
 	private final ChatRoomManager chatRoomManager;
-	
-	@Autowired
-	private TeamSettingsService tss;
 
 	@Autowired
 	private TeamPhotoService teamPhotoService;

@@ -4,19 +4,13 @@
 	
 	<select id="login" resultType="com.breaktheice.moimat.domain.MemberDomain">
 
-		select
-			MEM_ID
-			,MEM_EMAIL
-			,MEM_PASSWORD
-			,MEM_NICKNAME
-			,MEM_GENDER
-			,TO_CHAR(MEM_BIRTHDAY, 'YYYYMMDD') MEM_BIRTHDAY <!-- 시분초변환 -->
-			,AREA_ID
-			,MEM_PHOTO
-			,AREA_ID
-			,MEM_INT1
-			,MEM_INT2
-			,MEM_INT3 from member
+		select 
+			MEM_ID, MEM_EMAIL, MEM_PASSWORD, MEM_NICKNAME, TO_CHAR(MEM_BIRTHDAY, 'YYYYMMDD') MEM_BIRTHDAY,
+			 MEM_GENDER, AREA_ID, MEM_REGDATE, MEM_UPDATE, MEM_LASTLOGIN,
+			 MEM_CONTENT, MEM_LEVEL, MEM_STATUS,
+			 MEM_INT1, MEM_INT2, MEM_INT3, MEM_PHOTO 
+		from member
+	
 		where mem_email = #{ memEmail } 
 		
 	</select>
@@ -29,7 +23,7 @@
 				,INT_NAME
 				,INT_ORDER
 				,INT_ORDER
-				,INT_IS_USE
+				,INT_USE
 		FROM 
 				INTEREST
 		

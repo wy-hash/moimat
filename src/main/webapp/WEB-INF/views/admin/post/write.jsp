@@ -75,14 +75,14 @@
 							<input type="hidden" id="postEmail" name="postEmail" value="${sessionScope.loginVO.memEmail }">
 
 							<!--게시글 정렬순서-->
-							<div class="form-group">
-								<label class="col-md-2 control-label" for="postNum"><strong>게시글 정렬순서</strong></label>
-								<div class="col-md-10">
-									<input type="text" id="postNum" name="postNum" class="form-control"
-										placeholder="게시글를 상단에 먼저 보이게 하려면 숫자를 높게 설정하세요. 숫자만 입력 가능합니다.">
-									<small class="help-block" id="postNumHint"></small>
-								</div>
-							</div>
+<!-- 							<div class="form-group"> -->
+<!-- 								<label class="col-md-2 control-label" for="postNum"><strong>게시글 정렬순서</strong></label> -->
+<!-- 								<div class="col-md-10"> -->
+<!-- 									<input type="text" id="postNum" name="postNum" class="form-control" -->
+<!-- 										placeholder="게시글를 상단에 먼저 보이게 하려면 숫자를 높게 설정하세요. 숫자만 입력 가능합니다."> -->
+<!-- 									<small class="help-block" id="postNumHint"></small> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
 
 							<!-- 제목 -->
 							<div class="form-group">
@@ -137,6 +137,11 @@
 
 	</div>
 	<!-- END CONTAINER -->
+	 <%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 
 	<!--Bootstrap Table Sample [ SAMPLE ]-->
 	<script src="/resources/js/demo/tables-bs-table.js"></script>
@@ -182,17 +187,17 @@
 			// 유효성 검사 게시글 등록
 
 			// 게시글 정렬 우선순위 숫자만 입력받기. 정규식 사용
-			$('#postNum').on('keyup', function () { //키를 뗄 때
-					$('#postNum').val($('#postNum').val().replace(/[^0-9]/g, ""));
-				});
+// 			$('#postNum').on('keyup', function () { //키를 뗄 때
+// 					$('#postNum').val($('#postNum').val().replace(/[^0-9]/g, ""));
+// 				});
 		}
 
 		function submitCheck() {
 		
 			let result = true;
 
-			let postNum= $('#postNum').val();
-			let postNumHint = $('#postNumHint');
+// 			let postNum= $('#postNum').val();
+// 			let postNumHint = $('#postNumHint');
 			
 			let postTitle = $('#postTitle').val();
 			let postTitleHint = $('#postTitleHint');
@@ -202,14 +207,14 @@
 
 			// 폼 입력 체크
 			
-			if (postNum === '' || postNum.length === 0) {
-				$('#postNum').focus();
-				postNumHint.css('color', 'red');
-				postNumHint.html('게시글의 정렬 순서를 입력해 주세요. 숫자만 입력 가능합니다.');
-				result = false;
-			}else{
-				postNumHint.html('');
-			}
+// 			if (postNum === '' || postNum.length === 0) {
+// 				$('#postNum').focus();
+// 				postNumHint.css('color', 'red');
+// 				postNumHint.html('게시글의 정렬 순서를 입력해 주세요. 숫자만 입력 가능합니다.');
+// 				result = false;
+// 			}else{
+// 				postNumHint.html('');
+// 			}
 			if (postTitle === '' || postTitle.length === 0) {
 				$('#postTitle').focus();
 				postTitleHint.css('color', 'red');
