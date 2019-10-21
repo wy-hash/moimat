@@ -152,16 +152,23 @@
     $(document).ready(function() {
         var summernote = $('#summernote');
 
+        var imgs = 0;
+
         $('#summernote').summernote({
             placeholder: '여기에 사진을 등록하고 글을 작성해보세요',
             height: 300,
+            callbacks: {
+                onChange: function(data) {
+                    imgs = $(data).find('img').length;
+                }
+            }
         });
 
-        $('.action-btn > .btn-danger').on('click', function() {
-            window.location.href='/groups/${ groupId }/photos';
-        });
+        $('.action-btn > .btn-success').on('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
 
-        $('.action-btn > .btn-success').on('click', function() {
+
             if ($('#postTitle').val() == null || $('#postTitle').val() == '') {
                 alert('제목을 입력해주세요.');
                 return false;
@@ -172,10 +179,13 @@
                 return false;
             }
 
+            if(imgs < 1){
+                alert('사진을 등록해주세요');
+                return false;
+            }
+
             $('form').submit();
         });
-
-
     });
 </script>
 </body>

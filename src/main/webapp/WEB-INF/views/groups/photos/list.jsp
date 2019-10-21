@@ -189,11 +189,13 @@
 									<c:forEach items="${ posts }" var="item">
 										<div class="panel col-lg-4 col-xs-6">
 											<div class="panel-body img-thumbnail-box">
-												<div class="thumbnail">
-													<div class="centered">
-														<img src="${ item.imgPath }">
+												<a href="/groups/${ group.teamId }/photos/${ item.postId }">
+													<div class="thumbnail">
+														<div class="centered">
+															<img src="${ item.imgPath }">
+														</div>
 													</div>
-												</div>
+												</a>
 											</div>
 
 											<div class="panel-body img-desc-box">
