@@ -58,6 +58,7 @@
            	    		<form id="searchForm" action="/result" method="post">
        	    				<div class="col-sm-2">
            	    				<select id="selectType" name="type" class="form-control"> 
+			      					<option value="RMA">전체</option>
 			      					<option value="R">관심사</option>
 		      						<option value="M">모임명</option>
 			      					<option value="A">지역</option> 
