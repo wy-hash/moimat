@@ -72,7 +72,7 @@
 								</div>
 									<!--===================================================-->
 										
-									<!--  사진 -->
+								<!-- 사진  -->
 								<div class="panel-body form-horizontal form-padding" >	
 									<div class="form-group">
 										<label class="col-md-3 control-label">사진</label>
@@ -248,8 +248,7 @@
 								</form>
 									<!--===================================================-->
 									<!-- END BASIC FORM ELEMENTS -->
-
-
+								</div>
 								</div>
 							</div>
 					

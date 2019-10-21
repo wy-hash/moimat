@@ -1,9 +1,16 @@
 package com.breaktheice.moimat.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.breaktheice.moimat.domain.AreaDomain;
+import com.breaktheice.moimat.domain.InterestDomain;
 import com.breaktheice.moimat.domain.MemberDomain;
+import com.breaktheice.moimat.domain.UserInfoVO;
 import com.breaktheice.moimat.persistence.AuthMapper;
 import com.breaktheice.moimat.persistence.UserMapper;
 import com.breaktheice.moimat.util.SHA256;
@@ -73,6 +80,30 @@ public class UserServiceImpl implements UserService {
 
 		return false;
 		
+	}
+
+	@Override
+	public UserInfoVO getUserInfoPage(Long memId) {
+		UserInfoVO uiv = new UserInfoVO();
+		MemberDomain md = userMapper.getUserInfo(memId);
+		uiv.setMemberDomain(md);
+		uiv.setPostDomain(userMapper.getRecentPost(memId));
+		uiv.setTeamDomain(userMapper.getRecentGroup(memId));
+		List<InterestDomain> interst = userMapper.getInterest();
+		Map<Long, String> intMap = new HashMap<Long, String>();
+		for (InterestDomain interestDomain : interst) {
+			intMap.put(interestDomain.getIntId(), interestDomain.getIntName());
+		}
+		uiv.setIntMap(intMap);
+		List<AreaDomain> area = userMapper.getArea();
+		Map<Long, String> areaMap = new HashMap<Long,String>();
+		for (AreaDomain areaDomain : area) {
+			String areaFullName = areaDomain.getAreaName()+" "+areaDomain.getAreaRegionName();
+			areaMap.put(areaDomain.getAreaId(),areaFullName);
+		}
+		uiv.setAreaMap(areaMap);
+		uiv.setAreaName(userMapper.getAreaName(md.getAreaId()));
+		return uiv;
 	}
 	
 	

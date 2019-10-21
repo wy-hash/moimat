@@ -2,12 +2,114 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.breaktheice.moimat.persistence.UserMapper">
 	
+	<select id="getUserInfo" resultType="com.breaktheice.moimat.domain.MemberDomain">
+		SELECT
+			MEM_EMAIL,
+			MEM_PASSWORD,
+			MEM_NICKNAME,
+			TO_CHAR(MEM_BIRTHDAY, 'YYYY-MM-DD') MEM_BIRTHDAY,
+			MEM_GENDER,
+			AREA_ID,
+			MEM_REGDATE,
+			MEM_UPDATE,
+			MEM_LASTLOGIN,
+			MEM_CONTENT,
+			MEM_LEVEL,
+			MEM_STATUS,
+			MEM_INT1,
+			MEM_INT2,
+			MEM_INT3,
+			MEM_PHOTO
+		FROM
+			MEMBER
+		WHERE
+			MEM_ID = #{memId}
+	</select>
+	
+	<select id="getRecentPost" resultType="com.breaktheice.moimat.domain.PostDomain">
+		SELECT
+			POST_ID,
+			POST_TITLE,
+			TO_CHAR(POST_UPDATE, 'YYYY-MM-DD') POST_UPDATE
+		FROM       
+	        (SELECT
+				*
+			FROM
+				POST
+			WHERE
+				MEM_ID = #{MEM_ID}
+			ORDER BY
+				POST_UPDATE DESC)
+		<![CDATA[
+		WHERE ROWNUM <= 5
+		]]>
+	</select>
+	
+	<select id="intKeyName" resultType="String">
+		SELECT 
+			INT_NAME
+		FROM
+			INTEREST
+		WHERE
+			INT_ID = #{intId}	
+	</select>
+	
+	<select id="getInterest" resultType="com.breaktheice.moimat.domain.InterestDomain">
+		Select
+			*
+		from
+			interest
+	</select>
+	
+	<select id="getArea" resultType="com.breaktheice.moimat.domain.AreaDomain">
+		Select
+			*
+		from
+			AREA
+	</select>
+	
+	<select id="getAreaName" resultType="String">
+		SELECT 
+			AREA_NAME ||' '|| AREA_REGION_NAME 
+		FROM 
+			AREA
+		WHERE
+			AREA_ID = #{areaId}
+	</select>
+	
+	<select id="getRecentGroup" resultType="com.breaktheice.moimat.domain.TeamVO">
+		SELECT
+			*
+		FROM
+			TEAM
+		WHERE
+			TEAM_ID 
+			IN
+			(SELECT 
+				* 
+			FROM
+				(SELECT 
+					TEAM_ID 
+				FROM 
+					TEAM_MEMBER
+				WHERE
+					MEM_ID = #{memId}
+				ORDER BY
+					TMEM_LASTVISIT DESC
+				)
+			WHERE
+			<![CDATA[
+				ROWNUM <= 4
+			]]>
+			)	
+	</select>
+	
 	<select id="selectMember" parameterType="String" resultType="com.breaktheice.moimat.domain.MemberDomain">
 		SELECT
 			MEM_EMAIL
 			,MEM_NICKNAME
 			,MEM_GENDER
-			,TO_CHAR(MEM_BIRTHDAY, 'YYYYMMDD') MEM_BIRTHDAY
+			,TO_CHAR(MEM_BIRTHDAY, 'YYYY-MM-DD') MEM_BIRTHDAY
 			,AREA_ID
 			,MEM_PHOTO
 			,AREA_ID

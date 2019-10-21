@@ -19,6 +19,12 @@ public class TeamSettingsMapperTests {
 	@Autowired
 	private TeamSettingsMapper tsm;
 	
+	@Autowired
+	private UserMapper um;
+	
+	
+	
+	
 	@Test
 	public void getTeamInfoTest() {
 		log.info(tsm.getTeamInfo(1L).getTeamContent());

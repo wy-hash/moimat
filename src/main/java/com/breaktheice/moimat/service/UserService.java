@@ -1,8 +1,11 @@
 package com.breaktheice.moimat.service;
 
 import com.breaktheice.moimat.domain.MemberDomain;
+import com.breaktheice.moimat.domain.UserInfoVO;
 
 public interface UserService {
+	
+	public UserInfoVO getUserInfoPage(Long memId);
 
 	public MemberDomain selectUserDomain(String memEmail);  	// 회원정보 가져오는 일을 함.
 	

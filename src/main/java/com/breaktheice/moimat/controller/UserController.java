@@ -43,13 +43,17 @@ public class UserController {
    @Autowired
    FileUploadService fileUploadService;
    
-   @GetMapping("/") // user/
+   @GetMapping("")
    public String users(Model model, HttpServletRequest request) {
       
       log.info("get : /mypage/..호출");
       
-      HttpSession session = request.getSession(false);
+      HttpSession session = request.getSession();
+      MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
       
+      Long memId = md.getMemId();
+      model.addAttribute("UserInfoVO",userService.getUserInfoPage(memId));
+     
       model.addAttribute("areas", authService.getAllAreas());
       model.addAttribute("interest", authService.getAllInterest());
       
