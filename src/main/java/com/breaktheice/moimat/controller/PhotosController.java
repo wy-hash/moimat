@@ -1,5 +1,7 @@
 package com.breaktheice.moimat.controller;
 
+import com.breaktheice.moimat.domain.PostDomain;
+import com.breaktheice.moimat.domain.TeamCommentsDTO;
 import com.breaktheice.moimat.domain.TeamCommentsDomain;
 import com.breaktheice.moimat.service.TeamCommentsService;
 import com.breaktheice.moimat.service.TeamPhotoService;
@@ -31,7 +33,8 @@ public class PhotosController {
 
 	@GetMapping("/new")
 	public String createPost(@PathVariable("groupId") Long groupId, Model model) {
-		
+
+		model.addAttribute("group", teamService.getGroupInfo(groupId));
 		return "/groups/photos/edit";
 	}
 
@@ -42,9 +45,11 @@ public class PhotosController {
 
 		log.info(teamService.getGroupInfo(groupId));
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
-		log.info(teamPhotoService.getPhoto(postId));
-		model.addAttribute("post", teamPhotoService.getPhoto(postId));
+		log.info(teamPhotoService.getPost(postId));
+		model.addAttribute("post", teamPhotoService.getPost(postId));
 		log.info(teamCommentsService.getAllComments(postId));
+		model.addAttribute("photo", teamPhotoService.getPhoto(postId));
+		log.info(teamPhotoService.getPhoto(postId));
 		model.addAttribute("comments", teamCommentsService.getAllComments(postId));
 
 
@@ -59,11 +64,12 @@ public class PhotosController {
 		Long cmtId = teamCommentsService.writeComment(comment);
 
 		if (cmtId != 0L) {
-			TeamCommentsDomain result = teamCommentsService.getCommentById(cmtId);
+			TeamCommentsDTO result = teamCommentsService.getCommentById(cmtId);
+			log.info(result);
 
 			return new Gson().toJson(result);
 		}
 
-		return "{\"msg\": \"false\"}";
+		return "{\"postId\": 0}";
 	}
 }

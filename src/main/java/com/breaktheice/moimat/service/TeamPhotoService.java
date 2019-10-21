@@ -1,10 +1,15 @@
 package com.breaktheice.moimat.service;
 
 import com.breaktheice.moimat.domain.TeamPostDomain;
+import com.breaktheice.moimat.domain.TeamPostFileDomain;
 
 public interface TeamPhotoService {
 
-    TeamPostDomain getPhoto(Long postId);
+    TeamPostDomain getPost(Long postId);
 
-    TeamPostDomain getAllPhotos(Long groupId);
+    TeamPostDomain getAllPosts(Long groupId);
+
+    TeamPostFileDomain getPhoto(Long postId);
+
+
 }

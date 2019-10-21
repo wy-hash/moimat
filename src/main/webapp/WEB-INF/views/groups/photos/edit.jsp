@@ -6,7 +6,7 @@
 
 <!-- HEAD -->
 <%@ include file="../../includes/head.jsp" %>
-	<title>사진등록 - ${ team.teamName } | moim@</title>
+	<title>사진등록 - ${ group.teamName } | moim@</title>
 	
 	<style>
 		@media screen and (max-width: 768px) {
@@ -70,7 +70,7 @@
                 <!--Page Title-->
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <div id="page-title">
-                    <h1 class="page-header text-overflow">{ _team.teamName_ }</h1>
+                    <h1 class="page-header text-overflow">${ group.teamName }</h1>
                 </div>
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <!--End page title-->
