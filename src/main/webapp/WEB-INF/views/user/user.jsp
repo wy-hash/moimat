@@ -68,24 +68,33 @@
 												alt="Profile Picture" />
 										</div>
 										<div class="col-md-8">
-											<p>
-												<strong>닉네임 : </strong>${UserInfoVO.memberDomain.memNickname }</p>
-											<p>
-												<strong>이메일 : </strong>${UserInfoVO.memberDomain.memEmail }</p>
-											<p>
-												<strong>생일 : </strong>${UserInfoVO.memberDomain.memBirthday }</p>
-											<p>
-												<strong>성별 : </strong>${UserInfoVO.memberDomain.memGender == 'M' ? '남성' : '여성' }
-											</p>
-											<p>
-												<strong>지역 : </strong>${UserInfoVO.areaMap[UserInfoVO.memberDomain.areaId] }
-											</p>
-											<p>
-												<strong>관심사 : </strong>${UserInfoVO.intMap[UserInfoVO.memberDomain.memInt1]}
-												, ${UserInfoVO.intMap[UserInfoVO.memberDomain.memInt2] }
-												, ${UserInfoVO.intMap[UserInfoVO.memberDomain.memInt3]}
-											</p>
+											<div class="mar-lft">
+												<p>
+													<strong>닉네임 : </strong>${UserInfoVO.memberDomain.memNickname }</p>
+												<p>
+													<strong>이메일 : </strong>${UserInfoVO.memberDomain.memEmail }</p>
+												<p>
+													<strong>생일 : </strong>${UserInfoVO.memberDomain.memBirthday }</p>
+												<p>
+													<strong>성별 : </strong>${UserInfoVO.memberDomain.memGender == 'M' ? '남성' : '여성' }
+												</p>
+												<p>
+													<strong>지역 : </strong>${UserInfoVO.areaMap[UserInfoVO.memberDomain.areaId] }
+												</p>
+												<p>
+													<strong>관심사 : </strong>${UserInfoVO.intMap[UserInfoVO.memberDomain.memInt1]}
+													, ${UserInfoVO.intMap[UserInfoVO.memberDomain.memInt2] } ,
+													${UserInfoVO.intMap[UserInfoVO.memberDomain.memInt3]}
+												</p>
+											</div>
 										</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-1 col-sm-2"></div>
+										<div class="col-xs-10 col-sm-8 text-right">
+											<button id="modBtn" class="btn btn-default btn-hover-warning">정보 수정</button>
+										</div>
+										<div class="col-xs-1 col-sm-2"></div>
 									</div>
 								</div>
 								<div class="col-md-3"></div>
@@ -149,11 +158,8 @@
 												<td class="text-center">${postDomain.postId }</td>
 												<td><span class="text-main text-semibold">${postDomain.postTitle }</span>
 												</td>
-												<td class="text-center">
-													<span class="text-semibold">
-														${postDomain.postUpdate }
-													</span>
-												</td>
+												<td class="text-center"><span class="text-semibold">
+														${postDomain.postUpdate } </span></td>
 											</tr>
 										</c:forEach>
 
@@ -190,7 +196,9 @@
 	<!-- END CONTAINER -->
 	<script>
 		$(document).ready(function() {
-
+			$('#modBtn').on('click',function(){
+				location.href = "/mypage/usercheck"
+			});
 		});
 	</script>
 </body>

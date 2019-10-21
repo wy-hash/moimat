@@ -24,7 +24,6 @@ import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.service.AuthService;
 import com.breaktheice.moimat.service.FileUploadService;
 import com.breaktheice.moimat.service.UserService;
-import com.breaktheice.moimat.util.SHA256;
 import com.google.gson.Gson;
 
 import lombok.extern.log4j.Log4j;
@@ -53,13 +52,35 @@ public class UserController {
       
       Long memId = md.getMemId();
       model.addAttribute("UserInfoVO",userService.getUserInfoPage(memId));
-     
-      model.addAttribute("areas", authService.getAllAreas());
-      model.addAttribute("interest", authService.getAllInterest());
-      
-      log.info("인증");
-      
+       
       return "user/user";
+   }
+   
+   @GetMapping("/usercheck")
+   public String userCheck(Model model, HttpServletRequest request) {
+      
+      log.info("get : /mypage/..호출");
+      
+      HttpSession session = request.getSession();
+      MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
+      
+      Long memId = md.getMemId();
+      model.addAttribute("UserInfoVO",userService.getUserInfoPage(memId));
+       
+      return "user/usercheck";
+   }
+   
+   @PostMapping("/usercheck")
+   public String passwordCheck(HttpServletRequest request,MemberDomain memberDomain, RedirectAttributes rttr) {
+	   HttpSession session = request.getSession();
+	   MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
+	   memberDomain.setMemEmail(md.getMemEmail());
+	   boolean result = userService.checkPassword(memberDomain);
+	   if(result) {
+		   return "redirect:/mypage/edit";
+	   }
+	   rttr.addFlashAttribute("ErrorMsg", "비밀번호가 맞지 않습니다.");
+	   return "redirect:/mypage/usercheck";
    }
 
    @GetMapping("/edit")
@@ -68,7 +89,9 @@ public class UserController {
       log.info("get : /users/edit..호출");
       
       HttpSession session = request.getSession(false);
-         
+      
+      model.addAttribute("areas", authService.getAllAreas());
+	  model.addAttribute("interest", authService.getAllInterest());
       log.info("인증");
       
       return "user/userEdit";
@@ -94,13 +117,10 @@ public class UserController {
       
       return "edit/mypage";
    }
-   
-
    @PostMapping("/edit")
    public String userEdit(MemberDomain user) {
       log.info("post : /users/edit..호출");
       log.info(user);
-            
       //  회원정보 수정
       userService.updateMember(user);
       
@@ -245,19 +265,19 @@ public class UserController {
       Map map = new HashMap();
       
       // 평문으로 들어가기때문에 비밀번호를 암호화 해줌
-      memberDomain.setMemPassword(SHA256.encrypt(memberDomain.getMemPassword()));
-      
-      boolean result = userService.updateMember(memberDomain);
+//      memberDomain.setMemPassword(SHA256.encrypt(memberDomain.getMemPassword()));
+//      
+//      boolean result = userService.updateMember(memberDomain);
       
       // 성공인 경우
-      if(result) {
-         map.put("msg", "비밀번호가 변경되었습니다");
-         map.put("msgCode", "1");
-         
-      }else {
-         map.put("msg", "에러가발생하였습니다. 다시 시도해주세요");
-         map.put("msgCode", "0");
-      }
+//      if(result) {
+//         map.put("msg", "비밀번호가 변경되었습니다");
+//         map.put("msgCode", "1");
+//         
+//      }else {
+//         map.put("msg", "에러가발생하였습니다. 다시 시도해주세요");
+//         map.put("msgCode", "0");
+//      }
       
       Gson gson = new Gson();
       

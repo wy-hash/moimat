@@ -41,10 +41,9 @@ public class UserServiceImpl implements UserService {
 	public boolean checkPassword(MemberDomain memberDomain) {		// 패스워드 체크 여부 확인
 		log.info(memberDomain);
 		
-		String password = sha256.encrypt(memberDomain.getMemPassword());
+		String password = SHA256.encrypt(memberDomain.getMemPassword());
 
 		MemberDomain member = authMapper.login(memberDomain.getMemEmail());
-
 		
 		log.info(member);
 		if(password.equals(member.getMemPassword())) {
