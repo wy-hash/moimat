@@ -48,7 +48,6 @@ public class PhotosController {
 
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
 
-		log.info("post content: " + teamPostService.getPost(postId, 22L));
 		model.addAttribute("post", teamPostService.getPost(postId, 22L));
 
 		model.addAttribute("comments", teamCommentsService.getAllComments(postId));
