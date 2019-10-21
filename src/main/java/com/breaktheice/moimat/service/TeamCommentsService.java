@@ -11,5 +11,5 @@ public interface TeamCommentsService {
 
     Long writeComment(TeamCommentsDomain comment);
 
-    TeamCommentsDomain getCommentById(Long cmtId);
+    TeamCommentsDTO getCommentById(Long cmtId);
 }

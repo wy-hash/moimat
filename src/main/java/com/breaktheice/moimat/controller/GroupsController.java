@@ -73,7 +73,7 @@ public class GroupsController {
 	@GetMapping("/{groupId}/photos")
 	public String photos(@PathVariable Long groupId, Model model) {
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
-		model.addAttribute("photos", teamPhotoService.getAllPhotos(groupId));
+		model.addAttribute("posts", teamPhotoService.getAllPosts(groupId));
 
 		return "groups/photos/list";
 	}

@@ -417,6 +417,10 @@
 			                    		</div>
 			                    	</div>
 			                    </div>
+
+								<div class="row pull-right mar-top">
+									<a href="/groups/${ group.teamId }/photos/new"><button class="btn btn-default">글쓰기</button></a>
+								</div>
 			                    
 			                    
 			                    <div class="row">
