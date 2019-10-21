@@ -41,7 +41,27 @@
 .form-control {
 	height: 32px;
 }
+	
+@media screen and (max-width: 768px) {
+	.btn-search {
+		display: none;
+	}
+	
+	.col-sm-10 > .input-group {
+		margin-top : 10px;
+	}
+	
+	.bg-trans-dark {
+		margin-bottom : 20px;
+	}
+}
 
+@media screen and (min-width: 768px) {
+	.btn-search {
+		display: block;
+	}
+}
+	
 </style>
 </head>
 <!-- END HEAD -->
@@ -75,7 +95,7 @@
                 <!--Page Title-->
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                  <div id="page-title">
-                    <h1 class="page-header text-overflow">Page Template</h1>
+<!--                     <h1 class="page-header text-overflow">Page Template</h1> -->
                 </div>
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <!--End page title-->
@@ -90,72 +110,66 @@
   	    		
   	    			<div class="row pad-ver bg-trans-dark">
            	    		<div class="col-xs-12 col-sm-10 col-sm-offset-1 pad-hor">
-           	    		<form id="searchForm" action="/home/result" method="post">
+           	    		<form id="searchForm" action="/result" method="post">
        	    				<div class="col-sm-2">
            	    				<select id="selectType" name="type" class="form-control"> 
-			      					<option value="R">관심사</option>
-		      						<option value="M">모임명</option>
-			      					<option value="A">지역</option> 
+			      					<option value="RMA" <c:if test="${cri.type eq 'RMA'}">selected</c:if>>전체</option>
+			      					<option value="R"  <c:if test="${cri.type eq 'R'}">selected</c:if>>관심사</option>
+		      						<option value="M" <c:if test="${cri.type eq 'M'}">selected</c:if>>모임명</option>
+			      					<option value="A" <c:if test="${cri.type eq 'A'}">selected</c:if>>지역</option> 
 		   	 	 				</select>
        	    				</div>
-            	    		<div class="col-xs-9">
-	    						<input type="text" class="form-control" id="searchKeyword" name="keyword" placeholder="Search..."  autocomplete="off">
+            	    		<div class="col-sm-10">
+            	    		<div class="input-group">
+		    					<input type="text" class="form-control" id="searchKeyword" name="keyword" value="${cri.keyword }" placeholder="Search..."  autocomplete="off">
+								<small class="help-block" id="searchHint"></small>
+									<span class="input-group-btn">
+		    						<button class="btn btn-default btn-icon" type="submit">
+				      					<i class="glyphicon glyphicon-search"></i>
+			      					</button>
+									</span>
+							</div>
 	    					</div>
-	    					<div class="col-sm-1">
-	    						<button class="btn btn-default btn-icon" type="submit">
-			      				<i class="glyphicon glyphicon-search"></i>
-		      					</button>
-		      				</div>
+<!-- 	    					<div class="col-sm-1"> -->
+<!-- 		    						<button class="btn btn-default btn-icon" type="submit"> -->
+<!-- 				      					<i class="glyphicon glyphicon-search"></i> -->
+<!-- 			      					</button> -->
+<!-- 		      				</div> -->
 						</form>
 						</div>
 					</div> 
 					
-					<form action="/home/result" method="post">
-					<div class="row">
-						<div class="col-sm-4 eq-box-sm">
+					<form action="/result" method="post">
+					<div class="row btn-search">
+						<div class="col-sm-6 eq-box-sm">
 			            	<div class="panel">
 				                <div class="panel-heading">
 				                    <h3 class="panel-title">관심사 카테고리</h3>
 					                </div>
 					                <div class="panel-body demo-nifty-btn">
-					                <input type="hidden" class="btn btn-default btn-rounded" name="interest"/>
 				                    <div id="upperInner"></div>
 				                    <hr></hr>
 				                    <div id="lowerInner"></div>
 					             	</div>
 					          </div>
 					     </div>	
+						<div class="col-sm-6 eq-box-sm">
+			            	<div class="panel">
+				                <div class="panel-heading">
+				                    <h3 class="panel-title">지역 카테고리</h3>
+					                </div>
+					                <div class="panel-body demo-nifty-btn">
+				                    <div id="upperInner2"></div>
+				                    <hr></hr>
+				                    <div id="lowerInner2"></div>
+					             	</div>
+					          </div>
+					     </div>	
 					 </div>
 					 
+   					<c:forEach items="${keyword}" var="searchVO" varStatus="status" end="2">
 	           		 <div class="row">
-	   					<c:forEach items="${keyword}" var="searchVO" varStatus="status">
-						<c:if test="${status.index eq 0}">
-	           			<div class="col-md-6 col-lg-4">
-	           				<div class="panel">
-	           					<div class="pad-all">
-	           						<div class="media mar-btm">
-	          							<div class="media-left">
-	          								<img src="/resources/uploads/profile-team/${searchVO.teamPhoto}" class="img-md img-circle" alt="Avatar">
-	          							</div>
-	          							<div class="media-body">
-	          							<p class="text-lg text-main text-semibold mar-no">${searchVO.teamName}</p>
-	          							<p>${searchVO.areaRegionName}</p>
-	          							</div>
-	           						</div>
-	       							<blockquote class="bq-sm bq-open bq-close">${searchVO.teamShortContent}</blockquote>
-	           					</div>
-	           				</div>
-	           			</div>
-						</c:if>
-					 </c:forEach>
-	           		 </div>
-           		
-           		
-           		
-	           		 <div class="row">
-	  					<c:forEach items="${keyword}" var="searchVO" varStatus="status">
-						<c:if test="${status.index eq 1}">
-	           			<div class="col-md-6 col-lg-4">
+						<div class="col-md-6 col-lg-4">
 	           				<div class="panel">
 	      						<div class="pad-all">
 	           						<div class="media mar-btm">
@@ -163,42 +177,17 @@
 	          								<img src="/resources/uploads/profile-team/${searchVO.teamPhoto}" class="img-md img-circle" alt="Avatar">
 	          							</div>
 	          							<div class="media-body">
-	          							<p class="text-lg text-main text-semibold mar-no">${searchVO.teamName}</p>
-	          							<p>${searchVO.areaRegionName}</p>
+	          							<a href='<c:out value="/groups/${searchVO.teamId }" />'> <p class="text-lg text-main text-semibold mar-no">${searchVO.teamName}</p></a>
+	          							<p>${searchVO.intName}&nbsp;/&nbsp;${searchVO.areaRegionName}</p>
 	          							</div>
 	       							</div>
 	       								<blockquote class="bq-sm bq-open bq-close">${searchVO.teamShortContent}</blockquote>
 	       						</div>
 	           				</div>
 	           			</div>
-						</c:if>
-						</c:forEach>
 	           		 </div>
-           		
-           		
-           		
-	           		 <div class="row">
-	  					<c:forEach items="${keyword}" var="searchVO" varStatus="status">
-						<c:if test="${status.index eq 2}">
-	           			<div class="col-md-6 col-lg-4">
-	           				<div class="panel">
-	           					<div class="pad-all">
-	           						<div class="media mar-btm">
-	          							<div class="media-left">
-	          								<img src="/resources/uploads/profile-team/${searchVO.teamPhoto}" class="img-md img-circle" alt="Avatar">
-	          							</div>
-	          							<div class="media-body">
-	          							<p class="text-lg text-main text-semibold mar-no">${searchVO.teamName}</p>
-	          							<p>${searchVO.areaRegionName}</p>
-	          							</div>
-	           						</div>
-	       							<blockquote class="bq-sm bq-open bq-close">${searchVO.teamShortContent}</blockquote>
-	           					</div>
-	           				</div>
-	           			</div>
-						</c:if>
-						</c:forEach>
-	  				 </div>
+					 </c:forEach>
+           		          		
 					 </form>
 					 
 					 <script type="text/javascript" src="/resources/js/jquery-ui.min.js"></script>

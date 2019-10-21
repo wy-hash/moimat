@@ -1,13 +1,18 @@
 package com.breaktheice.moimat.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import com.breaktheice.moimat.service.FileUploadService;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,6 +49,9 @@ public class AuthController {
 
 	@Autowired
 	ServletContext servletContext;
+
+	@Autowired
+	FileUploadService fileUploadService;
 	
 	@GetMapping("/login") // 사용자에게 로그인 입력 양식을 주는 페이지
 	public String login(Model model) {
@@ -135,37 +143,23 @@ public class AuthController {
 		log.info("interest: " + intKey); // eg)IA01,IA02,IA03
 		
 		member.setAreaId(authService.getAreaId(areaRegionKey));
-		
+
 		String[] interestKeyList = intKey.split(",");
 		member.setMemInt1(authService.getInterestKey(interestKeyList[0]));
 		member.setMemInt2(authService.getInterestKey(interestKeyList[1]));
 		member.setMemInt3(authService.getInterestKey(interestKeyList[2]));
 
-		log.info("file name: " + file.getOriginalFilename());
-		log.info("file size: " + file.getSize());
-
-		String uploadDir = servletContext.getRealPath("/resources/uploads/profile-photos");
-		log.info("upload path: " + uploadDir);
-		String originFileName = file.getOriginalFilename();
-		String fileName = "";
+		String uploadPath = "";
 
 		if (file.getSize() <= 0) {
-			fileName = String.valueOf((int) (Math.random() * 10) + 1) + ".png";
-			log.info("no file, file name is: " + fileName);
-		} else {
-			String ext = originFileName.substring(originFileName.lastIndexOf("."));
-			fileName = member.getMemEmail() + ext;
-			File saveFile = new File(uploadDir, fileName);
+			String randomImage = String.valueOf((int)(Math.random() * 10) + 1) + ".png";
+			uploadPath = "resources" + File.separator + "img" + File.separator + "profile-photos" + File.separator + randomImage;
 
-			try {
-				file.transferTo(saveFile);
-			} catch (Exception e) {
-				log.error(e.getMessage());
-			}
+		} else {
+			uploadPath = fileUploadService.saveFile("USER", file);
 		}
 
-		member.setMemPhoto(fileName);
-
+		member.setMemPhoto(uploadPath);
 
 		authService.joinMember(member);
 

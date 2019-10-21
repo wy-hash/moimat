@@ -24,7 +24,7 @@
 	                               		<c:otherwise>
 	                               			<div class="profile-wrap">
 	                                   			<div class="pad-btm">
-	                                       			<img class="img-circle img-sm img-border" src="/resources/img/profile-photos/1.png" alt="Profile Picture">
+	                                       			<img class="img-circle img-sm img-border" src="${ loginVO.memPhoto }" alt="Profile Picture">
 	                                   			</div>
 	
 	                                  			<a href="#profile-nav" class="box-block" data-toggle="collapse" aria-expanded="false">
@@ -67,7 +67,7 @@
 
 						            <!--Menu list item-->
 						            <li>
-						                <a href="#">
+						                <a href="<c:url value='/search'/>">
 						                    <i class="fa fa-search"></i>
 						                    <span class="menu-title">
 												<strong>모임찾기</strong>
@@ -100,12 +100,24 @@
 						            
 						            <!-- Menu list item -->
 						            <li>
+						            <c:choose>
+						            	<c:when test="${sessionScope.loginVO.memId >0}">
+						            	<a href="<c:url value='/users/${sessionScope.loginVO.memId}/qna'/>">
+						            	<i class="fa fa-pencil-square-o"></i>
+						            		<span class="menu-title">
+						            			<strong>내 문의내역</strong>
+						            		</span>
+						            	</a>
+						            	</c:when>
+						            	<c:otherwise>
 						            	<a href="#">
 						            		<i class="fa fa-pencil-square-o"></i>
 						            		<span class="menu-title">
 						            			<strong>내 문의내역</strong>
 						            		</span>
 						            	</a>
+						            	</c:otherwise>
+						            </c:choose>
 						            
 						            <!-- Category name -->
 						            <li class="list-header">인포</li>

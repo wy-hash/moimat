@@ -29,10 +29,10 @@
 			}
 		}
 		
-		.content-box > .row {
+		.content-box > .row:first-child {
 			display: flex;
 			flex-flow: wrap;
-			justify-content: center;	
+			justify-content: normal;
 		}
 		
 		.content-box > .row > .panel {
@@ -155,7 +155,7 @@
 			                    <a href="/groups/${ group.teamId }/posts">게시판</a>
 			                </li>
 			                <li>
-			                    <a href="/groups${ group.teamId }/chat">채팅</a>
+			                    <a href="/groups/${ group.teamId }/chat">채팅</a>
 			                </li>
 			                <li>
 			                    <a href="/groups/${ group.teamId }/settings">설정</a>
@@ -185,240 +185,35 @@
 			            <div class="tab-content">
 			                <div class="content-box">
 			                    <div class="row">
-			                    
-			                    
-			                    	<div class="panel col-lg-4 col-xs-6">
-			                    		<div class="panel-body img-thumbnail-box">
-			                    			<div class="thumbnail">
-			                    				<div class="centered">
-					                    			<img src="/resources/img/thumbs/img1.jpg">			                    				
-			                    				</div>
-			                    			</div>
-			                    		</div>
-			                    		<div class="panel-body img-desc-box">
-			                    			<div class="ellipsis text-bold">제목제목제목제목제목제목제목</div>
-			                    			<div class="text-right mar-top">담배아저씨</div>
-			                    			<div class="text-right mar-btm">2019-10-02</div>
-			                    			<div class="text-right">
-			                    				<i class="fa fa-comments">12</i>&nbsp;
-			                    				<i class="fa fa-heart">123</i>&nbsp;
-			                    				<i class="fa fa-eye">1234</i>
-			                    			</div>
-			                    		</div>
-			                    	</div>
-			                    	<div class="panel col-lg-4 col-xs-6">
-			                    		<div class="panel-body img-thumbnail-box">
-			                    			<div class="thumbnail">
-			                    				<div class="centered">
-					                    			<img src="/resources/img/thumbs/img3.jpg">
-			                    				</div>
-			                    			</div>
-			                    		</div>
-			                    		<div class="panel-body img-desc-box">
-			                    			<div class="ellipsis text-bold">제목제목제목제목제목제목제목</div>
-			                    			<div class="text-right mar-top">담배아저씨</div>
-			                    			<div class="text-right mar-btm">2019-10-02</div>
-			                    			<div class="text-right">
-			                    				<i class="fa fa-comments">12</i>&nbsp;
-			                    				<i class="fa fa-heart">123</i>&nbsp;
-			                    				<i class="fa fa-eye">1234</i>
-			                    			</div>
-			                    		</div>
-			                    	</div>
-			                    	<div class="panel col-lg-4 col-xs-6">
-			                    		<div class="panel-body img-thumbnail-box">
-			                    			<div class="thumbnail">
-			                    				<div class="centered">
-					                    			<img src="/resources/img/thumbs/mega-menu-6.jpg">
-			                    				</div>
-			                    			</div>
-			                    		</div>
-			                    		<div class="panel-body img-desc-box">
-			                    			<div class="ellipsis text-bold">제목제목제목제목제목제목제목</div>
-			                    			<div class="text-right mar-top">담배아저씨</div>
-			                    			<div class="text-right mar-btm">2019-10-02</div>
-			                    			<div class="text-right">
-			                    				<i class="fa fa-comments">12</i>&nbsp;
-			                    				<i class="fa fa-heart">123</i>&nbsp;
-			                    				<i class="fa fa-eye">1234</i>
-			                    			</div>
-			                    		</div>
-			                    	</div>
-			                    	<div class="panel col-lg-4 col-xs-6">
-			                    		<div class="panel-body img-thumbnail-box">
-			                    			<div class="thumbnail">
-			                    				<div class="centered">
-					                    			<img src="/resources/img/thumbs/img1.jpg">
-			                    				</div>
-			                    			</div>
-			                    		</div>
-			                    		<div class="panel-body img-desc-box">
-			                    			<div class="ellipsis text-bold">제목제목제목제목제목제목제목</div>
-			                    			<div class="text-right mar-top">담배아저씨</div>
-			                    			<div class="text-right mar-btm">2019-10-02</div>
-			                    			<div class="text-right">
-			                    				<i class="fa fa-comments">12</i>&nbsp;
-			                    				<i class="fa fa-heart">123</i>&nbsp;
-			                    				<i class="fa fa-eye">1234</i>
-			                    			</div>
-			                    		</div>
-			                    	</div>
-			                    	<div class="panel col-lg-4 col-xs-6">
-			                    		<div class="panel-body img-thumbnail-box">
-			                    			<div class="thumbnail">
-			                    				<div class="centered">
-					                    			<img src="/resources/img/profile-photos/1.png">
-			                    				</div>
-			                    			</div>
-			                    		</div>
-			                    		<div class="panel-body img-desc-box">
-			                    			<div class="ellipsis text-bold">제목제목제목제목제목제목제목</div>
-			                    			<div class="text-right mar-top">담배아저씨</div>
-			                    			<div class="text-right mar-btm">2019-10-02</div>
-			                    			<div class="text-right">
-			                    				<i class="fa fa-comments">12</i>&nbsp;
-			                    				<i class="fa fa-heart">123</i>&nbsp;
-			                    				<i class="fa fa-eye">1234</i>
-			                    			</div>
-			                    		</div>
-			                    	</div>
-			                    	<div class="panel col-lg-4 col-xs-6">
-			                    		<div class="panel-body img-thumbnail-box">
-			                    			<div class="thumbnail">
-			                    				<div class="centered">
-					                    			<img src="/resources/img/bg-img/1.jpg">
-			                    				</div>
-			                    			</div>
-			                    		</div>
-			                    		<div class="panel-body img-desc-box">
-			                    			<div class="ellipsis text-bold">제목제목제목제목제목제목제목</div>
-			                    			<div class="text-right mar-top">담배아저씨</div>
-			                    			<div class="text-right mar-btm">2019-10-02</div>
-			                    			<div class="text-right">
-			                    				<i class="fa fa-comments">12</i>&nbsp;
-			                    				<i class="fa fa-heart">123</i>&nbsp;
-			                    				<i class="fa fa-eye">1234</i>
-			                    			</div>
-			                    		</div>
-			                    	</div>
-			                    	<div class="panel col-lg-4 col-xs-6">
-			                    		<div class="panel-body img-thumbnail-box">
-			                    			<div class="thumbnail">
-			                    				<div class="centered">
-					                    			<img src="/resources/img/bg-img/bg-img-2.jpg">
-			                    				</div>
-			                    			</div>
-			                    		</div>
-			                    		<div class="panel-body img-desc-box">
-			                    			<div class="ellipsis text-bold">제목제목제목제목제목제목제목</div>
-			                    			<div class="text-right mar-top">담배아저씨</div>
-			                    			<div class="text-right mar-btm">2019-10-02</div>
-			                    			<div class="text-right">
-			                    				<i class="fa fa-comments">12</i>&nbsp;
-			                    				<i class="fa fa-heart">123</i>&nbsp;
-			                    				<i class="fa fa-eye">1234</i>
-			                    			</div>
-			                    		</div>
-			                    	</div>
-			                    	<div class="panel col-lg-4 col-xs-6">
-			                    		<div class="panel-body img-thumbnail-box">
-			                    			<div class="thumbnail">
-			                    				<div class="centered">
-					                    			<img src="/resources/img/profile-photos/5.png">
-			                    				</div>
-			                    			</div>
-			                    		</div>
-			                    		<div class="panel-body img-desc-box">
-			                    			<div class="ellipsis text-bold">제목제목제목제목제목제목제목</div>
-			                    			<div class="text-right mar-top">담배아저씨</div>
-			                    			<div class="text-right mar-btm">2019-10-02</div>
-			                    			<div class="text-right">
-			                    				<i class="fa fa-comments">12</i>&nbsp;
-			                    				<i class="fa fa-heart">123</i>&nbsp;
-			                    				<i class="fa fa-eye">1234</i>
-			                    			</div>
-			                    		</div>
-			                    	</div>
-			                    	<div class="panel col-lg-4 col-xs-6">
-			                    		<div class="panel-body img-thumbnail-box">
-			                    			<div class="thumbnail">
-			                    				<div class="centered">
-					                    			<img src="/resources/img/thumbs/img3.jpg">
-			                    				</div>
-			                    			</div>
-			                    		</div>
-			                    		<div class="panel-body img-desc-box">
-			                    			<div class="ellipsis text-bold">제목제목제목제목제목제목제목</div>
-			                    			<div class="text-right mar-top">담배아저씨</div>
-			                    			<div class="text-right mar-btm">2019-10-02</div>
-			                    			<div class="text-right">
-			                    				<i class="fa fa-comments">12</i>&nbsp;
-			                    				<i class="fa fa-heart">123</i>&nbsp;
-			                    				<i class="fa fa-eye">1234</i>
-			                    			</div>
-			                    		</div>
-			                    	</div>
-			                    	<div class="panel col-lg-4 col-xs-6">
-			                    		<div class="panel-body img-thumbnail-box">
-			                    			<div class="thumbnail">
-			                    				<div class="centered">
-					                    			<img src="/resources/img/thumbs/mega-menu-5.jpg">
-			                    				</div>
-			                    			</div>
-			                    		</div>
-			                    		<div class="panel-body img-desc-box">
-			                    			<div class="ellipsis text-bold">제목제목제목제목제목제목제목</div>
-			                    			<div class="text-right mar-top">담배아저씨</div>
-			                    			<div class="text-right mar-btm">2019-10-02</div>
-			                    			<div class="text-right">
-			                    				<i class="fa fa-comments">12</i>&nbsp;
-			                    				<i class="fa fa-heart">123</i>&nbsp;
-			                    				<i class="fa fa-eye">1234</i>
-			                    			</div>
-			                    		</div>
-			                    	</div>
-			                    	<div class="panel col-lg-4 col-xs-6">
-			                    		<div class="panel-body img-thumbnail-box">
-			                    			<div class="thumbnail">
-			                    				<div class="centered">
-					                    			<img src="/resources/img/thumbs/img2.jpg">
-			                    				</div>
-			                    			</div>
-			                    		</div>
-			                    		<div class="panel-body img-desc-box">
-			                    			<div class="ellipsis text-bold">제목제목제목제목제목제목제목</div>
-			                    			<div class="text-right mar-top">담배아저씨</div>
-			                    			<div class="text-right mar-btm">2019-10-02</div>
-			                    			<div class="text-right">
-			                    				<i class="fa fa-comments">12</i>&nbsp;
-			                    				<i class="fa fa-heart">123</i>&nbsp;
-			                    				<i class="fa fa-eye">1234</i>
-			                    			</div>
-			                    		</div>
-			                    	</div>
-			                    	<div class="panel col-lg-4 col-xs-6">
-			                    		<div class="panel-body img-thumbnail-box">
-			                    			<div class="thumbnail">
-			                    				<div class="centered">
-					                    			<img src="/resources/img/thumbs/img1.jpg">
-			                    				</div>
-			                    			</div>
-			                    		</div>
-			                    		<div class="panel-body img-desc-box">
-			                    			<div class="ellipsis text-bold">제목제목제목제목제목제목제목</div>
-			                    			<div class="text-right mar-top">담배아저씨</div>
-			                    			<div class="text-right mar-btm">2019-10-02</div>
-			                    			<div class="text-right">
-			                    				<i class="fa fa-comments">12</i>&nbsp;
-			                    				<i class="fa fa-heart">123</i>&nbsp;
-			                    				<i class="fa fa-eye">1234</i>
-			                    			</div>
-			                    		</div>
-			                    	</div>
-			                    </div>
-			                    
-			                    
-			                    <div class="row">
+
+									<c:forEach items="${ posts }" var="item">
+										<div class="panel col-lg-4 col-xs-6">
+											<div class="panel-body img-thumbnail-box">
+												<div class="thumbnail">
+													<div class="centered">
+														<img src="${ item.imgPath }">
+													</div>
+												</div>
+											</div>
+
+											<div class="panel-body img-desc-box">
+												<div class="ellipsis text-bold"><a href="/groups/${ group.teamId }/photos/${ item.postId }">${ item.postTitle }</a></div>
+												<div class="text-right mar-top">${ item.postNickname }</div>
+												<div class="text-right mar-btm">${ item.postRegdate }</div>
+												<div class="text-right">
+													<i class="fa fa-comments">${ item.commentNums }</i>&nbsp;&nbsp;
+													<i class="fa fa-eye">${ item.postHit }</i>
+												</div>
+											</div>
+										</div>
+									</c:forEach>
+								</div>
+
+								<div class="row text-right mar-rgt">
+									<a href="/groups/${ group.teamId }/photos/new"><button class="btn btn-default">글쓰기</button></a>
+								</div>
+
+			                    <div class="row text-center">
 			                    	<!--Pagination-->
 					                <!--===================================================-->
 					                <ul class="pagination">
@@ -462,10 +257,13 @@
 			
 	</div>
 	<!-- END CONTAINER -->
-	
+
+
+
+
 	<script>
 		$(document).ready(function() {
-			
+
 		});
 	</script>
 </body>

@@ -92,7 +92,6 @@
 								</div>
 							</div>
 
-
 							<div class="row pull-right">
 								<button type="button" id="postSubmit" class="btn btn-success mar-top">확인</button>
 								<button type="button" id="postCansel" class="btn btn-danger mar-top">취소</button>
@@ -127,6 +126,11 @@
 
 	</div>
 	<!-- END CONTAINER -->
+	 <%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 
 	<!--Bootstrap Table Sample [ SAMPLE ]-->
 	<script src="/resources/js/demo/tables-bs-table.js"></script>

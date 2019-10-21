@@ -8,9 +8,10 @@
 
 <!-- HEAD -->
 <%@ include file="../includes/head.jsp"%>
-<!--Bootbox Modals [ OPTIONAL ]-->
-<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
-<title>구성원 - ${ group.teamName } | moim@</title>
+
+
+<title>구성원 - ${ team.teamName } | moim@</title>
+
 
 <style>
 @media screen and (max-width: 768px) {
@@ -19,6 +20,10 @@
 	}
 	.tab-base>.btn-group {
 		display: inline-block;
+	}
+	#adminList>div:nth-child(1)>div.col-xs-5.col-sm-6.col-md-6.col-lg-7>p:nth-child(2)
+		{
+		display: none;
 	}
 }
 
@@ -31,12 +36,14 @@
 	}
 }
 
-.centerm {
+.customCenter {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 </style>
+<!--Bootbox Modals [ OPTIONAL ]-->
+<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 </head>
 <!-- END HEAD -->
 
@@ -88,8 +95,8 @@
 						<!--Nav Tabs-->
 						<ul class="nav nav-tabs">
 							<li><a href="/groups/${ group.teamId }">홈</a></li>
-							<li class="active"><a href="/groups/${ group.teamId }/member">구성원</a>
-							</li>
+							<li class="active"><a
+								href="/groups/${ group.teamId }/member">구성원</a></li>
 							<li><a href="/groups/${ group.teamId }/schedule">모임일정</a></li>
 							<li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
 							<li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
@@ -106,7 +113,8 @@
 							</button>
 							<ul class="dropdown-menu dropdown-menu-left">
 								<li><a href="/groups/${ group.teamId }">홈</a></li>
-								<li class="active"><a href="/groups/${ group.teamId }/member">구성원</a></li>
+								<li class="active"><a
+									href="/groups/${ group.teamId }/member">구성원</a></li>
 								<li><a href="/groups/${ group.teamId }/schedule">모임일정</a></li>
 								<li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
 								<li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
@@ -129,88 +137,66 @@
 
 											</ul>
 										</div>
-										<h3 class="panel-title">Panel With tabs</h3>
+										<h3 class="panel-title">모임원 관리</h3>
 									</div>
 
 									<!--Panel body-->
 									<div class="panel-body">
 										<div class="tab-content">
-											<div class="tab-pane fade active in" id="demo-tabs-box-1">
-												<div class="table-toolbar-right pad-no">
-													<select id="memberSearchType">
-														<option value="">--</option>
-														<option value="E">이메일</option>
-														<option value="N">별명</option>
-													</select>
-													<div class="form-group">
-														<input type="text" class="form-control"
-															id="memberSearchKeyword" />
+											<!-- 유저 -->
+											<div class="tab-pane fade active in" id="member-tabs-box">
+												<div class="row">
+													<div class="col-xs-6 col-sm-7 col-md-7 col-lg-8 text-left">
+														<label class="numberOfPeople mar-ver"></label>
 													</div>
-													<button id="memberSearchBtn" type="button"
-														class="btn btn-dark">
-														<i class="fa fa-search"> </i>
-													</button>
+													<div class="col-xs-6 col-sm-5 col-md-5 col-lg-4 text-right">
+														<div class="input-group">
+															<input type="text" class="form-control"
+																id="memberSearchKeyword" /> <span id="memberSearchBtn"
+																class="btn btn-dark input-group-addon"> <i
+																class="fa fa-search"> </i>
+															</span>
+														</div>
+													</div>
 												</div>
-												<div class="table-responsive">
-													<table class="table table-striped">
-														<thead>
-															<tr>
-																<th class="col-md-1 text-center">#</th>
-																<th class="col-md-1">Photo</th>
-																<th class="col-md-6">information</th>
-																<th class="col-md-2 text-center">grade</th>
-															</tr>
-														</thead>
-														<tbody id="memberList">
-														</tbody>
-													</table>
-												</div>
-												<div class="paginationBtn text-right"></div>
+												<div id="memberList"></div>
+												<div class="paginationBtn text-right mar-top"></div>
 											</div>
-											<div class="tab-pane fade" id="demo-tabs-box-2">
-												<div class="table-toolbar-right pad-no">
-													<select id="adminSearchType">
-														<option value="">--</option>
-														<option value="E">이메일</option>
-														<option value="N">별명</option>
-													</select>
-													<div class="form-group">
-														<input type="text" class="form-control"
-															id="adminSearchKeyword" />
+											<!-- 관리자용 -->
+											<div class="tab-pane fade" id="admin-tabs-box">
+												<div class="row">
+													<div class="col-xs-6 col-sm-7 col-md-7 col-lg-8 text-left">
+														<div class="input-group">
+															<select id="select" class="form-control">
+																<option value="member">멤버보기</option>
+																<option value="manager">운영진보기</option>
+																<option value="waiting">가입대기인원</option>
+																<option value="block">차단멤버보기</option>
+															</select>
+														</div>
 													</div>
-													<button id="adminSearchBtn" type="button"
-														class="btn btn-dark">
-														<i class="fa fa-search"> </i>
-													</button>
+													<div class="col-xs-6 col-sm-5 col-md-5 col-lg-4 text-right">
+														<div class="input-group">
+															<input type="text" class="form-control"
+																id="adminSearchKeyword" /> <span id="adminSearchBtn"
+																class="btn btn-dark input-group-addon"> <i
+																class="fa fa-search"> </i>
+															</span>
+														</div>
+													</div>
 												</div>
-												<div>
-													<select id="select">
-														<option value="member">멤버보기</option>
-														<option value="manager">운영진보기</option>
-														<option value="waiting">가입대기인원</option>
-														<option value="block">차단멤버보기</option>
-													</select>
-												</div>
-												<div class="table-responsive">
-													<table class="table table-striped">
-														<thead>
-															<tr>
-																<th class="col-md-1 text-center">
-																	<p class="text-xs">전체선택</p> <input type="checkbox"
-																	id="chkall">
-																</th>
-																<th class="col-md-1 text-center">#</th>
-																<th class="col-md-1">Photo</th>
-																<th class="col-md-6">information</th>
-																<th class="col-md-2 text-center">grade</th>
-															</tr>
-														</thead>
-														<tbody id="adminList">
 
-														</tbody>
-													</table>
+												<div>
+													<label class="numberOfPeople mar-ver"></label>
 												</div>
-												<div id="adminbutton">
+												<div class="row mar-ver">
+													<div class="col-xs-1 text-center" id="chkdiv">
+														<input type="checkbox" id="chkall">
+													</div>
+													<div class="col-xs-11"></div>
+												</div>
+												<div id="adminList"></div>
+												<div id="adminbutton" class="mar-top">
 													<p>
 														선택한 회원을
 														<button type="button" id="block-confirm"
@@ -219,7 +205,7 @@
 															class="btn btn-default btn-hover-danger">삭제하기</button>
 													</p>
 												</div>
-												<div class="paginationBtn text-right"></div>
+												<div class="paginationBtn text-right mar-top"></div>
 											</div>
 										</div>
 									</div>
@@ -243,7 +229,7 @@
 								<div class="modal-body" id="moimat-modal-body">
 									<div class="clearfix">
 										<div class="col-xs-3" id="modalMPhoto">Photo</div>
-										<div class="col-xs-9">
+										<div class="col-xs-9 text-center">
 											<input type="hidden" id="modalTmemId" value="">
 											<p id="modalMNickName"></p>
 											<p id="modalMId"></p>
@@ -251,7 +237,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="modal-footer centerm" id="buttonBox"></div>
+								<div class="modal-footer customCenter" id="buttonBox"></div>
 							</div>
 						</div>
 					</div>
@@ -288,33 +274,32 @@
 		$(document).ready(function() {
 			var groupId = '<c:out value="${groupId}"/>';
 			var memberId = '<c:out value="${sessionScope.loginVO.memId}"/>';
-			var teamName = '임시 모임명';
+			var teamName = '<c:out value="${group.teamName}"/>';
 			var pageNum = 1;
 			var type = "";
 			var keyword = "";
 			
-			teamMember.isAdmin(groupId,memberId,function(a){
-				var test = '';
-				if(a){
-					test = '<li class="active">'
-						 +		'<a href="#demo-tabs-box-1"data-toggle="tab" id="memberTab" aria-expanded="false">모임원 목록</a>'
-						 + '</li>'
-						 + '<li class="">'
-						 + 		'<a href="#demo-tabs-box-2" data-toggle="tab" id="adminonly" aria-expanded="true">'
-						 +			'회원관리'
-						 +		'</a>'
-						 +	'</li>';
+			teamMember.isAdmin(groupId,memberId,function(result){
+				var tab = '';
+				if(result){
+					tab = '<li class="active">'
+						+		'<a href="#member-tabs-box" data-toggle="tab" id="memberTab" aria-expanded="false">모임원 목록</a>'
+						+ '</li>'
+					    + '<li class="">'
+						+ 	'<a href="#admin-tabs-box" data-toggle="tab" id="adminonly" aria-expanded="true">'
+						+		'회원관리'
+						+	'</a>'
+						+ '</li>';
 				}else{
-					test = '<li class="active">'
-						 +		'<a href="#demo-tabs-box-1"data-toggle="tab" id="memberTab" aria-expanded="false">모임원 목록</a>'
-						 + '</li>'
+					tab = '<li class="active">'
+						+     '<a href="#demo-tabs-box-1"data-toggle="tab" id="memberTab" aria-expanded="false">모임원 목록</a>'
+						+ '</li>'
 				}
-				$("#moimTab").html(test);
+				$("#moimTab").html(tab);
 			});
 			
 			
 			function showList(tabid,status,withcheck){
-				console.log("showList"+pageNum);
 				var param = {"groupId" : groupId,"status" : status, "pageNum" : pageNum,"type":type, "keyword":keyword};
 				teamMember.getList(param,function(data){
 					var listHtml = '';
@@ -322,38 +307,58 @@
 					for(var i = 0, len = data.getMember.length||0; i<len; i++){
 						if(withcheck){
 							if(data.getMember[i].tmemLevel<7){
-								checkbox =	'<td class="text-center" style="vertical-align: middle">'
+								checkbox =	'<div class="col-xs-1 customCenter" style="min-height:48px;">'
 										 +		'<input type="checkbox" class="chk" data-tid="'+data.getMember[i].tmemId+'">'
-										 +	'</td>'
+										 +	'</div>'
 							}else{
-								checkbox = '<td></td>'		 
+								checkbox = '<div class="col-xs-1" style="min-height:48px;"></div>'		 
 							}
+							listHtml +=     '<div class="row pad-ver '+(i%2==0 ? '' : 'bg-trans-dark')+'">'
+									 + 			checkbox
+									 +		'<div class="col-xs-8 col-sm-9 clearfix">'
+									 +		'<div class="text-center mar-rgt" style="width:63px !important; display:inline-block;">'
+									 +			'<img class="img-sm img-circle" src="/resources/img/profile-photos/'+data.getMember[i].tmemPhoto+'" alt="Profile Picture">'
+									 +		'</div>'
+									 +   	'<div style="vertical-align: middle; display:inline-block;">'
+									 + 			'<a class="memclick" data-tid="'+data.getMember[i].tmemId+'"><h4 class="mar-no text-main">'+data.getMember[i].tmemNickName+'</h4></a>'
+									 +		'<small> 마지막 방문일 : '+teamMember.parseDate(data.getMember[i].tmemLastVisit)+'</small>'
+									 +		'</div>'			
+									 +		'</div>'
+									 + 		'<div class="col-xs-3 col-sm-2 customCenter" style="min-height:46px;">'
+									 +			'<strong>'+data.grade[data.getMember[i].tmemLevel]+'</strong>'
+									 +		'</div>'
+									 +		'</div>'
+						}else{
+							listHtml +=     '<div class="row pad-ver '+(i%2==0 ? '' : 'bg-trans-dark')+'">'
+									 +		'<div class="col-xs-9 col-sm-10 clearfix">'
+									 +		'<div class="text-center mar-rgt" style="width:63px !important; display:inline-block;">'
+									 +			'<img class="img-sm img-circle" src="/resources/img/profile-photos/'+data.getMember[i].tmemPhoto+'" alt="Profile Picture">'
+									 +		'</div>'
+									 +   	'<div style="vertical-align: middle; display:inline-block;">'
+									 + 			'<a class="memclick" data-tid="'+data.getMember[i].tmemId+'"><h4 class="mar-no text-main">'+data.getMember[i].tmemNickName+'</h4></a>'
+									 +		'<small> 마지막 방문일 : '+teamMember.parseDate(data.getMember[i].tmemLastVisit)+'</small>'
+									 +		'</div>'			
+									 +		'</div>'
+									 + 		'<div class="col-xs-3 col-sm-2 customCenter" style="min-height:46px;">'
+									 +			'<strong>'+data.grade[data.getMember[i].tmemLevel]+'</strong>'
+									 +		'</div>'
+									 +		'</div>'
 						}
-						listHtml += '<tr>'
-								 +       checkbox
-								 +  	'<td class="text-center" style="vertical-align: middle">'
-								 +			'<strong>'+(i+1)+'</strong>'
-								 +		'</td>'
-								 +		'<td>photo</td>'
-								 +   	'<td>'
-								 + 			'<a class="memclick" data-tid="'+data.getMember[i].tmemId+'"><p class="mar-no text-2x">'+data.getMember[i].tmemNickName+'</p></a>'
-								 + 			'<p class="mar-no text-right text-sm col-lg-12">'+data.getMember[i].tmemEmail+'</p>'
-								 +			'<div class="clearfix">'
-								 +				'<p class="mar-no text-right text-sm col-lg-6">'
-								 + 					'가입한날짜 : ' + teamMember.parseDate(data.getMember[i].tmemRegDate)
-								 +				'</p>'
-								 +				'<p class="mar-no text-right text-sm col-lg-6">'
-								 +					' 마지막 방문일 : ' + teamMember.parseDate(data.getMember[i].tmemLastVisit)
-								 +				'</p>'
-								 +			'</div>'
-								 +		'</td>'
-								 + 		'<td class="text-center" style="vertical-align: middle">'
-								 +			data.grade[data.getMember[i].tmemLevel]
-								 +		'</td>'
-								 +	'</tr>'
 					}
 					$("#"+tabid).html(listHtml);
-					$(".paginationBtn").html(memberPageBtn(data.teamMemberCount))
+					var numberOfPeople = "";
+					if(status == "manager"){
+						numberOfPeople = "운영진 : " + data.teamMemberCount + "명";
+					}else if(status == "block"){
+						numberOfPeople = "차단한 모임원 : " + data.teamMemberCount + "명";
+					}else if(status == "waiting"){
+						numberOfPeople = "가입 대기 : " + data.teamMemberCount + "명";
+					}else if(status == "member"){
+						numberOfPeople = "모임원 : " + data.teamMemberCount + "명";
+					}
+					
+					$(".numberOfPeople").text(numberOfPeople);
+					$(".paginationBtn").html(memberPageBtn(data.teamMemberCount));
 					$(".paginationBtn").on('click','.page-link', function(e){
 						e.preventDefault();
 						var targetPageNum = $(this).attr("href");
@@ -368,30 +373,22 @@
 			showList('memberList','member',false);
 			
 			$("#adminSearchBtn").on('click',function(){
-				var searchType = $("#adminSearchType").val();
 				var searchKeyword = $("#adminSearchKeyword").val();
-				if(searchType == ''){
-					alert("검색조건을 선택해주세요");
-					return;
-				}else if(searchKeyword == ''){
+				if(searchKeyword == ''){
 					alert("검색어를 입력해주세요");
 					return;
 				}
-				type = searchType;
+				type = 'S';
 				keyword = searchKeyword;
 				showList('adminList',$('#select').val(),true);
 			});
 			$("#memberSearchBtn").on('click',function(){
-				var searchType = $("#memberSearchType").val();
 				var searchKeyword = $("#memberSearchKeyword").val();
-				if(searchType == ''){
-					alert("검색조건을 선택해주세요");
-					return;
-				}else if(searchKeyword == ''){
+				if(searchKeyword == ''){
 					alert("검색어를 입력해주세요");
 					return;
 				}
-				type = searchType;
+				type = 'S';
 				keyword = searchKeyword;
 				showList('memberList',$('#select').val(),false);
 			});
@@ -424,6 +421,7 @@
 				var gradeBox = '';
 				var buttonBox = '';
 				teamMember.getMember($(this).data("tid"),function(e){
+					var photo = '<img class="img-sm img-circle" src="/resources/img/profile-photos/'+e.tmemPhoto+'" alt="Profile Picture">';
 					teamMember.isMaster(groupId,memberId,function(b){
 						if(e.tmemLevel == 9){
 							gradeBox = '<button type="button"'
@@ -484,6 +482,8 @@
 						$("#buttonBox").html(buttonBox);
 						$("#modalSelect").val(e.tmemLevel);
 					});
+					// 여기에 사진 추가해야함 ..
+					$("#modalMPhoto").html(photo);
 					$("#modalTmemId").val(e.tmemId);
 					$("#modalMNickName").text(e.tmemNickName);
 					$("#modalMId").text(e.tmemEmail);
@@ -492,8 +492,16 @@
 			});
 			$('#select').on('change',function(e){
 				pageNum = 1;
-				showList('adminList',$(this).val(),true);
 				var btnhtml = ''
+					// 운영진 등급은 체크박스를통한 설정을 할 수 없음 
+					// (네이버같은데 보니까 매니저 등록하면 하나하나 클릭해야했어서 이렇게 함)
+				if($(this).val()=='manager'){ 
+					$('#chkdiv').addClass("hidden");
+				}else{
+					if($('#chkdiv').hasClass("hidden")){
+						$('#chkdiv').removeClass("hidden");
+					}
+				}
 				if($(this).val()=='member'){
 					btnhtml = '<p> 선택한 회원을'
 							+	 '<button type="button" id="block-confirm" class="btn btn-default btn-hover-warning">차단하기</button>'
@@ -511,6 +519,7 @@
 						+ '</p>'
 				}
 				$('#adminbutton').html(btnhtml);
+				showList('adminList',$(this).val(),true);
 			});
 			
 			$('#chkall').on('click',function(){
