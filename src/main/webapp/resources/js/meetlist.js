@@ -41,6 +41,11 @@ var meetListService = (function(){
 			}
 		});
 	}
+	
+	function deleteMeet(meetId){
+		$.ajax()
+	}
+	
 	return {
 		getList : getList,
 		parseDate : parseDate,
@@ -62,7 +67,7 @@ var CalendarEvent = (function(){
 				droppable: false, // this allows things to be dropped onto the calendar
 				defaultDate: new Date(),
 				eventLimit: true, // allow "more" link when too many events
-				events: data
+				events:  data
 			});
 		}).fail(function(xhr,status,err){
 			if(error){

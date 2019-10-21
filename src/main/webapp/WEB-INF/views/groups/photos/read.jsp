@@ -204,7 +204,7 @@
 												</div>
 
 												<div class="media media-content">
-													<img class="img-responsive" src="/resources/img/bg-img/1.jpg" alt="Image">
+													<img class="img-responsive" src="${ photo.pfiPhoto }" alt="Image">
 													<p class="pad-top">${ post.postContent }</p>
 												</div>
 
@@ -306,18 +306,18 @@
 					data: { "postId": ${ post.postId },
 							"brdId" : 22,
 							"cmtContent": message,
-							"tmemId" : "${ loginVO.memId }",
+							"tmemId" : ${ loginVO.memId },
 							"cmtNickname": "${ loginVO.memNickname }",
 							"cmtEmail": "${ loginVO.memEmail }"
 					},
 					dataType: 'json',
 					success: function(result) {
-						if (!result.msg) {
+						if (Number(result.postId) > 0) {
 							var commentData = '<div class="media pad-btm">'
-											+ 	'<a class="media-left" href="#"><img class="img-circle img-xs" alt="Profile Picture" src="${ loginVO.memPhoto }"></a>'
+											+ 	'<a class="media-left" href="#"><img class="img-circle img-xs" alt="Profile Picture" src="' + result.memPhoto + '"></a>'
 											+	'<div class="media-body">'
 											+ 		'<div>'
-											+ 			'<a href="#" class="btn-link text-semibold media-heading box-inline">${ loginVO.memNickname }</a>'
+											+ 			'<a href="#" class="btn-link text-semibold media-heading box-inline">' + result.cmtNickname + '</a>'
 											+ 			'<small class="text-muted pad-lft">' + result.cmtRegdate + '</small>'
 											+ 		'</div>'
 											+     result.cmtContent

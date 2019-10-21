@@ -17,12 +17,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.breaktheice.moimat.chat.ChatRoom;
+import com.breaktheice.moimat.chat.ChatRoomManager;
 import com.breaktheice.moimat.domain.MemberDomain;
+import com.breaktheice.moimat.service.TeamChatService;
 import com.breaktheice.moimat.service.TeamService;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
-
-import com.breaktheice.moimat.service.TeamSettingsService;
 
 @Controller
 @RequestMapping("/groups")
@@ -37,9 +39,6 @@ public class GroupsController {
 	private TeamChatService teamChatService;
 
 	private final ChatRoomManager chatRoomManager;
-	
-	@Autowired
-	private TeamSettingsService tss;
 
 	@Autowired
 	private TeamPhotoService teamPhotoService;
@@ -73,7 +72,7 @@ public class GroupsController {
 	@GetMapping("/{groupId}/photos")
 	public String photos(@PathVariable Long groupId, Model model) {
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
-		model.addAttribute("photos", teamPhotoService.getAllPhotos(groupId));
+		model.addAttribute("posts", teamPhotoService.getAllPosts(groupId));
 
 		return "groups/photos/list";
 	}

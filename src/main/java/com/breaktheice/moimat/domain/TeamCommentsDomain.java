@@ -14,6 +14,6 @@ public class TeamCommentsDomain {
     private Long tmemId;
     private String cmtNickname;
     private String cmtEmail;
-    private Date cmtRegdate;
-    private Date cmtUpdate;
+    private String cmtRegdate;
+    private String cmtUpdate;
 }

@@ -29,7 +29,7 @@ public class TeamCommentsServiceImpl implements TeamCommentsService {
     }
 
     @Override
-    public TeamCommentsDomain getCommentById(Long cmtId) {
+    public TeamCommentsDTO getCommentById(Long cmtId) {
         return mapper.selectCommentById(cmtId);
     }
 }

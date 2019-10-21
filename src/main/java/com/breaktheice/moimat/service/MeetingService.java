@@ -6,13 +6,14 @@ import com.breaktheice.moimat.domain.CalendarEventVO;
 import com.breaktheice.moimat.domain.MeetListVO;
 import com.breaktheice.moimat.domain.MeetVO;
 import com.breaktheice.moimat.domain.MeetingPageVO;
+import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.util.AdminCriteria;
 
 public interface MeetingService {
 	//정모목록
 	public MeetListVO getMeetList(Long teamId,Long memId);
 	//정모생성
-	public void createMeet(MeetVO meetVO,Long groupId, Long memId);
+	public void createMeet(MeetVO meetVO,MemberDomain md,Long groupId);
 	//정모조회
 	public MeetingPageVO readMeet(Long meetId,Long groupId, Long memberId);
 	//정모수정

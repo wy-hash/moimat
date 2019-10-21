@@ -17,7 +17,8 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
 	
 		if (session != null && session.getAttribute("loginVO") != null) {
 			MemberDomain admin = (MemberDomain) session.getAttribute("loginVO");
-			if (admin != null && admin.getMemLevel() >=8L) {
+			System.out.println(admin);
+			if (admin != null && admin.getMemLevel() != null && admin.getMemLevel() >=8L) {
 				return true;
 			}
 		}

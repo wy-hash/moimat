@@ -55,9 +55,10 @@
             	    
 					<div class="row pad-ver bg-trans-dark">
            	    		<div class="col-xs-12 col-sm-10 col-sm-offset-1 pad-hor">
-           	    		<form id="searchForm" action="/home/result" method="post">
+           	    		<form id="searchForm" action="/result" method="post">
        	    				<div class="col-sm-2">
            	    				<select id="selectType" name="type" class="form-control"> 
+			      					<option value="RMA">전체</option>
 			      					<option value="R">관심사</option>
 		      						<option value="M">모임명</option>
 			      					<option value="A">지역</option> 
