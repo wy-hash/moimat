@@ -118,8 +118,8 @@
 
 
 								<div class="action-btn text-right">
-									<button class="btn btn-danger btn-rounded mar-rgt">취소</button>
-									<button class="btn btn-success btn-rounded mar-lft">올리기</button>
+									<button type="button" class="btn btn-danger btn-rounded mar-rgt">취소</button>
+									<button type="submit" class="btn btn-success btn-rounded mar-lft">올리기</button>
 								</div>
 							</div>
 						</form>
@@ -160,23 +160,22 @@
 				height: 300,
 			});
 
-			$('.action-btn > .btn-danger').on('click', function() {
-				window.location.href='/groups/${ groupId }/photos';
-			});
-
 			$('.action-btn > .btn-success').on('click', function() {
 				if ($('#postTitle').val() == null || $('#postTitle').val() == '') {
 					alert('제목을 입력해주세요.');
 					return false;
-				}
-
-				if (summernote.summernote('isEmpty')) {
+				} else if (summernote.summernote('isEmpty')) {
 					alert('내용을 작성해주세요.');
 					return false;
+				} else {
+					$('form').submit();
 				}
-
-				$('form').submit();
 			});
+
+			$('.action-btn > .btn-danger').on('click', function() {
+				window.location.href='/groups/${ group.teamId }/photos';
+			});
+
 
 
 		});
