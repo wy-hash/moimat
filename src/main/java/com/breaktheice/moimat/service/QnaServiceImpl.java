@@ -1,8 +1,7 @@
 package com.breaktheice.moimat.service;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,41 +14,39 @@ import lombok.extern.log4j.Log4j;
 
 @Log4j
 @Service
-public class AdminPostServiceImpl implements AdminPostService{
+public class QnaServiceImpl implements QnaService {
 	
-	@Autowired
-	private PostMapper mapper;
-	
-	@Override
-	public Long totalCount(AdminCriteria cri) {
-		// 게시물 총 개수
-		return mapper.totalCount(cri);
-	}
-	
-	@Override
-	public List<PostDomain> list(AdminCriteria cri) {
+	@Autowired PostMapper mapper;
 
-		//리스트 결과에 썸네일 추가
-		List<PostDomain>  list = mapper.list(cri);
-		list = Thumbnail(list);
+	@Override
+	public List<PostDomain> myqnaList(AdminCriteria cri, Long memId) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		
-		// 리스트 출력
-		return list;
+		map.put("c", cri);
+		map.put("memId", memId);
+		System.out.println(map);
+		System.out.println(mapper.myqnaList(map));
+		return mapper.myqnaList(map);
+	}
+
+	@Override
+	public Long myqnaTotalCount(AdminCriteria cri, Long memId) {		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+
+		map.put("c", cri);
+		map.put("memId", memId);
 		
+		
+		System.out.println(map);
+		System.out.println(mapper.myqnaTotalCount(map));
+		return mapper.myqnaTotalCount(map);
 	}
 
 	@Override
 	public PostDomain view(PostDomain domain) {
-		// 게시물 상세
+		//  게시물 상세
 		return mapper.view(domain);
 	}
-	
-	@Override
-	public Long viewCount(PostDomain domain) {
-		// 게시물 조회수 증가
-		return mapper.viewCount(domain);
-	}
-	
 
 	@Override
 	public Long add(PostDomain domain) {
@@ -66,21 +63,13 @@ public class AdminPostServiceImpl implements AdminPostService{
 		
 		return result;
 	}
+
 	@Override
-	public Long reply(PostDomain domain) {
-		
-		Long result = -1L;// 결과값 : 정상등록 : 1, 실패 : -1
-		
-		result = mapper.reply(domain);
-		
-		if(result >= 1) {
-			log.info("정상 등록 되었습니다.");
-		} else {
-			log.info("등록실패 / 에러");
-		}
-		
-		return result;
+	public Long viewCount(PostDomain domain) {
+		// 게시물 조회수 증가
+		return mapper.viewCount(domain);
 	}
+
 	@Override
 	public Long update(PostDomain domain) {
 		log.info(domain);
@@ -112,35 +101,6 @@ public class AdminPostServiceImpl implements AdminPostService{
 		
 		return result;
 	}
-	
-	
-	//썸네일 src 추가작업
-	public List<PostDomain> Thumbnail(List<PostDomain> list) {
-		
-		// 썸네일 추출해서 썸네일 등록
-		String content = "";
-		String src = "";
-		
-		for(PostDomain domain : list){
-		    content = domain.getPostContent() == null? "":domain.getPostContent();
-		    
-			//패턴작업
-	        Pattern pattern = Pattern.compile("<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>"); //img 태그 src 추출 정규표현식
-	        Matcher matcher = pattern.matcher(content);
-	      
-	        while(matcher.find()){
-	        	if(matcher.group(1) != null) {
-	        		src= matcher.group(1);
-	        		domain.setSrc(src);
-	        		break;
-	        	}
-	        }
-		}
-        
-        
-        
-        return list;
-	  }
 
 	@Override
 	public boolean isReply(PostDomain domain) {

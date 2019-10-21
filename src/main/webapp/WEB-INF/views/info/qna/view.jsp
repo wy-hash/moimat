@@ -64,25 +64,25 @@
                 <h3 class="panel-title">QNA 상세 보기</h3>
             </div>
             <form id="postForm" name="postForm" class="panel-body form-horizontal form-padding">
-				<input type="hidden" name="type" value ="${pageMaker.cri.brdId }">
+				<input type="hidden" id="postId" name="postId" value="${view.postId }" />
+				<input type="hidden" name="type" value ="${pageMaker.cri.type }">
 	        	<input type="hidden" name="keyword" value="${pageMaker.cri.keyword }">
 				<input type="hidden" name="brdId" value ="${pageMaker.cri.brdId }">
 				<input type="hidden" name="pageNum" value ="${pageMaker.cri.pageNum }">
 				<input type="hidden" name="amount" value ="${pageMaker.cri.amount }">
 				
-                <!-- 게시글 이름-->
+                <!-- 질문 제목-->
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="postTitle"><strong>게시글 제목</strong></label>
+                    <label class="col-md-2 control-label" for="postTitle"><strong>질문 제목</strong></label>
                     <div class="col-md-10">
                         <p class="form-control-static">${view.postTitle}</p>
                     </div>
                 </div>
 
-                <!--게시글 내용-->
+                <!--질문 내용-->
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="postContent"><strong>게시글 내용</strong></label>
+                    <label class="col-md-2 control-label" for="postContent"><strong>질문 내용</strong></label>
                     <div class="col-md-10">
-
                         	${view.postContent}
                     </div>
                 </div>
@@ -90,6 +90,10 @@
            		<div class="row mar-top">
            			<span class="pull-right">
 	                	<button type="button" id="list" class="btn btn-success"> 목록</button>
+           				<c:if test="${sessionScope.loginVO.memId == view.memId  && answer ne true }"> <!-- QNA 작성자와 현재 로그인중인 사람이 동일하다면 수정 -->
+	                		<button type="button" id="edit" class="btn btn-success"> 수정</button>
+	                		<button type="button" id="delete" class="btn btn-danger"> 삭제</button>
+           				</c:if>
                		</span>
                 </div>
             </form>
@@ -112,12 +116,17 @@
 		<!-- END BOXED -->
 		
 		<!-- FOOTER -->
-<%-- 		<%@ include file="../../includes/footer.jsp" %> --%>
+		<%@ include file="../../includes/footer.jsp" %>
 		<!-- END FOOTER -->
 		
 			
 	</div>
 	<!-- END CONTAINER -->
+	 <%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
   
     <!--Bootstrap Table Sample [ SAMPLE ]-->
     <script src="/resources/js/demo/tables-bs-table.js"></script>
@@ -138,18 +147,28 @@
 		$(document).ready(function(){
 
 			$('#list').on('click',  formSubmit);	// 목록
+			$('#edit').on('click',   formSubmit);	// 수정
+			$('#delete').on('click',   formSubmit);	// 수정
 			
 		});
 		
 		function formSubmit(){
 			
 			const uri = '/info/qna/';
-			
+			const id = $('#postId').val();
 			const action = $(this).attr('id');
 			
 			if(action === 'list'){
 				$('#postForm').attr('method','get');
 				$('#postForm').attr('action',uri+'list');
+				$('#postForm').submit();
+			} else if(action === 'edit'){
+				$('#postForm').attr('method','get');
+				$('#postForm').attr('action',uri+'/'+id+'/'+action);
+				$('#postForm').submit();
+			}else if(action === 'delete'){
+				$('#postForm').attr('method','post');
+				$('#postForm').attr('action',uri+'/'+action);
 				$('#postForm').submit();
 			}
 		}

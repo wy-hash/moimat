@@ -50,9 +50,9 @@
 				<!--Page Title-->
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<div id="page-title">
-					<h1 class="page-header text-overflow">답변</h1>
+					<h1 class="page-header text-overflow">질문 작성</h1>
 				</div>
-				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!-- 				~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 				<!--End page title-->
 
 				<!--Page content-->
@@ -65,33 +65,30 @@
 					<!--===================================================-->
 					<div class="panel">
 						<div class="panel-heading">
-							<h3 class="panel-title">답변</h3>
+							<h3 class="panel-title">질문 수정</h3>
 						</div>
-							<form id="postForm" name="postForm" action="/admin/post/reply"
+							<form id="postForm" name="postForm" action="/users/${sessionScope.loginVO.memId }/qna/edit"
 							class="panel-body form-horizontal form-padding" method="post">
 							<input type="hidden" id="postId" name="postId" value="${view.postId}">
 							<input type="hidden" id="brdId" name="brdId" value="${view.brdId}">
-							<input type="hidden" id="memId" name="memId" value="${sessionScope.loginVO.memId}">
+							<input type="hidden" id="memId" name="memId" value="${sessionScope.loginVO.memId }">
 							<input type="hidden" id="postNickname" name="postNickname" value="${sessionScope.loginVO.memNickname}">
-							<input type="hidden" id="postEmail" name="postEmail" value="${sessionScope.loginVO.memEmail}">
-
+							<input type="hidden" id="postEmail" name="postEmail" value="${sessionScope.loginVO.memEmail }">
 
 							<!-- 제목 -->
 							<div class="form-group">
-								<label class="col-md-2 control-label" for="postTitle"><strong>답변 제목 </strong></label>
+								<label class="col-md-2 control-label" for="postTitle"><strong>제목 </strong></label>
 								<div class="col-md-10">
-									<input type="text" id="postTitle" name="postTitle" class="form-control" placeholder="제목을 입력해 주세요. " value="${view.postTitle}" readonly>
+									<input type="text" id="postTitle" name="postTitle" class="form-control" placeholder="제목을 입력해 주세요. " value="${view.postTitle}">
 									<small class="help-block" id="postTitleHint"></small>
 								</div>
 							</div>
 
 							<!-- 내용 -->
 							<div class="form-group">
-								<label class="col-md-2 control-label" for="postContent"><strong>답변 내용</strong></label>
+								<label class="col-md-2 control-label" for="postContent"><strong>내용</strong></label>
 								<div class="col-md-10">
-									<textarea id="postContent" name="postContent" class="form-control" >${view.postContent}
-									-----------------------------------
-									</textarea>
+									<textarea id="postContent" name="postContent" class="form-control" >${view.postContent}</textarea>
 									<small class="help-block" id="postContentHint"></small>
 								</div>
 							</div>
@@ -168,7 +165,8 @@
 			
 			$('#postSubmit').on('click', submitCheck);
 			$('#postCansel').on('click', function () {
-				let url = location.origin + '/admin/post/list';
+				const memId = $('#memId').val();
+				let url = location.origin + '/users/'+memId+'/qna';///users/{memId}/qna
 				location.href = url;
 			});
 			
@@ -185,8 +183,6 @@
 
 			let postContent = $('#postContent').val();
 			let postContentHint = $('#postContentHint');
-
-			// 폼 입력 체크
 
 			if (postTitle === '' || postTitle.length === 0) {
 				$('#postTitle').focus();

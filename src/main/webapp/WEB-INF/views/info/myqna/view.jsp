@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -47,7 +46,7 @@
                 <!--Page Title-->
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <div id="page-title">
-                    <h1 class="page-header text-overflow">회원 관리</h1>
+                    <h1 class="page-header text-overflow">QNA</h1>
                 </div>
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <!--End page title-->
@@ -62,85 +61,41 @@
 					<!--===================================================-->
           <div class="panel">
             <div class="panel-heading">
-                <h3 class="panel-title">회원 상세 보기</h3>
+                <h3 class="panel-title">QNA 상세 보기</h3>
             </div>
-            <form id="memForm" name="memForm" class="panel-body form-horizontal form-padding">
-				<input type="hidden" id="memId" name="memId" value="${view.memId }" />
-				<input type="hidden" id="memLevel" name="memLevel" value="${view.memLevel }" />
-				<input type="hidden" id="memStatus" name="memStatus" value="${view.memStatus }" />
+            <form id="postForm" name="postForm" class="panel-body form-horizontal form-padding">
+				<input type="hidden" id="postId" name="postId" value="${view.postId }" />
 				<input type="hidden" name="type" value ="${pageMaker.cri.type }">
 	        	<input type="hidden" name="keyword" value="${pageMaker.cri.keyword }">
+				<input type="hidden" name="brdId" value ="${pageMaker.cri.brdId }">
 				<input type="hidden" name="pageNum" value ="${pageMaker.cri.pageNum }">
 				<input type="hidden" name="amount" value ="${pageMaker.cri.amount }">
 				
-                <!--회원 이메일-->
+				<input type="hidden" id="memId" name="memId" value ="${view.memId }">
+                <!-- 게시글 이름-->
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="memEmail"><strong>이메일</strong></label>
+                    <label class="col-md-2 control-label" for="postTitle"><strong>게시글 제목</strong></label>
                     <div class="col-md-10">
-                        	${view.memEmail}
-                    </div>
-                </div>
-                <!-- 회원 이름(닉네임)-->
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="memNickname"><strong>이름(닉네임)</strong></label>
-                    <div class="col-md-10">
-                        <p class="form-control-static">${view.memNickname}</p>
+                        <p class="form-control-static">${view.postTitle}</p>
                     </div>
                 </div>
 
-                <!--회원 생일-->
+                <!--게시글 내용-->
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="memBirthday"><strong>생일</strong></label>
+                    <label class="col-md-2 control-label" for="postContent"><strong>게시글 내용</strong></label>
                     <div class="col-md-10">
-						<fmt:parseDate value="${view.memBirthday}" var="birthday"  pattern="yyyy-mm-dd" scope="page"/>
-						<fmt:formatDate value="${birthday}" pattern="yyyy년 mm월 dd일"/>
-                    </div>
-                </div>
-                <!--회원 성별-->
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="memGender"><strong>회원 성별</strong></label>
-                    <div class="col-md-10">
-						<c:choose>
-							<c:when test="${view.memGender eq 'M'}">남자</c:when>
-							<c:when test="${view.memGender eq 'F'}">여자</c:when>
-						</c:choose>
-                    </div>
-                </div>
-                
-                <!--회원 소개 -->
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="memContent"><strong>회원 소개</strong></label>
-                    <div class="col-md-10">
-                        	${view.memContent}
-                    </div>
-                </div>
-                <!--회원 등급-->
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="memLevel"><strong>회원 등급</strong></label>
-                    <div class="col-md-10">
-						<c:choose>
-							<c:when test="${view.memLevel == 1}">사용자</c:when>
-							<c:when test="${view.memLevel == 8}">부 관리자</c:when>
-							<c:when test="${view.memLevel == 9}">관리자</c:when>
-						</c:choose>
-                    </div>
-                </div>
-                
-                <!--회원 상태-->
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="memStatus"><strong>회원 상태</strong></label>
-                    <div class="col-md-10">
-						<c:choose>
-							<c:when test="${view.memStatus == 1}">일반</c:when>
-							<c:when test="${view.memStatus == 0}">탈퇴</c:when>
-						</c:choose>
+
+                        	${view.postContent}
                     </div>
                 </div>
 
            		<div class="row mar-top">
            			<span class="pull-right">
-	                	<button type="button" id="edit" class="btn btn-success"> 수정</button>
-	                	<button type="button" id="delete" class="btn btn-danger"> 삭제</button>
+	                	<button type="button" id="list" class="btn btn-success"> 목록</button>
+           				<c:if test="${sessionScope.loginVO.memId == view.memId  && answer ne true }"> <!-- QNA 작성자와 현재 로그인중인 사람이 동일하다면 수정 -->
+	                		<button type="button" id="edit" class="btn btn-success"> 수정</button>
+	                		<button type="button" id="delete" class="btn btn-danger"> 삭제</button>
+           				</c:if>
                		</span>
                 </div>
             </form>
@@ -193,27 +148,31 @@
 	<script>
 		$(document).ready(function(){
 
-			
-			$('#edit').on('click',   formSubmit);	// 회원 수정
-			$('#delete').on('click', formSubmit);	// 회원 삭제
+			$('#list').on('click',  formSubmit);	// 목록
+			$('#edit').on('click',   formSubmit);	// 수정
+			$('#delete').on('click',   formSubmit);	// 수정
 			
 		});
 		
 		function formSubmit(){
-			
-			const id = $('#memId').val();
-			const uri = '/admin/users/';
-			
+			const memId = $('#memId').val();
+			const uri = '/users/'+memId+'/qna';
+
+			const id = $('#postId').val();
 			const action = $(this).attr('id');
 			
-			if(action === 'edit'){
-				$('#memForm').attr('method','get');
-				$('#memForm').attr('action',uri+'/'+id+'/'+action);
-				$('#memForm').submit();
-			}else if(action ==='delete'){
-				$('#memForm').attr('method','post');
-				$('#memForm').attr('action',uri+action);
-				$('#memForm').submit();
+			if(action === 'list'){
+				$('#postForm').attr('method','get');
+				$('#postForm').attr('action',uri);
+				$('#postForm').submit();
+			} else if(action === 'edit'){
+				$('#postForm').attr('method','get');
+				$('#postForm').attr('action',uri+'/'+id+'/'+action);
+				$('#postForm').submit();
+			}else if(action === 'delete'){
+				$('#postForm').attr('method','post');
+				$('#postForm').attr('action',uri+'/'+action);
+				$('#postForm').submit();
 			}
 		}
 	</script>

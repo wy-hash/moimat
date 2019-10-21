@@ -1,5 +1,6 @@
 package com.breaktheice.moimat.persistence;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.breaktheice.moimat.domain.PostDomain;
@@ -27,4 +28,12 @@ public interface PostMapper {
 	
 	// 게시글 작성자 확인 mem_id 를 Long 형으로 반환
 	public Long memberCheck(PostDomain domain);
+	
+	// 마이페이지 개인 질문 ( map -> cri c, memId m)
+	public List<PostDomain> myqnaList(HashMap<String , Object> map);
+
+	// 게시글 전체 개수
+	public Long myqnaTotalCount(HashMap<String , Object> map);
+	// 원글번호를 카운트
+	public Long isReply(PostDomain domain);
 }

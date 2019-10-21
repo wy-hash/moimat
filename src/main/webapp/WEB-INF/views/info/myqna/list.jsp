@@ -53,11 +53,12 @@
 						<div class="panel-heading">
 							<div class="panel-control">
 							</div>
-							<h3 class="panel-title">이벤트</h3>
+							<h3 class="panel-title">QNA</h3>
 						</div>
 						<!--Panel body-->
 						<div class="panel-body">
-							<form id="searchForm" class="form-inline pull-right mar-btm" action="/info/event" method="get">
+							<form id="searchForm" class="form-inline pull-right mar-btm" action="/info/qna" method="get">
+									<input type="hidden" id="memId" name="memId" value="${sessionScope.loginVO.memId }">
 								<div class="form-group">
 									<select id="type" name="type" class="form-control">
 										<option value="TCW" <c:if test="${pageMaker.cri.type eq 'TCW'}">selected</c:if>
@@ -84,7 +85,6 @@
 											<thead>
 												<tr>
 													<th>No</th>
-													<th>썸네일</th>
 													<th>제목</th>
 													<th>작성자</th>
 													<th>등록일</th>
@@ -95,15 +95,19 @@
 											<tbody>
 												<c:if test="${empty postList}">
 													<tr>
-														<td colspan="7" class="text-center"> 값이 없습니다.</td>
+														<td colspan="6" class="text-center"> 값이 없습니다.</td>
 													</tr>
 												</c:if>
 												<c:forEach items="${postList }" var="list" varStatus="status">
 													<tr>
 														<td>${(pageMaker.cri.pageNum-1)*pageMaker.cri.amount + status.count}</td>
-														<td><img src=" ${list.src} " style="width:100px; height:50px;"></td>
 														<!-- 게시글 번호 -->
 														<td><a href="#" class="view" data-id="${list.postId }">
+														<c:choose>
+															<c:when test="${list.postReply eq 'Q'}">[질문]</c:when>
+															<c:when test="${list.postReply eq 'A' and list.postDepth == 0}">[질문]</c:when>
+															<c:when test="${list.postReply eq 'A' and list.postDepth == 1}"> -->[답변]</c:when>
+														</c:choose>
 															${list.postTitle}
 															</a></td>
 														<td>${list.postNickname}</td>
@@ -131,6 +135,7 @@
 																aria-hidden="true">&raquo;</span></a></li>
 												</c:if>
 											</ul>
+											<button id="newPost" type="button" class="btn btn-success pull-right mar-top"> 문의하기</button>
 										</nav>
 									</div>
 								</div>
@@ -172,11 +177,19 @@
 
 			$('.view').on('click', function(){
 				const param = $('#searchForm').serialize();
-				const id = this.dataset.id;
-				const url = location.origin+'/info/event/'+id +'/view'+'?'+param;
+				const postId = this.dataset.id;
+				const memId = $('#memId').val();
+				const url = location.origin+'/users/'+memId +'/qna/'+postId +'/view'+'?'+param;
 				location.href = url;
 			});
 
+			
+			$('#newPost').on('click', function(){
+				const param = $('#searchForm').serialize();
+				const memId = $('#memId').val();
+				const url = location.origin+'/users/'+memId +'/qna/new'+'?'+param;
+				location.href = url;
+			});
 			
 			$('.pagination > li > a').on('click', function(e){
 				const searchForm = $('#searchForm');

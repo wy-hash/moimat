@@ -66,7 +66,7 @@
             <form id="postForm" name="postForm" class="panel-body form-horizontal form-padding">
 				<input type="hidden" id="postId" name="postId" value="${view.postId }" />
 				<input type="hidden" id="postOrigin" name="postOrigin" value="${view.postOrigin }" />
-				<input type="hidden" name="type" value ="${pageMaker.cri.brdId }">
+				<input type="hidden" name="type" value ="${pageMaker.cri.type }">
 	        	<input type="hidden" name="keyword" value="${pageMaker.cri.keyword }">
 				<input type="hidden" name="brdId" value ="${pageMaker.cri.brdId }">
 				<input type="hidden" name="pageNum" value ="${pageMaker.cri.pageNum }">
@@ -120,12 +120,17 @@
 		<!-- END BOXED -->
 		
 		<!-- FOOTER -->
-<%-- 		<%@ include file="../../includes/footer.jsp" %> --%>
+		<%@ include file="../../includes/footer.jsp" %>
 		<!-- END FOOTER -->
 		
 			
 	</div>
 	<!-- END CONTAINER -->
+	 <%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
   
     <!--Bootstrap Table Sample [ SAMPLE ]-->
     <script src="/resources/js/demo/tables-bs-table.js"></script>

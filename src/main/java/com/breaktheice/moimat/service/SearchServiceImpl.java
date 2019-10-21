@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.breaktheice.moimat.domain.AreaDomain;
 import com.breaktheice.moimat.domain.Criteria;
 import com.breaktheice.moimat.domain.InterestDomain;
 import com.breaktheice.moimat.domain.SearchVO;
@@ -16,6 +17,7 @@ public class SearchServiceImpl implements SearchService {
 
 	@Autowired
 	private SearchMapper mapper;
+	
 	
 	//관심사 기반 모임 찾기
 	@Override
@@ -43,6 +45,11 @@ public class SearchServiceImpl implements SearchService {
 	public List<InterestDomain> list() {
 		
 		return mapper.list();
+	}
+	
+	//지역리스트
+	public List<AreaDomain> areaList(){
+		return mapper.areaList();
 	}
 
 }
