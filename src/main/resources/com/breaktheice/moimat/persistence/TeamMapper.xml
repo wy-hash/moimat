@@ -97,9 +97,34 @@
 		VALUES
 		(
 			team_seq.nextval, #{intId}, #{teamName}, #{teamShortContent},
-			#{teamContent}, #{areaId}, sysdate, #{teamMax}, #{memId}
+			#{teamContent}, #{areaId}, sysdate, 
+			<choose>
+				<when test="teamMax != null">#{teamMax},</when>
+				<otherwise>'30',</otherwise>
+			</choose>
+			#{memId}
 		)
 	</insert>
+	<insert id="addGroupMaster">
+		INSERT INTO team_member
+			(
+				tmem_id, team_id, mem_id, tmem_level, tmem_content,
+				tmem_nickname, tmem_email, tmem_lastvisit, tmem_regdate,
+				tmem_birthday, tmem_gender, tmem_photo
+			)
+		VALUES
+			(
+				team_member_seq.nextval(), #{teamId}, #{m.memId}, 9, '모임장 입니다',
+				 #{tmemNickname}, #{tmemEmail}, sysdate, sysdate,
+				 #{tmemBirthday}, #{tmemGender}, #{tmemPhoto}
+			)
+	</insert>
+	<select id="getTeamid" resultType="Long">
+		SELECT  team_id
+       	FROM 	team
+		WHERE 	team_name = #{teamName}
+	</select>
+	
 
 	
 	<update id="update">

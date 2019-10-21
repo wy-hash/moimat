@@ -1,27 +1,24 @@
 package com.breaktheice.moimat.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import com.breaktheice.moimat.chat.ChatRoom;
-import com.breaktheice.moimat.chat.ChatRoomManager;
-import com.breaktheice.moimat.service.TeamChatService;
-import com.breaktheice.moimat.service.TeamPhotoService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.breaktheice.moimat.chat.ChatRoom;
 import com.breaktheice.moimat.chat.ChatRoomManager;
 import com.breaktheice.moimat.domain.MemberDomain;
+import com.breaktheice.moimat.domain.TeamDomain;
 import com.breaktheice.moimat.service.TeamChatService;
+import com.breaktheice.moimat.service.TeamPhotoService;
 import com.breaktheice.moimat.service.TeamService;
+import com.breaktheice.moimat.util.AdminCriteria;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -50,6 +47,25 @@ public class GroupsController {
 		
 		return "groups/index";
 	}
+	
+	//모임 등록
+	@GetMapping("new")
+	public String add(Model model, TeamDomain domain) {
+
+		model.addAttribute("areas", teamService.selectAllAreas());
+	 	model.addAttribute("interest", teamService.selectAllInterest());
+		
+		return "groups/new";
+	}
+	// 모임 등록 쿼리실행
+	@PostMapping("new")
+	public String addQuery(Model model, TeamDomain domain, AdminCriteria cri, RedirectAttributes rttr) {
+		// 모임 등록 성공시 1이상 반환
+		Long result = teamService.add(domain);
+		
+		return "redirect:/groups";
+	}
+	
 
 	@GetMapping("/{groupId}")
 	public String groupMain(@PathVariable Long groupId, Model model) {
@@ -100,5 +116,6 @@ public class GroupsController {
 		return "groups/settings";
 
 	}
+	
 	
 }
