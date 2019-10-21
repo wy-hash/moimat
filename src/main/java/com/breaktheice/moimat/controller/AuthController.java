@@ -1,11 +1,18 @@
 package com.breaktheice.moimat.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import com.breaktheice.moimat.service.FileUploadService;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.breaktheice.moimat.domain.CertDomain;
@@ -38,6 +46,12 @@ public class AuthController {
 	
 	@Autowired
 	SHA256 sha256;
+
+	@Autowired
+	ServletContext servletContext;
+
+	@Autowired
+	FileUploadService fileUploadService;
 	
 	@GetMapping("/login") // 사용자에게 로그인 입력 양식을 주는 페이지
 	public String login(Model model) {
@@ -118,24 +132,39 @@ public class AuthController {
 	}
 	
 	@PostMapping("/join")
-	public String registerAccount(MemberDomain member, @RequestParam("areaRegionKey") String areaRegionKey, @RequestParam("intKey") String intKey) {
+	@ResponseBody
+	public String registerAccount(MemberDomain member,
+								  @RequestParam("areaRegionKey") String areaRegionKey,
+								  @RequestParam("intKey") String intKey,
+								  @RequestParam(value = "file", required = false) MultipartFile file) {
 		
 		log.info("member: " + member);
 		log.info("area: " + areaRegionKey);
 		log.info("interest: " + intKey); // eg)IA01,IA02,IA03
 		
 		member.setAreaId(authService.getAreaId(areaRegionKey));
-		
+
 		String[] interestKeyList = intKey.split(",");
 		member.setMemInt1(authService.getInterestKey(interestKeyList[0]));
 		member.setMemInt2(authService.getInterestKey(interestKeyList[1]));
 		member.setMemInt3(authService.getInterestKey(interestKeyList[2]));
-		
+
+		String uploadPath = "";
+
+		if (file.getSize() <= 0) {
+			String randomImage = String.valueOf((int)(Math.random() * 10) + 1) + ".png";
+			uploadPath = "resources" + File.separator + "img" + File.separator + "profile-photos" + File.separator + randomImage;
+
+		} else {
+			uploadPath = fileUploadService.saveFile("USER", file);
+		}
+
+		member.setMemPhoto(uploadPath);
+
 		authService.joinMember(member);
-		
+
 		log.info("inserted member info: " + member);
-		
-		return "redirect:/";
+
+		return "true";
 	}
-	
 }

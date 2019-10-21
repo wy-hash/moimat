@@ -4,8 +4,9 @@
 	
 	<select id="login" resultType="com.breaktheice.moimat.domain.MemberDomain">
 
-		select 
-			MEM_EMAIL
+		select
+			MEM_ID
+			,MEM_EMAIL
 			,MEM_PASSWORD
 			,MEM_NICKNAME
 			,MEM_GENDER
@@ -36,7 +37,7 @@
 	
 	<insert id="join" parameterType="com.breaktheice.moimat.domain.MemberDomain" >
 		<!-- 회원가입 쿼리를 만들기 -->
-		INSERT INTO MEMBER
+		INSERT INTO MEMBER(mem_id, mem_email, mem_password, mem_nickname, mem_birthday, mem_gender, area_id, mem_regdate, mem_update, mem_lastlogin, mem_content, mem_level, mem_status, mem_int1, mem_int2, mem_int3, mem_photo)
 		VALUES(
 			MEMBER_SEQ.NEXTVAL 
 			,#{memEmail}
@@ -49,13 +50,12 @@
 			,SYSDATE
 			,SYSDATE
 			,#{memContent}
-			,#{memPhoto}	
 			,#{memLevel}
 			,#{memStatus}
 			,#{memInt1}
 			,#{memInt2}
 			,#{memInt3}
-		
+			,#{memPhoto}
 		)
 	</insert>
 	
