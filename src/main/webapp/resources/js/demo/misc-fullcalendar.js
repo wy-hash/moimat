@@ -63,15 +63,18 @@ $(document).ready(function() {
 				title: 'Happy Hour',
 				start: '2019-09-24',
 				end: '2019-09-28',
-				className: 'purple'
+				className: 'purple',
+				
 			},
 			{
 				title: 'Birthday Party',
 				start: '2019-09-26',
 				end: '2019-09-28',
-				className: 'mint'
+				className: 'mint',
+				
 			}
 		]
+		
 	});
 
 });
