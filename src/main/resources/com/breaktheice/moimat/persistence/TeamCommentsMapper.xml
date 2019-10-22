@@ -5,8 +5,9 @@
 	<select id="selectAllComments" resultType="com.breaktheice.moimat.domain.TeamCommentsDTO">
 		select cmt.CMT_ID, cmt.POST_ID, cmt.BRD_ID, cmt.CMT_CONTENT, cmt.TMEM_ID, cmt.CMT_NICKNAME, cmt.CMT_NICKNAME, cmt.CMT_EMAIL, cmt.CMT_REGDATE, cmt.CMT_UPDATE, mem.MEM_PHOTO
 		from TEAM_COMMENTS cmt
-		join MEMBER mem
-		on cmt.TMEM_ID = mem.MEM_ID
+        join MEMBER mem
+        on cmt.TMEM_ID = mem.MEM_ID
+		where cmt.post_id = #{ postId }
 		order by cmt.CMT_ID desc
 	</select>
 
@@ -24,6 +25,10 @@
         join MEMBER mem
         on cmt.TMEM_ID = mem.MEM_ID
 		where cmt.cmt_id = #{ cmtId }
+	</select>
+
+	<select id="selectNumsOfComments" resultType="Long">
+		select count(*) from TEAM_COMMENTS where post_id = #{ postId }
 	</select>
 	
 </mapper>
