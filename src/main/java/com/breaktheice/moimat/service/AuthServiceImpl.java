@@ -34,6 +34,9 @@ public class AuthServiceImpl implements AuthService {
 	
 	@Autowired
 	AreaMapper areaMapper;
+	
+	@Autowired
+	MailSenderService mailService;
 
 	@Autowired
 	SHA256 sha256;
@@ -157,6 +160,12 @@ public class AuthServiceImpl implements AuthService {
 		cert.setCertEmail(email);
 		
 		if (mapper.insertCode(cert) == 1) {
+
+			String setFrom = "breaktheicemoimat@gmail.com";
+			String setTo = email;
+			String setSubject = "인증번호발신";
+			String setText = "인증번호는 " + code + "입니다"; 
+			mailService.simpleMailSend(setFrom,setTo,setSubject,setText);
 			log.info("insertCode() is successed. cert: " + cert);
 			return true;
 		}
