@@ -154,9 +154,9 @@
 										<table class="table table-hover table-vcenter">
 											<thead>
 												<tr>
-													<th class="col-xs-1 text-center">번호</th>
-													<th class="col-xs-9">제목</th>
-													<th class="col-xs-2 text-center">작성일</th>
+													<th class="min-width text-center"></th>
+													<th class="col-xs-8">제목</th>
+													<th class="col-xs-3 col-sm-2 text-center">작성일</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -165,7 +165,7 @@
 														<td class="text-center">${postDomain.postId }</td>
 														<td class="text-overflow"><span class="text-main text-semibold"><a href="#">${postDomain.postTitle }</a></span>
 														</td>
-														<td class="text-center"><span class="text-semibold">
+														<td class="text-center"><span class="text-semibold text-sm">
 																${postDomain.postUpdate } </span></td>
 													</tr>
 												</c:forEach>
