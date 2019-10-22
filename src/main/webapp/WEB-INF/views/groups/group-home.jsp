@@ -125,8 +125,10 @@
 			            <!--Tabs Content-->
 			            <div class="tab-content">
 			                <div class="content-box">
-			                    <p class="text-main text-semibold">First Tab Content</p>
-			                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+
+
+
+
 			                    
 			                    
 			                    

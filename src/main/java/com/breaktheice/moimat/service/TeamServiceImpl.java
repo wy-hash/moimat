@@ -61,7 +61,7 @@ public class TeamServiceImpl implements TeamService {
 			log.info("등록실패 / 에러");
 		}
 		
-		return result;
+		return domain.getTeamId();
 	}	
 	// 모임 등록시 모임장으로 추가
 	public Long addGroupMaster(Long teamId, MemberDomain member) {// 
