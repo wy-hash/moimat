@@ -28,6 +28,9 @@
 				display: none;
 			}
 		}
+		.move{
+			cursor: pointer;
+		}
 	
 	</style>
 </head>
@@ -141,7 +144,7 @@
 												<c:forEach var="item" items="${ posts }">
 													<tr>
 														<td>
-															<a href="/groups/${ group.teamId }/posts/${ item.postId }">
+															<a class="move" data-post-id="${ item.postId }">
 																<span class="text-main text-bold">${ item.postTitle }</span>
 															</a>
 															<span class="label label-default">${ item.commentNums }</span>
@@ -245,6 +248,13 @@
 				actionForm.find("input[name='pageNum']").val($(this).data('page-num'));
 				actionForm.submit();
 			});
+			$(".move").on("click",function(){
+				var postId = $(this).data('post-id');
+				var actionURL = '/groups/<c:out value="${ group.teamId }"/>/posts/'+postId;
+				actionForm.attr('action',actionURL);
+				actionForm.submit();
+			});
+			
 		});
 	</script>
 </body>

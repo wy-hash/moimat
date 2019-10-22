@@ -1,13 +1,30 @@
 package com.breaktheice.moimat.controller;
 
-import com.breaktheice.moimat.domain.*;
-import com.breaktheice.moimat.service.*;
-import com.google.gson.Gson;
-import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.breaktheice.moimat.domain.MemberDomain;
+import com.breaktheice.moimat.domain.TeamCommentsDTO;
+import com.breaktheice.moimat.domain.TeamCommentsDomain;
+import com.breaktheice.moimat.domain.TeamMemberDomain;
+import com.breaktheice.moimat.domain.TeamPostDomain;
+import com.breaktheice.moimat.service.AuthService;
+import com.breaktheice.moimat.service.TeamCommentsService;
+import com.breaktheice.moimat.service.TeamMemberService;
+import com.breaktheice.moimat.service.TeamPostService;
+import com.breaktheice.moimat.service.TeamService;
+import com.breaktheice.moimat.util.AdminCriteria;
+import com.google.gson.Gson;
+
+import lombok.extern.log4j.Log4j;
 
 @Controller
 @RequestMapping("/groups/{groupId}/posts")
@@ -32,7 +49,7 @@ public class TeamPostController {
     @GetMapping("/{postId}")
     public String readPost(@PathVariable("groupId") Long groupId,
                            @PathVariable("postId") Long postId,
-                           Model model) {
+                           Model model,@ModelAttribute("cri")AdminCriteria cri) {
 
         teamPostService.updateViewCount(postId);
 
