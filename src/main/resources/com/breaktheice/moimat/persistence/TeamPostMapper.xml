@@ -31,6 +31,16 @@
 			rn > (#{cri.pageNum} -1) * #{cri.amount}
 		]]>		
 	</select>
+	
+	<select id="getTotalCount" resultType="Long">
+		SELECT
+			COUNT(*)
+		FROM
+			TEAM_POST
+		WHERE
+		<include refid="criteria"></include>
+		BRD_ID = #{cri.brdId}
+	</select>
 
 	<insert id="insertPost" parameterType="com.breaktheice.moimat.domain.TeamPostDomain">
 		insert into team_post(post_id, team_id, brd_id, post_title, post_content, tmem_id, post_tmem_level, post_nickname, post_email, post_regdate, post_update, post_hit)

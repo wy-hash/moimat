@@ -44,6 +44,7 @@ public class TeamPostServiceImpl implements TeamPostService {
     }
 
     @Override
+    //수정 해야 합니다!!
     public List<TeamPostDomain> getAllPosts(Long postId, Long brdId) {
         return mapper.selectAllPosts(postId, brdId);
     }

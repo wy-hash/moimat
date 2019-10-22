@@ -22,9 +22,18 @@ public class TeamPostMapperTests {
 	public void selectAllPostsTest() {
 		AdminCriteria cri = new AdminCriteria();
 		cri.setBrdId(23L);
-		cri.setType("T");
-		cri.setKeyword("안");
+		cri.setType("C");
+		cri.setKeyword(" ");
 		tpm.selectAllPosts(1L, cri);
+	}
+	
+	@Test
+	public void getTotalCountTest() {
+		AdminCriteria cri = new AdminCriteria();
+		cri.setBrdId(23L);
+		cri.setType("C");
+		cri.setKeyword(" ");
+		tpm.getTotalCount(cri);
 	}
 
 }
