@@ -165,24 +165,29 @@
 								</div>
 
 								<div class="row text-center">
-
 									<!--Pagination with disabled and active states-->
 									<!--===================================================-->
+									<!-- data-pNum = pageNum href안쓰고 a태그에 이벤트걸어서 할것이라 data태그씀 -->
 									<ul class="pagination">
-										<li class="disabled"><a href="#" class="demo-pli-arrow-left"></a></li>
-										<li class="active"><a href="#">1</a></li>
-										<li><a href="#">2</a></li>
-										<li><a href="#">3</a></li>
-										<li><a href="#">4</a></li>
-										<li><span>...</span></li>
-										<li><a href="#">20</a></li>
-										<li><a href="#" class="demo-pli-arrow-right"></a></li>
+										<c:if test="${pageMaker.prev}">
+											<li><a data-page-num="${pageMaker.startPage - 1}" class="demo-pli-arrow-left"></a></li>
+										</c:if>
+										<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
+											<li><a data-page-num="${num}">${num}</a></li>
+										</c:forEach>
+										<c:if test="${pageMaker.next }">
+											<li><a data-page-num="${pageMaker.endPage + 1}" class="demo-pli-arrow-right"></a></li>
+										</c:if>
+										<!--  일부로 주석해놓은거 <li><span>...</span></li>
+										<li><a href="#">20</a></li> -->
 									</ul>
 									<!--===================================================-->
 									<!--End Pagination with disabled and active states-->
-
+									<form id="actionForm" action="/groups/${group.teamId}/posts">
+										<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
+									</form>
 								</div>
-
+								
 								<div class="row text-center">
 									<form class="form-inline" action="/${ group.teamId }/posts/search" method="get">
 										<div class="searchbox input-group mar-btm">
@@ -234,7 +239,12 @@
 	
 	<script>
 		$(document).ready(function() {
-			
+			var actionForm = $("#actionForm");
+			$(".pagination").on("click","a",function(){
+				console.log($(this).data('page-num'));
+				actionForm.find("input[name='pageNum']").val($(this).data('page-num'));
+				actionForm.submit();
+			});
 		});
 	</script>
 </body>

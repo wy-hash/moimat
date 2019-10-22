@@ -12,12 +12,11 @@ import lombok.extern.log4j.Log4j;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration( "file:src/main/webapp/WEB-INF/spring/root-context.xml" )
-@Log4j
 public class TeamPostMapperTests {
 	
 	@Autowired
 	private TeamPostMapper tpm;
-	
+
 	@Test
 	public void selectAllPostsTest() {
 		AdminCriteria cri = new AdminCriteria();
@@ -33,7 +32,7 @@ public class TeamPostMapperTests {
 		cri.setBrdId(23L);
 		cri.setType("C");
 		cri.setKeyword(" ");
-		tpm.getTotalCount(cri);
+		tpm.getTotalCount(1L,cri);
 	}
 
 }

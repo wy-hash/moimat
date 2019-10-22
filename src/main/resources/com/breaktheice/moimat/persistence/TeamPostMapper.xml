@@ -39,7 +39,9 @@
 			TEAM_POST
 		WHERE
 		<include refid="criteria"></include>
-		BRD_ID = #{cri.brdId}
+			BRD_ID = #{cri.brdId}
+		AND
+			TEAM_ID = #{teamId}
 	</select>
 
 	<insert id="insertPost" parameterType="com.breaktheice.moimat.domain.TeamPostDomain">

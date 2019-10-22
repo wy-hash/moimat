@@ -1,13 +1,13 @@
 package com.breaktheice.moimat.service;
 
-import com.breaktheice.moimat.domain.TeamPostDomain;
-import com.breaktheice.moimat.persistence.TeamPostMapper;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.breaktheice.moimat.domain.TeamPostDomain;
+import com.breaktheice.moimat.persistence.TeamPostMapper;
+import com.breaktheice.moimat.util.AdminCriteria;
 
 @Service
 public class TeamPostServiceImpl implements TeamPostService {
@@ -45,7 +45,16 @@ public class TeamPostServiceImpl implements TeamPostService {
 
     @Override
     //수정 해야 합니다!!
-    public List<TeamPostDomain> getAllPosts(Long postId, Long brdId) {
-        return mapper.selectAllPosts(postId, brdId);
+    public List<TeamPostDomain> getAllPosts(Long postId, AdminCriteria cri) {
+        return mapper.selectAllPosts(postId, cri);
     }
+
+	@Override
+	public Long getTotalCount(Long teamId, AdminCriteria cri) {
+		// TODO Auto-generated method stub
+		return mapper.getTotalCount(teamId,cri);
+	}
+    
+    
+    
 }

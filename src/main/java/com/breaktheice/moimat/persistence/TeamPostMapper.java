@@ -13,7 +13,7 @@ public interface TeamPostMapper {
     //23일반 22그냥 !
     List<TeamPostDomain> selectAllPosts(@Param("teamId") Long teamId, @Param("cri") AdminCriteria cri);
     //pageDTO에 담을 게시글에 총 갯수 (버튼 몇개만들지에 필요) 
-    public Long getTotalCount(@Param("cri") AdminCriteria cri);
+    public Long getTotalCount(@Param("teamId") Long teamId, @Param("cri") AdminCriteria cri);
 
     Long insertPost(TeamPostDomain post);
 
