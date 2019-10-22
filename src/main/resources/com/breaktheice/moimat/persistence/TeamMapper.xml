@@ -120,7 +120,7 @@
 			(
 				team_member_seq.nextval, #{teamId}, #{m.memId}, 9, #{m.memContent},
 				 #{m.memNickname}, #{m.memEmail}, sysdate, sysdate,
-				 #{m.memBirthday}, #{m.memGender}, #{m.memPhoto}
+				 to_date(#{m.memBirthday}, 'YYYY-MM-DD'), #{m.memGender}, #{m.memPhoto}
 			)
 	</insert>
 	<select id="getTeamid" resultType="Long">
