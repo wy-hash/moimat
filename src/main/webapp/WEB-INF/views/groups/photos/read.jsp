@@ -156,7 +156,7 @@
 			                    <a href="/groups/${ group.teamId }/posts">게시판</a>
 			                </li>
 			                <li>
-			                    <a href="/groups${ group.teamId }/chat">채팅</a>
+			                    <a href="/groups/${ group.teamId }/chat">채팅</a>
 			                </li>
 			                <li>
 			                    <a href="/groups/${ group.teamId }/settings">설정</a>
@@ -204,14 +204,14 @@
 												</div>
 
 												<div class="media media-content">
-													<img class="img-responsive" src="${ photo.pfiPhoto }" alt="Image">
 													<p class="pad-top">${ post.postContent }</p>
 												</div>
 
 												<div class="media media-button">
 													<div class="media-right">
 														<c:if test="${ loginVO.memId eq post.tmemId }">
-															<button class="btn btn-default">수정/삭제</button>
+															<a href="/groups/${ group.teamId }/photos/${ post.postId }/edit"><button class="btn btn-warning">수정</button></a>
+															<a href="/groups/${ group.teamId }/photos/${ post.postId }/delete"><button class="btn btn-danger">삭제</button></a>
 														</c:if>
 														<a href="/groups/${ group.teamId }/photos"><button class="btn btn-default">목록</button></a>
 													</div>
@@ -335,6 +335,13 @@
 						console.log(e.responseText);
 					}
 				});
+			});
+
+			$('.media-button .btn-danger').on('click', function() {
+				if (confirm('삭제하시겠습니까?')) {
+					return true;
+				}
+				return false;
 			});
 		});
 	</script>

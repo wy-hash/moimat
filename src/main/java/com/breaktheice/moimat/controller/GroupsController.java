@@ -5,8 +5,8 @@ import javax.servlet.http.HttpSession;
 
 import com.breaktheice.moimat.chat.ChatRoom;
 import com.breaktheice.moimat.chat.ChatRoomManager;
-import com.breaktheice.moimat.service.TeamChatService;
-import com.breaktheice.moimat.service.TeamPhotoService;
+import com.breaktheice.moimat.domain.TeamPostDomain;
+import com.breaktheice.moimat.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +26,8 @@ import com.breaktheice.moimat.service.TeamService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/groups")
 @Log4j
@@ -42,6 +44,9 @@ public class GroupsController {
 
 	@Autowired
 	private TeamPhotoService teamPhotoService;
+
+	@Autowired
+	private TeamCommentsService teamCommentsService;
 	
 	@GetMapping("")
 	public String index(@ModelAttribute("loginVO") MemberDomain member, Model model) {
@@ -72,7 +77,14 @@ public class GroupsController {
 	@GetMapping("/{groupId}/photos")
 	public String photos(@PathVariable Long groupId, Model model) {
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
-		model.addAttribute("posts", teamPhotoService.getAllPosts(groupId));
+
+		List<TeamPostDomain> posts = teamPhotoService.getAllPosts(groupId,22L);
+		teamPhotoService.getThumbnail(posts);
+
+		teamCommentsService.addNumOfComments(posts);
+
+		model.addAttribute("posts", posts);
+
 
 		return "groups/photos/list";
 	}

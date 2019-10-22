@@ -42,6 +42,10 @@
     <link href="/resources/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
 
+    <!-- common stylesheet -->
+    <link href="/resources/css/common.css" rel="stylesheet">
+
+
 
 
 
