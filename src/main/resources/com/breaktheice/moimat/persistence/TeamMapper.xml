@@ -17,7 +17,7 @@
 		FROM 	
 		(	
 			SELECT  rownum rn, team_id, int_id, team_name, team_short_content,
-					team_content, area_id, team_regdate, team_max, mem_id
+					team_content, area_id, team_regdate, team_max, mem_id, team_photo
 			FROM 	team
 			WHERE 
 		]]>
@@ -48,11 +48,11 @@
 	<select id="list" resultType="com.breaktheice.moimat.domain.TeamDomain">
 	<![CDATA[		
 		SELECT  rownum rn, team_id, int_id, team_name, team_short_content,
-				team_content, area_id, team_regdate, team_max, mem_id
+				team_content, area_id, team_regdate, team_max, mem_id, team_photo
 		FROM 	
 		(	
 			SELECT  rownum rn, team_id, int_id, team_name, team_short_content,
-					team_content, area_id, team_regdate, team_max, mem_id
+					team_content, area_id, team_regdate, team_max, mem_id, team_photo
 			FROM 	team
 			WHERE 
 		]]>
@@ -83,7 +83,7 @@
 	
 	<select id="view" resultType="com.breaktheice.moimat.domain.TeamDomain">
        	SELECT  team_id, int_id, team_name, team_short_content,
-				team_content, area_id, team_regdate, team_max, mem_id
+				team_content, area_id, team_regdate, team_max, mem_id, team_photo
        	FROM 	team
 		WHERE 	team_id = #{teamId}
 	</select>
@@ -92,12 +92,12 @@
 		INSERT INTO team
 		(
 			team_id, int_id, team_name, team_short_content,
-			team_content, area_id, team_regdate, team_max, mem_id
+			team_content, area_id, team_regdate, team_max, mem_id, team_photo
 		)
 		VALUES
 		(
 			team_seq.nextval, #{intId}, #{teamName}, #{teamShortContent},
-			#{teamContent}, #{areaId}, sysdate, #{teamMax}, #{memId}
+			#{teamContent}, #{areaId}, sysdate, #{teamMax}, #{memId}, #{teamPhoto}
 		)
 	</insert>
 
@@ -109,6 +109,9 @@
 				team_short_content	= #{teamShortContent},
 				team_content	 	= #{teamContent},
 				area_id	 			= #{areaId},
+				<if test="teamPhoto !=null">
+				team_photo			= #{teamPhoto}
+				</if>
 				team_max	 		= #{teamMax}
 		WHERE 	team_id = #{teamId}
 	</update>
@@ -175,11 +178,11 @@
 	<select id="recentOneWeek" resultType="com.breaktheice.moimat.domain.TeamDomain">
 	<![CDATA[		
 		SELECT  rownum rn, team_id, int_id, team_name, team_short_content,
-				team_content, area_id, team_regdate, team_max, mem_id
+				team_content, area_id, team_regdate, team_max, mem_id, team_photo
 		FROM 	
 		(	
 			SELECT  rownum rn, team_id, int_id, team_name, team_short_content,
-					team_content, area_id, team_regdate, team_max, mem_id
+					team_content, area_id, team_regdate, team_max, mem_id, team_photo
 			FROM 	team
 			WHERE 
 		]]>
