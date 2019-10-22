@@ -19,9 +19,7 @@ public interface TeamService {
 
 	
 	// 모임 추가
-	public Long add(TeamDomain domain);
-	// 모임 등록시 모임장으로 추가
-	public Long addGroupMaster(TeamDomain team, MemberDomain member);
+	public Long add(TeamDomain domain, MemberDomain member);
 
 	// 관심지역
 	public List<AreaDomain> selectAllAreas();

@@ -90,7 +90,7 @@
 						            
 						            <!-- Menu list item -->
 						            <li>
-						            	<a href="#">
+						            	<a href="/mypage">
 						            		<i class="fa fa-user"></i>
 						            		<span class="menu-title">
 						            			<strong>내 정보</strong>
@@ -110,7 +110,7 @@
 						            	</a>
 						            	</c:when>
 						            	<c:otherwise>
-						            	<a href="#">
+						            	<a href="<c:url value='/users/0/qna'/>">
 						            		<i class="fa fa-pencil-square-o"></i>
 						            		<span class="menu-title">
 						            			<strong>내 문의내역</strong>
@@ -118,7 +118,7 @@
 						            	</a>
 						            	</c:otherwise>
 						            </c:choose>
-						            
+						            </li>
 						            <!-- Category name -->
 						            <li class="list-header">인포</li>
 						            

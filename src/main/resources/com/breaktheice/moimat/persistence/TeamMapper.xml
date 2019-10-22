@@ -104,6 +104,10 @@
 			</choose>
 			#{memId}
 		)
+		<selectKey keyProperty="teamId" resultType="Long" order="AFTER">
+			SELECT team_seq.currval 
+			FROM dual		
+		</selectKey>
 	</insert>
 	<insert id="addGroupMaster">
 		INSERT INTO team_member
@@ -114,9 +118,9 @@
 			)
 		VALUES
 			(
-				team_member_seq.nextval(), #{teamId}, #{m.memId}, 9, '모임장 입니다',
-				 #{tmemNickname}, #{tmemEmail}, sysdate, sysdate,
-				 #{tmemBirthday}, #{tmemGender}, #{tmemPhoto}
+				team_member_seq.nextval, #{teamId}, #{m.memId}, 9, #{m.memContent},
+				 #{m.memNickname}, #{m.memEmail}, sysdate, sysdate,
+				 #{m.memBirthday}, #{m.memGender}, #{m.memPhoto}
 			)
 	</insert>
 	<select id="getTeamid" resultType="Long">

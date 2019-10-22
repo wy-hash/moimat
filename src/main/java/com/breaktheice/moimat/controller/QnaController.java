@@ -17,6 +17,7 @@ import com.breaktheice.moimat.util.AdminCriteria;
 import com.breaktheice.moimat.util.AdminPageDTO;
 
 @Controller
+@RequestMapping("/users")
 public class QnaController {
 	
 //	1. 앱에 관한 문의 작성 기능
@@ -25,7 +26,7 @@ public class QnaController {
 	@Autowired QnaService service;
 	
 	// QNA 1대1 문의사항만 체크
-	@GetMapping(value= {"/users/{memId}/qna", "/users/{memId}/qna/", "/users/{memId}/qna/list"})
+	@GetMapping(value= {"{memId}/qna", "{memId}/qna/", "{memId}/qna/list"})
 	public String userQna(Model model, AdminCriteria cri, @PathVariable("memId") Long memId) {
 		
 		cri.setBrdId(3L);// qna
@@ -45,7 +46,7 @@ public class QnaController {
 	}
 
 	// qna 상세
-	@RequestMapping("/users/{memId}/qna/{postId}/view")
+	@RequestMapping("{memId}/qna/{postId}/view")
 	public String qnaView(Model model, PostDomain domain, AdminCriteria cri) {
 		//조회수 증가
 		service.viewCount(domain);
@@ -59,7 +60,7 @@ public class QnaController {
 	}
 
 	// qna 작성화면
-	@GetMapping("/users/{memId}/qna/new")
+	@GetMapping("{memId}/qna/new")
 	public String add(Model model, PostDomain domain, AdminCriteria cri, RedirectAttributes rttr) {
 		Long totalCount = service.myqnaTotalCount(cri, domain.getMemId());
 		
@@ -72,7 +73,7 @@ public class QnaController {
 		return "/info/myqna/write";
 	}
 	// qna 작성 쿼리실행
-	@PostMapping("/users/{memId}/qna/new")
+	@PostMapping("{memId}/qna/new")
 	public String addQuery(Model model, PostDomain domain, AdminCriteria cri, RedirectAttributes rttr) {
 		domain.setBrdId(3L);
 		domain.setPostReply("Q");
@@ -90,13 +91,13 @@ public class QnaController {
 		String viewPage = "/users/"+domain.getMemId()+"/qna";
 		return "redirect:"+viewPage;
 	}
-	@GetMapping("/users/{memId}/qna/{postId}/edit")
+	@GetMapping("{memId}/qna/{postId}/edit")
 	public String edit(Model model, PostDomain domain, AdminCriteria cri) {
 		model.addAttribute("view", service.view(domain));
 		return "/info/myqna/update";
 	}
 	//  수정
-	@PostMapping("/users/{memId}/qna/edit")
+	@PostMapping("{memId}/qna/edit")
 	public String updateQuery(Model model, PostDomain domain, AdminCriteria cri, RedirectAttributes rttr) {
 		//수정
 		service.update(domain);
@@ -114,7 +115,7 @@ public class QnaController {
 	
 
 	// 게시글 삭제
-	@PostMapping("/users/{memId}/qna/delete")
+	@PostMapping("{memId}/qna/delete")
 	public String remove(Model model, PostDomain domain, AdminCriteria cri, RedirectAttributes rttr) {
 		//삭제
 		service.remove(domain);
@@ -124,6 +125,7 @@ public class QnaController {
 		rttr.addAttribute("amount",cri.getAmount());
 		rttr.addAttribute("type",cri.getType());
 		rttr.addAttribute("keyword",cri.getKeyword());
+		
 		String viewPage = "/users/"+domain.getMemId()+"/qna";
 		return "redirect:"+viewPage;
 	}

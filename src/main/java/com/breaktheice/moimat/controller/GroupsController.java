@@ -1,13 +1,9 @@
 package com.breaktheice.moimat.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
-import com.breaktheice.moimat.chat.ChatRoom;
-import com.breaktheice.moimat.chat.ChatRoomManager;
-import com.breaktheice.moimat.domain.TeamPostDomain;
-import com.breaktheice.moimat.service.*;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,15 +19,15 @@ import com.breaktheice.moimat.chat.ChatRoom;
 import com.breaktheice.moimat.chat.ChatRoomManager;
 import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.domain.TeamDomain;
+import com.breaktheice.moimat.domain.TeamPostDomain;
 import com.breaktheice.moimat.service.TeamChatService;
+import com.breaktheice.moimat.service.TeamCommentsService;
 import com.breaktheice.moimat.service.TeamPhotoService;
 import com.breaktheice.moimat.service.TeamService;
 import com.breaktheice.moimat.util.AdminCriteria;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/groups")
@@ -53,7 +49,7 @@ public class GroupsController {
 	@Autowired
 	private TeamCommentsService teamCommentsService;
 	
-	@GetMapping("")
+	@GetMapping(value= {"","/"})
 	public String index(@ModelAttribute("loginVO") MemberDomain member, Model model) {
 		log.info("session value: " + member);
 		model.addAttribute("groups", teamService.getJoinedGroupList(member));
@@ -72,9 +68,15 @@ public class GroupsController {
 	}
 	// 모임 등록 쿼리실행
 	@PostMapping("new")
-	public String addQuery(Model model, TeamDomain domain, AdminCriteria cri, RedirectAttributes rttr) {
+	public String addQuery(Model model, TeamDomain domain, AdminCriteria cri, RedirectAttributes rttr, HttpSession session) {
+		
+		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
+		
+		log.info(""+domain);
+		
 		// 모임 등록 성공시 1이상 반환
-		Long result = teamService.add(domain);
+		Long result = teamService.add(domain, md);
+		
 		
 		return "redirect:/groups";
 	}

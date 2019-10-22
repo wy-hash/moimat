@@ -184,6 +184,9 @@
 													</div>
 													<input type="hidden" name="areaId">
 												</div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label">소개글</label>
+												</div>
 											</div>
 												<div class="form-group customCenter">
 													<div class="col-xs-10">
@@ -227,6 +230,14 @@
 
 	</div>
 	<!-- END CONTAINER -->
+	
+	<%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
+	
+	
 	<script type="text/javascript" src="/resources/js/teamsetting.js"></script>
 	<!--Bootbox Modals [ OPTIONAL ]-->
 	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
