@@ -110,4 +110,8 @@ public class TeamMemberServiceimpl implements TeamMemberService {
 		return tmm.isAdmin(groupId, memberId);
 	}
 
+	@Override
+	public TeamMemberDomain getTeamMemberId(Long groupId, Long memId) {
+		return tmm.selectMemberByTeamIdAndMemId(groupId, memId);
+	}
 }

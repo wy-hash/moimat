@@ -147,13 +147,9 @@
                 	<!-- #### WRITE CODE BELOW THIS LINE #### -->
             	    <!-- #################################### -->
             	    
-            	    
-            	    
-            	    
             	    <!-- 메인 타이틀, 검색 -->
             	    <div class="row">
             	                	    
-            	    
     					<!-- JUMBOTRON -->
 						<!--===================================================-->
 						<div class="jumbotron text-main text-center clearfix">
@@ -162,16 +158,19 @@
 							    <p class="text-center">좋아하는 취미활동, 모여서 하면 더 재밌을걸요?</p>
 						    </div>
 						    <!--Searchbox-->
-		                    <div class="search">
-		                    	<div class="input-group input-group-lg">
-		                    		<input type="text" class="form-control" placeholder="좋아하는 취미활동을 검색해보세요!">
-		                    		<span class="input-group-btn">
-		                    			<button class="btn btn-default" type="button">
-		                    				<i class="fa fa-search"></i>
-		                    			</button>
-		                    		</span>
-		                    	</div>
-		                    </div>
+	                    	<form id="searchForm" action="/result" method="post">
+			                    <div class="search">
+			                    	<div class="input-group input-group-lg">
+				                    		<input type="hidden" name="type" value="RMA" class="form-control" >
+				                    		<input type="text" id="searchKeyword" name="keyword" value="" class="form-control" placeholder="좋아하는 취미활동을 검색해보세요!">
+				                    		<span class="input-group-btn">
+				                    			<button class="btn btn-default" type="submit">
+				                    				<i class="fa fa-search"></i>
+				                    			</button>
+				                    		</span>
+			                    	</div>
+			                    </div>
+							</form>
 		                </div>
 						<!--===================================================-->
 						<!-- END JUMBOTRON -->
@@ -541,5 +540,41 @@
 	</c:if>
 	<%-- for modal --%>
 	
+<!-- 	검색 확인창 -->
+	<div class="modal" id="searchModal" role="dialog" tabindex="-1" style="display:none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!--Modal header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title">알림</h4>
+            </div>
+
+
+            <!--Modal body-->
+            <div class="modal-body">
+                <p class="text-semibold text-main">검색어를 입력해주세요</p>
+            </div>
+
+            <!--Modal footer-->
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default" type="button">확인</button>
+            </div>
+        </div>
+    </div>
+</div>
+	
+	<script>
+	$("#searchForm").submit(function(){
+		var search = $('#searchKeyword').val();
+		console.log(search);
+		if($.trim(search).length < 1) {
+			$('#searchModal').modal('show');
+			$("#searchKeyword").focus();
+			return false;
+		}
+	});
+	</script>
 </body>
 </html>

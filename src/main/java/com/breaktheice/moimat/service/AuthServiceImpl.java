@@ -63,6 +63,7 @@ public class AuthServiceImpl implements AuthService {
 
 			loginVo.setMemPassword(""); // 비밀번호 제거
 			HttpSession session = request.getSession(true); // 세션 객체 얻고
+			log.info("테스트 입니다 : " + loginVo);
 			session.setAttribute("loginVO", loginVo); // 세션객체에 들어갈 사옹자 정보
 			
 			session.setAttribute("areaVO", areaMapper.selectMyArea(loginVo.getAreaId()));

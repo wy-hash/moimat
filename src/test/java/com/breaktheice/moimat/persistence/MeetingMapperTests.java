@@ -48,17 +48,9 @@ public class MeetingMapperTests {
 	
 	@Test
 	public void modifyMeetTest() throws ParseException {
-		MeetVO vo = new MeetVO();
-		vo.setMeetId(16L);
-		vo.setTeamId(2L);
-		vo.setMeetTitle("모이시오!");
+		MeetVO vo = mapper.getMeet(28L);
+		vo.setTeamId(1L);
 		vo.setMeetContent("모임 내용");
-//		vo.setMeetDate("2019-10-11 20:30");
-		vo.setMeetMax(10);
-		vo.setMeetPay("엔빵임임임임");
-		vo.setTmemId(1L);
-		vo.setMeetNickName("닉네이임");
-		vo.setMeetArea("명륜2가");
 		mapper.modifyMeet(vo);
 	}
 	

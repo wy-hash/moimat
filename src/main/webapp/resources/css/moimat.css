@@ -5,10 +5,9 @@
 	justify-content: flex-end;
 	overflow: hidden;
 }
-.meetTitle, .meetContent, .meetMember {
+.meetContent, .meetMember {
 	cursor: pointer;
 }
-
 div .moimat-m {
 	min-width: 200px;
 	height: 300px;
@@ -19,18 +18,23 @@ div .moimat-m>div {
 }
 
 div .moimat-mc {
-	height: 250px;
-}
-div .moimat-mc> *{
+	height: 300px;
+	width : 100%;
 	display: inline-block;
+}
+
+div.moimat-mc> *{
 	width: 100%;
 	height: 100%;
 }
-div .moimat-mc>.panel>.panel-heading>* {
+div.moimat-mc>.panel>.panel-heading>* {
 	height: 100%;
 }
-div .moimat-mc>.panel>.panel-body {
-	max-height: 200px;
+.moimat-mc > div > div.panel-body{
+	height: 200px;
+}
+.moimat-mc > div > div.panel-footer{
+	height: 50px;
 }
 
 .moimat-ellipsis{
