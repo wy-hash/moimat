@@ -62,12 +62,12 @@
 								<div class="col-md-6">
 									<div class="row">
 
-										<div class="col-md-4 mar-btm text-center">
+										<div class="col-md-6 mar-btm text-center">
 											<img class="img-lg img-border img-circle" id="memPhoto"
 												src='${UserInfoVO.memberDomain.memPhoto}'
 												alt="Profile Picture" />
 										</div>
-										<div class="col-md-8">
+										<div class="col-md-6">
 											<div class="mar-lft">
 												<p>
 													<strong>닉네임 : </strong>${UserInfoVO.memberDomain.memNickname }</p>
