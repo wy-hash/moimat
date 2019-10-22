@@ -1,6 +1,5 @@
 package com.breaktheice.moimat.controller;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -150,6 +150,20 @@ public class UserController {
 
 		return "redirect:/mypage";
 	}
+   	
+   	@PostMapping("/delete")
+   	public String withdrawal(@RequestParam("chkpwd")String pwd,HttpServletRequest request) {
+   		
+   		HttpSession session = request.getSession();
+   		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
+   		md.setMemPassword(pwd);
+   		if(userService.checkPassword(md)) {
+   			userService.withdrawMember(md);
+   			session.removeAttribute("loginVO");
+   			return "redirect:/";
+   		}
+   		return "redirect:/";
+   	}
    
    @RequestMapping(value = "/photo", method = RequestMethod.POST)
    public String uploadPhoto(MultipartFile photoFile) {

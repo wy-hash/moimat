@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
 	
 	public boolean withdrawMember(MemberDomain member) {
 		
-		member.setMemStatus(2L);	// 2: 탈퇴??
+		member.setMemStatus(0L);
 		
 		log.info("withdrawMember: " + member);
 		int cnt = userMapper.updateMemStatus(member);

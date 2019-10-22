@@ -249,6 +249,7 @@ i.form-control-feedback {
 									</div>
 								</div>
 								<div class="panel-footer text-right">
+									<button class="btn btn-danger btn-hover-danger" type="button" id="delBtn">탈퇴하기</button>
 									<button class="btn btn-default btn-hover-warning" type="button" id="canBtn">돌아가기</button>
 									<button class="btn btn-success" type="submit" id="modBtn">수정완료</button>
 								</div>
@@ -277,6 +278,8 @@ i.form-control-feedback {
 		<%@ include file="../includes/modals.jsp"%>
 	</c:if>
 	<%-- for modal --%>
+	<!--Bootbox Modals [ OPTIONAL ]-->
+	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 	<script>
 		$(document).ready(function() { //onload 함수
 			// set BirthDay 
@@ -299,6 +302,35 @@ i.form-control-feedback {
 				$("#gender").text('여성')
 			}
 			
+			 $('#delBtn').on('click', function(){
+			        bootbox.dialog({
+			            title: "정말로 탈퇴하시겠습니까?",
+			            message:'<div class="row"> ' + 
+			            		'	<div class="col-md-12"> ' +
+			                    '		<form id="chkModal"class="form-horizontal"> ' + 
+			                    '			<div class="form-group"> ' +
+			                    '				<label class="col-md-4 control-label mar-lft" for="pwchk">비밀번호</label> ' +
+			                    '				<div class="col-md-5"> ' +
+			                    '					<input id="pwchk" name="chkpwd" type="password" class="form-control input-md"> ' +
+			                    '					<span class="help-block mar-lft"><small>본인확인을 위해 비밀번호를 입력해 주세요.</small></span>' +
+			                    '				</div>' + 
+			                    ' 			</div>' + 
+			                    '		</form> </div> </div>',
+			            buttons: {
+			                success: {
+			                    label: "탈퇴하기",
+			                    className: "btn-danger",
+			                    callback: function() {
+			                        var name = $('#name').val();
+			                        var modalForm = $("#chkModal");
+			                        modalForm.attr("action","/mypage/delete");
+			                        modalForm.attr("method","post");
+			                        modalForm.submit();
+			                    }
+			                }
+			            }
+			        });
+			    });
 			
 			
 			$('#area-select').select2({
@@ -543,6 +575,8 @@ i.form-control-feedback {
 		    $("#canBtn").on("click",function(){
 		    	location.href = '/mypage';
 		    });
+		    
+		   
 
 		});
 	</script>

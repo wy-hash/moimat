@@ -201,13 +201,10 @@
   	
   	<delete id="updateMemStatus" parameterType="com.breaktheice.moimat.domain.MemberDomain">
   		 UPDATE	MEMBER	
-  		 
   		 SET
   		 		MEM_STATUS = #{memStatus}
-  		
   		 WHERE
-  		 		MEM_EMAIL = #{memEmail}
-  	
+  		 		MEM_ID = #{memId}
   	</delete>
 	
 </mapper>
