@@ -2,6 +2,7 @@ package com.breaktheice.moimat.service;
 
 import com.breaktheice.moimat.domain.TeamCommentsDTO;
 import com.breaktheice.moimat.domain.TeamCommentsDomain;
+import com.breaktheice.moimat.domain.TeamPostDomain;
 
 import java.util.List;
 
@@ -12,4 +13,6 @@ public interface TeamCommentsService {
     Long writeComment(TeamCommentsDomain comment);
 
     TeamCommentsDTO getCommentById(Long cmtId);
+
+    List<TeamPostDomain> addNumOfComments(List<TeamPostDomain> posts);
 }
