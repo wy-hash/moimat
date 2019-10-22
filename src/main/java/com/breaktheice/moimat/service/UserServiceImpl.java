@@ -58,6 +58,8 @@ public class UserServiceImpl implements UserService {
 	public boolean updateMember(MemberDomain member) {
 
 		int cnt = userMapper.updateMember(member);
+		userMapper.updateTeamMember(member);
+		userMapper.updateMeetMember(member);
 		
 		log.info("update result: " + member);
 		if (cnt == 1) {

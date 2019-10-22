@@ -26,5 +26,23 @@ public class UserMapperTests {
 		System.out.println(member.getMemNickname());
 		System.out.println(member.getMemBirthday());
 	}
+	
+	@Test
+	public void updateTeamMembertest() {
+		//updateMember 이후 나온 MemberDomain 객체로 업데이트가 되는가를 테스트하는거임 
+		MemberDomain member = new MemberDomain();
+		member.setMemId(5L);
+		um.updateMember(member);
+		um.updateTeamMember(member);
+	}
+	
+	@Test
+	public void updateMeetMemberTest() {
+		MemberDomain member = new MemberDomain();
+		member.setMemId(5L);
+		um.updateMember(member);
+		um.updateTeamMember(member);
+		um.updateMeetMember(member);
+	}
 
 }

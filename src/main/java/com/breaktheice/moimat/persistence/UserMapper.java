@@ -28,6 +28,10 @@ public interface UserMapper {
 	
 	public int updateMember(MemberDomain member);
 	
+	public int updateTeamMember(MemberDomain member);
+	
+	public int updateMeetMember(MemberDomain member);
+	
 	public int deleteMember(MemberDomain member);
 	
 	public int updateMemStatus(MemberDomain member);
