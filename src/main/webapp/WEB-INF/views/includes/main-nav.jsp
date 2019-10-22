@@ -90,7 +90,7 @@
 						            
 						            <!-- Menu list item -->
 						            <li>
-						            	<a href="#">
+						            	<a href="/mypage">
 						            		<i class="fa fa-user"></i>
 						            		<span class="menu-title">
 						            			<strong>내 정보</strong>

@@ -27,18 +27,18 @@
 			MEM_ID = #{memId}
 	</select>
 	
-	<select id="getRecentPost" resultType="com.breaktheice.moimat.domain.PostDomain">
+	<select id="getRecentPost" resultType="com.breaktheice.moimat.domain.TeamPostDomain">
 		SELECT
 			POST_ID,
 			POST_TITLE,
-			TO_CHAR(POST_UPDATE, 'YYYY-MM-DD') POST_UPDATE
+			POST_UPDATE
 		FROM       
 	        (SELECT
 				*
 			FROM
-				POST
+				TEAM_POST
 			WHERE
-				MEM_ID = #{MEM_ID}
+				POST_EMAIL = #{memEmail}
 			ORDER BY
 				POST_UPDATE DESC)
 		<![CDATA[

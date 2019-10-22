@@ -92,7 +92,8 @@
 									<div class="row">
 										<div class="col-xs-1 col-sm-2"></div>
 										<div class="col-xs-10 col-sm-8 text-center">
-											<button id="modBtn" class="btn btn-default btn-hover-warning">정보 수정</button>
+											<button id="modBtn" class="btn btn-default btn-hover-warning">정보
+												수정</button>
 										</div>
 										<div class="col-xs-1 col-sm-2"></div>
 									</div>
@@ -103,15 +104,15 @@
 					</div>
 					<div class="panel">
 						<div class="panel-heading">
-							<h3 class="panel-title">최근 가입한 모임</h3>
+							<h3 class="panel-title">최근 활동한 모임</h3>
 						</div>
 						<!-- BASIC FORM ELEMENTS -->
 						<!--===================================================-->
 						<div class="panel-body">
 							<div class="row">
 								<c:if test="${empty UserInfoVO.teamDomain}">
-								<label><strong>"아직 가입한 모임이 없습니다."</strong></label>
-							</c:if>
+									<label><strong>"아직 가입한 모임이 없습니다."</strong></label>
+								</c:if>
 								<c:forEach items="${UserInfoVO.teamDomain }" var="teamDomain">
 									<div class="col-lg-6">
 										<div class="panel">
@@ -143,33 +144,41 @@
 						<!-- BASIC FORM ELEMENTS -->
 						<!--===================================================-->
 						<div class="panel-body">
-							<c:if test="${empty UserInfoVO.postDomain}">
-								<label><strong>"아직 작성한 글이 없습니다."</strong></label>
-							</c:if>
-							<c:if test="${not empty UserInfoVO.postDomain}">
-								<table class="table table-hover table-vcenter">
-									<thead>
-										<tr>
-											<th class="min-width">번호</th>
-											<th>제목</th>
-											<th class="text-center">작성일</th>
-										</tr>
-									</thead>
-									<tbody>
-										<c:forEach items="${UserInfoVO.postDomain}" var="postDomain">
-											<tr>
-												<td class="text-center">${postDomain.postId }</td>
-												<td><span class="text-main text-semibold">${postDomain.postTitle }</span>
-												</td>
-												<td class="text-center"><span class="text-semibold">
-														${postDomain.postUpdate } </span></td>
-											</tr>
-										</c:forEach>
+							<div class="row">
+								<c:if test="${empty UserInfoVO.postDomain}">
+									<label><strong>"아직 작성한 글이 없습니다."</strong></label>
+								</c:if>
+								<div class="col-md-1"></div>
+								<div class="col-md-10">
+									<c:if test="${not empty UserInfoVO.postDomain}">
+										<table class="table table-hover table-vcenter">
+											<thead>
+												<tr>
+													<th class="col-xs-1 text-center">번호</th>
+													<th class="col-xs-9">제목</th>
+													<th class="col-xs-2 text-center">작성일</th>
+												</tr>
+											</thead>
+											<tbody>
+												<c:forEach items="${UserInfoVO.postDomain}" var="postDomain">
+													<tr>
+														<td class="text-center">${postDomain.postId }</td>
+														<td class="text-overflow"><span class="text-main text-semibold"><a href="#">${postDomain.postTitle }</a></span>
+														</td>
+														<td class="text-center"><span class="text-semibold">
+																${postDomain.postUpdate } </span></td>
+													</tr>
+												</c:forEach>
 
-									</tbody>
-								</table>
+											</tbody>
+										</table>
 
-							</c:if>
+									</c:if>
+								</div>
+								<div class="col-md-1"></div>
+							</div>
+
+
 
 						</div>
 					</div>
@@ -202,7 +211,7 @@
 			$('#modBtn').on('click',function(){
 				location.href = "/mypage/usercheck"
 			});
-		});
+		});	
 	</script>
 </body>
 </html>

@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
 		UserInfoVO uiv = new UserInfoVO();
 		MemberDomain md = userMapper.getUserInfo(memId);
 		uiv.setMemberDomain(md);
-		uiv.setPostDomain(userMapper.getRecentPost(memId));
+		uiv.setPostDomain(userMapper.getRecentPost(md.getMemEmail()));
 		uiv.setTeamDomain(userMapper.getRecentGroup(memId));
 		List<InterestDomain> interst = userMapper.getInterest();
 		Map<Long, String> intMap = new HashMap<Long, String>();

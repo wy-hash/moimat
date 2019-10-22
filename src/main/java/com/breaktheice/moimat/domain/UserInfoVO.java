@@ -12,7 +12,7 @@ public class UserInfoVO {
 	// 유저 참여 team
 	private List<TeamVO> teamDomain;
 	// 유저 작성 글 List
-	private List<PostDomain> postDomain;
+	private List<TeamPostDomain> postDomain;
 	// 관심사 3개
 	private Map<Long,String> intMap;
 	
