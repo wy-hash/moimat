@@ -23,6 +23,7 @@ import com.breaktheice.moimat.domain.TeamPostDomain;
 import com.breaktheice.moimat.service.TeamChatService;
 import com.breaktheice.moimat.service.TeamCommentsService;
 import com.breaktheice.moimat.service.TeamPhotoService;
+import com.breaktheice.moimat.service.TeamPostService;
 import com.breaktheice.moimat.service.TeamService;
 import com.breaktheice.moimat.util.AdminCriteria;
 
@@ -48,6 +49,9 @@ public class GroupsController {
 
 	@Autowired
 	private TeamCommentsService teamCommentsService;
+
+	@Autowired
+	private TeamPostService teamPostService;
 	
 	@GetMapping(value= {"","/"})
 	public String index(@ModelAttribute("loginVO") MemberDomain member, Model model) {
@@ -118,7 +122,11 @@ public class GroupsController {
 	@GetMapping("/{groupId}/posts")
 	public String posts(@PathVariable Long groupId, Model model) {
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
-		return "groups/posts";
+		List<TeamPostDomain> posts = teamPostService.getAllPosts(groupId, 23L);
+		teamCommentsService.addNumOfComments(posts);
+		model.addAttribute("posts", posts);
+
+		return "groups/posts/list";
 	}
 
 	@GetMapping("/{groupId}/chat")

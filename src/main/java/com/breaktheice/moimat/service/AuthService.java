@@ -78,4 +78,6 @@ public interface AuthService {
 	
 	public Long getAreaId(String areaRegionKey);
 
+	MemberDomain getMemberInfo(Long memId);
+
 }

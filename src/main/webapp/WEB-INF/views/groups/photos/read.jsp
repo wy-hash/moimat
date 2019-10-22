@@ -196,7 +196,7 @@
 										<div class="media-block">
 											<div class="media-body">
 												<div class="media media-userinfo">
-													<a class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="/resources/img/profile-photos/10.png"></a>
+													<a class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="${ userImg }"></a>
 													<div class="pad-btm">
 														<div class="text-semibold media-heading">${ post.postTitle }</div>
 														<a href="#" class="btn-link text-semibold box-inline">${ post.postNickname }</a><span class="text-muted text-sm pad-lft"><i class="fa fa-clock-o"></i> ${ post.postRegdate } <i class="fa fa-eye"></i> ${ post.postHit }</span>
