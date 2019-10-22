@@ -88,10 +88,15 @@
 												</p>
 											</div>
 										</div>
+										<div class="col-md-12">
+											<textarea class="form-control" rows="5"
+												style="resize: none; background-color: white; cursor: default;"
+												disabled>${ UserInfoVO.memberDomain.memContent }</textarea>
+										</div>
 									</div>
 									<div class="row">
 										<div class="col-xs-1 col-sm-2"></div>
-										<div class="col-xs-10 col-sm-8 text-center">
+										<div class="col-xs-10 col-sm-8 text-center mar-top">
 											<button id="modBtn" class="btn btn-default btn-hover-warning">정보
 												수정</button>
 										</div>
@@ -144,10 +149,10 @@
 						<!-- BASIC FORM ELEMENTS -->
 						<!--===================================================-->
 						<div class="panel-body">
+							<c:if test="${empty UserInfoVO.postDomain}">
+								<label><strong>"아직 작성한 글이 없습니다."</strong></label>
+							</c:if>
 							<div class="row">
-								<c:if test="${empty UserInfoVO.postDomain}">
-									<label><strong>"아직 작성한 글이 없습니다."</strong></label>
-								</c:if>
 								<div class="col-md-1"></div>
 								<div class="col-md-10">
 									<c:if test="${not empty UserInfoVO.postDomain}">
@@ -163,9 +168,11 @@
 												<c:forEach items="${UserInfoVO.postDomain}" var="postDomain">
 													<tr>
 														<td class="text-center">${postDomain.postId }</td>
-														<td class="text-overflow"><span class="text-main text-semibold"><a href="#">${postDomain.postTitle }</a></span>
+														<td class="text-overflow"><span
+															class="text-main text-semibold"><a href="#">${postDomain.postTitle }</a></span>
 														</td>
-														<td class="text-center"><span class="text-semibold text-sm">
+														<td class="text-center"><span
+															class="text-semibold text-sm">
 																${postDomain.postUpdate } </span></td>
 													</tr>
 												</c:forEach>
