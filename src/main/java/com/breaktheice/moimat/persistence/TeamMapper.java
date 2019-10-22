@@ -1,10 +1,12 @@
 package com.breaktheice.moimat.persistence;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.breaktheice.moimat.domain.AdminVO;
 import com.breaktheice.moimat.domain.AreaDomain;
 import com.breaktheice.moimat.domain.InterestDomain;
+import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.domain.TeamDomain;
 import com.breaktheice.moimat.util.AdminCriteria;
 
@@ -16,12 +18,17 @@ public interface TeamMapper {
 	// 전체 모임 수 
 	public Long totalCount(AdminCriteria cri);
 	
+	
 	// 모임 목록
 	public List<TeamDomain> list(AdminCriteria cri);
 	// 모임 상세
 	public TeamDomain view(TeamDomain domain);
 	// 모임 추가
 	public Long add(TeamDomain domain);
+	// 모임 등록시 모임장으로 추가
+	public Long addGroupMaster(HashMap<String , Object> map);
+	public Long getTeamid(TeamDomain domain);
+	
 	// 모임 수정
 	public Long update(TeamDomain domain);
 	// 모임 삭제
