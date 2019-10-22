@@ -7,7 +7,29 @@
 	</select>
 
 	<select id="selectAllPosts" resultType="com.breaktheice.moimat.domain.TeamPostDomain">
-		select * from team_post where team_id = #{ teamId } and brd_id = #{ brdId } order by post_id desc
+		SELECT
+			POST_ID, POST_NUM, TEAM_ID, BRD_ID, POST_TITLE, 
+			POST_CONTENT, TMEM_ID, POST_TMEM_LEVEL, POST_NICKNAME, POST_EMAIL,
+			POST_REGDATE, POST_UPDATE, POST_HIT, POST_LIKE, POST_DISLIKE
+		FROM
+			(SELECT rownum rn, TP.*
+			FROM
+				(SELECT
+					*
+				FROM
+					TEAM_POST
+				WHERE
+					TEAM_ID = #{teamId} AND BRD_ID = #{cri.brdId}
+				ORDER BY 
+					POST_ID DESC) TP
+			WHERE
+		<include refid="criteria"></include>
+		<![CDATA[
+			rownum <= #{cri.pageNum} * #{cri.amount}		
+			)
+		WHERE
+			rn > (#{cri.pageNum} -1) * #{cri.amount}
+		]]>		
 	</select>
 
 	<insert id="insertPost" parameterType="com.breaktheice.moimat.domain.TeamPostDomain">
@@ -30,4 +52,25 @@
 	<update id="updateViewCount">
 		update TEAM_POST set POST_HIT = POST_HIT + 1 where POST_ID = #{ postId }
 	</update>
+	
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item="type" collection="cri.typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							POST_TITLE LIKE '%'||#{cri.keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							POST_CONTENT LIKE '%'||#{cri.keyword}||'%'
+						</when>
+						<when test="type == 'W'.toString()">
+							POST_NICKNAME LIKE '%'||#{cri.keyword}||'%'
+						</when>
+					</choose>
+				</trim>			
+			</foreach>
+		</trim>
+	</sql>
+	
 </mapper>
