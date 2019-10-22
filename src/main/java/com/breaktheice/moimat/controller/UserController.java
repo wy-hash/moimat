@@ -1,5 +1,6 @@
 package com.breaktheice.moimat.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -24,6 +26,7 @@ import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.service.AuthService;
 import com.breaktheice.moimat.service.FileUploadService;
 import com.breaktheice.moimat.service.UserService;
+import com.breaktheice.moimat.util.SHA256;
 import com.google.gson.Gson;
 
 import lombok.extern.log4j.Log4j;
@@ -41,6 +44,9 @@ public class UserController {
    
    @Autowired
    FileUploadService fileUploadService;
+   
+   @Autowired
+   SHA256 sha256;
    
    @GetMapping("")
    public String users(Model model, HttpServletRequest request) {
@@ -87,15 +93,62 @@ public class UserController {
    public String userEditPage(Model model, HttpServletRequest request) {
       
       log.info("get : /users/edit..호출");
-      
-      HttpSession session = request.getSession(false);
-      
+      HttpSession session = request.getSession();
+      MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
+      Long memId = md.getMemId();
+      model.addAttribute("memberDomain",userService.getMemberDomain(memId));
       model.addAttribute("areas", authService.getAllAreas());
 	  model.addAttribute("interest", authService.getAllInterest());
       log.info("인증");
       
       return "user/userEdit";
    }
+   
+   	@PostMapping("/edit")
+	public String modifyUser(MemberDomain member,HttpServletRequest request,
+								  @RequestParam("areaRegionKey") String areaRegionKey,
+								  @RequestParam("intKey") String intKey,
+								  @RequestParam(value = "file", required = false) MultipartFile file) {
+		
+		log.info("member: " + member);
+		log.info("area: " + areaRegionKey);
+		log.info("interest: " + intKey); // eg)IA01,IA02,IA03
+		System.out.println();
+		HttpSession session = request.getSession();
+	    MemberDomain loginVO = (MemberDomain) session.getAttribute("loginVO");
+	    Long memId = loginVO.getMemId();
+		member.setMemId(memId);
+		System.out.println("asd"+member.getMemPassword()+"asd");
+		if(member.getMemPassword().length() == 0) {
+			member.setMemPassword("");
+		}else {
+			String plain = member.getMemPassword();
+			member.setMemPassword(sha256.encrypt(plain));
+		}
+		member.setAreaId(authService.getAreaId(areaRegionKey));
+		String[] interestKeyList = intKey.split(",");
+		member.setMemInt1(authService.getInterestKey(interestKeyList[0].trim()));
+		member.setMemInt2(authService.getInterestKey(interestKeyList[1].trim()));
+		member.setMemInt3(authService.getInterestKey(interestKeyList[2].trim()));
+
+		String uploadPath = "";
+		
+		if (0 < file.getSize()) {
+			uploadPath = fileUploadService.saveFile("USER", file);
+			member.setMemPhoto(uploadPath);
+		}
+
+		if(userService.updateMember(member)) {
+			loginVO = userService.getMemberDomain(memId);
+			loginVO.setMemPassword("");
+			session.removeAttribute("loginVO");
+			session.setAttribute("loginVO", loginVO);
+		};
+
+		log.info("inserted member info: " + member);
+
+		return "redirect:/mypage";
+	}
    
    @RequestMapping(value = "/photo", method = RequestMethod.POST)
    public String uploadPhoto(MultipartFile photoFile) {
@@ -117,16 +170,6 @@ public class UserController {
       
       return "edit/mypage";
    }
-   @PostMapping("/edit")
-   public String userEdit(MemberDomain user) {
-      log.info("post : /users/edit..호출");
-      log.info(user);
-      //  회원정보 수정
-      userService.updateMember(user);
-      
-      return "redirect:/mypage/";
-   }
-   
 	/**
 	 * 사진럽로드
 	 * 
@@ -158,7 +201,7 @@ public class UserController {
                member.setMemPhoto(fileUrl);	
                
                //  회원정보 수정
-               userService.updateMember(member);
+//               userService.updateMember(member);
         }
 
 		

@@ -91,7 +91,7 @@
 									</div>
 									<div class="row">
 										<div class="col-xs-1 col-sm-2"></div>
-										<div class="col-xs-10 col-sm-8 text-right">
+										<div class="col-xs-10 col-sm-8 text-center">
 											<button id="modBtn" class="btn btn-default btn-hover-warning">정보 수정</button>
 										</div>
 										<div class="col-xs-1 col-sm-2"></div>
@@ -109,6 +109,9 @@
 						<!--===================================================-->
 						<div class="panel-body">
 							<div class="row">
+								<c:if test="${empty UserInfoVO.teamDomain}">
+								<label><strong>"아직 가입한 모임이 없습니다."</strong></label>
+							</c:if>
 								<c:forEach items="${UserInfoVO.teamDomain }" var="teamDomain">
 									<div class="col-lg-6">
 										<div class="panel">

@@ -22,7 +22,11 @@ public class TeamSettingsMapperTests {
 	@Autowired
 	private UserMapper um;
 	
-	
+	@Test
+	public void getUserInfo() {
+		um.getUserInfo(83L);
+		um.getAreaName(17L);
+	}
 	
 	
 	@Test

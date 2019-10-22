@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +43,7 @@ public class UserServiceImpl implements UserService {
 	public boolean checkPassword(MemberDomain memberDomain) {		// 패스워드 체크 여부 확인
 		log.info(memberDomain);
 		
-		String password = SHA256.encrypt(memberDomain.getMemPassword());
+		String password = sha256.encrypt(memberDomain.getMemPassword());
 
 		MemberDomain member = authMapper.login(memberDomain.getMemEmail());
 		
@@ -51,7 +53,6 @@ public class UserServiceImpl implements UserService {
 		}	
 		
 		return false;
-		
 	}
 	
 	public boolean updateMember(MemberDomain member) {
@@ -62,9 +63,7 @@ public class UserServiceImpl implements UserService {
 		if (cnt == 1) {
 			return true;
 		}
-
 		return false;
-
 	}
 	
 	public boolean withdrawMember(MemberDomain member) {
@@ -76,9 +75,7 @@ public class UserServiceImpl implements UserService {
 		if (cnt == 1) {
 			return true;
 		}
-
 		return false;
-		
 	}
 
 	@Override
@@ -101,9 +98,17 @@ public class UserServiceImpl implements UserService {
 			areaMap.put(areaDomain.getAreaId(),areaFullName);
 		}
 		uiv.setAreaMap(areaMap);
-		uiv.setAreaName(userMapper.getAreaName(md.getAreaId()));
+		
 		return uiv;
 	}
+
+	@Override
+	public MemberDomain getMemberDomain(Long memId) {
+		
+		return userMapper.getUserInfo(memId);
+	}
+	
+	
 	
 	
 }

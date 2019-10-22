@@ -17,6 +17,5 @@ public class UserInfoVO {
 	private Map<Long,String> intMap;
 	
 	private Map<Long,String> areaMap;
-	// 지역 명
-	private String areaName;
+	
 }

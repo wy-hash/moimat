@@ -4,6 +4,7 @@
 	
 	<select id="getUserInfo" resultType="com.breaktheice.moimat.domain.MemberDomain">
 		SELECT
+			MEM_ID,
 			MEM_EMAIL,
 			MEM_PASSWORD,
 			MEM_NICKNAME,
@@ -145,11 +146,11 @@
 			,MEM_INT3		= CASE WHEN #{memInt3} 		= 0 THEN MEM_INT3 		ELSE 	#{memInt3} 		END   -->
 			
 		 <trim prefix="SET" suffixOverrides=",">
-      		<if test="memEmail != null and memEmail !='' ">MEM_EMAIL=#{memEmail},</if>
-      		<if test="memPassword != null and memPassword !='' ">MEM_PASSWORD=#{memPassword},</if>
-      		<if test="memBirthday != null and memBirthday !='' ">MEM_BIRTHDAY=TO_DATE(#{memBirthday}, 'YYYYMMDD'),</if>
-      		<if test="memNickname != null and memNickname !='' ">MEM_NICKNAME=#{memNickname},</if>
-      		<if test="memGender != null and memGender !='' ">MEM_GENDER=#{memGender},</if>
+      		<if test="memEmail != null and memEmail !=''">MEM_EMAIL=#{memEmail},</if>
+      		<if test="memPassword != null and memPassword !=''">MEM_PASSWORD=#{memPassword},</if>
+      		<if test="memBirthday != null and memBirthday !=''">MEM_BIRTHDAY=TO_DATE(#{memBirthday}, 'YYYYMMDD'),</if>
+      		<if test="memNickname != null and memNickname !=''">MEM_NICKNAME=#{memNickname},</if>
+      		<if test="memGender != null and memGender !=''">MEM_GENDER=#{memGender},</if>
       		<if test="areaId != null">AREA_ID=#{areaId},</if>
       		<if test="memContent != null">MEM_CONTENT=#{memContent},</if>
       		<if test="memPhoto != null">MEM_PHOTO=#{memPhoto},</if>
@@ -159,10 +160,7 @@
       		<if test="memInt2 != null">MEM_INT2=#{memInt2},</if>
       		<if test="memInt3 != null">MEM_INT3=#{memInt3}</if>
       	</trim>
-      		
-  		
-		<trim prefix="WHERE" prefixOverrides="AND |OR ">
-
+  		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 		    <if test="memId != null and memId != '' ">
 		         MEM_ID = #{memId}
 		    </if>
@@ -170,7 +168,6 @@
 		        and MEM_EMAIL = #{memEmail}
 		    </if>
   		</trim>
-  		
   	</update>
   	
   	<delete id="deleteMember" parameterType="com.breaktheice.moimat.domain.MemberDomain">
