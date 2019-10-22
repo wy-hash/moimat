@@ -196,7 +196,7 @@
                                     <div class="media-block">
                                         <div class="media-body">
                                             <div class="media media-userinfo">
-                                                <a class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="${ userImg }"></a>
+                                                <a class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="${ user.memPhoto }"></a>
                                                 <div class="pad-btm">
                                                     <div class="text-semibold media-heading">${ post.postTitle }</div>
                                                     <a href="#" class="btn-link text-semibold box-inline">${ post.postNickname }</a><span class="text-muted text-sm pad-lft"><i class="fa fa-clock-o"></i> ${ post.postRegdate } <i class="fa fa-eye"></i> ${ post.postHit }</span>
@@ -209,7 +209,7 @@
 
                                             <div class="media media-button">
                                                 <div class="media-right">
-                                                    <c:if test="${ loginVO.memId eq post.tmemId }">
+                                                    <c:if test="${ loginVO.memId eq user.memId }">
                                                         <a href="/groups/${ group.teamId }/posts/${ post.postId }/edit"><button class="btn btn-warning">수정</button></a>
                                                         <a href="/groups/${ group.teamId }/posts/${ post.postId }/delete"><button class="btn btn-danger">삭제</button></a>
                                                     </c:if>

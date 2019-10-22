@@ -60,7 +60,7 @@ public class TeamPostController {
         model.addAttribute("comments", teamCommentsService.getAllComments(postId));
 
         MemberDomain postingUser = authService.getMemberInfo(teamMemberService.getMember(post.getTmemId()).getMemId());
-        model.addAttribute("userImg", postingUser.getMemPhoto());
+        model.addAttribute("user", postingUser);
 
         return "/groups/posts/read";
     }
