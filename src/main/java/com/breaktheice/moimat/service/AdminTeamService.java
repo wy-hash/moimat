@@ -21,7 +21,7 @@ public interface AdminTeamService {
 	// 모임 상세
 	public TeamDomain view(TeamDomain domain);
 	// 모임 추가
-	public Long add(TeamDomain domain);
+	public Long add(TeamDomain domain, MemberDomain member);
 	// 모임 수정
 	public Long update(TeamDomain domain);
 	// 모임 삭제

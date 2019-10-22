@@ -60,5 +60,13 @@ public class TeamSettingsController {
 	public ResponseEntity<List<AreaDomain>> getAreaRegin(@PathVariable("areakey")String areakey){
 		return new ResponseEntity<>(tss.getRegionArea(areakey),HttpStatus.OK);
 	}
-	
+
+	@ResponseBody
+	@GetMapping(value = "/getSettingPage/new/json",
+	produces = {
+			MediaType.APPLICATION_JSON_UTF8_VALUE
+	})
+	public ResponseEntity<TeamSettingsPageVO> getSettingBasic(){
+		return new ResponseEntity<>(tss.getSettingBasic(),HttpStatus.OK);
+	}
 }

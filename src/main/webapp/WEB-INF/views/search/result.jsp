@@ -95,7 +95,7 @@
                 <!--Page Title-->
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                  <div id="page-title">
-<!--                     <h1 class="page-header text-overflow">Page Template</h1> -->
+                    <h1 class="page-header text-overflow">모임 찾기</h1>
                 </div>
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <!--End page title-->
@@ -106,8 +106,11 @@
                 	<!-- #################################### -->
                 	<!-- #### WRITE CODE BELOW THIS LINE #### -->
             	    <!-- #################################### -->
-            	    
-  	    		
+                   	<div class="row text-lg-right">
+                    	<p class="text-right"> 찾으시는 모임이 없으신가요? 직접 만들어 보세요!
+                    	<button id="newGroups" class="btn btn-mint mar-all">모임 생성</button> 
+						</p>
+					</div>
   	    			<div class="row pad-ver bg-trans-dark">
            	    		<div class="col-xs-12 col-sm-10 col-sm-offset-1 pad-hor">
            	    		<form id="searchForm" action="/result" method="post">
@@ -130,11 +133,6 @@
 									</span>
 							</div>
 	    					</div>
-<!-- 	    					<div class="col-sm-1"> -->
-<!-- 		    						<button class="btn btn-default btn-icon" type="submit"> -->
-<!-- 				      					<i class="glyphicon glyphicon-search"></i> -->
-<!-- 			      					</button> -->
-<!-- 		      				</div> -->
 						</form>
 						</div>
 					</div> 
@@ -218,6 +216,18 @@
 	<c:if test="${ !empty loginVO }">
 		<%@ include file="../includes/modals.jsp" %>
 	</c:if>
-	<%-- for modal --%>
+	<%-- for modal --%>	
+	<script>
+	$(document).ready(function(){
+
+		$('#newGroups').on('click',function(){
+			
+			const url = location.origin+'/groups/new';
+			location.href = url;
+		});
+		
+	});
+	
+	</script>
 </body>
 </html>

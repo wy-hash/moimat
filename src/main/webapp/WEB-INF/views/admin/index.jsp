@@ -66,6 +66,103 @@
 					<!-- #################################### -->
 					<!--  관리자 인덱스 -->
 					<!--===================================================-->
+					
+					<div class="eq-height">
+						<div class="panel col-sm-6">
+							<div class="panel-heading">
+								<h4 class="panel-title">회원이 가장 선호하는 관심사</h4>
+							</div>
+							<div class="panel-body">
+								<canvas id="userInterest"></canvas>
+							</div>
+						</div>
+						<div class="panel col-sm-6">
+							<div class="panel-heading">
+								<h4 class="panel-title">회원이 가장 선호하는 활동지역</h4>
+							</div>
+							<div class="panel-body">
+								<canvas id="userArea"></canvas>
+							</div>
+						</div>
+					</div>
+					
+
+					<div class="eq-height">
+						<div class="panel col-sm-6">
+							<div class="panel-heading">
+								<h4 class="panel-title">모임에서 인기 많은 지역</h4>
+							</div>
+							<div class="panel-body">
+								<canvas id="groupArea"></canvas>
+							</div>
+						</div>
+						<div class="panel col-sm-6">
+							<div class="panel-heading">
+								<h4 class="panel-title">모임에서 인기 많은 관심사</h4>
+							</div>
+							<div class="panel-body">
+								<canvas id="groupInterest"></canvas>
+							</div>
+						</div>
+					</div>
+
+					<div class="eq-height">
+						<div class="panel col-sm-12">
+							<div class="panel-heading">
+								<h4 class="panel-title">최근 가입자 수</h4>
+							</div>
+							<div class="panel-body">
+							<div class="col-sm-offset-1">
+								<canvas id="regdateCount" style="max-width: 600px; text-align: center;"></canvas>
+							</div>
+						</div>
+					</div>
+					<div class="panel col-sm-12">
+						<div class="panel-heading">
+							<h4 class="panel-title">최근 등록된 모임</h4>
+						</div>
+						<div class="panel-body">
+							<div class="table-responsive">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>No</th>
+										<th>모임 이름</th>
+										<th>모임 짧은 소개</th>
+										<th>관심사</th>
+										<th>관심지역</th>
+										<th>등록일</th>
+										<th>최대 인원수</th>
+										<th>모임생성자</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:if test="${empty teamList}">
+										<tr>
+											<td colspan="8" class="text-center"> 값이 없습니다.</td>
+										</tr>
+									</c:if>
+									<c:forEach items="${teamList }" var="list" varStatus="status" end="4">
+										<tr>
+											<td>${(pageMaker.cri.pageNum-1)*pageMaker.cri.amount + status.count}</td>
+											<td><a href="#" class="view" data-id="${list.teamId }">
+													${list.teamName}
+												</a></td>
+											<td>${list.teamShortContent }</td>
+											<td>${list.intName }</td>
+											<td>${list.areaRegionName }</td>
+											<td>
+												<fmt:formatDate value="${list.teamRegdate}" pattern="yyyy년 MM월 dd일" />
+											</td>
+											<td>${list.teamMax} 명</td>
+											<td>${list.memNickName}</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+							</div>
+						</div>
+					</div>
 					<div class="panel col-sm-12">
 						<div class="panel-heading">
 							<h4 class="panel-title">답변 안된 질문글</h4>
@@ -114,99 +211,6 @@
 						</div>
 					</div>
 
-					<div class="panel col-sm-12">
-						<div class="panel-heading">
-							<h4 class="panel-title">최근 등록된 모임</h4>
-						</div>
-						<div class="panel-body">
-							<div class="table-responsive">
-							<table class="table table-bordered">
-								<thead>
-									<tr>
-										<th>No</th>
-										<th>모임 이름</th>
-										<th>모임 짧은 소개</th>
-										<th>관심사</th>
-										<th>관심지역</th>
-										<th>등록일</th>
-										<th>최대 인원수</th>
-										<th>모임생성자</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:if test="${empty teamList}">
-										<tr>
-											<td colspan="8" class="text-center"> 값이 없습니다.</td>
-										</tr>
-									</c:if>
-									<c:forEach items="${teamList }" var="list" varStatus="status" end="4">
-										<tr>
-											<td>${(pageMaker.cri.pageNum-1)*pageMaker.cri.amount + status.count}</td>
-											<td><a href="#" class="view" data-id="${list.teamId }">
-													${list.teamName}
-												</a></td>
-											<td>${list.teamShortContent }</td>
-											<td>${list.intName }</td>
-											<td>${list.areaRegionName }</td>
-											<td>
-												<fmt:formatDate value="${list.teamRegdate}" pattern="yyyy년 MM월 dd일" />
-											</td>
-											<td>${list.teamMax} 명</td>
-											<td>${list.memNickName}</td>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-							</div>
-						</div>
-					</div>
-
-					<div class="eq-height">
-						<div class="panel col-sm-12">
-							<div class="panel-heading">
-								<h4 class="panel-title">최근 가입자 수</h4>
-							</div>
-							<div class="panel-body">
-								<canvas id="regdateCount" style="max-width: 350px; "></canvas>
-							</div>
-						</div>
-					</div>
-					<div class="eq-height">
-						<div class="panel col-sm-6">
-							<div class="panel-heading">
-								<h4 class="panel-title">회원이 가장 선호하는 관심사</h4>
-							</div>
-							<div class="panel-body">
-								<canvas id="userInterest"></canvas>
-							</div>
-						</div>
-						<div class="panel col-sm-6">
-							<div class="panel-heading">
-								<h4 class="panel-title">회원이 가장 선호하는 활동지역</h4>
-							</div>
-							<div class="panel-body">
-								<canvas id="userArea"></canvas>
-							</div>
-						</div>
-					</div>
-					<div class="eq-height">
-						<div class="panel col-sm-6">
-							<div class="panel-heading">
-								<h4 class="panel-title">모임에서 인기 많은 지역</h4>
-							</div>
-							<div class="panel-body">
-								<canvas id="groupArea"></canvas>
-							</div>
-						</div>
-						<div class="panel col-sm-6">
-							<div class="panel-heading">
-								<h4 class="panel-title">모임에서 인기 많은 관심사</h4>
-							</div>
-							<div class="panel-body">
-								<canvas id="groupInterest"></canvas>
-							</div>
-						</div>
-					</div>
 
 				</div>
 				<!--===================================================-->

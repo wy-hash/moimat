@@ -48,7 +48,8 @@ public class UserController {
    @Autowired
    SHA256 sha256;
    
-   @GetMapping("")
+  
+   @GetMapping(value= {"","/"}) // user/
    public String users(Model model, HttpServletRequest request) {
       
       log.info("get : /mypage/..호출");

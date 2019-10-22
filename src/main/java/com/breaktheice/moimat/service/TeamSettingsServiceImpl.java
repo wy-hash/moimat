@@ -34,6 +34,14 @@ public class TeamSettingsServiceImpl implements TeamSettingsService{
 	}
 
 	@Override
+	public TeamSettingsPageVO getSettingBasic() {
+		List<AreaDomain> areaKey = tsm.getAreaKey();
+		List<InterestDomain> mainInterest = tsm.getMainInterest();
+		TeamSettingsPageVO tsp = new TeamSettingsPageVO(null, null, null, null, areaKey, null, null, mainInterest, null);
+		
+		return tsp;
+	}
+	@Override
 	public List<AreaDomain> getRegionArea(String areakey) {
 		return tsm.getAreaRegionKey(areakey);
 	}
