@@ -41,6 +41,9 @@ public class GroupsController {
 
 	@Autowired
 	private TeamCommentsService teamCommentsService;
+
+	@Autowired
+	private TeamPostService teamPostService;
 	
 	@GetMapping("")
 	public String index(@ModelAttribute("loginVO") MemberDomain member, Model model) {
@@ -86,6 +89,10 @@ public class GroupsController {
 	@GetMapping("/{groupId}/posts")
 	public String posts(@PathVariable Long groupId, Model model) {
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
+		List<TeamPostDomain> posts = teamPostService.getAllPosts(groupId, 23L);
+		teamCommentsService.addNumOfComments(posts);
+		model.addAttribute("posts", posts);
+
 		return "groups/posts/list";
 	}
 

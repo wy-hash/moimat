@@ -138,14 +138,18 @@
 											</tr>
 											</thead>
 											<tbody>
-												<tr>
-													<td>
-														<span class="text-main text-semibold">Desktop</span>
-														<br>
-														<small class="text-muted">Last 7 days : 4,234k</small>
-													</td>
-													<td class="text-center"><span class="text-danger text-semibold">- 28.76%</span></td>
-												</tr>
+												<c:forEach var="item" items="${ posts }">
+													<tr>
+														<td>
+															<span class="text-main text-bold">${ item.postTitle }</span> <span class="label label-default">${ item.commentNums }</span>
+															<br>
+															<small class="text-muted">
+																<i class="fa fa-pencil"> ${ item.postRegdate } </i> | <i class="fa fa-eye"> ${ item.postHit } </i>
+															</small>
+														</td>
+														<td class="text-center"><span class="text-semibold">${ item.postNickname }</span></td>
+													</tr>
+												</c:forEach>
 											</tbody>
 										</table>
 									</div>
