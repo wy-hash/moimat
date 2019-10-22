@@ -1,8 +1,5 @@
 package com.breaktheice.moimat.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import com.breaktheice.moimat.chat.ChatRoom;
 import com.breaktheice.moimat.chat.ChatRoomManager;
 import com.breaktheice.moimat.domain.TeamPostDomain;
@@ -17,13 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.breaktheice.moimat.chat.ChatRoom;
-import com.breaktheice.moimat.chat.ChatRoomManager;
 import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.service.TeamChatService;
 import com.breaktheice.moimat.service.TeamService;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
 import java.util.List;
@@ -47,6 +41,9 @@ public class GroupsController {
 
 	@Autowired
 	private TeamCommentsService teamCommentsService;
+
+	@Autowired
+	private TeamPostService teamPostService;
 	
 	@GetMapping("")
 	public String index(@ModelAttribute("loginVO") MemberDomain member, Model model) {
@@ -92,7 +89,11 @@ public class GroupsController {
 	@GetMapping("/{groupId}/posts")
 	public String posts(@PathVariable Long groupId, Model model) {
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
-		return "groups/posts";
+		List<TeamPostDomain> posts = teamPostService.getAllPosts(groupId, 23L);
+		teamCommentsService.addNumOfComments(posts);
+		model.addAttribute("posts", posts);
+
+		return "groups/posts/list";
 	}
 
 	@GetMapping("/{groupId}/chat")
