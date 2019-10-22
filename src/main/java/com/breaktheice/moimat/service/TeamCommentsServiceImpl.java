@@ -2,6 +2,7 @@ package com.breaktheice.moimat.service;
 
 import com.breaktheice.moimat.domain.TeamCommentsDTO;
 import com.breaktheice.moimat.domain.TeamCommentsDomain;
+import com.breaktheice.moimat.domain.TeamPostDomain;
 import com.breaktheice.moimat.persistence.TeamCommentsMapper;
 import com.breaktheice.moimat.service.TeamCommentsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,17 @@ public class TeamCommentsServiceImpl implements TeamCommentsService {
     }
 
     @Override
-    public TeamCommentsDomain getCommentById(Long cmtId) {
+    public TeamCommentsDTO getCommentById(Long cmtId) {
         return mapper.selectCommentById(cmtId);
+    }
+
+    @Override
+    public List<TeamPostDomain> addNumOfComments(List<TeamPostDomain> posts) {
+
+        for (TeamPostDomain post: posts) {
+            post.setCommentNums(mapper.selectNumsOfComments(post.getPostId()));
+        }
+
+        return posts;
     }
 }

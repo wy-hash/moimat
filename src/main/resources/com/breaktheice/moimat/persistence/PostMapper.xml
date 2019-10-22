@@ -160,7 +160,7 @@
                 mem_id 		  =  #{memId}, 
                 post_nickname =  #{postNickname}, 
                 post_email 	  =  #{postEmail}, 
-                post_reply 	  =  #{postReply},
+<!--                 post_reply 	  =  #{postReply}, -->
                 post_update   =  sysdate
         WHERE   post_id 	  =  #{postId}
 	</update>
@@ -169,4 +169,91 @@
 	    DELETE FROM post
     	WHERE post_id = #{postId}
 	</delete>
+	
+	<select id="myqnaTotalCount"  resultType="Long">
+		<![CDATA[		
+		SELECT  count(*)
+		FROM 	
+		(	
+			SELECT  rownum rn, post_id, post_num, brd_id, post_title, post_content,
+			        mem_id, post_nickname, post_email, post_regdate, post_update,
+			        post_hit, post_reply, post_origin, post_depth
+			FROM post
+			WHERE 
+		]]>
+<!-- 		검색조건 -->
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="c.typeArr">
+			<trim prefix="OR">
+				<choose>
+					<when test="type == 'T'.toString()">
+						post_title like '%'||#{c.keyword}||'%'
+					</when>	
+					<when test="type == 'C'.toString()">
+						post_content like '%'||#{c.keyword}||'%'
+					</when>		
+				</choose>
+			</trim>
+			</foreach>
+		</trim>
+		<![CDATA[
+			brd_id = #{c.brdId} and post_origin in (select post_id
+		                                    from post
+		                                    where brd_id= #{c.brdId}
+		                                    and mem_id= #{memId } )
+		)
+		]]>
+	
+	</select>
+	
+	<select id="myqnaList" resultType="com.breaktheice.moimat.domain.PostDomain">
+			<![CDATA[		
+		SELECT  rownum rn, post_id, post_num, brd_id, post_title, post_content,
+		        mem_id, post_nickname, post_email, post_regdate, post_update,
+		        post_hit, post_reply, post_origin, post_depth
+		FROM 	
+		(	
+			SELECT  rownum rn, post_id, post_num, brd_id, post_title, post_content,
+			        mem_id, post_nickname, post_email, post_regdate, post_update,
+			        post_hit, post_reply, post_origin, post_depth
+			FROM post
+			WHERE 
+		]]>
+<!-- 		검색조건 -->
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="c.typeArr">
+			<trim prefix="OR">
+				<choose>
+					<when test="type == 'T'.toString()">
+						post_title like '%'||#{c.keyword}||'%'
+					</when>	
+					<when test="type == 'C'.toString()">
+						post_content like '%'||#{c.keyword}||'%'
+					</when>				
+				</choose>
+			</trim>
+			</foreach>
+		</trim>
+		<![CDATA[
+			brd_id =  #{c.brdId} 
+			and 
+			post_origin in (select post_id
+                             from post
+                             where brd_id = #{c.brdId}
+                             and mem_id= #{memId } )
+			and
+			rownum <= #{c.pageNum} * #{c.amount}
+		)
+		WHERE rn > (#{c.pageNum} -1 )* #{c.amount}
+		ORDER BY post_origin DESC, post_depth
+		]]>
+	</select>
+	
+	<select id="isReply" resultType="Long">
+        SELECT 	count(*) 
+        FROM 	post
+        WHERE 	post_origin= #{postId}
+	</select>
+	
+	
 </mapper>

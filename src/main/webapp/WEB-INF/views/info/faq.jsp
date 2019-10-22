@@ -106,24 +106,14 @@
           <div class="alert alert-warning alert-dismissible mt-3" role="alert">
             	이외의 사항은 고객센터로 1대1 문의해주시면 친절히 답해드리겠습니다.
           </div>
-                
-                
-					
-					
-				
-				
 					
                 </div>
                 <!--===================================================-->
                 <!--End page content-->
 
-
             </div>
             <!--===================================================-->
             <!--END CONTENT CONTAINER-->			
-			
-			
-			
 		</div>
 		<!-- END BOXED -->
 		
@@ -133,5 +123,10 @@
 			
 	</div>
 	<!-- END CONTAINER -->
+	 <%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 </body>
 </html>

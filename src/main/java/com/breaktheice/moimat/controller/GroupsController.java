@@ -5,8 +5,8 @@ import javax.servlet.http.HttpSession;
 
 import com.breaktheice.moimat.chat.ChatRoom;
 import com.breaktheice.moimat.chat.ChatRoomManager;
-import com.breaktheice.moimat.service.TeamChatService;
-import com.breaktheice.moimat.service.TeamPhotoService;
+import com.breaktheice.moimat.domain.TeamPostDomain;
+import com.breaktheice.moimat.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,12 +17,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.breaktheice.moimat.chat.ChatRoom;
+import com.breaktheice.moimat.chat.ChatRoomManager;
 import com.breaktheice.moimat.domain.MemberDomain;
+import com.breaktheice.moimat.service.TeamChatService;
 import com.breaktheice.moimat.service.TeamService;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
-import com.breaktheice.moimat.service.TeamSettingsService;
+import java.util.List;
 
 @Controller
 @RequestMapping("/groups")
@@ -37,12 +41,12 @@ public class GroupsController {
 	private TeamChatService teamChatService;
 
 	private final ChatRoomManager chatRoomManager;
-	
-	@Autowired
-	private TeamSettingsService tss;
 
 	@Autowired
 	private TeamPhotoService teamPhotoService;
+
+	@Autowired
+	private TeamCommentsService teamCommentsService;
 	
 	@GetMapping("")
 	public String index(@ModelAttribute("loginVO") MemberDomain member, Model model) {
@@ -73,7 +77,14 @@ public class GroupsController {
 	@GetMapping("/{groupId}/photos")
 	public String photos(@PathVariable Long groupId, Model model) {
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
-		model.addAttribute("photos", teamPhotoService.getAllPhotos(groupId));
+
+		List<TeamPostDomain> posts = teamPhotoService.getAllPosts(groupId,22L);
+		teamPhotoService.getThumbnail(posts);
+
+		teamCommentsService.addNumOfComments(posts);
+
+		model.addAttribute("posts", posts);
+
 
 		return "groups/photos/list";
 	}

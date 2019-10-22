@@ -27,8 +27,7 @@
 		display: none;
 	}
 }
-
-.centerm {
+.customCenter {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -186,7 +185,7 @@
 													<input type="hidden" name="areaId">
 												</div>
 											</div>
-												<div class="form-group centerm">
+												<div class="form-group customCenter">
 													<div class="col-xs-10">
 														<textarea id="teamContent" name="teamContent"></textarea>
 													</div>

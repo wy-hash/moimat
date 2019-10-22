@@ -13,11 +13,6 @@
 
     <!--X-editable [ OPTIONAL ]-->
     <link href="/resources/plugins/x-editable/css/bootstrap-editable.css" rel="stylesheet">
-    <style>
-    	.mt-20{
-    		margin-top: 20px;
-    	}
-    </style>
 
 	<title>Page Template | moim@</title>
 </head>
@@ -115,9 +110,9 @@
 <!--                         <small class="help-block">Please enter password</small> -->
                     </div>
                 </div>
-                <div class="row pull-right">
-                	<button type="button" id="edit" class="btn btn-success  mt-20"> 수정</button>
-                	<button type="button" id="delete" class="btn btn-danger  mt-20"> 삭제</button>
+                <div class="row pull-right mar-top">
+                	<button type="button" id="edit" class="btn btn-success"> 수정</button>
+                	<button type="button" id="delete" class="btn btn-danger"> 삭제</button>
                 </div>
             </form>
             <!--===================================================-->
@@ -149,6 +144,11 @@
 			
 	</div>
 	<!-- END CONTAINER -->
+	 <%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
   
     <!--Bootstrap Table Sample [ SAMPLE ]-->
     <script src="/resources/js/demo/tables-bs-table.js"></script>

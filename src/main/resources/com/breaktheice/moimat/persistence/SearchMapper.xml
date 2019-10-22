@@ -24,9 +24,9 @@
 
 	<select id="recommend" resultType="com.breaktheice.moimat.domain.SearchVO">
 		<![CDATA[
-		SELECT	t.team_name, t.team_short_content, t.team_photo, a.area_region_name
-		FROM 	team t, area a
-		WHERE	t.area_id = a.area_id and
+		SELECT	t.team_id, t.team_name, t.team_short_content, t.team_photo, a.area_region_name, i.int_name
+		FROM 	team t, area a, interest i
+		WHERE	t.area_id = a.area_id and t.int_id = i.int_id and
 		]]>
 		<include refid="criteria"></include>
 	</select>
@@ -54,5 +54,8 @@
 		WHERE	int_use = 'Y'
 		]]>
 	</select>
-	
+	<select id="areaList" resultType="com.breaktheice.moimat.domain.AreaDomain">
+		SELECT	area_id, area_key, area_name, area_region_key, area_region_name
+		FROM 	area
+	</select>
 </mapper>

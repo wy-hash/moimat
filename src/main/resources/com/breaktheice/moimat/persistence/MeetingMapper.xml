@@ -17,7 +17,20 @@
 	
 	<select id="meetWithPaging" resultType="com.breaktheice.moimat.domain.MeetVO">
 	<![CDATA[
-	select meet_id, team_id,meet_title,meet_content,meet_date,meet_regdate,meet_max,meet_pay,tmem_id,meet_nickname,meet_email,meet_area
+	select 
+		meet_id, 
+		team_id,
+		meet_title,
+		meet_content,
+		meet_date,
+		meet_regdate,
+		meet_max,
+		meet_pay,
+		tmem_id,
+		meet_nickname,
+		meet_email,
+		meet_area,
+		meet_area_name
 	from
 		(
 			select
@@ -46,9 +59,39 @@
 	</select>
 	
 	<insert id="regMeet">
-		
-		insert into meet (meet_id, team_id, meet_title, meet_content, meet_date, meet_regdate, meet_max, meet_pay, tmem_id, meet_nickname,meet_Area)
-		values(meet_seq.nextval, #{teamId}, #{meetTitle}, #{meetContent}, #{meetDate}, sysdate, #{meetMax}, #{meetPay}, #{tmemId}, #{meetNickName},#{meetArea})
+		insert into 
+			meet 
+				(
+				meet_id,
+				team_id,
+				meet_title,
+				meet_content,
+				meet_date,
+				meet_regdate,
+				meet_max,
+				meet_pay,
+				tmem_id,
+				meet_nickname,
+				meet_email,
+				meet_area,
+				meet_photo,
+				meet_area_name)
+		values
+			(
+			meet_seq.nextval, 
+			#{teamId}, 
+			#{meetTitle}, 
+			#{meetContent}, 
+			#{meetDate}, 
+			sysdate, 
+			#{meetMax}, 
+			#{meetPay}, 
+			#{tmemId}, 
+			#{meetNickName},
+			#{meetEmail},
+			#{meetArea},
+			#{meetPhoto},
+			#{meetAreaName})
 		<!-- to use getMeetId  -->
 		<selectKey order="AFTER" keyProperty="meetId" resultType="Long">
 			select meet_seq.currval from dual
@@ -64,7 +107,8 @@
 			meet_max = #{meetMax},
 			meet_title = #{meetTitle},
 			meet_content = #{meetContent},
-			meet_pay = #{meetPay}
+			meet_pay = #{meetPay},
+			meet_area_name = #{meetAreaName}
 		where meet_Id = #{meetId}		
 	</update>
 	
@@ -169,21 +213,42 @@
 	</delete>
 	
 	<select id="getEvent" resultType="com.breaktheice.moimat.domain.CalendarEventVO">
+		<![CDATA[
 		select * from
+			(
+			select 
+				title,
+				"start",
+				className
+			from
 			(select
 				meet_title as title,
-				meet_date as "start",
-				'mint' as className 
-			from meet
-				where team_id = #{groupId}
+					meet_date as "start",
+					'warning' as className,
+					meet_date-sysdate 
+				from meet
+					where team_id = #{groupId}
+					and meet_date-sysdate >= 0	
 				UNION ALL
+			select
+				meet_title as title,
+					meet_date as "start",
+					'gray' as className,
+					meet_date-sysdate 
+				from meet
+					where team_id = #{groupId}
+					and meet_date-sysdate < 0	
+					
+			)
+			UNION ALL
 			select 
 				tmem_nickname as title,
-				tmem_birthday as "start",
+				to_date(concat(to_char(sysdate,'yyyy'),TO_char(tmem_birthday,'MMdd')),'yyyymmdd') as "start",
 				'pink' as className
 			from team_member
-				where team_id = #{groupId})
-		
+				where team_id = #{groupId}
+			)
+		]]>
 	</select>
 	
 	<select id="getTotalMeet" resultType="int">

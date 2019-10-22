@@ -8,7 +8,9 @@
 <!-- HEAD -->
 <%@ include file="../includes/head.jsp"%>
 
+
 <title>모임일정 - ${ group.teamName } | moim@</title>
+
 
 <style>
 @media screen and (max-width: 768px) {
@@ -28,6 +30,14 @@
 		display: none;
 	}
 }
+
+.gray{
+	background-color: #848484 !important;
+	border-color: #6E6E6E !important;	
+}
+.page-link {
+	cursor: pointer;
+}
 </style>
 <link href="/resources/plugins/fullcalendar/fullcalendar.min.css"
 	rel="stylesheet">
@@ -37,8 +47,11 @@
 <link href="/resources/plugins/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet">
 <link href="/resources/css/moimat.css" rel="stylesheet">
+<link href="/resources/css/map.css" rel="stylesheet">
 <!--Bootbox Modals [ OPTIONAL ]-->
 <script src="/resources/plugins/bootbox/bootbox.min.js"></script>
+<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6213368344dd87ee3c46139e0d1df7cd&libraries=services"></script>
 </head>
 <!-- END HEAD -->
 
@@ -148,27 +161,17 @@
 											</div>
 											<div class="col-xs-4 btn-group my">
 												<button type="button" id="mRegBtn"
-													class="btn btn-info pull-right">모임 등록</button>
+													class="btn btn-info pull-right mar-top mar-rgt">모임 등록</button>
 											</div>
 										</div>
 										<div class="panel-body" id='meetList'></div>
-										<div class="panel-footer" id='meetListFooter'>
-											<!-- pagination button 들어갈 공간 -->
-											
-										</div>
 									</div>
 								</div>
-								
-								
-					                        
-					                       
 					            </div>
-					            
-					        
 								<!-- modal -->
 								<div class="modal fade" tabindex="-1" style="display: none;"
 									id="moimat-modal">
-									<div class="modal-dialog modal-lg">
+									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header">
 												<button type="button" class="close" data-dismiss="modal">
@@ -216,45 +219,45 @@
 		src="/resources/plugins/fullcalendar/lib/jquery-ui.custom.min.js"></script>
 	<script src="/resources/plugins/fullcalendar/fullcalendar.min.js"></script>
 	<script type="text/javascript" src="/resources/js/meetlist.js"></script>
-	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6213368344dd87ee3c46139e0d1df7cd&libraries=services"></script>
-	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6213368344dd87ee3c46139e0d1df7cd"></script>
 	<script>
 		window.onload = function() {
-			var meetList = document.getElementById("meetList");
 			
+			var meetList = document.getElementById("meetList");
 			var geocoder = new kakao.maps.services.Geocoder();
 			var mRegBtn = document.querySelector("#mRegBtn");
 			var groupid = '<c:out value="${groupId}"/>';
 			var memberid = '<c:out value="${sessionScope.loginVO.memId}"/>';
 			var pageNum = 1;
-			
+			var map1 = '';
 			CalendarEvent.getEvent('#meet-calendar',groupid);
 			
 			mRegBtn.addEventListener('click',function(e){
 				self.location.href = '/groups/'+groupid+'/schedule/new'
 			})
-			
-			function setMap(area, idx) {geocoder.addressSearch(area,
-					function(result, status) {
-						if (status === kakao.maps.services.Status.OK) {
-							var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+			function setMap(area,areaName, idx) {
+				var areaXY = area.split(',')
+				var coords = new kakao.maps.LatLng(areaXY[0],areaXY[1]);
+				
+				var mapContainer = document.getElementById(idx), mapOption = {
+					center : coords,
+					level : 3
+				};
+				var map = new kakao.maps.Map(mapContainer, mapOption);
+				var marker = new kakao.maps.Marker({
+					map : map,
+					position : coords
+				});
+				var places = new kakao.maps.services.Places();
+				
+				places.keywordSearch(areaName,function(data){
+					for(var i = 0, len=data.length||0;i<len;i++){
+						if(data[i].y == areaXY[0] && data[i].x == areaXY[1]){
+							setOvelay(data[i],map,marker)
 						}
-						var mapContainer = document.getElementById(idx), mapOption = {
-							center : coords,
-							level : 3
-						};
-						var map = new kakao.maps.Map(mapContainer, mapOption);
-						var marker = new kakao.maps.Marker({
-							map : map,
-							position : coords
-						});
-					});
+					}
+				});
 			}
-			
 			showMeetList();
-
 			function showMeetList(){
 				meetListService.getList(groupid,pageNum,memberid,function(list){
 					var meetListStr = '';
@@ -262,56 +265,57 @@
 						var button = '';
 						var mdButton = '';
 						if(list.isAttend[list.meetList[i].meetId]){
-							button = '<button type="button" class="btn btn-danger pull-right cancelBtn" data-mid="'+list.meetList[i].meetId+'">불참하기</button>'
+							button = '<button type="button" class="btn btn-sm btn-hover-danger pull-right cancelBtn" data-mid="'+list.meetList[i].meetId+'">불참</button>'
 						}else{
-							button = '<button type="button" class="btn btn-warning pull-right attendBtn" data-mid="'+list.meetList[i].meetId+'">참석하기</button>';
+							button = '<button type="button" class="btn btn-sm btn-hover-warning pull-right attendBtn" data-mid="'+list.meetList[i].meetId+'">참석</button>';
 						}
 						if(list.isWriter[list.meetList[i].meetId]){
-							mdButton += '<button id="mod'+i+'" type="button" class="btn btn-primary" data-mid="'+list.meetList[i].meetId+'">수정하기</button>'
-								   	  +	'<button id="del'+i+'" type="button" class="btn btn-danger" data-mid="'+list.meetList[i].meetId+'">삭제하기</button>'
+							mdButton += '<button id="mod'+i+'" type="button" class="btn btn-sm btn-hover-primary" data-mid="'+list.meetList[i].meetId+'">수정</button>'
+								   	  +	'<button id="del'+i+'" type="button" class="btn btn-sm btn-hover-danger" data-mid="'+list.meetList[i].meetId+'">삭제</button>'
 						}
 						meetListStr +='<div class="row">'
 								   +	'<div class="col-lg-4 moimat-m">'
 								   +		'<div id="map'+i+'"></div>'
 								   +	'</div>'
-								   +	'<div class="col-lg-8 moimat-mc">'
+								   +	'<div class="col-lg-8">'
+								   +		'<div class="moimat-mc">'
 								   +		'<div class="panel panel-bordered panel-dark mar-no">'
 						           +			'<div class="row panel-heading mar-no">'
 						           +				'<div class="col-xs-8 pad-no">'
 					               +					'<h3 class="panel-title">'
-						           +						'<span class="meetTitle" data-mid="'+list.meetList[i].meetId+'">'
+						           +						'<span class="meetTitle">'
 						           +							list.meetList[i].meetTitle
 						           +						'</span></h3>'
 					               +				'</div>'
 					               +				'<div class="col-xs-4 my">'
-					               +					'<p class="text-bold mar-no text-overflow">'+list.meetList[i].meetNickName+'님이 작성...</p>'
+					               +					'<p class="text-bold mar-no pad-rgt mar-rgt text-sm text-overflow">'+list.meetList[i].meetNickName+'</p>'
 					               +				'</div>'
 					               +			'</div>'
 					           	   +			'<div class="panel-body">'
 								   +				'<div class="list-group">'
 								   +    				'<div class="row list-group-item">'
-								   +						'<div class="col-lg-3">'
+								   +						'<div class="col-lg-6">'
 								   +							'<span style="color:red;">'
 								   +								'<i class="fa fa-calendar"></i>'
 								   +							'</span>'
 								   +							'&ensp;'
 								   +							meetListService.parseDate(list.meetList[i].meetDate)
 								   +						'</div>'
-								   +						'<div class="col-lg-3">'
+								   +						'<div class="col-lg-6">'
 								   +							'<span style="color:orange;">'
 								   +								'<i class="fa fa-map-marker"></i>'
 								   +							'</span>'
 								   +							'&ensp;'
-								   +								list.meetList[i].meetArea
+								   +								list.meetList[i].meetAreaName
 								   +						'</div>'
-								   +						'<div class="col-lg-3">'
+								   +						'<div class="col-lg-6">'
 								   +							'<span style="color:green;">'
 								   +								'<i class="fa fa-krw"></i>'
 								   +							'</span>'
 								   +							'&ensp;'
 								   +							list.meetList[i].meetPay
 								   +						'</div>'
-								   +						'<div class="col-lg-3">'
+								   +						'<div class="col-lg-6">'
 								   +							'<span style="color:black;">'
 								   +								'<i class="fa fa-users"></i>'
 								   +							'</span>'
@@ -321,21 +325,16 @@
 					               +								list.meetList[i].meetMax
 					               +							'</a>'
 					               +						'</div>'
-								   +					'</div>'
+					               +					'</div>'
 								   +				'</div>'
 								   +				'<div class="moimat-ellipsis">'
 								   +					'<a class="meetContent" data-target="#moimat-modal" data-toggle="modal">'+list.meetList[i].meetContent+'</a>'
 								   +				'</div>'
 								   +			'</div>'
-						           +		'</div>'
-								   +		'<div class="btn-group" style="height:40px;display:block;">'
-								   +			'<div class="clearfix">'
-								   +				'<div class="col-xs-6 pad-no">'
-								   +					mdButton
-								   +				'</div>'
-								   +				'<div class="col-xs-6 pad-no">'
-								   +					button
-								   +				'</div>'
+								   +			'<div class="panel-footer bg-trans-dark">'
+								   +				mdButton
+								   +				button
+								   +			'</div>'
 								   +			'</div>'
 								   +		'</div>'
 								   +	'</div>'
@@ -345,7 +344,7 @@
 					meetListStr += meetPageBtn(list.meetCount);
 					meetList.innerHTML = meetListStr;
 					for(var i = 0, len = list.meetList.length||0; i<len; i++){
-						setMap(list.meetList[i].meetArea,"map"+i)
+						setMap(list.meetList[i].meetArea,list.meetList[i].meetAreaName,"map"+i)
 						dButtonEvent("del"+i);
 						mButtonEvent("mod"+i);
 					}
@@ -353,47 +352,49 @@
 					paginationBtn.forEach(function(e){
 						e.addEventListener('click',function(e){
 							e.preventDefault();
-							var targetPageNum = this.getAttribute('href');
+							var targetPageNum = this.getAttribute('data-pageNum');
 							pageNum = targetPageNum;
 							showMeetList();
 						});
 					});
-					detailedMeet();
 					moimCEvent();
-					console.log("asdasd");
 				});
 			}
 			
 			var meetListFooter = document.querySelector("#meetListFooter");
 			function meetPageBtn(meetCount){
-				var endNum = Math.ceil(pageNum/3.0) * 10;
-				var startNum = endNum - 9;
-				
+				var endNum = Math.ceil(pageNum/2.0) * 2;
+				var realEndNum = Math.ceil(meetCount/3.0);
+				var startNum = endNum - 1;
 				var prev = startNum != 1;
 				var next = false;
-				
-				if(endNum * 10 > meetCount){
+				if(endNum * 3 > meetCount){ // endNum과 곱해지는건 한 페이지당 들어가는 갯수
 					endNum = Math.ceil(meetCount/3.0);
 				}
-				
-				if(endNum * 10 < meetCount){
+				if(endNum * 3 < meetCount){ 
 					next = true;
 				}
 				
 				var paginationBtn  = "<div id='paginationBtn'><ul class='pagination pull-right mar-no'>";
 				
 				if(prev){
-					paginationBtn += "<li class='page-item'><a class='page-link' href='"+(startNum -1)+"'>Previous</a></li>";
+					paginationBtn += "<li class='page-item'><a class='page-link' data-pageNum='"+(startNum -1)+"'>이전</a></li>";
+					if(next == false){
+						paginationBtn += "<li class='page-item'><a class='page-link' data-pageNum='1'>1</a></li>" +
+										 "<li class='page-item'><span>...</span></li>";
+					}
 				}
 				
 				for(var i = startNum ; i <= endNum; i++){
 					var active = pageNum == i ? "active" : "";
 					
-					paginationBtn += "<li class='page-item "+active+"'><a class='page-link' href='"+i+"'>"+i+"</a></li>";
+					paginationBtn += "<li class='page-item "+active+"'><a class='page-link' data-pageNum='"+i+"'>"+i+"</a></li>";
 				}
 				
 				if(next){
-					paginationBtn += "<li class='page-item'><a class='page-link' href='" + (endNum + 1) +"'>Next</a></li>'";
+					paginationBtn += "<li class='page-item'><span>...</span></li>"+
+									 "<li class='page-item'><a class='page-link' data-pageNum='" + realEndNum +"'>"+realEndNum+"</a></li>"+
+						             "<li class='page-item'><a class='page-link' data-pageNum='" + (endNum + 1) +"'>다음</a></li>";
 				}
 				
 				paginationBtn += "</ul></div>"
@@ -401,20 +402,6 @@
 				return paginationBtn;
 			}
 			
-			function detailedMeet(){
-				var meetTitle = document.querySelectorAll(".meetTitle");
-				var meetid = '';
-				meetTitle.forEach(function(e){
-					e.addEventListener('click', function(){
-						meetid = this.getAttribute('data-mid');
-						meetListService.meetRead(meetid,groupid,memberid,function(data){
-							console.log(meetid);
-							console.log(memberid);
-							console.log(data);
-						});
-					})
-				});
-			}
 			var mmodal = document.querySelector("#moimat-modal");
 			var mmodaltitle = document.querySelector("#moimat-modal-title");
 			var mmodalbody = document.querySelector("#moimat-modal-body");
@@ -457,7 +444,7 @@
 						});
 					});
 				});//end meetMember.forEach
-				// 이거 구현방식을 바꿔야함 
+				//ajax를 이용 
 				cancelBtn.forEach(function(e){
 					e.addEventListener('click',function(){
 						console.log(e)
@@ -591,15 +578,50 @@
 				}
 				
 			}
-			function removeMoimatContent(){ //혹시몰라서 하나의 모달창을 돌려쓰니까... 내용을 다 비우고 넣을려고 제이쿼리면 안만들어도됬음... 더좋은방법?? 몰르르르르르
-				for(var i = 0, len = arguments.length||0; i<len; i++){
-					while(arguments[i].firstChild) {
-						arguments[i].removeChild(arguments[i].firstChild);
-					}
+			function setOvelay(place,map,marker){
+				var address = '';
+				if(place.road_address_name){
+					address = place.road_address_name;
+				}else{
+					address = place.address_name;
 				}
+				var content = '<div class="wrap">' + 
+	           				  '    <div class="info">' + 
+	                          '        <div class="title">' +
+	                          '            <div class="clearfix">' +
+	                          '                <div class="col-xs-10 ellipsis">' + place.place_name +
+	                          '                </div>' +
+	                          '                <div class="col-xs-2" style="height:17px">' + 
+	                          '                </div>' +
+	                          '            </div>' +
+	            			  '        </div>' + 
+	                          '            <div class="desc">' + 
+	                          '                <div class="ellipsis">'+place.category_group_name+'</div>' + 
+	                          '                <div class="ellipsis">'+address+'</div>' + 
+	                          '                <div class="ellipsis">'+place.phone+'<a href="'+place.place_url+'" target="_blank" class="link pull-right">자세히보기</a></div>' + 
+	                          '            </div>' + 
+	                          '    </div>' +    
+	                          '</div>';
+	                          
+				var overlay = new kakao.maps.CustomOverlay({
+				    content: content,
+				    map: map,
+				    position: marker.getPosition()       
+				});
+				
 			}
 			
+			
+			
+		function removeMoimatContent(){ //혹시몰라서 하나의 모달창을 돌려쓰니까..
+			for(var i = 0, len = arguments.length||0; i<len; i++){
+				while(arguments[i].firstChild) {
+					arguments[i].removeChild(arguments[i].firstChild);
+				}
+			}
 		}
+			
+	}
 	</script>
 </body>
 </html>

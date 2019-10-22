@@ -11,6 +11,8 @@ public interface TeamCommentsMapper {
 
     Long insertComment(TeamCommentsDomain comment);
 
-    TeamCommentsDomain selectCommentById(Long cmtId);
+    TeamCommentsDTO selectCommentById(Long cmtId);
+
+    Long selectNumsOfComments(Long postId);
 
 }
