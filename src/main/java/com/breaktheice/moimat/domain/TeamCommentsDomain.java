@@ -1,13 +1,14 @@
 package com.breaktheice.moimat.domain;
 
+import java.io.Serializable;
+
 import lombok.Data;
 
-import java.sql.Date;
-
 @Data
-public class TeamCommentsDomain {
+public class TeamCommentsDomain implements Serializable {
 
-    private Long cmtId;
+	private static final long serialVersionUID = 1L;
+	private Long cmtId;
     private Long postId;
     private Long brdId;
     private String cmtContent;

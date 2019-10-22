@@ -241,7 +241,9 @@
 																<div class="media-body">
 																	<div>
 																		<a href="#" class="btn-link text-semibold media-heading box-inline">${ item.cmtNickname }</a>
-																		<small class="text-muted pad-lft">${ item.cmtRegdate }</small>
+																		<small class="text-muted pad-lft">${ item.cmtRegdate } | 
+																		<a class="cmtMod"  data-cmtid="${item.cmtId }">수정</a> 
+																		| <a class="cmtDelete" data-cmtid="${item.cmtId }">삭제 |</a></small>
 																	</div>
 																	${ item.cmtContent }
 																</div>
@@ -287,9 +289,77 @@
 			
 	</div>
 	<!-- END CONTAINER -->
+	<%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
+	
+	<!-- modal for 덧글 수정 -->	
+	<div class="modal" id="modalMod" tabindex="-1"  style="display: none;">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <!--Modal header-->
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+	                <h4 class="modal-title">댓글 수정</h4>
+	            </div>
+	
+				<form id="modalModForm" action="/groups/${ group.teamId }/photos/${ post.postId }/comment/mod" method="post">
+	            <!--Modal body-->
+	            <div class="modal-body">
+	            	<input type="hidden" name="cmtId">
+	            	<div class="media form-group">
+						<textarea class="form-control" name="cmtContent" rows="5" placeholder="댓글 내용을 입력하세요." style="resize: none;"></textarea>
+					</div>
+	            	<p class="text-semibold text-main"> 댓글을 수정하시겠습니까?</p>
+				</div>
+	
+	            <!--Modal footer-->
+	            <div class="modal-footer">
+	                <button data-dismiss="modal" class="btn btn-default" type="button">취소</button>
+	                <button id="modalModBtn" class="btn btn-warning" type="submit">확인</button>
+	            </div>
+	            </form>
+	        </div>
+	    </div>
+	</div>
+	<!-- //modal for 덧글 수정 -->
 	
 	<script>
 		$(document).ready(function() {
+			
+			// 수정 모달창 오픈
+			$('.cmtMod').on('click', function(){ //모달창 오픈 이벤트
+				const modalMod = $('#modalMod');
+				const cmtId = $(this).attr('data-cmtid');
+				
+				modalMod.find('input[name=cmtId]').val(cmtId);
+				modalMod.modal('show');
+				
+			});
+			
+			$('#modalModBtn').on('submit', function(){
+				const url = $('#modalModForm').attr('action');
+				const data = $('#modalModForm').serialize();
+				console.log(url +'/'+data);
+				$.ajax({
+					type: 'POST',
+					url: url,
+					data : data
+
+				}).done(function(result){
+					console.log('d');
+					if("Y" === result){
+						alert('댓글 수정 성공');
+					} else{
+						alert('댓글 수정 실패');
+					}
+				});
+			});
+			
+			
+			
 			$('#comment-input-box').find('button').on('click', function() {
 				var commentDiv = $('#comment-input-box');
 				var content = commentDiv.find('textarea');

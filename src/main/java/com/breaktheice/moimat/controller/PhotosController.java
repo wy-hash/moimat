@@ -144,4 +144,19 @@ public class PhotosController {
 
 		return "redirect:/groups/" + groupId + "/photos";
 	}
+
+	@RequestMapping(value="/{postId}/comment/mod",method=RequestMethod.POST )
+	@ResponseBody
+	public String modComment(TeamCommentsDomain domain) {
+		
+		log.info("덧글 수정실행" + domain);
+		
+		String result = "N";
+		
+		if(teamCommentsService.modComment(domain) >0L) {
+			result = "Y";
+		}
+		
+		return result;
+	}
 }
