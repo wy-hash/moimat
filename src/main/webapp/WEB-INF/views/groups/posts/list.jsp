@@ -5,7 +5,7 @@
 <html lang="ko">
 
 <!-- HEAD -->
-<%@ include file="../includes/head.jsp" %>
+<%@ include file="../../includes/head.jsp" %>
 	<title>게시판 - ${ group.teamName } | moim@</title>
 	
 	<style>
@@ -39,14 +39,14 @@
 	<div id="container" class="effect aside-float aside-bright mainnav-lg">
 	
 		<!-- HEADER-NAVBAR -->
-		<%@ include file="../includes/header-navbar.jsp" %>
+		<%@ include file="../../includes/header-navbar.jsp" %>
 		<!-- END NAVBAR -->
 		
 		<!-- BOXED -->
 		<div class="boxed">
 		
 			<!-- MAIN-NAV -->
-			<%@ include file="../includes/main-nav.jsp" %>
+			<%@ include file="../../includes/main-nav.jsp" %>
 			<!-- END MAIN-NAV -->
 			
 			<!-- ASIDE -->
@@ -125,22 +125,78 @@
 			            <!--Tabs Content-->
 			            <div class="tab-content">
 			                <div class="content-box">
-			                    <p class="text-main text-semibold">First Tab Content</p>
-			                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
-			                    
-			                    
-			                    
-			                    
-			                    
-			                    
-			                    
-			                    
-			                    
-			                    
-			                    
-			                    
-			                    
-			                    
+
+								<div class="row">
+									<!--Hover Rows-->
+									<!--===================================================-->
+									<div class="panel-body">
+										<table class="table table-hover table-vcenter">
+											<thead>
+											<tr>
+												<th>제목</th>
+												<th class="text-center">작성자</th>
+											</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>
+														<span class="text-main text-semibold">Desktop</span>
+														<br>
+														<small class="text-muted">Last 7 days : 4,234k</small>
+													</td>
+													<td class="text-center"><span class="text-danger text-semibold">- 28.76%</span></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<!--===================================================-->
+									<!--End Hover Rows-->
+								</div>
+
+								<div class="row text-right mar-rgt">
+									<a href="/groups/${ group.teamId }/photos/new"><button class="btn btn-default">글쓰기</button></a>
+								</div>
+
+								<div class="row text-center">
+
+									<!--Pagination with disabled and active states-->
+									<!--===================================================-->
+									<ul class="pagination">
+										<li class="disabled"><a href="#" class="demo-pli-arrow-left"></a></li>
+										<li class="active"><a href="#">1</a></li>
+										<li><a href="#">2</a></li>
+										<li><a href="#">3</a></li>
+										<li><a href="#">4</a></li>
+										<li><span>...</span></li>
+										<li><a href="#">20</a></li>
+										<li><a href="#" class="demo-pli-arrow-right"></a></li>
+									</ul>
+									<!--===================================================-->
+									<!--End Pagination with disabled and active states-->
+
+								</div>
+
+								<div class="row text-center">
+									<form class="form-inline" action="/${ group.teamId }/posts/search" method="get">
+										<div class="searchbox input-group mar-btm">
+											<div class="input-group-btn">
+												<select id="demo-foo-filter-status" class="form-control bord-no">
+													<option value="title">제목</option>
+													<option value="content">내용</option>
+													<option value="nickname">작성자</option>
+												</select>
+											</div>
+											<div class="input-group custom-search-form">
+												<input type="text" class="form-control" placeholder="검색어를 입력하세요">
+												<span class="input-group-btn">
+                                					<button class="text-muted" type="button"><i class="demo-pli-magnifi-glass"></i></button>
+												</span>
+											</div>
+										</div>
+									</form>
+								</div>
+
+
 			                </div>
 			            </div>
 			        </div>
@@ -163,7 +219,7 @@
 		<!-- END BOXED -->
 		
 		<!-- FOOTER -->
-		<%@ include file="../includes/footer.jsp" %>
+		<%@ include file="../../includes/footer.jsp" %>
 		<!-- END FOOTER -->
 			
 	</div>
