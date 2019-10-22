@@ -83,6 +83,9 @@
 		                    <button class="btn btn-block btn-success" type="submit">비밀번호 확인</button>
 		                </div>
 		            </form>
+		             <div class="pad-ver">
+		                <a href="/mypage" class="btn-link mar-rgt">돌아가기</a>
+		            </div>
 		        </div>
 		    </div>
 		</div>
