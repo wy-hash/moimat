@@ -20,7 +20,7 @@
 
 	<update id="updatePost" parameterType="com.breaktheice.moimat.domain.TeamPostDomain">
 		update TEAM_POST
-		set POST_TITLE = #{ postTitle }, POST_CONTENT = #{ postContent }, POST_UPDATE = sysdate
+		set POST_TITLE = #{ postTitle }, POST_CONTENT = #{ postContent }, POST_UPDATE = sysdate where POST_ID = #{ postId }
 	</update>
 
 	<delete id="deletePost">

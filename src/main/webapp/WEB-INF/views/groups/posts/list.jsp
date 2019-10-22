@@ -141,7 +141,10 @@
 												<c:forEach var="item" items="${ posts }">
 													<tr>
 														<td>
-															<span class="text-main text-bold">${ item.postTitle }</span> <span class="label label-default">${ item.commentNums }</span>
+															<a href="/groups/${ group.teamId }/posts/${ item.postId }">
+																<span class="text-main text-bold">${ item.postTitle }</span>
+															</a>
+															<span class="label label-default">${ item.commentNums }</span>
 															<br>
 															<small class="text-muted">
 																<i class="fa fa-pencil"> ${ item.postRegdate } </i> | <i class="fa fa-eye"> ${ item.postHit } </i>
@@ -158,7 +161,7 @@
 								</div>
 
 								<div class="row text-right mar-rgt">
-									<a href="/groups/${ group.teamId }/photos/new"><button class="btn btn-default">글쓰기</button></a>
+									<a href="/groups/${ group.teamId }/posts/new"><button class="btn btn-default">글쓰기</button></a>
 								</div>
 
 								<div class="row text-center">

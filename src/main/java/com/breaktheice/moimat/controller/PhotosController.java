@@ -33,6 +33,9 @@ public class PhotosController {
 	@Autowired
 	private TeamPostService teamPostService;
 
+	@Autowired
+	private AuthService authService;
+
 	@GetMapping("/new")
 	public String createPost(@PathVariable("groupId") Long groupId, Model model) {
 
@@ -46,11 +49,17 @@ public class PhotosController {
 						   Model model) {
 		teamPostService.updateViewCount(postId);
 
+		TeamPostDomain post = teamPostService.getPost(postId, 22L);
+
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
 
-		model.addAttribute("post", teamPostService.getPost(postId, 22L));
+		model.addAttribute("post", post);
 
 		model.addAttribute("comments", teamCommentsService.getAllComments(postId));
+
+
+		MemberDomain postingUser = authService.getMemberInfo(post.getTmemId());
+		model.addAttribute("userImg", postingUser.getMemPhoto());
 
 
 
