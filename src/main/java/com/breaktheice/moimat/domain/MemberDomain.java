@@ -23,4 +23,25 @@ public class MemberDomain {
 	private Long memInt2;
 	private Long memInt3;
 	
+	//to use keyProperty
+	public void setMemberDomain(MemberDomain md) {
+		this.memId = md.memId;
+		this.memEmail = md.memEmail;
+		this.memPassword = md.memPassword;
+		this.memNickname = md.memNickname;
+		this.memBirthday = md.memBirthday;
+		this.memGender = md.memGender;
+		this.areaId = md.areaId;
+		this.memRegdate = md.memRegdate;
+		this.memUpdate = md.memUpdate;
+		this.memLastlogin = md.memLastlogin;
+		this.memContent = md.memContent;
+		this.memPhoto = md.memPhoto;
+		this.memLevel = md.memLevel;
+		this.memStatus = md.memStatus;
+		this.memInt1 = md.memInt1;
+		this.memInt2 = md.memInt2;
+		this.memInt3 = md.memInt3;
+	}
+	
 }

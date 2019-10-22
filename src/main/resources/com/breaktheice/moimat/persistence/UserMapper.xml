@@ -29,6 +29,7 @@
 	
 	<select id="getRecentPost" resultType="com.breaktheice.moimat.domain.TeamPostDomain">
 		SELECT
+			TEAM_ID,
 			POST_ID,
 			POST_TITLE,
 			POST_UPDATE
@@ -168,6 +169,20 @@
 		        and MEM_EMAIL = #{memEmail}
 		    </if>
   		</trim>
+  		<selectKey order="AFTER" keyProperty="memberDomain" resultType="com.breaktheice.moimat.domain.MemberDomain">
+  			select 
+  			MEM_ID, MEM_EMAIL, MEM_PASSWORD, MEM_NICKNAME,TO_CHAR(MEM_BIRTHDAY, 'YYYY-MM-DD') MEM_BIRTHDAY, MEM_GENDER,
+  			AREA_ID, MEM_REGDATE, MEM_UPDATE, MEM_LASTLOGIN, MEM_CONTENT, MEM_LEVEL, MEM_STATUS, MEM_INT1, MEM_INT2, MEM_INT3, MEM_PHOTO
+  			from member
+  			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+		    <if test="memId != null and memId != '' ">
+		         MEM_ID = #{memId}
+		    </if>
+		    <if test="memEmail != null and memEmail != '' ">
+		        and MEM_EMAIL = #{memEmail}
+		    </if>
+  		</trim>
+  		</selectKey>
   	</update>
   	
   	<delete id="deleteMember" parameterType="com.breaktheice.moimat.domain.MemberDomain">

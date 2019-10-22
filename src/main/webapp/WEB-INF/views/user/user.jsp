@@ -169,7 +169,7 @@
 													<tr>
 														<td class="text-center">${postDomain.postId }</td>
 														<td class="text-overflow"><span
-															class="text-main text-semibold"><a href="#">${postDomain.postTitle }</a></span>
+															class="text-main text-semibold"><a href="/groups/${ postDomain.teamId }/posts/${ postDomain.postId }">${postDomain.postTitle }</a></span>
 														</td>
 														<td class="text-center"><span
 															class="text-semibold text-sm">
