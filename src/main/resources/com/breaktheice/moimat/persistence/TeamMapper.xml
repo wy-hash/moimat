@@ -188,6 +188,11 @@
 		FROM    area
 		WHERE   area_id = #{areaId}
 	</select>
+	<select id="getAreaAll" resultType="com.breaktheice.moimat.domain.AreaDomain">
+		SELECT  area_id, area_key, area_name, area_region_key, area_region_name
+		FROM    area
+		WHERE   area_id = #{areaId}
+	</select>
 	
 	<select id="getNickname" resultType="String">
 		SELECT	mem_nickname

@@ -112,4 +112,10 @@ public class TeamServiceImpl implements TeamService {
 		domain.setAreaId(areaId);
 		return mapper.getArea(domain);
 	}
+	@Override
+	public AreaDomain getAreaAll(Long areaId) {
+		TeamDomain domain = new TeamDomain();
+		domain.setAreaId(areaId);
+		return mapper.getAreaAll(domain);
+	}
 }

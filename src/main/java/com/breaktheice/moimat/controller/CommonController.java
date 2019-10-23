@@ -35,7 +35,7 @@ public class CommonController {
 		model.addAttribute("int3Name", service.getInterestName(domain.getMemInt3()));// 사용자의 세 번째 관심사 이름
 		model.addAttribute("int3List", service.getIntRandomList(domain.getMemInt3()));// 사용자의 세 번째 관심사 기준 추천 모임
 		
-		model.addAttribute("areaName", service.getAreaName(domain.getAreaId()));// 사용자의 활동지역 이름
+		model.addAttribute("area", service.getAreaAll(domain.getAreaId()));// 사용자의 활동지역 이름
 		model.addAttribute("areaList", service.getAreaRandomList(domain.getAreaId()));// 사용자의 활동지역 기준 추천 모임
 
 		return "index";

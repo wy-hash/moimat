@@ -39,6 +39,7 @@ public interface TeamMapper {
 	public String getInterest(TeamDomain domain);
 	// 선택한 관심지역
 	public String getArea(TeamDomain domain);
+	public AreaDomain getAreaAll(TeamDomain domain);
 	// 선택한 작성자의 닉네임
 	public String getNickname(TeamDomain domain);
 	

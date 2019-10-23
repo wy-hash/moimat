@@ -16,6 +16,7 @@ public interface TeamService {
 
 	String getInterestName(Long intId);
 	String getAreaName(Long areaId);
+	AreaDomain getAreaAll(Long areaId);
 	
 
 	List<TeamDomain> getJoinedGroupList(MemberDomain member);

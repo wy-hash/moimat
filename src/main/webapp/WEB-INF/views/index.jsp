@@ -372,7 +372,7 @@
 			            <!--===================================================-->
 			            <div class="panel">
 			                <div class="panel-heading">
-			                    <h3 class="panel-title">${ areaName } 의 추천모임</h3>
+			                    <h3 class="panel-title">${ area.areaName} / ${ area.areaRegionName } 의 추천모임</h3>
 			                </div>
 	                    	<c:if test="${empty areaList}">
 							<div class="media bord-btm">
