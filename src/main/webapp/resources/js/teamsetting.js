@@ -13,6 +13,17 @@ var teamsetting = (function(){
 			}
 		});
 	}
+	function getBasic(callback,error){
+		$.get("/getSettingPage/new/json",function(data){
+			if(callback){
+				callback(data);
+			}
+		}).fail(function(xhr,status,err){
+			if(error){
+				error();
+			}
+		});
+	}
 	function getSubInt(intkey,error){
 		var subIntOption = '';
 		$.get("/getSubInt/"+intkey+".json",function(data){
@@ -42,6 +53,7 @@ var teamsetting = (function(){
 	
 	return {
 		getPage : getPage,
+		getBasic : getBasic,
 		getSubInt : getSubInt,
 		getRegion : getRegion
 	}

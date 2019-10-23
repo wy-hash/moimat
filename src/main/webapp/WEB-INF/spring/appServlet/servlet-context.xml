@@ -49,7 +49,11 @@
 			<exclude-mapping path="/admin/**"></exclude-mapping>
 			<exclude-mapping path="/search/**"></exclude-mapping>
 			<exclude-mapping path="/result/**"></exclude-mapping>
-			<exclude-mapping path="/groups/*"></exclude-mapping>
+			<exclude-mapping path="/groups/*/**"></exclude-mapping>
+			<beans:bean class="com.breaktheice.moimat.util.AuthInterceptor"></beans:bean>
+		</interceptor>
+		<interceptor>
+			<mapping path="/groups/new"></mapping>
 			<beans:bean class="com.breaktheice.moimat.util.AuthInterceptor"></beans:bean>
 		</interceptor>
 		<interceptor>
@@ -58,8 +62,6 @@
 		</interceptor>
 		<interceptor>
 			<mapping path="/groups/*/**"></mapping>
-			<exclude-mapping path="/groups/*"></exclude-mapping>
-			<exclude-mapping path="/groups/*/"></exclude-mapping>
 			<exclude-mapping path="/groups/*/settings"></exclude-mapping>
 			<beans:bean class="com.breaktheice.moimat.util.GroupsInterceptor"></beans:bean>
 		</interceptor>

@@ -7,7 +7,7 @@
 
 <!-- HEAD -->
 <%@ include file="../includes/head.jsp"%>
-<title>설정 - ${ group.teamName } | moim@</title>
+<title>모임 - 등록 | moim@</title>
 
 <style>
 @media screen and (max-width: 768px) {
@@ -87,61 +87,30 @@
 					<!--===================================================-->
 					<div class="tab-base col-lg-12">
 
-						<!--Nav Tabs-->
-						<ul class="nav nav-tabs">
-							<li><a href="/groups/${ group.teamId }">홈</a></li>
-							<li><a href="/groups/${ group.teamId }/member">구성원</a></li>
-							<li><a href="/groups/${ group.teamId }/schedule">모임일정</a></li>
-							<li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
-							<li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
-							<li><a href="/groups/${ group.teamId }/chat">채팅</a></li>
-							<li class="active"><a href="/groups/${ group.teamId }/settings">설정</a>
-							</li>
-						</ul>
-
-						<!--Default Dropdown button-->
-						<!--===================================================-->
-						<div class="btn-group">
-							<button class="btn btn-primary dropdown-toggle"
-								data-toggle="dropdown" type="button">
-								<i class="fa fa-bars"></i> 설정
-							</button>
-							<ul class="dropdown-menu dropdown-menu-left">
-								<li><a href="/groups/${ group.teamId }">홈</a></li>
-								<li><a href="/groups/${ group.teamId }/member">구성원</a></li>
-								<li><a href="/groups/${ group.teamId }/schedule">모임일정</a></li>
-								<li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
-								<li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
-								<li><a href="/groups/${ group.teamId }/chat">채팅</a></li>
-								<li class="divider"></li>
-								<li class="active"><a href="/groups/${ group.teamId }/settings">설정</a></li>
-							</ul>
-						</div>
+					
 						<!--===================================================-->
 
 						<!--Tabs Content-->
 						<div class="tab-content">
 							<div class="content-box">
-								<form id="modform" class="form-horizontal form-padding"
-									action="/modGroup" method="post">
+								<form id="newform" class="form-horizontal f orm-padding" action="/groups/new" method="post">
+									<input type="hidden" id="memId" name="memId" value="${sessionScope.loginVO.memId }">
 									<div class="panel">
 										<div class="panel-heading">
-											<h3 class="panel-title">모임 설정</h3>
+											<h3 class="panel-title">모임 등록</h3>
 										</div>
 										<div class="panel-body">
 											<div class="">
 												<div class="form-group">
 													<label class="col-sm-2 control-label">모임명</label>
 													<div class="col-sm-9">
-														<input type="text" class="form-control" id="teamName"
-															readonly="readonly">
+														<input type="text" class="form-control" id="teamName" name="teamName">
 													</div>
 												</div>
 												<div class="form-group">
 													<label class="col-sm-2 control-label">최대인원</label>
 													<div class="col-sm-9">
-														<input type="text" class="form-control" id="teamMax"
-															name="teamMax">
+														<input type="text" class="form-control" id="teamMax" name="teamMax">
 													</div>
 												</div>
 												<div class="form-group">
@@ -197,7 +166,8 @@
 												<div class="form-group text-right">
 													<div class="col-xs-11">
 														<button type="button" id="cancelBtn" class="btn btn-default btn-hover-danger">취소하기</button>
-														<button type="button" id="modBtn" class="btn btn-default btn-hover-warning">수정하기</button></div>
+														<button type="button" id="newBtn" class="btn btn-default btn-hover-warning">등록하기</button>
+														</div>
 												</div>
 										</div>
 									</div>
@@ -205,7 +175,6 @@
 								</form>
 							</div>
 						</div>
-					</div>
 					<!--===================================================-->
 					<!--End Default Tabs (Left Aligned)-->
 
@@ -237,7 +206,6 @@
 	</c:if>
 	<%-- for modal --%>
 	
-	
 	<script type="text/javascript" src="/resources/js/teamsetting.js"></script>
 	<!--Bootbox Modals [ OPTIONAL ]-->
 	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
@@ -249,22 +217,17 @@
 	<script>
 		$(document).ready(function() {
 			
-			var groupId = '<c:out value="${groupId}"/>';
-			teamsetting.getPage(groupId,function(data){
-				//첫 화면 시작
-				$('#teamName').val(data.teamVO.teamName);
-				$('#teamShortContent').val(data.teamVO.teamShortContent);
-				$('#teamContent').val(data.teamVO.teamContent);
-				$('#teamMax').val(data.teamVO.teamMax);
+			
+			teamsetting.getBasic(function(data){
 				//선택창
 				$('#teamContent').summernote({
 		        	placeholder: '내용을 입력해 주세요.',
 		        	tabsize: 2,
 		       	 	height: 400
 				});
-				var mainIntOption = '';
+				var mainIntOption = '<option> 관심사를 선택해 주세요</option>';
 				var subIntOption = '';
-				var mainAreaOption = '';
+				var mainAreaOption = '<option> 활동지역을 선택해 주세요</option>';
 				var subAreaOption = '';
 				//옵션태그
 				for(var i = 0, len = data.mainInterest.length||0; i<len; i++){
@@ -272,31 +235,31 @@
 								  + 	data.mainInterest[i].intName
 								  +  '</option>'
 				}
-				for(var i = 0, len = data.subInterest.length||0; i<len; i++){
-					subIntOption += '<option data-intid='+data.subInterest[i].intId+'>'
-								 + 		data.subInterest[i].intName
-								 +  '</option>'
-				}
+// 				for(var i = 0, len = data.subInterest.length||0; i<len; i++){
+// 					subIntOption += '<option data-intid='+data.subInterest[i].intId+'>'
+// 								 + 		data.subInterest[i].intName
+// 								 +  '</option>'
+// 				}
 				for(var i = 0, len = data.areaKey.length||0; i<len; i++){
 					mainAreaOption += '<option data-areakey='+data.areaKey[i].areaKey+'>'
 								   +   		data.areaKey[i].areaName
 								   +  '</option>'
 				}
-				for(var i = 0, len = data.areaRegionKey.length||0; i<len; i++){
-					subAreaOption += '<option data-areaid='+data.areaRegionKey[i].areaId+'>'
-								  +   	data.areaRegionKey[i].areaRegionName
-								  +  '</option>'
-				}
+// 				for(var i = 0, len = data.areaRegionKey.length||0; i<len; i++){
+// 					subAreaOption += '<option data-areaid='+data.areaRegionKey[i].areaId+'>'
+// 								  +   	data.areaRegionKey[i].areaRegionName
+// 								  +  '</option>'
+// 				}
 				
 				$("#mainInt").html(mainIntOption);
 				$("#subInt").html(subIntOption);
 				$("#mainArea").html(mainAreaOption);
 				$("#subArea").html(subAreaOption);
 				//선택된상태
-				$('option[data-intkey='+data.selectedMainInt+']').prop("selected", true); 
-				$('option[data-intid='+data.teamVO.intId+']').prop("selected", true);
-				$('option[data-areakey='+data.selectedMainArea+']').prop("selected", true);
-				$('option[data-areaid='+data.teamVO.areaId+']').prop("selected", true);
+// 				$('option[data-intkey='+data.selectedMainInt+']').prop("selected", true); 
+// 				$('option[data-intid='+data.teamVO.intId+']').prop("selected", true);
+// 				$('option[data-areakey='+data.selectedMainArea+']').prop("selected", true);
+// 				$('option[data-areaid='+data.teamVO.areaId+']').prop("selected", true);
 				//플러그인
 				$('#mainInt').chosen({width: "100%"});
 				$('#subInt').chosen({width: "100%"});
@@ -312,13 +275,39 @@
 					var areakey = $('#mainArea option:selected').data('areakey')
 					teamsetting.getRegion(areakey);
 				});
-				$('#modBtn').on('click',function(e){
+				$('#newBtn').on('click',function(e){
 					e.preventDefault();
 					var intid = $('#subInt option:selected').data('intid');
 					var areaid = $('#subArea option:selected').data('areaid');
 					$('input[name=intId]').val(intid);
 					$('input[name=areaId]').val(areaid);
-					$('input[name=teamId]').val(groupId);
+
+					if($('#mainInt option:selected').data('intkey') == null || $('#mainInt option:selected').data('intkey').length<=0 ||
+							$('#subInt option:selected').data('intid') ==null || $('#subInt option:selected').data('intid').length<=0){
+						bootbox.alert("관심사가 지정되지 않았습니다.",function(){
+				            $.niftyNoty({
+				                type: 'info',
+				                icon : 'pli-exclamation icon-2x',
+				                message : '관심사를 선택해 주세요',
+				                container : 'floating',
+				                timer : 5000
+				            });
+						});
+						return;
+					}
+					if($('#mainArea option:selected').data('areakey') == null || $('#mainArea option:selected').data('areakey').length<=0 || 
+							$('#subArea option:selected').data('areaid') == null || $('#subArea option:selected').data('areaid').length<=0){
+						bootbox.alert("활동지역이 지정되지 않았습니다.",function(){
+				            $.niftyNoty({
+				                type: 'info',
+				                icon : 'pli-exclamation icon-2x',
+				                message : '활동지역을 선택해 주세요',
+				                container : 'floating',
+				                timer : 5000
+				            });
+						});
+						return;
+					}
 					
 					if($('#teamMax').val()==''||$('#teamShortContent').val()==''||$('#teamContent').val()==''){
 						bootbox.alert("빈 항목이 있습니다.",function(){
@@ -345,7 +334,7 @@
 					}
 					bootbox.confirm("저장하시겠습니까?", function(result) {
 			            if (result) {
-			            	$('#modform').submit();
+			            	$('#newform').submit();
 			            }else{
 			                $.niftyNoty({
 			                    type: 'danger',
@@ -360,9 +349,9 @@
 				});
 				
 				$('#cancelBtn').on('click',function(e){
-					bootbox.confirm("작성한 내용이 저장되지 않습니다.", function(result) {
+					bootbox.confirm("작성한 내용이 저장되지 않습니다", function(result) {
 			            if (result) {
-			            	location.reload();
+			            	history.go(-1);
 			            }else{
 			                $.niftyNoty({
 			                    type: 'danger',

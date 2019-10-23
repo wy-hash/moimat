@@ -26,6 +26,8 @@ import com.google.gson.Gson;
 
 import lombok.extern.log4j.Log4j;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/groups/{groupId}/posts")
 @Log4j
@@ -57,7 +59,12 @@ public class TeamPostController {
 
         model.addAttribute("group", teamService.getGroupInfo(groupId));
         model.addAttribute("post", post);
-        model.addAttribute("comments", teamCommentsService.getAllComments(postId));
+        List<TeamCommentsDTO> comments = teamCommentsService.getAllComments(postId);
+
+        for (TeamCommentsDTO dto: comments) {
+            dto.setMemId(teamMemberService.getMember(dto.getTmemId()).getMemId());
+        }
+        model.addAttribute("comments", comments);
 
         MemberDomain postingUser = authService.getMemberInfo(teamMemberService.getMember(post.getTmemId()).getMemId());
         model.addAttribute("user", postingUser);
@@ -135,5 +142,7 @@ public class TeamPostController {
 
         return "redirect:/groups/" + groupId + "/post";
     }
+
+
 
 }
