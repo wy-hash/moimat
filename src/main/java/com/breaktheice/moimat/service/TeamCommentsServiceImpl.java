@@ -5,12 +5,16 @@ import com.breaktheice.moimat.domain.TeamCommentsDomain;
 import com.breaktheice.moimat.domain.TeamPostDomain;
 import com.breaktheice.moimat.persistence.TeamCommentsMapper;
 import com.breaktheice.moimat.service.TeamCommentsService;
+
+import lombok.extern.log4j.Log4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Log4j
 public class TeamCommentsServiceImpl implements TeamCommentsService {
 
     @Autowired
@@ -43,4 +47,36 @@ public class TeamCommentsServiceImpl implements TeamCommentsService {
 
         return posts;
     }
+
+	@Override
+	public Long modComment(TeamCommentsDomain comment) {
+		
+		Long result = -1L;// 결과값 : 정상등록 : 1, 실패 : -1
+		result = mapper.modComment(comment);// 게시글 수정
+		log.info("updated: " + result);
+
+		if(result >= 1L) {
+			log.info("정상 수정 되었습니다.");
+		} else {
+			log.info("수정실패 / 에러");
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public Long deleteComment(TeamCommentsDomain comment) {
+		
+		Long result = -1L;// 결과값 : 정상등록 : 1, 실패 : -1
+
+		result = mapper.deleteComment(comment);
+		
+		if(result >= 1L) {
+			log.info("정상 삭제 되었습니다.");
+		} else {
+			log.info("삭제실패 / 에러");
+		}
+		
+		return result;
+	}
 }

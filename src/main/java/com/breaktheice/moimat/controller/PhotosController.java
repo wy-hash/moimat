@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -55,7 +56,12 @@ public class PhotosController {
 
 		model.addAttribute("post", post);
 
-		model.addAttribute("comments", teamCommentsService.getAllComments(postId));
+		List<TeamCommentsDTO> comments = teamCommentsService.getAllComments(postId);
+
+		for (TeamCommentsDTO dto: comments) {
+			dto.setMemId(teamMemberService.getMember(dto.getTmemId()).getMemId());
+		}
+		model.addAttribute("comments", comments);
 
 
 		MemberDomain postingUser = authService.getMemberInfo(post.getTmemId());
@@ -81,7 +87,7 @@ public class PhotosController {
 			return new Gson().toJson(result);
 		}
 
-		return "{\"postId\": 0}";
+		return "{\"cmtId\": 0}";
 	}
 
 	@PostMapping({"/new"})
@@ -144,4 +150,35 @@ public class PhotosController {
 
 		return "redirect:/groups/" + groupId + "/photos";
 	}
+
+	@RequestMapping(value="/{postId}/comment/mod",method=RequestMethod.POST, consumes = "application/x-www-form-urlencoded;charset=UTF-8", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String modComment(TeamCommentsDomain domain) {
+		
+		log.info("덧글 수정실행" + domain);
+		
+		String result = "{\"postId\": 0}";
+		
+		if(teamCommentsService.modComment(domain) >0L) {
+			result = new Gson().toJson(teamCommentsService.getCommentById(domain.getCmtId()));
+		}
+		
+		return result;
+	}
+
+	@RequestMapping(value="/{postId}/comment/del",method=RequestMethod.POST, consumes = "application/x-www-form-urlencoded;charset=UTF-8", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String delComment(TeamCommentsDomain domain) {
+
+		log.info("덧글 삭제" + domain);
+
+		String result = "{\"result\": false}";
+
+		if(teamCommentsService.deleteComment(domain) >0L) {
+			result = "{\"result\": true}";
+		}
+
+		return result;
+	}
+
 }

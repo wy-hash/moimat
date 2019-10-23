@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/groups/{groupId}/posts")
 @Log4j
@@ -40,7 +42,12 @@ public class TeamPostController {
 
         model.addAttribute("group", teamService.getGroupInfo(groupId));
         model.addAttribute("post", post);
-        model.addAttribute("comments", teamCommentsService.getAllComments(postId));
+        List<TeamCommentsDTO> comments = teamCommentsService.getAllComments(postId);
+
+        for (TeamCommentsDTO dto: comments) {
+            dto.setMemId(teamMemberService.getMember(dto.getTmemId()).getMemId());
+        }
+        model.addAttribute("comments", comments);
 
         MemberDomain postingUser = authService.getMemberInfo(teamMemberService.getMember(post.getTmemId()).getMemId());
         model.addAttribute("userImg", postingUser.getMemPhoto());
@@ -118,5 +125,7 @@ public class TeamPostController {
 
         return "redirect:/groups/" + groupId + "/post";
     }
+
+
 
 }

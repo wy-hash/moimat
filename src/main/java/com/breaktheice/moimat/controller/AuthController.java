@@ -71,7 +71,7 @@ public class AuthController {
 		boolean result = authService.loginCheck(loginVo, request);
 
 		if (result) { // 성공한 경우 세션성립 후 성공시 로그인 성공 페이지l
-			return "redirect:/";			//
+			return "redirect:/home";			//
 		} else { // 실패의 경우 실패시 로그인 페이지와 메시지 전송 			
 			rttr.addFlashAttribute("loginErrorMsg", "아이디 또는 비밀번호를 다시 확인하세요.");
 			
@@ -85,7 +85,7 @@ public class AuthController {
 		
 		req.getSession().invalidate();
 		
-		return "{\"result\": true, \"redirectURL\": \"/\"}";
+		return "{\"result\": true, \"redirectURL\": \"/home\"}";
 	}
 
 	@GetMapping("/join")
