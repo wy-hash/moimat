@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,12 +66,10 @@ public class UserServiceImpl implements UserService {
 		return false;
 	}
 	
-	public boolean withdrawMember(MemberDomain member) {
-		
-		member.setMemStatus(0L);
+	public boolean dropMember(MemberDomain member) {
 		
 		log.info("withdrawMember: " + member);
-		int cnt = userMapper.updateMemStatus(member);
+		int cnt = userMapper.dropMember(member);
 		if (cnt == 1) {
 			return true;
 		}
@@ -108,6 +104,12 @@ public class UserServiceImpl implements UserService {
 	public MemberDomain getMemberDomain(Long memId) {
 		
 		return userMapper.getUserInfo(memId);
+	}
+
+	@Override
+	public boolean isTeamMaster(MemberDomain memberDomain) {
+		// TODO Auto-generated method stub
+		return userMapper.isTeamMaster(memberDomain);
 	}
 	
 	

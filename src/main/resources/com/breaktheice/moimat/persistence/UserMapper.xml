@@ -138,7 +138,7 @@
       		<if test="memPhoto != null">MEM_PHOTO=#{memPhoto},</if>
       		<if test="memInt1 != null">MEM_INT1=#{memInt1},</if>
       		<if test="memInt2 != null">MEM_INT2=#{memInt2},</if>
-      		<if test="memInt3 != null">MEM_INT3=#{memInt3}</if>
+      		<if test="memInt3 != null">MEM_INT3=#{memInt3},</if>
       		MEM_UPDATE = sysdate
       	</trim>
   		<trim prefix="WHERE" prefixOverrides="AND |OR ">
@@ -185,7 +185,21 @@
   	
   	</update>
   	
-  	<update id="update"></update>
+  	<select id="isTeamMaster" resultType="boolean">
+  		SELECT
+  			count(*)
+  		FROM
+  			TEAM
+  		WHERE
+  			mem_id = #{memId}
+  	</select>
+  	
+  	<delete id="dropMember">
+  		delete
+  			member
+  		where 
+  			mem_id = #{memId}
+  	</delete>
   	
   	<delete id="deleteMember" parameterType="com.breaktheice.moimat.domain.MemberDomain">
   		 DELETE 

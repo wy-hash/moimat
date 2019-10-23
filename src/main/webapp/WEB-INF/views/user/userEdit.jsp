@@ -301,6 +301,10 @@ i.form-control-feedback {
 			}else if(memGender == 'F'){
 				$("#gender").text('여성')
 			}
+			var msg = "<c:out value='${msg}'/>"
+			if(msg){
+				bootbox.alert(msg);
+			}
 			
 			 $('#delBtn').on('click', function(){
 			        bootbox.dialog({

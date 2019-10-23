@@ -8,9 +8,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.breaktheice.moimat.domain.MemberDomain;
 
+import lombok.extern.log4j.Log4j;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration( "file:src/main/webapp/WEB-INF/spring/root-context.xml" )
+@Log4j
 public class UserMapperTests {
 	
 	@Autowired
@@ -43,6 +46,20 @@ public class UserMapperTests {
 		um.updateMember(member);
 		um.updateTeamMember(member);
 		um.updateMeetMember(member);
+	}
+	
+	@Test
+	public void isTeamMasterTest() {
+		MemberDomain member = new MemberDomain();
+		member.setMemId(2L);
+		log.info(um.isTeamMaster(member));
+	}
+	
+	@Test
+	public void deleteMember() {
+		MemberDomain member = new MemberDomain();
+		member.setMemId(63L);
+		log.info(um.dropMember(member));
 	}
 
 }

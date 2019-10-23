@@ -35,4 +35,9 @@ public interface UserMapper {
 	public int deleteMember(MemberDomain member);
 	
 	public int updateMemStatus(MemberDomain member);
+	
+	public int dropMember(MemberDomain member);
+
+	public boolean isTeamMaster(MemberDomain memberDomain);
+	
 }

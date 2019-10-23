@@ -13,9 +13,11 @@ public interface UserService {
 	
 	public boolean checkPassword(MemberDomain memberDomain);	// 패스워드 체크 여부 확인	
 	
+	public boolean isTeamMaster(MemberDomain memberDomain);
+	
 	public boolean updateMember(MemberDomain member);			// 회원정보수정
 	
-	public boolean withdrawMember(MemberDomain member);			//	회원탈퇴
+	public boolean dropMember(MemberDomain member);			//	회원탈퇴
 	
 //	public boolean updateMember(MemberDomain memPhoto);			// 회원 
 }

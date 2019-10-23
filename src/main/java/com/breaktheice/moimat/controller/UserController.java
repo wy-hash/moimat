@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -152,17 +151,26 @@ public class UserController {
 	}
    	
    	@PostMapping("/delete")
-   	public String withdrawal(@RequestParam("chkpwd")String pwd,HttpServletRequest request) {
+   	public String withdrawal(@RequestParam("chkpwd")String pwd,HttpServletRequest request,RedirectAttributes rttr) {
    		
    		HttpSession session = request.getSession();
    		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
    		md.setMemPassword(pwd);
+   		
    		if(userService.checkPassword(md)) {
-   			userService.withdrawMember(md);
-   			session.removeAttribute("loginVO");
-   			return "redirect:/";
+   			if(userService.isTeamMaster(md)) {
+   				rttr.addFlashAttribute("msg", "모임장인 모임이 있습니다. 모임장을 위임하시거나 모임 해산 후 진행하여 주세요.");
+   				return "redirect:/mypage/edit";
+   			}
+   			if(userService.dropMember(md)) {
+   				session.removeAttribute("loginVO");
+   	   			return "redirect:/";
+   			};
+   			rttr.addFlashAttribute("msg", "문제가 발생했습니다. 잠시 후 다시 시도해 주세요");
+   			return "redirect:/mypage/edit";
    		}
-   		return "redirect:/";
+   		rttr.addFlashAttribute("msg", "비밀번호가 맞지않습니다.");
+   		return "redirect:/mypage/edit";
    	}
    
    @RequestMapping(value = "/photo", method = RequestMethod.POST)
@@ -365,7 +373,7 @@ public class UserController {
       HttpSession session = request.getSession(false);
       MemberDomain member = (MemberDomain)session.getAttribute("loginVO");   
       
-      boolean result = userService.withdrawMember(member);
+      boolean result = userService.dropMember(member);
       
       if(result) {
          session.invalidate();          // 세션끊기
