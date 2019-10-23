@@ -2,6 +2,8 @@ package com.breaktheice.moimat.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -73,9 +75,10 @@ public class AdminTeamController {
 	}
 	// 모임 등록 쿼리실행
 	@PostMapping("new")
-	public String addQuery(Model model, TeamDomain domain, AdminCriteria cri, RedirectAttributes rttr) {
+	public String addQuery(Model model, TeamDomain domain, AdminCriteria cri, RedirectAttributes rttr, HttpSession session) {
+		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
 		// 모임 등록 성공시 1이상 반환
-		Long result = service.add(domain);
+		Long result = service.add(domain, md);
 		
 		//페이지 정보
 		rttr.addAttribute("pageNum",cri.getPageNum());

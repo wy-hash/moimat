@@ -147,6 +147,10 @@
 	<select id="selectAreaId" resultType="Long">
 		select area_id from area where area_region_key = #{ areaRegionKey }
 	</select>
+
+	<select id="selectMember" resultType="com.breaktheice.moimat.domain.MemberDomain">
+		select * from member where mem_id = #{ memId }
+	</select>
 	
 	
 </mapper>

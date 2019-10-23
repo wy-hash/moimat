@@ -16,14 +16,14 @@
 	<div id="container" class="effect aside-float aside-bright mainnav-lg">
 
 		<!-- HEADER-NAVBAR -->
-		<%@ include file="../includes/header-navbar.jsp"%>
+<%-- 		<%@ include file="../includes/header-navbar.jsp"%> --%>
 		<!-- END NAVBAR -->
 
 		<!-- BOXED -->
-		<div class="boxed">
+		<div class="cls-content text-center">
 
 			<!-- MAIN-NAV -->
-			<%@ include file="../includes/main-nav.jsp"%>
+<%-- 			<%@ include file="../includes/main-nav.jsp"%> --%>
 			<!-- END MAIN-NAV -->
 
 			<!-- ASIDE -->
@@ -35,7 +35,7 @@
 
 			<!--CONTENT CONTAINER-->
 			<!--===================================================-->
-			<div id="content-container">
+<!-- 			<div id="content-container"> -->
 
 				<!--Page Title-->
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
@@ -58,7 +58,7 @@
 					        찾는 페이지가 없습니다.
 					    </div>
 					    <hr class="new-section-sm bord-no">
-					    <div class="pad-top"><a class="btn-link" href="/">홈 화면</a></div>
+					    <div class="pad-top"><a class="btn-link" href="/home">홈 화면</a></div>
 					</div>
 
 
@@ -67,7 +67,7 @@
 				<!--End page content-->
 
 
-			</div>
+<!-- 			</div> -->
 			<!--===================================================-->
 			<!--END CONTENT CONTAINER-->
 
@@ -82,12 +82,7 @@
 
 	</div>
 	<!-- END CONTAINER -->
-	
-	<%-- for modal --%>
-	<c:if test="${ !empty loginVO }">
-		<%@ include file="../includes/modals.jsp" %>
-	</c:if>
-	<%-- for modal --%>
+
 	
 </body>
 </html>

@@ -8,8 +8,9 @@ import com.breaktheice.moimat.domain.TeamSettingsPageVO;
 import com.breaktheice.moimat.domain.TeamVO;
 
 public interface TeamSettingsService {
-	
+
 	public TeamSettingsPageVO getSettingPage(Long teamId);
+	public TeamSettingsPageVO getSettingBasic();
 	
 	public List<InterestDomain> getSubInterest(String intkey);
 	

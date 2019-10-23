@@ -36,11 +36,14 @@ public class GroupsAdminInterceptor extends HandlerInterceptorAdapter {
 		if (prevURL !=null && host!= null) {
 			arr = prevURL.split(host);
 		}
+		
 
 	
 		if (session != null && session.getAttribute("loginVO") != null) {
 			MemberDomain user = (MemberDomain) session.getAttribute("loginVO");//로그인한 유저
-			
+			if (user != null && user.getMemLevel() != null && user.getMemLevel() >=8L) {
+				return true;
+			}
 			if (user != null && user.getMemId() != null) {
 				List<TeamDomain> groupList = teamMapper.selectJoinedGroupList(user.getMemId());
 				

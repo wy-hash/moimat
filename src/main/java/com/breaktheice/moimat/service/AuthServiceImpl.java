@@ -250,9 +250,9 @@ public class AuthServiceImpl implements AuthService {
 		
 		return mapper.selectAreaId(areaRegionKey);
 	}
-	
-	
-	
-	
 
+	@Override
+	public MemberDomain getMemberInfo(Long memId) {
+		return mapper.selectMember(memId);
+	}
 }

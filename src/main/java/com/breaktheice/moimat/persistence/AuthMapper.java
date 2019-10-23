@@ -37,6 +37,8 @@ public interface AuthMapper {
 	
 	public Long selectAreaId(String areaRegionKey);
 
+	MemberDomain selectMember(Long memId);
+
 
 	
 	

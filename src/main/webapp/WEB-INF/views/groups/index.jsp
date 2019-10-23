@@ -52,7 +52,7 @@
 					<!-- #### WRITE CODE BELOW THIS LINE #### -->
 					<!-- #################################### -->
 					
-					
+					<div class="row pull-right"><button id="newGroups" class="btn btn-mint mar-all">모임 생성</button> </div>
 					
 					<div class="row">
 						<div class="eq-height">
@@ -101,6 +101,18 @@
 		<%@ include file="../includes/modals.jsp" %>
 	</c:if>
 	<%-- for modal --%>
+	<script>
+	$(document).ready(function(){
+
+		$('#newGroups').on('click',function(){
+			
+			const url = location.origin+'/groups/new';
+			location.href = url;
+		});
+		
+	});
+	
+	</script>
 	
 </body>
 </html>

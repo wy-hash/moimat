@@ -42,4 +42,9 @@ public class TeamPostServiceImpl implements TeamPostService {
     public void updateViewCount(Long postId) {
         mapper.updateViewCount(postId);
     }
+
+    @Override
+    public List<TeamPostDomain> getAllPosts(Long postId, Long brdId) {
+        return mapper.selectAllPosts(postId, brdId);
+    }
 }

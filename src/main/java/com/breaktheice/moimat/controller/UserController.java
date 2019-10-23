@@ -43,7 +43,7 @@ public class UserController {
    @Autowired
    FileUploadService fileUploadService;
    
-   @GetMapping("/") // user/
+   @GetMapping(value= {"","/"}) // user/
    public String users(Model model, HttpServletRequest request) {
       
       log.info("get : /mypage/..호출");
