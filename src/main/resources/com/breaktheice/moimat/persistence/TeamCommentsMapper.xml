@@ -31,4 +31,15 @@
 		select count(*) from TEAM_COMMENTS where post_id = #{ postId }
 	</select>
 	
+	<update id="modComment"  parameterType="com.breaktheice.moimat.domain.TeamCommentsDomain" >
+		update 	team_comments
+		set 	cmt_content = #{cmtContent},
+		    	cmt_update = sysdate
+		where 	cmt_id = #{cmtId}
+	</update>
+	<delete id="deleteComment"  parameterType="com.breaktheice.moimat.domain.TeamCommentsDomain" >
+		delete from team_comments
+		where 	cmt_id = #{cmtId}
+	</delete>
+	
 </mapper>

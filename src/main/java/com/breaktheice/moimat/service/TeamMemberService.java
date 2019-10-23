@@ -2,10 +2,7 @@ package com.breaktheice.moimat.service;
 
 import java.util.List;
 
-import com.breaktheice.moimat.domain.GroupMemberVO;
-import com.breaktheice.moimat.domain.MessageVO;
-import com.breaktheice.moimat.domain.TeamMemberDomain;
-import com.breaktheice.moimat.domain.TeamMemberListVO;
+import com.breaktheice.moimat.domain.*;
 import com.breaktheice.moimat.util.AdminCriteria;
 
 public interface TeamMemberService {

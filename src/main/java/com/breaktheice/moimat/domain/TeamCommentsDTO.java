@@ -17,4 +17,5 @@ public class TeamCommentsDTO {
     private String cmtUpdate;
 
     private String memPhoto;
+    private Long memId;
 }
