@@ -150,7 +150,7 @@ public class AuthController {
 		member.setMemInt3(authService.getInterestKey(interestKeyList[2]));
 
 		String uploadPath = "";
-
+		
 		if (file.getSize() <= 0) {
 			String randomImage = String.valueOf((int)(Math.random() * 10) + 1) + ".png";
 			uploadPath = "resources/img/profile-photos/" + randomImage;
