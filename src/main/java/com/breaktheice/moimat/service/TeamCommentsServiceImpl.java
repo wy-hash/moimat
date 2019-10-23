@@ -56,9 +56,9 @@ public class TeamCommentsServiceImpl implements TeamCommentsService {
 		log.info("updated: " + result);
 
 		if(result >= 1L) {
-			log.info("정상 삭제 되었습니다.");
+			log.info("정상 수정 되었습니다.");
 		} else {
-			log.info("삭제실패 / 에러");
+			log.info("수정실패 / 에러");
 		}
 		
 		return result;
@@ -69,7 +69,7 @@ public class TeamCommentsServiceImpl implements TeamCommentsService {
 		
 		Long result = -1L;// 결과값 : 정상등록 : 1, 실패 : -1
 
-		result = mapper.deleteComment(comment);// 게시글 수정
+		result = mapper.deleteComment(comment);
 		
 		if(result >= 1L) {
 			log.info("정상 삭제 되었습니다.");

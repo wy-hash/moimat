@@ -222,7 +222,7 @@
 												<div class="mar-top pad-top bord-top">
 													<div class="media">
 														<i class="demo-pli-speech-bubble-3 icon-lg "></i>
-														<span class="text-bold">${ fn:length(comments) }</span>
+														<span class="text-bold" id="cmtCounter">${ fn:length(comments) }</span>
 													</div>
 
 
@@ -242,8 +242,10 @@
 																	<div class="user-info">
 																		<a href="#" class="btn-link text-semibold media-heading box-inline">${ item.cmtNickname }</a>
 																		<small class="text-muted pad-lft"><span>${ item.cmtRegdate }</span>
+																			<c:if test="${ loginVO.memId eq item.memId }">
 																			<a class="cmtMod"  data-cmtid="${item.cmtId }" style="cursor: pointer;"> 수정 </a>|
 																			<a class="cmtDelete" data-cmtid="${item.cmtId }" style="cursor: pointer;"> 삭제</a>
+																			</c:if>
 																		</small>
 																	</div>
 																	<div class="cmt-content">
@@ -292,11 +294,6 @@
 			
 	</div>
 	<!-- END CONTAINER -->
-	<%-- for modal --%>
-	<c:if test="${ !empty loginVO }">
-		<%@ include file="../../includes/modals.jsp" %>
-	</c:if>
-	<%-- for modal --%>
 	
 	<!-- modal for 덧글 수정 -->	
 	<div class="modal" id="modalMod" tabindex="-1"  style="display: none;">
@@ -333,7 +330,7 @@
 		$(document).ready(function() {
 			
 			// 수정 모달창 오픈
-			$('.cmtMod').on('click', function(){ //모달창 오픈 이벤트
+			$(document).on('click', '.cmtMod', function(){ //모달창 오픈 이벤트
 				const modalMod = $('#modalMod');
 				const cmtId = $(this).attr('data-cmtid');
 				
@@ -345,14 +342,14 @@
 			$('#modalModBtn').on('click', function(){
 				const url = $('#modalModForm').attr('action');
 				const data = $('#modalModForm').serialize();
-				console.log(url +'/'+data);
+
 				$.ajax({
 					type: 'POST',
 					url: url,
 					data : data,
 					dataType: 'json'
 				}).done(function(result){
-					console.log('d');
+
 					if(result.cmtId > 0){
 						$('#modalMod').find('textarea').val('');
 						$('div[data-cmtid="' + result.cmtId +'"]').find('.cmt-content').text(result.cmtContent);
@@ -408,6 +405,7 @@
 											+ '</div>';
 
 							commentContainer.prepend(commentData);
+							$('#cmtCounter').text(Number($('#cmtCounter').text()) + 1);
 
 							content.val('');
 						} else {
@@ -423,6 +421,30 @@
 			$('.media-button .btn-danger').on('click', function() {
 				if (confirm('삭제하시겠습니까?')) {
 					return true;
+				}
+				return false;
+			});
+
+			$(document).on('click', '.cmtDelete', function() {
+				if (confirm('삭제하시겠습니까?')) {
+					var delid = $(this).data('cmtid');
+					
+					$.ajax({
+						type: 'POST',
+						url: '/groups/${ group.teamId }/photos/${ post.postId }/comment/del',
+						data: {cmtId: delid},
+						dataType: 'json',
+						success: function(result) {
+							if (result) {
+								$('div[data-cmtid="' + delid +'"]').remove();
+								$('#cmtCounter').text(Number($('#cmtCounter').text()) - 1);
+							}
+						},
+						fail: function() {
+							alert('잠시후 다시 작업을 진행해주세요.');
+						}
+					});
+
 				}
 				return false;
 			});
