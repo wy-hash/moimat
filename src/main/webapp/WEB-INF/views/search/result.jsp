@@ -95,7 +95,7 @@
                 <!--Page Title-->
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                  <div id="page-title">
-<!--                     <h1 class="page-header text-overflow">Page Template</h1> -->
+                    <h1 class="page-header text-overflow">모임 찾기</h1>
                 </div>
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <!--End page title-->
@@ -106,8 +106,10 @@
                 	<!-- #################################### -->
                 	<!-- #### WRITE CODE BELOW THIS LINE #### -->
             	    <!-- #################################### -->
-            	    
-  	    		
+                    	<p class="text-left">  
+                    	<button id="newGroups" class="btn btn-mint mar-all">모임 생성</button> 
+                    	찾으시는 모임이 없으신가요? 직접 만들어 보세요!
+						</p>
   	    			<div class="row pad-ver bg-trans-dark">
            	    		<div class="col-xs-12 col-sm-10 col-sm-offset-1 pad-hor">
            	    		<form id="searchForm" action="/result" method="post">
@@ -130,17 +132,14 @@
 									</span>
 							</div>
 	    					</div>
-<!-- 	    					<div class="col-sm-1"> -->
-<!-- 		    						<button class="btn btn-default btn-icon" type="submit"> -->
-<!-- 				      					<i class="glyphicon glyphicon-search"></i> -->
-<!-- 			      					</button> -->
-<!-- 		      				</div> -->
 						</form>
 						</div>
 					</div> 
 					
 					<form action="/result" method="post">
+					
 					<div class="row btn-search">
+					<div class="eq-height">
 						<div class="col-sm-6 eq-box-sm">
 			            	<div class="panel">
 				                <div class="panel-heading">
@@ -165,11 +164,12 @@
 					             	</div>
 					          </div>
 					     </div>	
+					     </div>
 					 </div>
 					 
    					<c:forEach items="${keyword}" var="searchVO" varStatus="status" end="2">
 	           		 <div class="row">
-						<div class="col-md-6 col-lg-4">
+						<div class="col-lg-12">
 	           				<div class="panel">
 	      						<div class="pad-all">
 	           						<div class="media mar-btm">
@@ -218,6 +218,18 @@
 	<c:if test="${ !empty loginVO }">
 		<%@ include file="../includes/modals.jsp" %>
 	</c:if>
-	<%-- for modal --%>
+	<%-- for modal --%>	
+	<script>
+	$(document).ready(function(){
+
+		$('#newGroups').on('click',function(){
+			
+			const url = location.origin+'/groups/new';
+			location.href = url;
+		});
+		
+	});
+	
+	</script>
 </body>
 </html>

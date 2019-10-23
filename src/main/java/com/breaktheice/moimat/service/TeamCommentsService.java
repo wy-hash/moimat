@@ -15,4 +15,9 @@ public interface TeamCommentsService {
     TeamCommentsDTO getCommentById(Long cmtId);
 
     List<TeamPostDomain> addNumOfComments(List<TeamPostDomain> posts);
+
+    Long modComment(TeamCommentsDomain comment);
+    Long deleteComment(TeamCommentsDomain comment);
+
+
 }

@@ -10,6 +10,32 @@
 			) where rownum < 4
 		]]>
 	</select>
+	<select id="getIntRandomList" resultType="com.breaktheice.moimat.domain.TeamDomain">
+		<![CDATA[
+			SELECT * 
+			FROM (  SELECT t.*, i.int_name, a.area_region_name
+            	 	FROM team t, interest i, area a
+		            WHERE t.int_id = i.int_id and 
+                          t.area_id = a.area_id and
+		                  t.int_id = #{intId}
+					ORDER BY DBMS_RANDOM.RANDOM
+			) WHERE rownum < 4
+		]]>
+	</select>
+	<select id="getAreaRandomList" resultType="com.breaktheice.moimat.domain.TeamDomain">
+		<![CDATA[
+			SELECT * 
+			FROM ( SELECT t.*, i.int_name, a.area_region_name
+            	 	FROM team t, interest i, area a
+		            WHERE t.int_id = i.int_id and 
+		            	  t.area_id = a.area_id and 
+		                  t.area_id = #{areaId}
+					ORDER BY DBMS_RANDOM.RANDOM
+			) WHERE rownum < 4
+		]]>
+	</select>
+			
+			
 	
 	<select id="totalCount" resultType="Long">
 	<![CDATA[		
@@ -17,7 +43,7 @@
 		FROM 	
 		(	
 			SELECT  rownum rn, team_id, int_id, team_name, team_short_content,
-					team_content, area_id, team_regdate, team_max, mem_id
+					team_content, area_id, team_regdate, team_max, mem_id, team_photo
 			FROM 	team
 			WHERE 
 		]]>
@@ -48,11 +74,11 @@
 	<select id="list" resultType="com.breaktheice.moimat.domain.TeamDomain">
 	<![CDATA[		
 		SELECT  rownum rn, team_id, int_id, team_name, team_short_content,
-				team_content, area_id, team_regdate, team_max, mem_id
+				team_content, area_id, team_regdate, team_max, mem_id, team_photo
 		FROM 	
 		(	
 			SELECT  rownum rn, team_id, int_id, team_name, team_short_content,
-					team_content, area_id, team_regdate, team_max, mem_id
+					team_content, area_id, team_regdate, team_max, mem_id, team_photo
 			FROM 	team
 			WHERE 
 		]]>
@@ -83,7 +109,7 @@
 	
 	<select id="view" resultType="com.breaktheice.moimat.domain.TeamDomain">
        	SELECT  team_id, int_id, team_name, team_short_content,
-				team_content, area_id, team_regdate, team_max, mem_id
+				team_content, area_id, team_regdate, team_max, mem_id, team_photo
        	FROM 	team
 		WHERE 	team_id = #{teamId}
 	</select>
@@ -92,14 +118,43 @@
 		INSERT INTO team
 		(
 			team_id, int_id, team_name, team_short_content,
-			team_content, area_id, team_regdate, team_max, mem_id
+			team_content, area_id, team_regdate, team_max, mem_id, team_photo
 		)
 		VALUES
 		(
 			team_seq.nextval, #{intId}, #{teamName}, #{teamShortContent},
-			#{teamContent}, #{areaId}, sysdate, #{teamMax}, #{memId}
+			#{teamContent}, #{areaId}, sysdate, 
+			<choose>
+				<when test="teamMax != null">#{teamMax},</when>
+				<otherwise>'30',</otherwise>
+			</choose>
+			#{memId}, #{teamPhoto}
 		)
+		<selectKey keyProperty="teamId" resultType="Long" order="AFTER">
+			SELECT team_seq.currval 
+			FROM dual		
+		</selectKey>
 	</insert>
+	<insert id="addGroupMaster">
+		INSERT INTO team_member
+			(
+				tmem_id, team_id, mem_id, tmem_level, tmem_content,
+				tmem_nickname, tmem_email, tmem_lastvisit, tmem_regdate,
+				tmem_birthday, tmem_gender, tmem_photo
+			)
+		VALUES
+			(
+				team_member_seq.nextval, #{teamId}, #{m.memId}, 9, #{m.memContent},
+				 #{m.memNickname}, #{m.memEmail}, sysdate, sysdate,
+				 to_date(#{m.memBirthday}, 'YYYY-MM-DD'), #{m.memGender}, #{m.memPhoto}
+			)
+	</insert>
+	<select id="getTeamid" resultType="Long">
+		SELECT  team_id
+       	FROM 	team
+		WHERE 	team_name = #{teamName}
+	</select>
+	
 
 	
 	<update id="update">
@@ -109,7 +164,11 @@
 				team_short_content	= #{teamShortContent},
 				team_content	 	= #{teamContent},
 				area_id	 			= #{areaId},
+				<if test="teamPhoto != null">
+				team_photo			= #{teamPhoto},	
+				</if>
 				team_max	 		= #{teamMax}
+			
 		WHERE 	team_id = #{teamId}
 	</update>
 	
@@ -126,6 +185,11 @@
 	
 	<select id="getArea" resultType="String">
 		SELECT  area_region_name
+		FROM    area
+		WHERE   area_id = #{areaId}
+	</select>
+	<select id="getAreaAll" resultType="com.breaktheice.moimat.domain.AreaDomain">
+		SELECT  area_id, area_key, area_name, area_region_key, area_region_name
 		FROM    area
 		WHERE   area_id = #{areaId}
 	</select>
@@ -175,11 +239,11 @@
 	<select id="recentOneWeek" resultType="com.breaktheice.moimat.domain.TeamDomain">
 	<![CDATA[		
 		SELECT  rownum rn, team_id, int_id, team_name, team_short_content,
-				team_content, area_id, team_regdate, team_max, mem_id
+				team_content, area_id, team_regdate, team_max, mem_id, team_photo
 		FROM 	
 		(	
 			SELECT  rownum rn, team_id, int_id, team_name, team_short_content,
-					team_content, area_id, team_regdate, team_max, mem_id
+					team_content, area_id, team_regdate, team_max, mem_id, team_photo
 			FROM 	team
 			WHERE 
 		]]>

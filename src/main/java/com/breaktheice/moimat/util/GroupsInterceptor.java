@@ -2,6 +2,7 @@ package com.breaktheice.moimat.util;
 
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -33,18 +34,24 @@ public class GroupsInterceptor extends HandlerInterceptorAdapter {
 		
 		if (prevURL !=null && host!= null) {
 			arr = prevURL.split(host);
+		}else {
+			log.info("요청 URL 테스트 : "+request.getRequestURI());
 		}
 
-	
+		
 		if (session != null && session.getAttribute("loginVO") != null) {
 			MemberDomain user = (MemberDomain) session.getAttribute("loginVO");//로그인한 유저
-			
-			if (user != null && user.getMemId() != null) {
+
+			if (user != null && user.getMemLevel() != null && user.getMemLevel() >=8L) {
+				return true;
+			}else if (user != null && user.getMemId() != null) {
 				List<TeamDomain> groupList = teamMapper.selectJoinedGroupList(user.getMemId());
-				
-				for (TeamDomain domain : groupList) {
-					if((arr[1]+"/").contains("/"+domain.getTeamId()+"/"))// uri 주소의 그룹번호가 회원이 가입한 팀번호와 일치하다
+				for (TeamDomain domain : groupList) {		
+					if((arr[1]+"/").contains("/"+domain.getTeamId()+"/")) {// uri 주소의 그룹번호가 회원이 가입한 팀번호와 일치하다
 						return true;
+					}else if ((request.getRequestURI()+"/").contains("/"+domain.getTeamId()+"/")){
+						return true;
+					}
 				}
 			}
 		}
@@ -52,8 +59,7 @@ public class GroupsInterceptor extends HandlerInterceptorAdapter {
 		//설정은 운영진까지.
 		if (arr[1] != null) {
 			response.sendRedirect(arr[1]);
-			
-		} else {
+		}else {
 			response.sendRedirect("/groups");
 		}
 		

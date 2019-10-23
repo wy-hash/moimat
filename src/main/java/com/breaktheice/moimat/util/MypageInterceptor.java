@@ -12,20 +12,17 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.domain.TeamDomain;
 import com.breaktheice.moimat.persistence.TeamMapper;
-import com.breaktheice.moimat.persistence.TeamMemberMapper;
 
 import lombok.extern.log4j.Log4j;
 
 @Log4j
-public class GroupsAdminInterceptor extends HandlerInterceptorAdapter {
+public class MypageInterceptor extends HandlerInterceptorAdapter {
 	
 	@Autowired TeamMapper teamMapper;
-	@Autowired TeamMemberMapper teamMemberMapper;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		
-		HttpSession session = request.getSession(false);
 
 		log.info("URL 테스트 : "+request.getHeader("referer"));
 		log.info("HOST 테스트 : "+request.getHeader("host"));
@@ -36,32 +33,20 @@ public class GroupsAdminInterceptor extends HandlerInterceptorAdapter {
 		if (prevURL !=null && host!= null) {
 			arr = prevURL.split(host);
 		}
-		
 
-	
+		HttpSession session = request.getSession(false);
+		
 		if (session != null && session.getAttribute("loginVO") != null) {
-			MemberDomain user = (MemberDomain) session.getAttribute("loginVO");//로그인한 유저
-			if (user != null && user.getMemLevel() != null && user.getMemLevel() >=8L) {
-				return true;
+			if(prevURL == null) {
+				response.sendRedirect("/mypage/usercheck");
+
+				return false;
 			}
-			if (user != null && user.getMemId() != null) {
-				List<TeamDomain> groupList = teamMapper.selectJoinedGroupList(user.getMemId());
-				
-				for (TeamDomain domain : groupList) {
-					if((arr[1]+"/").contains("/"+domain.getTeamId()+"/")) {// uri 주소의 그룹번호가 회원이 가입한 팀번호와 일치하다
-						if(teamMemberMapper.isAdmin(domain.getTeamId(), user.getMemId()))
-							return true;
-					}
-				}
-			}
+			
+			return true;
 		}
-		//홈만볼수있음 , 
-		//설정은 운영진까지.
-		if (arr[1] != null) {
-			response.sendRedirect(arr[1]);
-		} else {
-			response.sendRedirect("/groups");
-		}
+		
+		response.sendRedirect("/auth/login");
 		
 		return false;
 	}

@@ -52,7 +52,10 @@
 					<!-- #### WRITE CODE BELOW THIS LINE #### -->
 					<!-- #################################### -->
 					
-					
+                    	<p class="text-left">
+                    	<button id="newGroups" class="btn btn-mint mar-all">모임 생성</button> 
+                    	찾으시는 모임이 없으신가요? 직접 만들어 보세요!
+						</p>
 					
 					<div class="row">
 						<div class="eq-height">
@@ -101,6 +104,18 @@
 		<%@ include file="../includes/modals.jsp" %>
 	</c:if>
 	<%-- for modal --%>
+	<script>
+	$(document).ready(function(){
+
+		$('#newGroups').on('click',function(){
+			
+			const url = location.origin+'/groups/new';
+			location.href = url;
+		});
+		
+	});
+	
+	</script>
 	
 </body>
 </html>

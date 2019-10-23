@@ -1,5 +1,6 @@
 package com.breaktheice.moimat.persistence;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.breaktheice.moimat.domain.AdminVO;
@@ -12,9 +13,12 @@ public interface TeamMapper {
 
 	//for indexpage
 	List<TeamDomain> getRandomList();
+	List<TeamDomain> getIntRandomList(Long intId);
+	List<TeamDomain> getAreaRandomList(Long areaId);
 	
 	// 전체 모임 수 
 	public Long totalCount(AdminCriteria cri);
+	
 	
 	// 모임 목록
 	public List<TeamDomain> list(AdminCriteria cri);
@@ -22,6 +26,10 @@ public interface TeamMapper {
 	public TeamDomain view(TeamDomain domain);
 	// 모임 추가
 	public Long add(TeamDomain domain);
+	// 모임 등록시 모임장으로 추가
+	public Long addGroupMaster(HashMap<String , Object> map);
+	public Long getTeamid(TeamDomain domain);
+	
 	// 모임 수정
 	public Long update(TeamDomain domain);
 	// 모임 삭제
@@ -31,6 +39,7 @@ public interface TeamMapper {
 	public String getInterest(TeamDomain domain);
 	// 선택한 관심지역
 	public String getArea(TeamDomain domain);
+	public AreaDomain getAreaAll(TeamDomain domain);
 	// 선택한 작성자의 닉네임
 	public String getNickname(TeamDomain domain);
 	

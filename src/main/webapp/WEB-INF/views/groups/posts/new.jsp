@@ -6,7 +6,7 @@
 
 <!-- HEAD -->
 <%@ include file="../../includes/head.jsp" %>
-	<title>사진등록 - ${ group.teamName } | moim@</title>
+	<title>게시물등록 - ${ group.teamName } | moim@</title>
 	
 	<style>
 		@media screen and (max-width: 768px) {
@@ -95,7 +95,7 @@
 					        <h3 class="panel-title">즐거웠던 모임, 사진으로 남겨보세요!</h3>
 					    </div>
 
-						<form class="form" method="post" action="/groups/${ group.teamId }/photos/new">
+						<form class="form" method="post" action="/groups/${ group.teamId }/posts/new">
 							<div class="panel-body">
 
 								<!--Summernote-->
@@ -110,7 +110,7 @@
 								<!--===================================================-->
 								<!-- End Summernote -->
 
-								<input type="hidden" name="brdId" value="22">
+								<input type="hidden" name="brdId" value="23">
 								<input type="hidden" name="postNickname" value="${ loginVO.memNickname }">
 								<input type="hidden" name="postEmail" value="${ loginVO.memEmail }">
 								<input type="hidden" name="teamId" value="${ group.teamId }">
@@ -158,7 +158,7 @@
 			var imgs = 0;
 
 			$('#summernote').summernote({
-				placeholder: '여기에 사진을 등록하고 글을 작성해보세요',
+				placeholder: '여기에 글을 작성해주세요',
 				height: 300,
 				callbacks: {
 					onChange: function(data) {
@@ -182,18 +182,13 @@
 					return false;
 				}
 
-				if(imgs < 1){
-					alert('사진을 등록해주세요');
-					return false;
-				}
-
 				$('form').submit();
 			});
 
 
 
 			$('.action-btn > .btn-danger').on('click', function() {
-				window.location.href='/groups/${ group.teamId }/photos';
+				window.location.href='/groups/${ group.teamId }/posts';
 			});
 
 

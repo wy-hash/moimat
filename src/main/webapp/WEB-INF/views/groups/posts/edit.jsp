@@ -89,10 +89,10 @@
 
                 <div class="panel">
                     <div class="panel-heading">
-                        <h3 class="panel-title">즐거웠던 모임, 사진으로 남겨보세요!</h3>
+                        <h3 class="panel-title">자유게시판</h3>
                     </div>
 
-                    <form class="form" method="post" action="/groups/${ group.teamId }/photos/${ post.postId }/edit">
+                    <form class="form" method="post" action="/groups/${ group.teamId }/posts/${ post.postId }/edit">
                         <div class="panel-body">
 
                             <!--Summernote-->
@@ -115,8 +115,8 @@
 
 
                             <div class="action-btn text-right">
-                                <a href="/groups/${ group.teamId }/photos/${ post.postId }"><button type="button" class="btn btn-danger btn-rounded mar-rgt">취소</button></a>
-                                <a href="/groups/${ group.teamId }/photos/${ post.postId }/edit"><button type="submit" class="btn btn-success btn-rounded mar-lft">올리기</button></a>
+                                <a href="/groups/${ group.teamId }/posts/${ post.postId }"><button type="button" class="btn btn-danger btn-rounded mar-rgt">취소</button></a>
+                                <a href="/gropus/${ group.teamId }/posts/${ post.postId }/edit"><button type="submit" class="btn btn-success btn-rounded mar-lft">올리기</button></a>
                             </div>
                         </div>
                     </form>
@@ -155,7 +155,7 @@
         var imgs = 0;
 
         $('#summernote').summernote({
-            placeholder: '여기에 사진을 등록하고 글을 작성해보세요',
+            placeholder: '여기에 글을 작성해주세요',
             height: 300,
             callbacks: {
                 onChange: function(data) {
@@ -176,11 +176,6 @@
 
             if (summernote.summernote('isEmpty')) {
                 alert('내용을 작성해주세요.');
-                return false;
-            }
-
-            if(imgs < 1){
-                alert('사진을 등록해주세요');
                 return false;
             }
 

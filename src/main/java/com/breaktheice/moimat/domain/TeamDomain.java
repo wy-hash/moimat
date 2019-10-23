@@ -16,6 +16,7 @@ public class TeamDomain {
 	private Date teamRegdate;
 	private Long teamMax;
 	private Long memId;
+	private String teamPhoto;
 	
 	//출력용 관심사, 활동지역, 작성자
 	private String intName;
