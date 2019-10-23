@@ -628,7 +628,7 @@
 
 		        	this.on('success', function(file, response) {
 		        		if (response) {
-		        			window.location.href = '/home';
+		        			window.location.href = '/auth/login';
 						}
 					});
 
