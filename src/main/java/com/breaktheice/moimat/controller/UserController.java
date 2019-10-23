@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -43,32 +44,134 @@ public class UserController {
    @Autowired
    FileUploadService fileUploadService;
    
+   @Autowired
+   SHA256 sha256;
+   
+  
    @GetMapping(value= {"","/"}) // user/
    public String users(Model model, HttpServletRequest request) {
       
       log.info("get : /mypage/..호출");
       
-      HttpSession session = request.getSession(false);
+      HttpSession session = request.getSession();
+      MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
       
-      model.addAttribute("areas", authService.getAllAreas());
-      model.addAttribute("interest", authService.getAllInterest());
-      
-      log.info("인증");
-      
+      Long memId = md.getMemId();
+      model.addAttribute("UserInfoVO",userService.getUserInfoPage(memId));
+       
       return "user/user";
+   }
+   
+   @GetMapping("/usercheck")
+   public String userCheck(Model model, HttpServletRequest request) {
+      
+      log.info("get : /mypage/..호출");
+      
+      HttpSession session = request.getSession();
+      MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
+      
+      Long memId = md.getMemId();
+      model.addAttribute("UserInfoVO",userService.getUserInfoPage(memId));
+       
+      return "user/usercheck";
+   }
+   
+   @PostMapping("/usercheck")
+   public String passwordCheck(HttpServletRequest request,MemberDomain memberDomain, RedirectAttributes rttr) {
+	   HttpSession session = request.getSession();
+	   MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
+	   memberDomain.setMemEmail(md.getMemEmail());
+	   boolean result = userService.checkPassword(memberDomain);
+	   if(result) {
+		   return "redirect:/mypage/edit";
+	   }
+	   rttr.addFlashAttribute("ErrorMsg", "비밀번호가 맞지 않습니다.");
+	   return "redirect:/mypage/usercheck";
    }
 
    @GetMapping("/edit")
    public String userEditPage(Model model, HttpServletRequest request) {
       
       log.info("get : /users/edit..호출");
-      
-      HttpSession session = request.getSession(false);
-         
+      HttpSession session = request.getSession();
+      MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
+      Long memId = md.getMemId();
+      model.addAttribute("memberDomain",userService.getMemberDomain(memId));
+      model.addAttribute("areas", authService.getAllAreas());
+	  model.addAttribute("interest", authService.getAllInterest());
       log.info("인증");
       
       return "user/userEdit";
    }
+   
+   	@PostMapping("/edit")
+	public String modifyUser(MemberDomain member,HttpServletRequest request,
+								  @RequestParam("areaRegionKey") String areaRegionKey,
+								  @RequestParam("intKey") String intKey,
+								  @RequestParam(value = "file", required = false) MultipartFile file) {
+		
+		log.info("member: " + member);
+		log.info("area: " + areaRegionKey);
+		log.info("interest: " + intKey); // eg)IA01,IA02,IA03
+		System.out.println();
+		HttpSession session = request.getSession();
+	    MemberDomain loginVO = (MemberDomain) session.getAttribute("loginVO");
+	    Long memId = loginVO.getMemId();
+		member.setMemId(memId);
+		System.out.println("asd"+member.getMemPassword()+"asd");
+		if(member.getMemPassword().length() == 0) {
+			member.setMemPassword("");
+		}else {
+			String plain = member.getMemPassword();
+			member.setMemPassword(sha256.encrypt(plain));
+		}
+		member.setAreaId(authService.getAreaId(areaRegionKey));
+		String[] interestKeyList = intKey.split(",");
+		member.setMemInt1(authService.getInterestKey(interestKeyList[0].trim()));
+		member.setMemInt2(authService.getInterestKey(interestKeyList[1].trim()));
+		member.setMemInt3(authService.getInterestKey(interestKeyList[2].trim()));
+
+		String uploadPath = "";
+		
+		if (0 < file.getSize()) {
+			uploadPath = fileUploadService.saveFile("USER", file);
+			member.setMemPhoto(uploadPath);
+		}
+
+		if(userService.updateMember(member)) {
+			loginVO = userService.getMemberDomain(memId);
+			loginVO.setMemPassword("");
+			session.removeAttribute("loginVO");
+			session.setAttribute("loginVO", loginVO);
+		};
+
+		log.info("inserted member info: " + member);
+
+		return "redirect:/mypage";
+	}
+   	
+   	@PostMapping("/delete")
+   	public String withdrawal(@RequestParam("chkpwd")String pwd,HttpServletRequest request,RedirectAttributes rttr) {
+   		
+   		HttpSession session = request.getSession();
+   		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
+   		md.setMemPassword(pwd);
+   		
+   		if(userService.checkPassword(md)) {
+   			if(userService.isTeamMaster(md)) {
+   				rttr.addFlashAttribute("msg", "모임장인 모임이 있습니다. 모임장을 위임하시거나 모임 해산 후 진행하여 주세요.");
+   				return "redirect:/mypage/edit";
+   			}
+   			if(userService.dropMember(md)) {
+   				session.removeAttribute("loginVO");
+   	   			return "redirect:/";
+   			};
+   			rttr.addFlashAttribute("msg", "문제가 발생했습니다. 잠시 후 다시 시도해 주세요");
+   			return "redirect:/mypage/edit";
+   		}
+   		rttr.addFlashAttribute("msg", "비밀번호가 맞지않습니다.");
+   		return "redirect:/mypage/edit";
+   	}
    
    @RequestMapping(value = "/photo", method = RequestMethod.POST)
    public String uploadPhoto(MultipartFile photoFile) {
@@ -90,19 +193,6 @@ public class UserController {
       
       return "edit/mypage";
    }
-   
-
-   @PostMapping("/edit")
-   public String userEdit(MemberDomain user) {
-      log.info("post : /users/edit..호출");
-      log.info(user);
-            
-      //  회원정보 수정
-      userService.updateMember(user);
-      
-      return "redirect:/mypage/";
-   }
-   
 	/**
 	 * 사진럽로드
 	 * 
@@ -134,7 +224,7 @@ public class UserController {
                member.setMemPhoto(fileUrl);	
                
                //  회원정보 수정
-               userService.updateMember(member);
+//               userService.updateMember(member);
         }
 
 		
@@ -241,19 +331,19 @@ public class UserController {
       Map map = new HashMap();
       
       // 평문으로 들어가기때문에 비밀번호를 암호화 해줌
-      memberDomain.setMemPassword(SHA256.encrypt(memberDomain.getMemPassword()));
-      
-      boolean result = userService.updateMember(memberDomain);
+//      memberDomain.setMemPassword(SHA256.encrypt(memberDomain.getMemPassword()));
+//      
+//      boolean result = userService.updateMember(memberDomain);
       
       // 성공인 경우
-      if(result) {
-         map.put("msg", "비밀번호가 변경되었습니다");
-         map.put("msgCode", "1");
-         
-      }else {
-         map.put("msg", "에러가발생하였습니다. 다시 시도해주세요");
-         map.put("msgCode", "0");
-      }
+//      if(result) {
+//         map.put("msg", "비밀번호가 변경되었습니다");
+//         map.put("msgCode", "1");
+//         
+//      }else {
+//         map.put("msg", "에러가발생하였습니다. 다시 시도해주세요");
+//         map.put("msgCode", "0");
+//      }
       
       Gson gson = new Gson();
       
@@ -283,7 +373,7 @@ public class UserController {
       HttpSession session = request.getSession(false);
       MemberDomain member = (MemberDomain)session.getAttribute("loginVO");   
       
-      boolean result = userService.withdrawMember(member);
+      boolean result = userService.dropMember(member);
       
       if(result) {
          session.invalidate();          // 세션끊기

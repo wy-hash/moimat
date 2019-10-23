@@ -50,11 +50,16 @@
 			<exclude-mapping path="/search/**"></exclude-mapping>
 			<exclude-mapping path="/result/**"></exclude-mapping>
 			<exclude-mapping path="/groups/*/**"></exclude-mapping>
+			<exclude-mapping path="/mypage/edit"></exclude-mapping>
 			<beans:bean class="com.breaktheice.moimat.util.AuthInterceptor"></beans:bean>
 		</interceptor>
 		<interceptor>
 			<mapping path="/groups/new"></mapping>
 			<beans:bean class="com.breaktheice.moimat.util.AuthInterceptor"></beans:bean>
+		</interceptor>
+		<interceptor>
+			<mapping path="/mypage/edit"></mapping>
+			<beans:bean class="com.breaktheice.moimat.util.MypageInterceptor"></beans:bean>
 		</interceptor>
 		<interceptor>
 			<mapping path="/admin/**"></mapping>
