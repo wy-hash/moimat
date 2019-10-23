@@ -95,8 +95,9 @@
 							<li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
 							<li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
 							<li><a href="/groups/${ group.teamId }/chat">채팅</a></li>
-							<li class="active"><a href="/groups/${ group.teamId }/settings">설정</a>
-							</li>
+							<c:if test="${tmem.tmemLevel > 7}">
+							<li class="active"><a href="/groups/${ group.teamId }/settings">설정</a></li>
+							</c:if>
 						</ul>
 
 						<!--Default Dropdown button-->
@@ -113,8 +114,10 @@
 								<li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
 								<li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
 								<li><a href="/groups/${ group.teamId }/chat">채팅</a></li>
+								<c:if test="${tmem.tmemLevel > 7}">
 								<li class="divider"></li>
 								<li class="active"><a href="/groups/${ group.teamId }/settings">설정</a></li>
+								</c:if>
 							</ul>
 						</div>
 						<!--===================================================-->

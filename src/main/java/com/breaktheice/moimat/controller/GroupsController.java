@@ -19,9 +19,11 @@ import com.breaktheice.moimat.chat.ChatRoom;
 import com.breaktheice.moimat.chat.ChatRoomManager;
 import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.domain.TeamDomain;
+import com.breaktheice.moimat.domain.TeamMemberDomain;
 import com.breaktheice.moimat.domain.TeamPostDomain;
 import com.breaktheice.moimat.service.TeamChatService;
 import com.breaktheice.moimat.service.TeamCommentsService;
+import com.breaktheice.moimat.service.TeamMemberService;
 import com.breaktheice.moimat.service.TeamPhotoService;
 import com.breaktheice.moimat.service.TeamPostService;
 import com.breaktheice.moimat.service.TeamService;
@@ -41,6 +43,9 @@ public class GroupsController {
 	private TeamService teamService;
 	@Autowired
 	private TeamChatService teamChatService;
+	
+	@Autowired 
+	private TeamMemberService teamMemberService;
 
 	private final ChatRoomManager chatRoomManager;
 
@@ -87,25 +92,41 @@ public class GroupsController {
 	
 
 	@GetMapping("/{groupId}")
-	public String groupMain(@PathVariable Long groupId, Model model) {
+	public String groupMain(@PathVariable Long groupId, Model model, HttpSession session) {
+		//모임 탭 분기를 위한 tmem 정보 
+		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
+		model.addAttribute("tmem", teamMemberService.getTeamMemberId(groupId, md.getMemId()));
+		
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
 		return "groups/group-home";
 	}
 
 	@GetMapping("/{groupId}/member")
-	public String member(@PathVariable Long groupId, Model model) {
+	public String member(@PathVariable Long groupId, Model model, HttpSession session) {
+		//모임 탭 분기를 위한 tmem 정보 
+		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
+		model.addAttribute("tmem", teamMemberService.getTeamMemberId(groupId, md.getMemId()));
+		
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
 		return "groups/member";
 	}
 
 	@GetMapping("/{groupId}/schedule")
-	public String schedule(@PathVariable Long groupId, Model model) {
+	public String schedule(@PathVariable Long groupId, Model model, HttpSession session) {
+		//모임 탭 분기를 위한 tmem 정보 
+		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
+		model.addAttribute("tmem", teamMemberService.getTeamMemberId(groupId, md.getMemId()));
+		
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
 		return "groups/schedule";
 	}
 
 	@GetMapping("/{groupId}/photos")
-	public String photos(@PathVariable Long groupId, Model model) {
+	public String photos(@PathVariable Long groupId, Model model, HttpSession session) {
+		//모임 탭 분기를 위한 tmem 정보 
+		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
+		model.addAttribute("tmem", teamMemberService.getTeamMemberId(groupId, md.getMemId()));
+		
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
 
 		List<TeamPostDomain> posts = teamPhotoService.getAllPosts(groupId,22L);
@@ -120,7 +141,11 @@ public class GroupsController {
 	}
 
 	@GetMapping("/{groupId}/posts")
-	public String posts(@PathVariable Long groupId, Model model) {
+	public String posts(@PathVariable Long groupId, Model model, HttpSession session) {
+		//모임 탭 분기를 위한 tmem 정보 
+		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
+		model.addAttribute("tmem", teamMemberService.getTeamMemberId(groupId, md.getMemId()));
+		
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
 		List<TeamPostDomain> posts = teamPostService.getAllPosts(groupId, 23L);
 		teamCommentsService.addNumOfComments(posts);
@@ -130,7 +155,11 @@ public class GroupsController {
 	}
 
 	@GetMapping("/{groupId}/chat")
-	public String chat(@PathVariable Long groupId, Model model) {
+	public String chat(@PathVariable Long groupId, Model model, HttpSession session) {
+		//모임 탭 분기를 위한 tmem 정보 
+		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
+		model.addAttribute("tmem", teamMemberService.getTeamMemberId(groupId, md.getMemId()));
+		
 		ChatRoom room = chatRoomManager.getChatRoom(groupId);
 
 		model.addAttribute("chatRoom", room);
@@ -141,7 +170,11 @@ public class GroupsController {
 	}
 	
 	@GetMapping("/{groupId}/settings")
-	public String settings(@PathVariable Long groupId, Model model) {
+	public String settings(@PathVariable Long groupId, Model model, HttpSession session) {
+		//모임 탭 분기를 위한 tmem 정보 
+		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
+		model.addAttribute("tmem", teamMemberService.getTeamMemberId(groupId, md.getMemId()));
+		
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
 		return "groups/settings";
 
