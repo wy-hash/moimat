@@ -1,5 +1,7 @@
 package com.breaktheice.moimat.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.domain.TeamCommentsDTO;
@@ -25,8 +28,6 @@ import com.breaktheice.moimat.util.AdminCriteria;
 import com.google.gson.Gson;
 
 import lombok.extern.log4j.Log4j;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/groups/{groupId}/posts")
@@ -115,7 +116,10 @@ public class TeamPostController {
     }
 
     @GetMapping("/{postId}/edit")
-    public String editPost(@PathVariable("postId") Long postId, @PathVariable("groupId") Long groupId, Model model) {
+    public String editPost(@PathVariable("postId") Long postId,
+    					   @PathVariable("groupId") Long groupId,
+    					   Model model,
+    					   @ModelAttribute("cri")AdminCriteria cri) {
 
         model.addAttribute("post", teamPostService.getPost(postId, 23L));
         model.addAttribute("group",teamService.getGroupInfo(groupId));
@@ -124,22 +128,30 @@ public class TeamPostController {
     }
 
     @PostMapping("/{postId}/edit")
-    public String editPost(@PathVariable("postId") Long postId, @PathVariable("groupId") Long groupId, TeamPostDomain post, @RequestParam("memId") Long memId) {
+    public String editPost(@PathVariable("postId") Long postId, @PathVariable("groupId") Long groupId, 
+    		TeamPostDomain post, @RequestParam("memId") Long memId,@ModelAttribute("cri")AdminCriteria cri,RedirectAttributes rttr) {
 
         TeamPostDomain originPost = teamPostService.getPost(postId, 23L);
         originPost.setPostTitle(post.getPostTitle());
         originPost.setPostContent(post.getPostContent());
 
         teamPostService.updatePost(originPost);
-
+        
+        rttr.addAttribute(cri.getPageNum());
+        rttr.addAttribute(cri.getType());
+        rttr.addAttribute(cri.getKeyword());
+        
         return "redirect:/groups/" + groupId + "/posts/" + postId;
     }
 
     @GetMapping("/{postId}/delete")
-    public String deletePost(@PathVariable("groupId") Long groupId, @PathVariable("postId") Long postId) {
+    public String deletePost(@PathVariable("groupId") Long groupId, @PathVariable("postId") Long postId,@ModelAttribute("cri")AdminCriteria cri,RedirectAttributes rttr) {
 
         teamPostService.deletePost(postId);
-
+        
+        rttr.addAttribute(cri.getPageNum());
+        rttr.addAttribute(cri.getType());
+        rttr.addAttribute(cri.getKeyword());
         return "redirect:/groups/" + groupId + "/post";
     }
 

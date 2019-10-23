@@ -26,6 +26,7 @@ import com.breaktheice.moimat.service.TeamPhotoService;
 import com.breaktheice.moimat.service.TeamPostService;
 import com.breaktheice.moimat.service.TeamService;
 import com.breaktheice.moimat.util.AdminCriteria;
+import com.breaktheice.moimat.util.AdminPageDTO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;

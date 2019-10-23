@@ -112,11 +112,13 @@
                             <input type="hidden" name="postEmail" value="${ loginVO.memEmail }">
                             <input type="hidden" name="teamId" value="${ group.teamId }">
                             <input type="hidden" name="memId" value="${ loginVO.memId }">
-
+                            <!-- 파라미터 유지를위한 인풋태그임 -->
+							<input type="hidden" name="pageNum" value="${ cri.pageNum }">
 
                             <div class="action-btn text-right">
-                                <a href="/groups/${ group.teamId }/photos/${ post.postId }"><button type="button" class="btn btn-danger btn-rounded mar-rgt">취소</button></a>
-                                <a href="/groups/${ group.teamId }/photos/${ post.postId }/edit"><button type="submit" class="btn btn-success btn-rounded mar-lft">올리기</button></a>
+                                <a class="nBtn" data-action="/groups/${ group.teamId }/photos/${ post.postId }"><button type="button" class="btn btn-danger btn-rounded mar-rgt">취소</button></a>
+                                 <a class="nBtn" data-action="/groups/${ group.teamId }/photos"><button type="button" class="btn btn-info btn-rounded mar-rgt">목록</button></a>
+                                <button type="submit" class="btn btn-success btn-rounded mar-lft">올리기</button>
                             </div>
                         </div>
                     </form>
@@ -186,6 +188,18 @@
 
             $('form').submit();
         });
+        
+        var actionForm = $("#actionForm");
+        //수정을 안하고 다른거한다해서 noBtn 이란뜻으로 이렇게...
+        $("nBtn").on("click",function(){
+        	actionForm.attr("action",$(this).data('action')).attr("method","get");
+        	var pageNumTag = $("input[name='pageNum']").clone();
+        	actionForm.empty();
+        	actionForm.append(pageNumTag);
+        	
+        	actionForm.submit();
+        });
+        
     });
 </script>
 </body>

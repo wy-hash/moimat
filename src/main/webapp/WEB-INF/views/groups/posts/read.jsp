@@ -210,13 +210,17 @@
                                             <div class="media media-button">
                                                 <div class="media-right">
                                                     <c:if test="${ loginVO.memId eq user.memId }">
-                                                        <a href="/groups/${ group.teamId }/posts/${ post.postId }/edit"><button class="btn btn-warning">수정</button></a>
-                                                        <a href="/groups/${ group.teamId }/posts/${ post.postId }/delete"><button class="btn btn-danger">삭제</button></a>
+                                                        <a id="writerBtn" data-action="/groups/${ group.teamId }/posts/${ post.postId }/edit"><button class="btn btn-warning">수정</button></a>
+                                                        <a id="writerBtn" data-action="/groups/${ group.teamId }/posts/${ post.postId }/delete"><button class="btn btn-danger">삭제</button></a>
                                                     </c:if>
-                                                    <a href="/groups/${ group.teamId }/posts"><button class="btn btn-default">목록</button></a>
+                                                    <button id="listBtn" class="btn btn-default">목록</button>
                                                 </div>
                                             </div>
-
+											<form id="actionForm" action="/groups/${ group.teamId }/posts" method="get">
+												<input type="hidden" name="pageNum" value="${cri.pageNum}">
+												<input type="hidden" name="type" value="${pageMaker.cri.type}">
+												<input type="hidden" name="keyword" value="${pageMaker.cri.keyword}">
+											</form>
 
                                             <!-- Comments -->
                                             <div class="mar-top pad-top bord-top">
@@ -324,7 +328,9 @@
 
 <script>
     $(document).ready(function() {
-
+		
+    	var actionForm = $("actionForm");
+    	
         // 수정 모달창 오픈
         $(document).on('click', '.cmtMod', function(){ //모달창 오픈 이벤트
             const modalMod = $('#modalMod');
@@ -333,6 +339,16 @@
             modalMod.find('input[name=cmtId]').val(cmtId);
             modalMod.modal('show');
 
+        });
+        // 파라미터 유지를 위한 버튼 이벤트
+        // 목록을 가기위한 이벤트 
+        $("#listBtn").on('click',function(){
+        	actionForm.submit();
+        });
+        // 작성자만 사용하는 버튼에대한 이벤트
+        $(".writerBtn").on('click',function(){
+        	actionForm.attr('action',$(this).data('action'));
+        	actionForm.submit();
         });
 
         $('#modalModBtn').on('click', function(){

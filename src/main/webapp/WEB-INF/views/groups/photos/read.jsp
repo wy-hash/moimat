@@ -210,13 +210,17 @@
 												<div class="media media-button">
 													<div class="media-right">
 														<c:if test="${ loginVO.memId eq post.tmemId }">
-															<a href="/groups/${ group.teamId }/photos/${ post.postId }/edit"><button class="btn btn-warning">수정</button></a>
-															<a href="/groups/${ group.teamId }/photos/${ post.postId }/delete"><button class="btn btn-danger">삭제</button></a>
+															<a class="writerBtn" data-action="/groups/${ group.teamId }/photos/${ post.postId }/edit"><button class="btn btn-warning">수정</button></a>
+															<a class="writerBtn" data-action="/groups/${ group.teamId }/photos/${ post.postId }/delete"><button class="btn btn-danger">삭제</button></a>
 														</c:if>
-														<a href="/groups/${ group.teamId }/photos"><button class="btn btn-default">목록</button></a>
+														<button class="btn btn-default">목록</button>
 													</div>
 												</div>
-
+												<form id="actionForm" action="/groups/${ group.teamId }/photos" method="get">
+													<input type="hidden" name="pageNum" value="${cri.pageNum}">
+													<input type="hidden" name="type" value="${pageMaker.cri.type}">
+													<input type="hidden" name="keyword" value="${pageMaker.cri.keyword}">
+												</form>
 
 												<!-- Comments -->
 												<div class="mar-top pad-top bord-top">
@@ -328,6 +332,15 @@
 	
 	<script>
 		$(document).ready(function() {
+			var actionForm = $("#actionForm");
+			$("listBtn").on("click",function(){
+				actionForm.submit();
+			})
+			 // 작성자만 사용하는 버튼에대한 이벤트
+	        $(".writerBtn").on('click',function(){
+	        	actionForm.attr('action',$(this).data('action'));
+	        	actionForm.submit();
+	        });
 			
 			// 수정 모달창 오픈
 			$(document).on('click', '.cmtMod', function(){ //모달창 오픈 이벤트
