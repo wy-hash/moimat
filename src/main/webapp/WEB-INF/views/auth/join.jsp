@@ -628,7 +628,7 @@
 
 		        	this.on('success', function(file, response) {
 		        		if (response) {
-		        			window.location.href = '/';
+		        			window.location.href = '/home';
 						}
 					});
 
