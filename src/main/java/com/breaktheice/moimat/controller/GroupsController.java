@@ -111,7 +111,7 @@ public class GroupsController {
 		//사진게시판 ID 22
 		cri.setBrdId(22L);
 		//페이지당 갯수는 10개 고정
-		cri.setAmount(10L);
+		cri.setAmount(6L);
 		List<TeamPostDomain> posts = teamPhotoService.getAllPosts(groupId,cri);
 		
 		teamPhotoService.getThumbnail(posts);

@@ -64,20 +64,26 @@ public class TeamMemberServiceimpl implements TeamMemberService {
 		// 여기 문제가있어서 ... -1이면 서버에러뜰걸로 예상되는데 일단 이렇게해놓음
 		int result = -1;
 		// team table의 MEM_ID 변경.
+		System.out.println("==============1==========");
 		if(groupMemberVO.getTmemIds().size()==1) {
+			System.out.println("==============2==========");
 		for (Long tmemId : groupMemberVO.getTmemIds() ) {
 			tmm.changeMaster(tmemId, groupMemberVO.getTeamId());
 		}
 		}else {
+			
 			return result;
 		}
-		
+		System.out.println("==============3==========");
 		if(tmm.memberUpdate(groupMemberVO.getTmemIds(), groupMemberVO.getTmemLevel())!=1) {
 			return result;
 			
 		}
+		System.out.println("==============4==========");
 		List<Long> master = new ArrayList<Long>();
-		master.add(groupMemberVO.getMemberId());
+		master.add(tmm.getTmemId(groupMemberVO.getMemberId(), groupMemberVO.getTeamId()));
+		
+		System.out.println(groupMemberVO.getMemberId());
 		return tmm.memberUpdate(master, 2);
 	}
 

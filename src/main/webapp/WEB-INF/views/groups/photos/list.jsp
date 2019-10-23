@@ -87,7 +87,9 @@
 			overflow: hidden;
 			text-overflow: ellipsis;
 		}
-		
+		.move{
+			cursor: pointer;
+		}
 	</style>
 </head>
 <!-- END HEAD -->
@@ -189,7 +191,7 @@
 									<c:forEach items="${ posts }" var="item">
 										<div class="panel col-lg-4 col-xs-6">
 											<div class="panel-body img-thumbnail-box">
-												<a data-post-id="${ item.postId }">
+												<a class="move" data-post-id="${ item.postId }">
 													<div class="thumbnail">
 														<div class="centered">
 															<img src="${ item.imgPath }">
@@ -199,7 +201,7 @@
 											</div>
 
 											<div class="panel-body img-desc-box">
-												<div class="ellipsis text-bold"><a href="/groups/${ group.teamId }/photos/${ item.postId }">${ item.postTitle }</a></div>
+												<div class="ellipsis text-bold"><a class="move" data-post-id="${ item.postId }">${ item.postTitle }</a></div>
 												<div class="text-right mar-top">${ item.postNickname }</div>
 												<div class="text-right mar-btm">${ item.postRegdate }</div>
 												<div class="text-right">
@@ -297,6 +299,7 @@
 	<script>
 		$(document).ready(function() {
 			var actionForm = $("#actionForm");
+			var searchForm = $("#searchForm");
 			$(".pagination").on("click","a",function(){
 				console.log($(this).data('page-num'));
 				actionForm.find("input[name='pageNum']").val($(this).data('page-num'));
@@ -307,6 +310,14 @@
 				var actionURL = '/groups/<c:out value="${ group.teamId }"/>/photos/'+postId;
 				actionForm.attr('action',actionURL);
 				actionForm.submit();
+			});
+			$("#searchBtn").on('click',function(){
+				if(!searchForm.find("input[name='keyword']").val()){
+					bootbox.alert("키워드를 입력해 주세요.");
+				}
+				searchForm.find("input[name='pageNum']").val("1");
+				
+				searchForm.submit();
 			});
 		});
 	</script>

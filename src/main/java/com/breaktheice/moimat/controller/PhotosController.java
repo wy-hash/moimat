@@ -81,8 +81,8 @@ public class PhotosController {
 		model.addAttribute("comments", comments);
 
 
-		MemberDomain postingUser = authService.getMemberInfo(post.getTmemId());
-		model.addAttribute("userImg", postingUser.getMemPhoto());
+		MemberDomain postingUser = authService.getMemberInfo(teamMemberService.getMember(post.getTmemId()).getMemId());
+		model.addAttribute("user", postingUser);
 
 		return "/groups/photos/read";
 	}
@@ -152,9 +152,9 @@ public class PhotosController {
 		originPost.setPostContent(post.getPostContent());
 
 		teamPostService.updatePost(originPost);
-		rttr.addAttribute(cri.getPageNum());
-		rttr.addAttribute(cri.getType());
-		rttr.addAttribute(cri.getKeyword());
+		rttr.addAttribute("pageNum",cri.getPageNum());
+        rttr.addAttribute("type",cri.getType());
+        rttr.addAttribute("keyword",cri.getKeyword());
 		return "redirect:/groups/" + groupId + "/photos/" + postId;
 	}
 
@@ -162,9 +162,9 @@ public class PhotosController {
 	public String deletePost(@PathVariable("groupId") Long groupId, @PathVariable("postId") Long postId,@ModelAttribute("cri")AdminCriteria cri,RedirectAttributes rttr) {
 
 		teamPostService.deletePost(postId);
-		rttr.addAttribute(cri.getPageNum());
-		rttr.addAttribute(cri.getType());
-		rttr.addAttribute(cri.getKeyword());
+		rttr.addAttribute("pageNum",cri.getPageNum());
+        rttr.addAttribute("type",cri.getType());
+        rttr.addAttribute("keyword",cri.getKeyword());
 		return "redirect:/groups/" + groupId + "/photos";
 	}
 

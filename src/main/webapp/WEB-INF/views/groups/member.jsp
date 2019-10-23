@@ -417,7 +417,7 @@
 				var gradeBox = '';
 				var buttonBox = '';
 				teamMember.getMember($(this).data("tid"),function(e){
-					var photo = '<img class="img-sm img-circle" src="/resources/img/profile-photos/'+e.tmemPhoto+'" alt="Profile Picture">';
+					var photo = '<img class="img-sm img-circle" src="'+e.tmemPhoto+'" alt="Profile Picture">';
 					teamMember.isMaster(groupId,memberId,function(b){
 						if(e.tmemLevel == 9){
 							gradeBox = '<button type="button"'

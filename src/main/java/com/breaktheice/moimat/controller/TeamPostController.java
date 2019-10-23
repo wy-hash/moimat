@@ -137,9 +137,9 @@ public class TeamPostController {
 
         teamPostService.updatePost(originPost);
         
-        rttr.addAttribute(cri.getPageNum());
-        rttr.addAttribute(cri.getType());
-        rttr.addAttribute(cri.getKeyword());
+        rttr.addAttribute("pageNum",cri.getPageNum());
+        rttr.addAttribute("type",cri.getType());
+        rttr.addAttribute("keyword",cri.getKeyword());
         
         return "redirect:/groups/" + groupId + "/posts/" + postId;
     }
@@ -149,9 +149,9 @@ public class TeamPostController {
 
         teamPostService.deletePost(postId);
         
-        rttr.addAttribute(cri.getPageNum());
-        rttr.addAttribute(cri.getType());
-        rttr.addAttribute(cri.getKeyword());
+        rttr.addAttribute("pageNum",cri.getPageNum());
+        rttr.addAttribute("type",cri.getType());
+        rttr.addAttribute("keyword",cri.getKeyword());
         return "redirect:/groups/" + groupId + "/post";
     }
 

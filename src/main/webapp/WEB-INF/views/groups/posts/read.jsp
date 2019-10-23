@@ -210,16 +210,16 @@
                                             <div class="media media-button">
                                                 <div class="media-right">
                                                     <c:if test="${ loginVO.memId eq user.memId }">
-                                                        <a id="writerBtn" data-action="/groups/${ group.teamId }/posts/${ post.postId }/edit"><button class="btn btn-warning">수정</button></a>
-                                                        <a id="writerBtn" data-action="/groups/${ group.teamId }/posts/${ post.postId }/delete"><button class="btn btn-danger">삭제</button></a>
+                                                        <a id="modBtn" data-action="/groups/${ group.teamId }/posts/${ post.postId }/edit"><button class="btn btn-warning">수정</button></a>
+                                                        <a id="delBtn" data-action="/groups/${ group.teamId }/posts/${ post.postId }/delete"><button class="btn btn-danger">삭제</button></a>
                                                     </c:if>
                                                     <button id="listBtn" class="btn btn-default">목록</button>
                                                 </div>
                                             </div>
 											<form id="actionForm" action="/groups/${ group.teamId }/posts" method="get">
 												<input type="hidden" name="pageNum" value="${cri.pageNum}">
-												<input type="hidden" name="type" value="${pageMaker.cri.type}">
-												<input type="hidden" name="keyword" value="${pageMaker.cri.keyword}">
+												<input type="hidden" name="type" value="${cri.type}">
+												<input type="hidden" name="keyword" value="${cri.keyword}">
 											</form>
 
                                             <!-- Comments -->
@@ -325,11 +325,12 @@
     </div>
 </div>
 <!-- //modal for 덧글 수정 -->
-
+<!--Bootbox Modals [ OPTIONAL ]-->
+	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 <script>
     $(document).ready(function() {
 		
-    	var actionForm = $("actionForm");
+    	var actionForm = $("#actionForm");
     	
         // 수정 모달창 오픈
         $(document).on('click', '.cmtMod', function(){ //모달창 오픈 이벤트
@@ -346,9 +347,25 @@
         	actionForm.submit();
         });
         // 작성자만 사용하는 버튼에대한 이벤트
-        $(".writerBtn").on('click',function(){
+        $("#modBtn").on('click',function(){
         	actionForm.attr('action',$(this).data('action'));
         	actionForm.submit();
+        });
+        $("#delBtn").on('click',function(){
+        	bootbox.confirm("게시글을 삭제하시겠습니까.", function(result) {
+	            if (result) {
+	            	actionForm.attr('action',$(delBtn).data('action'));
+	            	actionForm.submit();
+	            }else{
+	                $.niftyNoty({
+	                    type: 'danger',
+	                    icon : 'pli-cross icon-2x',
+	                    message : '취소하였습니다.',
+	                    container : 'floating',
+	                    timer : 5000
+	                });
+	            };
+	        });
         });
 
         $('#modalModBtn').on('click', function(){
@@ -426,13 +443,6 @@
                     console.log(e.responseText);
                 }
             });
-        });
-
-        $('.media-button .btn-danger').on('click', function() {
-            if (confirm('삭제하시겠습니까?')) {
-                return true;
-            }
-            return false;
         });
 
         $(document).on('click', '.cmtDelete', function() {

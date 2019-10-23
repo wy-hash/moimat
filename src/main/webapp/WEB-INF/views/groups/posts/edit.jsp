@@ -116,7 +116,7 @@
 							<input type="hidden" name="type" value="${cri.type }"> 
  							<input type="hidden" name="keyword" value="${cri.keyword }"> 
                             <div class="action-btn text-right">
-                                <a class="nBtn" data-action="/groups/${ group.teamId }/posts"><button type="button" class="btn btn-danger btn-rounded mar-rgt">취소</button></a>
+                                <a class="nBtn" data-action="/groups/${ group.teamId }/posts/${ post.postId }"><button type="button" class="btn btn-danger btn-rounded mar-rgt">취소</button></a>
                                 <a class="nBtn" data-action="/groups/${ group.teamId }/posts"><button type="button" class="btn btn-info btn-rounded mar-rgt">목록</button></a>
                                 <button type="submit" class="btn btn-success btn-rounded mar-lft">올리기</button>
                             </div>
@@ -180,7 +180,7 @@
         
         var actionForm = $("#actionForm");
         //수정을 안하고 다른거한다해서 noBtn 이란뜻으로 이렇게...
-        $("nBtn").on("click",function(){
+        $(".nBtn").on("click",function(){
         	actionForm.attr("action",$(this).data('action')).attr("method","get");
         	var pageNumTag = $("input[name='pageNum']").clone();
         	var type = $("input[name='type']").clone();

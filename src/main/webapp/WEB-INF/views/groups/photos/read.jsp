@@ -196,7 +196,7 @@
 										<div class="media-block">
 											<div class="media-body">
 												<div class="media media-userinfo">
-													<a class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="${ userImg }"></a>
+													<a class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="${ user.memPhoto }"></a>
 													<div class="pad-btm">
 														<div class="text-semibold media-heading">${ post.postTitle }</div>
 														<a href="#" class="btn-link text-semibold box-inline">${ post.postNickname }</a><span class="text-muted text-sm pad-lft"><i class="fa fa-clock-o"></i> ${ post.postRegdate } <i class="fa fa-eye"></i> ${ post.postHit }</span>
@@ -209,17 +209,17 @@
 
 												<div class="media media-button">
 													<div class="media-right">
-														<c:if test="${ loginVO.memId eq post.tmemId }">
-															<a class="writerBtn" data-action="/groups/${ group.teamId }/photos/${ post.postId }/edit"><button class="btn btn-warning">수정</button></a>
-															<a class="writerBtn" data-action="/groups/${ group.teamId }/photos/${ post.postId }/delete"><button class="btn btn-danger">삭제</button></a>
+														<c:if test="${ loginVO.memId eq user.memId }">
+															<a id="modBtn" data-action="/groups/${ group.teamId }/photos/${ post.postId }/edit"><button class="btn btn-warning">수정</button></a>
+															<a id="delBtn" data-action="/groups/${ group.teamId }/photos/${ post.postId }/delete"><button class="btn btn-danger">삭제</button></a>
 														</c:if>
-														<button class="btn btn-default">목록</button>
+														<button id="listBtn" class="btn btn-default">목록</button>
 													</div>
 												</div>
 												<form id="actionForm" action="/groups/${ group.teamId }/photos" method="get">
 													<input type="hidden" name="pageNum" value="${cri.pageNum}">
-													<input type="hidden" name="type" value="${pageMaker.cri.type}">
-													<input type="hidden" name="keyword" value="${pageMaker.cri.keyword}">
+													<input type="hidden" name="type" value="${cri.type}">
+													<input type="hidden" name="keyword" value="${cri.keyword}">
 												</form>
 
 												<!-- Comments -->
@@ -329,17 +329,34 @@
 	    </div>
 	</div>
 	<!-- //modal for 덧글 수정 -->
-	
+	<!--Bootbox Modals [ OPTIONAL ]-->
+	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 	<script>
 		$(document).ready(function() {
 			var actionForm = $("#actionForm");
-			$("listBtn").on("click",function(){
+			$("#listBtn").on("click",function(){
 				actionForm.submit();
 			})
 			 // 작성자만 사용하는 버튼에대한 이벤트
-	        $(".writerBtn").on('click',function(){
+	        $("#modBtn").on('click',function(){
 	        	actionForm.attr('action',$(this).data('action'));
 	        	actionForm.submit();
+	        });
+			$("#delBtn").on('click',function(){
+	        	bootbox.confirm("게시글을 삭제하시겠습니까.", function(result) {
+		            if (result) {
+		            	actionForm.attr('action',$('#delBtn').data('action'));
+		            	actionForm.submit();
+		            }else{
+		                $.niftyNoty({
+		                    type: 'danger',
+		                    icon : 'pli-cross icon-2x',
+		                    message : '취소하였습니다.',
+		                    container : 'floating',
+		                    timer : 5000
+		                });
+		            };
+		        });
 	        });
 			
 			// 수정 모달창 오픈
@@ -429,13 +446,6 @@
 						console.log(e.responseText);
 					}
 				});
-			});
-
-			$('.media-button .btn-danger').on('click', function() {
-				if (confirm('삭제하시겠습니까?')) {
-					return true;
-				}
-				return false;
 			});
 
 			$(document).on('click', '.cmtDelete', function() {

@@ -31,6 +31,8 @@ public interface TeamMemberMapper {
 	public int changeMaster(@Param("tmemId")Long tmemId,@Param("teamId")Long teamId);
 	
 	public Boolean isAdmin(@Param("teamId")Long teamId, @Param("memId")Long memId);
-
+	
+	public Long getTmemId(@Param("memId")Long memId,@Param("teamId")Long teamId);
+	
 	TeamMemberDomain selectMemberByTeamIdAndMemId(@Param("teamId") Long teamId, @Param("memId") Long memId);
 }
