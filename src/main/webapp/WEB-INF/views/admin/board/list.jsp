@@ -46,7 +46,7 @@
                 <!--Page Title-->
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <div id="page-title">
-                    <h1 class="page-header text-overflow">게시판 관리</h1>
+                    <h1 class="page-header text-overflow">게시판 코드 관리</h1>
                 </div>
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <!--End page title-->
@@ -128,8 +128,7 @@
 										</c:if>
 									</ul>
 									<button id="newBoard" type="button" class="btn btn-success pull-right mar-top"><i
-											class="demo-pli-plus"></i> 게시글
-										추가</button>
+											class="demo-pli-plus"></i>게시판 추가</button>
 								</nav>
 							</div>
 						</div>

@@ -47,7 +47,7 @@
                 <!--Page Title-->
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <div id="page-title">
-                    <h1 class="page-header text-overflow">관심사 관리</h1>
+                    <h1 class="page-header text-overflow">관심사 코드 관리</h1>
                 </div>
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <!--End page title-->
@@ -129,8 +129,7 @@
 										</c:if>
 									</ul>
 									<button id="newInterest" type="button" class="btn btn-success pull-right mar-top"><i
-											class="demo-pli-plus"></i> 게시글
-										추가</button>
+											class="demo-pli-plus"></i> 관심사 추가</button>
 								</nav>
 							</div>
 							 
