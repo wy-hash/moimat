@@ -95,6 +95,14 @@ public class GroupsController {
 	public String groupMain(@PathVariable Long groupId, Model model, HttpSession session) {
 		//모임 탭 분기를 위한 tmem 정보 
 		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
+		
+		String msg = (String) session.getAttribute("msg");
+		
+		if (!( msg == null || msg.length()<=0)) {//메세지가 있을 때
+			model.addAttribute("msg", msg);
+			session.setAttribute("msg","");
+		}
+		
 		model.addAttribute("tmem", teamMemberService.getTeamMemberId(groupId, md.getMemId()));
 		
 		model.addAttribute("group", teamService.getGroupInfo(groupId));

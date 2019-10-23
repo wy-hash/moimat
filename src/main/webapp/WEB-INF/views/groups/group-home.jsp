@@ -172,10 +172,14 @@
 			
 	</div>
 	<!-- END CONTAINER -->
-	
+	<!--Bootbox Modals [ OPTIONAL ]-->
+	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 	<script>
 		$(document).ready(function() {
-			
+			var msg = "<c:out value='${msg}'/>"
+			if(msg){
+				bootbox.alert(msg);
+			}
 		});
 	</script>
 	<%-- for modal --%>
