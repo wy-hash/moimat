@@ -91,8 +91,6 @@
 			display: inline-block;
 			opacity: 0.8;
 		}
-
-		
 		
 	</style>
 </head>
@@ -258,7 +256,7 @@
 					                <!-- Accordion title -->
 					                <div class="panel-heading">
 					                    <h4 class="panel-title">
-					                        <a data-parent="#demo-acc-purple" data-toggle="collapse" href="#demo-acd-purple-1">{ _${int1Name}_ }  </a>
+					                        <a data-parent="#demo-acc-purple" data-toggle="collapse" href="#demo-acd-purple-1">${int1Name}  </a>
 					                    </h4>
 					                </div>
 					                <!-- Accordion content -->
@@ -267,7 +265,7 @@
 					                    	<c:if test="${empty int1List}">
 											<div class="media bord-btm">
 						                		<div class="media-left pad-all">
-						                		<div class="row">추천 모임이 없습니다.</div>
+						                		<div class="row">개설된 모임이 없습니다.</div>
 			                					</div>
 			                				</div>
 					                    	</c:if>
@@ -277,9 +275,9 @@
 						                			<img class="img-lg" src="${group.teamPhoto }" alt="Sample Image">
 						                		</div>
 						                		<div class="media-body pad-all text-semibold">
-						                			<a href="/groups/${ group.teamId }"><p>{ _${group.teamName }_ }</p></a>
-						                			<p>{ _${group.areaRegionName }_ }</p>
-						                			<p>{ _${group.teamShortContent }_ }</p> 
+						                			<a href="/groups/${ group.teamId }"><p><i class="fa fa-cube"></i>&nbsp;&nbsp;${group.teamName }</p></a>
+						                			<p><i class="fa fa-map-marker"></i>&nbsp;&nbsp;${group.areaRegionName }</p>
+						                			<p><i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;${group.teamShortContent }</p> 
 			                					</div>
 			                				</div>
 			                				</c:forEach>
@@ -291,7 +289,7 @@
 					                <!-- Accordion title -->
 					                <div class="panel-heading">
 					                    <h4 class="panel-title">
-					                        <a data-parent="#demo-acc-purple" data-toggle="collapse" href="#demo-acd-purple-2">{ _${int2Name}_ }  </a>
+					                        <a data-parent="#demo-acc-purple" data-toggle="collapse" href="#demo-acd-purple-2">${int2Name}  </a>
 					                    </h4>
 					                </div>
 					
@@ -301,7 +299,7 @@
 					                    	<c:if test="${empty int2List}">
 											<div class="media bord-btm">
 						                		<div class="media-left pad-all">
-						                		<div class="row">추천 모임이 없습니다.</div>
+						                		<div class="row">개설된 모임이 없습니다.</div>
 			                					</div>
 			                				</div>
 					                    	</c:if>
@@ -311,9 +309,9 @@
 						                			<img class="img-lg" src="${group.teamPhoto }" alt="Sample Image">
 						                		</div>
 						                		<div class="media-body pad-all text-semibold">
-						                			<a href="/groups/${ group.teamId }"><p>{ _${group.teamName }_ }</p></a>
-						                			<p>{ _${group.areaRegionName }_ }</p>
-						                			<p>{ _${group.teamShortContent }_ }</p> 
+						                			<a href="/groups/${ group.teamId }"><p><i class="fa fa-cube"></i>&nbsp;&nbsp;${group.teamName }</p></a>
+						                			<p><i class="fa fa-map-marker"></i>&nbsp;&nbsp;${group.areaRegionName }</p>
+						                			<p><i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;${group.teamShortContent }</p> 
 			                					</div>
 			                				</div>
 			                				</c:forEach>
@@ -325,7 +323,7 @@
 					                <!-- Accordion title -->
 					                <div class="panel-heading">
 					                    <h4 class="panel-title">
-					                        <a data-parent="#demo-acc-purple" data-toggle="collapse" href="#demo-acd-purple-3">{ _${int3Name}_ } </a>
+					                        <a data-parent="#demo-acc-purple" data-toggle="collapse" href="#demo-acd-purple-3">${int3Name} </a>
 					                    </h4>
 					                </div>
 					
@@ -335,7 +333,7 @@
 					                    	<c:if test="${empty int3List}">
 											<div class="media bord-btm">
 						                		<div class="media-left pad-all">
-						                		<div class="row">추천 모임이 없습니다.</div>
+						                		<div class="row">개설된 모임이 없습니다.</div>
 			                					</div>
 			                				</div>
 					                    	</c:if>
@@ -345,9 +343,9 @@
 						                			<img class="img-lg" src="${group.teamPhoto }" alt="Sample Image">
 						                		</div>
 						                		<div class="media-body pad-all text-semibold">
-						                			<a href="/groups/${ group.teamId }"><p>{ _${group.teamName }_ }</p></a>
-						                			<p>{ _${group.areaRegionName }_ }</p>
-						                			<p>{ _${group.teamShortContent }_ }</p> 
+						                			<a href="/groups/${ group.teamId }"><p><i class="fa fa-cube"></i>&nbsp;&nbsp;${group.teamName }</p></a>
+						                			<p><i class="fa fa-map-marker"></i>&nbsp;&nbsp;${group.areaRegionName }</p>
+						                			<p><i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;${group.teamShortContent }</p> 
 			                					</div>
 			                				</div>
 			                				</c:forEach>
@@ -374,12 +372,12 @@
 			            <!--===================================================-->
 			            <div class="panel">
 			                <div class="panel-heading">
-			                    <h3 class="panel-title">{ _${ areaName }_ } 의 추천모임</h3>
+			                    <h3 class="panel-title">${ areaName } 의 추천모임</h3>
 			                </div>
 	                    	<c:if test="${empty areaList}">
 							<div class="media bord-btm">
 		                		<div class="media-left pad-all">
-		                		<div class="row">추천 모임이 없습니다.</div>
+		                		<div class="row">개설된 모임이 없습니다.</div>
                					</div>
                				</div>
 	                    	</c:if>
@@ -390,9 +388,9 @@
 			                			<img class="img-lg" src="${group.teamPhoto }" alt="Sample Image">
 			                		</div>
 			                		<div class="media-body pad-all text-semibold">
-			                			<a href="/groups/${ group.teamId }"><p>{ _${group.teamName }_ }</p></a>
-			                			<p>{ _ ${group.intName } _ }</p>
-			                			<p>{ _${group.teamShortContent }_ }</p> 
+			                			<a href="/groups/${ group.teamId }"><p><i class="fa fa-cube"></i>&nbsp;&nbsp;${group.teamName }</p></a>
+			                			<p><i class="fa fa-heart"></i>&nbsp;&nbsp;${group.intName } </p>
+			                			<p><i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;${group.teamShortContent }</p> 
 			                		</div>
 			                	</div>
 			                </div>
