@@ -45,14 +45,11 @@ public class GroupsInterceptor extends HandlerInterceptorAdapter {
 			if (user != null && user.getMemLevel() != null && user.getMemLevel() >=8L) {
 				return true;
 			}else if (user != null && user.getMemId() != null) {
-				
 				List<TeamDomain> groupList = teamMapper.selectJoinedGroupList(user.getMemId());
-							
-				for (TeamDomain domain : groupList) {
-
+				for (TeamDomain domain : groupList) {		
 					if((arr[1]+"/").contains("/"+domain.getTeamId()+"/")) {// uri 주소의 그룹번호가 회원이 가입한 팀번호와 일치하다
 						return true;
-					}else if (request.getRequestURI().contains("/"+domain.getTeamId()+"/")){
+					}else if ((request.getRequestURI()+"/").contains("/"+domain.getTeamId()+"/")){
 						return true;
 					}
 				}
