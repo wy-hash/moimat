@@ -81,7 +81,7 @@ public class PhotosController {
 			return new Gson().toJson(result);
 		}
 
-		return "{\"postId\": 0}";
+		return "{\"cmtId\": 0}";
 	}
 
 	@PostMapping({"/new"})
@@ -145,16 +145,16 @@ public class PhotosController {
 		return "redirect:/groups/" + groupId + "/photos";
 	}
 
-	@RequestMapping(value="/{postId}/comment/mod",method=RequestMethod.POST )
+	@RequestMapping(value="/{postId}/comment/mod",method=RequestMethod.POST, produces = "application/json; charset=utf-8" )
 	@ResponseBody
 	public String modComment(TeamCommentsDomain domain) {
 		
 		log.info("덧글 수정실행" + domain);
 		
-		String result = "N";
+		String result = "{\"postId\": 0}";
 		
 		if(teamCommentsService.modComment(domain) >0L) {
-			result = "Y";
+			result = new Gson().toJson(teamCommentsService.getCommentById(domain.getCmtId()));
 		}
 		
 		return result;

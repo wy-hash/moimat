@@ -236,16 +236,19 @@
 
 													<div id="comment-container">
 														<c:forEach var="item" items="${ comments }">
-															<div class="media pad-btm">
+															<div class="media pad-btm" data-cmtid="${ item.cmtId}">
 																<a class="media-left" href="#"><img class="img-circle img-xs" alt="Profile Picture" src="${ item.memPhoto }"></a>
 																<div class="media-body">
-																	<div>
+																	<div class="user-info">
 																		<a href="#" class="btn-link text-semibold media-heading box-inline">${ item.cmtNickname }</a>
-																		<small class="text-muted pad-lft">${ item.cmtRegdate } | 
-																		<a class="cmtMod"  data-cmtid="${item.cmtId }">수정</a> 
-																		| <a class="cmtDelete" data-cmtid="${item.cmtId }">삭제 |</a></small>
+																		<small class="text-muted pad-lft"><span>${ item.cmtRegdate }</span>
+																			<a class="cmtMod"  data-cmtid="${item.cmtId }" style="cursor: pointer;"> 수정 </a>|
+																			<a class="cmtDelete" data-cmtid="${item.cmtId }" style="cursor: pointer;"> 삭제</a>
+																		</small>
 																	</div>
-																	${ item.cmtContent }
+																	<div class="cmt-content">
+																		${ item.cmtContent }
+																	</div>
 																</div>
 															</div>
 														</c:forEach>
@@ -306,20 +309,20 @@
 	            </div>
 	
 				<form id="modalModForm" action="/groups/${ group.teamId }/photos/${ post.postId }/comment/mod" method="post">
-	            <!--Modal body-->
-	            <div class="modal-body">
-	            	<input type="hidden" name="cmtId">
-	            	<div class="media form-group">
-						<textarea class="form-control" name="cmtContent" rows="5" placeholder="댓글 내용을 입력하세요." style="resize: none;"></textarea>
+					<!--Modal body-->
+					<div class="modal-body">
+						<input type="hidden" name="cmtId">
+						<div class="media form-group">
+							<textarea class="form-control" name="cmtContent" rows="5" placeholder="댓글 내용을 입력하세요." style="resize: none;"></textarea>
+						</div>
+						<p class="text-semibold text-main"> 댓글을 수정하시겠습니까?</p>
 					</div>
-	            	<p class="text-semibold text-main"> 댓글을 수정하시겠습니까?</p>
-				</div>
-	
-	            <!--Modal footer-->
-	            <div class="modal-footer">
-	                <button data-dismiss="modal" class="btn btn-default" type="button">취소</button>
-	                <button id="modalModBtn" class="btn btn-warning" type="submit">확인</button>
-	            </div>
+
+					<!--Modal footer-->
+					<div class="modal-footer">
+						<button data-dismiss="modal" class="btn btn-default" type="button">취소</button>
+						<button id="modalModBtn" class="btn btn-warning" type="button">확인</button>
+					</div>
 	            </form>
 	        </div>
 	    </div>
@@ -339,21 +342,26 @@
 				
 			});
 			
-			$('#modalModBtn').on('submit', function(){
+			$('#modalModBtn').on('click', function(){
 				const url = $('#modalModForm').attr('action');
 				const data = $('#modalModForm').serialize();
 				console.log(url +'/'+data);
 				$.ajax({
 					type: 'POST',
 					url: url,
-					data : data
-
+					data : data,
+					dataType: 'json'
 				}).done(function(result){
 					console.log('d');
-					if("Y" === result){
-						alert('댓글 수정 성공');
-					} else{
-						alert('댓글 수정 실패');
+					if(result.cmtId > 0){
+						$('#modalMod').find('textarea').val('');
+						$('div[data-cmtid="' + result.cmtId +'"]').find('.cmt-content').text(result.cmtContent);
+						$('div[data-cmtid="' + result.cmtId +'"]').find('small > span').text(result.cmtUpdate);
+						$('#modalMod').modal('hide');
+
+					} else {
+						alert('수정 실패. 잠시 후 다시 시도해주세요.');
+						$('#modalMod').modal('hide');
 					}
 				});
 			});
@@ -383,14 +391,19 @@
 					dataType: 'json',
 					success: function(result) {
 						if (Number(result.postId) > 0) {
-							var commentData = '<div class="media pad-btm">'
+							var commentData = '<div class="media pad-btm" data-cmtid="' + result.cmtId + '">'
 											+ 	'<a class="media-left" href="#"><img class="img-circle img-xs" alt="Profile Picture" src="' + result.memPhoto + '"></a>'
 											+	'<div class="media-body">'
-											+ 		'<div>'
+											+ 		'<div class="user-info">'
 											+ 			'<a href="#" class="btn-link text-semibold media-heading box-inline">' + result.cmtNickname + '</a>'
-											+ 			'<small class="text-muted pad-lft">' + result.cmtRegdate + '</small>'
+											+ 			'<small class="text-muted pad-lft"><span>' + result.cmtRegdate + '</span>'
+											+				'<a class="cmtMod"  data-cmtid="' + result.cmtId + '" style="cursor: pointer;"> 수정 </a>|'
+											+				'<a class="cmtDelete" data-cmtid="' + result.cmtId + '" style="cursor: pointer;"> 삭제</a>'
+											+			'</small>'
 											+ 		'</div>'
-											+     result.cmtContent
+											+		'<div class="cmt-content">'
+											+     		result.cmtContent
+											+		'</div>'
 											+ 	'</div>'
 											+ '</div>';
 

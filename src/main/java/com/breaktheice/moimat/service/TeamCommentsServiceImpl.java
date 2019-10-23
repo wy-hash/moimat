@@ -52,9 +52,9 @@ public class TeamCommentsServiceImpl implements TeamCommentsService {
 	public Long modComment(TeamCommentsDomain comment) {
 		
 		Long result = -1L;// 결과값 : 정상등록 : 1, 실패 : -1
-		log.info();
 		result = mapper.modComment(comment);// 게시글 수정
-		
+		log.info("updated: " + result);
+
 		if(result >= 1L) {
 			log.info("정상 삭제 되었습니다.");
 		} else {
