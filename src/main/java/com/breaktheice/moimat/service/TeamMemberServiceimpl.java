@@ -20,12 +20,13 @@ public class TeamMemberServiceimpl implements TeamMemberService {
 
 	@Autowired
 	private TeamMemberMapper tmm;
-
+	
+	// 회원 한명의 정보를 가져올때 (회원관리 회원 클릭시 사용)
 	@Override
 	public TeamMemberDomain getMember(Long memberId) {
 		return tmm.getMember(memberId);
 	}
-
+	// 리스트에 뿌려질 정보 셋팅
 	@Override
 	public TeamMemberListVO getMemberList(Long teamId, String status,AdminCriteria cri) {
 		TeamMemberListVO vo = new TeamMemberListVO();
@@ -33,52 +34,22 @@ public class TeamMemberServiceimpl implements TeamMemberService {
 		vo.setTeamMemberCount(tmm.getMemberTotal(teamId, status, cri));
 		vo.setGetMember(tmm.getMemberList(teamId, status, cri));
 		HashMap<Integer, String> grade = new HashMap<>();
-		grade.put(0, "차단회원");
 		grade.put(1, "가입대기");
 		grade.put(2, "일반회원");
-		grade.put(3, "우수회원");
 		grade.put(7, "운영진");
 		grade.put(9, "모임장");
 		vo.setGrade(grade);
 		return vo;
 	}
-
+	
+	// 체크박스 이용하는 것과 그냥 버튼으로 하나씩 하는걸 따로 만들기 싫어서 한명만 변경되는 경우라도 그냥 리스트에 담아서 가져옴
 	@Override
-	public int updatemember(GroupMemberVO groupMemberVO, MessageVO message) { // 뭔가 이상하지만 임시로 ...
-		for (Long tmemId : groupMemberVO.getTmemIds()) {
-			tmm.teamMemberNotify(message, tmemId);
-		}
-		return tmm.memberUpdate(groupMemberVO.getTmemIds(), groupMemberVO.getTmemLevel());
-	}
-
-	@Override
-	public int deletemember(List<Long> tmemIds, MessageVO vo) {
-		for (Long tmemId : tmemIds) {
-			tmm.teamMemberNotify(vo, tmemId);
-		}
+	public int deletemember(List<Long> tmemIds) {
 		return tmm.selectedMemberDelete(tmemIds);
 	}
 
 	@Override
 	public int updatemember(GroupMemberVO groupMemberVO) {
-		MessageVO message = new MessageVO();
-		if (groupMemberVO.getTmemLevel() == 0) {
-			message.setSendMemId(groupMemberVO.getMemberId());
-			String teamName = groupMemberVO.getTeamName();
-			message.setMsgTitle(teamName + "모임에서 차단되었습니다.");
-			message.setMsgContent("모임 관리자에 의하여" + teamName + " 모임에서 차단 되었습니다.");
-			for (Long tmemId : groupMemberVO.getTmemIds()) {
-				tmm.teamMemberNotify(message, tmemId);
-			}
-		} else {
-			message.setSendMemId(groupMemberVO.getMemberId());
-			String teamName = groupMemberVO.getTeamName();
-			message.setMsgTitle(teamName + "모임에서 회원등급이 변경되었습니다.");
-			message.setMsgContent("모임 관리자에 의하여" + teamName + " 모임에서 회원등급이 변경되었습니다.");
-			for (Long tmemId : groupMemberVO.getTmemIds()) {
-				tmm.teamMemberNotify(message, tmemId);
-			}
-		}
 		return tmm.memberUpdate(groupMemberVO.getTmemIds(), groupMemberVO.getTmemLevel());
 	}
 
@@ -90,19 +61,24 @@ public class TeamMemberServiceimpl implements TeamMemberService {
 	@Override
 	@Transactional
 	public int updateMaster(GroupMemberVO groupMemberVO) {
-		MessageVO message = new MessageVO();
-		message.setSendMemId(groupMemberVO.getMemberId());
-		String teamName = groupMemberVO.getTeamName();
-		message.setMsgTitle(teamName + "모임에서 모임장이 되셨습니다.");
-		message.setMsgContent(teamName + "모임에서 모임장이 되셨습니다.");
-		for (Long tmemId : groupMemberVO.getTmemIds()) {
-			tmm.teamMemberNotify(message, tmemId);
+		// 여기 문제가있어서 ... -1이면 서버에러뜰걸로 예상되는데 일단 이렇게해놓음
+		int result = -1;
+		// team table의 MEM_ID 변경.
+		if(groupMemberVO.getTmemIds().size()==1) {
+		for (Long tmemId : groupMemberVO.getTmemIds() ) {
 			tmm.changeMaster(tmemId, groupMemberVO.getTeamId());
+		}
+		}else {
+			return result;
+		}
+		
+		if(tmm.memberUpdate(groupMemberVO.getTmemIds(), groupMemberVO.getTmemLevel())!=1) {
+			return result;
+			
 		}
 		List<Long> master = new ArrayList<Long>();
 		master.add(groupMemberVO.getMemberId());
-		tmm.memberUpdate(master, 2);
-		return tmm.memberUpdate(groupMemberVO.getTmemIds(), groupMemberVO.getTmemLevel());
+		return tmm.memberUpdate(master, 2);
 	}
 
 	@Override

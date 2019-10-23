@@ -19,8 +19,6 @@ public interface TeamMemberMapper {
 	public int gradeAdjust(@Param("tmemId") Long tmemId, @Param("tmemLevel") int tmemLevel);
 	//단순 강퇴만 이거 ! (그냥 단순히 뭘 잘못해서 강퇴시킨게 아닐때 또는 차단시킨 이후 차단 해제할때)
 	public int getOut(@Param("tmemId") Long tmemId);
-	//메세지 (임시) (등급 조정이나 강퇴 뭐 이런거 당했을때 보내주는거)
-	public int teamMemberNotify(@Param("message")MessageVO messageVO,@Param("tmemId")Long tmemId);
 	//체크박스를 이용한 동시에 삭제하는것 ..
 	public int selectedMemberDelete(@Param("tmemIds")List<Long> tmemIds);
 	
