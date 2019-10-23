@@ -47,7 +47,7 @@
 						
 						            <!--Menu list item-->
 						            <li class="active-link">
-						                <a href="<c:url value='/'/>">
+						                <a href="<c:url value='/home'/>">
 						                    <i class="demo-psi-home"></i>
 						                    <span class="menu-title">
 												<strong>홈</strong>

@@ -10,6 +10,32 @@
 			) where rownum < 4
 		]]>
 	</select>
+	<select id="getIntRandomList" resultType="com.breaktheice.moimat.domain.TeamDomain">
+		<![CDATA[
+			SELECT * 
+			FROM (  SELECT t.*, i.int_name, a.area_region_name
+            	 	FROM team t, interest i, area a
+		            WHERE t.int_id = i.int_id and 
+                          t.area_id = a.area_id and
+		                  t.int_id = #{intId}
+					ORDER BY DBMS_RANDOM.RANDOM
+			) WHERE rownum < 4
+		]]>
+	</select>
+	<select id="getAreaRandomList" resultType="com.breaktheice.moimat.domain.TeamDomain">
+		<![CDATA[
+			SELECT * 
+			FROM ( SELECT t.*, i.int_name, a.area_region_name
+            	 	FROM team t, interest i, area a
+		            WHERE t.int_id = i.int_id and 
+		            	  t.area_id = a.area_id and 
+		                  t.area_id = #{areaId}
+					ORDER BY DBMS_RANDOM.RANDOM
+			) WHERE rownum < 4
+		]]>
+	</select>
+			
+			
 	
 	<select id="totalCount" resultType="Long">
 	<![CDATA[		

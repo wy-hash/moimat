@@ -1,6 +1,5 @@
 package com.breaktheice.moimat.service;
 
-import java.util.HashMap;
 import java.util.List;
 
 import com.breaktheice.moimat.domain.AreaDomain;
@@ -12,6 +11,12 @@ public interface TeamService {
 
 	//for indexpage
 	List<TeamDomain> getRandomList();
+	List<TeamDomain> getIntRandomList(Long intId);
+	List<TeamDomain> getAreaRandomList(Long areaId);
+
+	String getInterestName(Long intId);
+	String getAreaName(Long areaId);
+	
 
 	List<TeamDomain> getJoinedGroupList(MemberDomain member);
 

@@ -255,65 +255,34 @@
 					        <!--===================================================-->
 					        <div class="panel-group accordion" id="demo-acc-purple">
 					            <div class="panel panel-purple">
-					
 					                <!-- Accordion title -->
 					                <div class="panel-heading">
 					                    <h4 class="panel-title">
-					                        <a data-parent="#demo-acc-purple" data-toggle="collapse" href="#demo-acd-purple-1">{ _첫번째 관심사_ }</a>
+					                        <a data-parent="#demo-acc-purple" data-toggle="collapse" href="#demo-acd-purple-1">{ _${int1Name}_ }  </a>
 					                    </h4>
 					                </div>
-					
 					                <!-- Accordion content -->
 					                <div class="panel-collapse collapse in" id="demo-acd-purple-1">
 					                    <div class="panel-body">
-					                    
-					                    
+					                    	<c:if test="${empty int1List}">
 											<div class="media bord-btm">
 						                		<div class="media-left pad-all">
-						                			<img class="img-lg" src="resources/img/profile-photos/1.png" alt="Sample Image">
-						                		</div>
-						                		<div class="media-body pad-all text-semibold">
-						                			<p>{ _모임이름_ }</p>
-						                			<p>{ _모임위치_ }</p>
-						                			<p>{ _모임인원_ }</p> 
-						                		 
-						                			     
+						                		<div class="row">추천 모임이 없습니다.</div>
 			                					</div>
-			                					
 			                				</div>
-			                				
-			                				
-			                				 
-			                				
-			                				<div class="media bord-btm">
+					                    	</c:if>
+					                    	<c:forEach items="${int1List }" var="group" end="2">
+											<div class="media bord-btm">
 						                		<div class="media-left pad-all">
-						                			<img class="img-lg" src="resources/img/profile-photos/1.png" alt="Sample Image">
+						                			<img class="img-lg" src="${group.teamPhoto }" alt="Sample Image">
 						                		</div>
 						                		<div class="media-body pad-all text-semibold">
-						                			<p>{ _모임이름_ }</p>
-						                			<p>{ _모임위치_ }</p>
-						                			<p>{ _모임인원_ }</p>
-						                			
-
-						                			
+						                			<a href="/groups/${ group.teamId }"><p>{ _${group.teamName }_ }</p></a>
+						                			<p>{ _${group.areaRegionName }_ }</p>
+						                			<p>{ _${group.teamShortContent }_ }</p> 
 			                					</div>
 			                				</div>
-						                	
-						                	
-						                	
-						                	
-						                	<div class="media bord-btm">
-						                		<div class="media-left pad-all">
-						                			<img class="img-lg" src="resources/img/profile-photos/1.png" alt="Sample Image">
-						                		</div>
-						                		<div class="media-body pad-all text-semibold">
-						                			<p>{ _모임이름_ }</p>
-						                			<p>{ _모임위치_ }</p>
-						                			<p>{ _모임인원_ }</p>
-			                					</div>
-			                				</div>
-						                	
-						                	
+			                				</c:forEach>
 					                    </div>
 					                </div>
 					            </div>
@@ -322,58 +291,32 @@
 					                <!-- Accordion title -->
 					                <div class="panel-heading">
 					                    <h4 class="panel-title">
-					                        <a data-parent="#demo-acc-purple" data-toggle="collapse" href="#demo-acd-purple-2">{ _두번째 관심사_ }</a>
+					                        <a data-parent="#demo-acc-purple" data-toggle="collapse" href="#demo-acd-purple-2">{ _${int2Name}_ }  </a>
 					                    </h4>
 					                </div>
 					
 					                <!-- Accordion content -->
 					                <div class="panel-collapse collapse" id="demo-acd-purple-2">
 					                    <div class="panel-body">
-
-											
+					                    	<c:if test="${empty int2List}">
 											<div class="media bord-btm">
 						                		<div class="media-left pad-all">
-						                			<img class="img-lg" src="resources/img/profile-photos/1.png" alt="Sample Image">
-						                		</div>
-						                		<div class="media-body pad-all text-semibold">
-						                			<p>{ _모임이름_ }</p>
-						                			<p>{ _모임위치_ }</p>
-						                			<p>{ _모임인원_ }</p>
+						                		<div class="row">추천 모임이 없습니다.</div>
 			                					</div>
 			                				</div>
-			                				
-			                				
-			                				 
-			                				
-			                				<div class="media bord-btm">
+					                    	</c:if>
+					                    	<c:forEach items="${int2List }" var="group" end="2">
+											<div class="media bord-btm">
 						                		<div class="media-left pad-all">
-						                			<img class="img-lg" src="resources/img/profile-photos/1.png" alt="Sample Image">
+						                			<img class="img-lg" src="${group.teamPhoto }" alt="Sample Image">
 						                		</div>
 						                		<div class="media-body pad-all text-semibold">
-						                			<p>{ _모임이름_ }</p>
-						                			<p>{ _모임위치_ }</p>
-						                			<p>{ _모임인원_ }</p>
+						                			<a href="/groups/${ group.teamId }"><p>{ _${group.teamName }_ }</p></a>
+						                			<p>{ _${group.areaRegionName }_ }</p>
+						                			<p>{ _${group.teamShortContent }_ }</p> 
 			                					</div>
 			                				</div>
-						                	
-						                	
-						                	
-						                	
-						                	<div class="media bord-btm">
-						                		<div class="media-left pad-all">
-						                			<img class="img-lg" src="resources/img/profile-photos/1.png" alt="Sample Image">
-						                		</div>
-						                		<div class="media-body pad-all text-semibold">
-						                			<p>{ _모임이름_ }</p>
-						                			<p>{ _모임위치_ }</p>
-						                			<p>{ _모임인원_ }</p>
-			                					</div>
-			                				</div>
-											
-											
-											
-											
-
+			                				</c:forEach>
 					                    </div>
 					                </div>
 					            </div>
@@ -382,57 +325,32 @@
 					                <!-- Accordion title -->
 					                <div class="panel-heading">
 					                    <h4 class="panel-title">
-					                        <a data-parent="#demo-acc-purple" data-toggle="collapse" href="#demo-acd-purple-3">{ _세번째 관심사_ }</a>
+					                        <a data-parent="#demo-acc-purple" data-toggle="collapse" href="#demo-acd-purple-3">{ _${int3Name}_ } </a>
 					                    </h4>
 					                </div>
 					
 					                <!-- Accordion content -->
 					                <div class="panel-collapse collapse" id="demo-acd-purple-3">
 					                    <div class="panel-body">
-
-
+					                    	<c:if test="${empty int3List}">
 											<div class="media bord-btm">
 						                		<div class="media-left pad-all">
-						                			<img class="img-lg" src="resources/img/profile-photos/1.png" alt="Sample Image">
-						                		</div>
-						                		<div class="media-body pad-all text-semibold">
-						                			<p>{ _모임이름_ }</p>
-						                			<p>{ _모임위치_ }</p>
-						                			<p>{ _모임인원_ }</p>
+						                		<div class="row">추천 모임이 없습니다.</div>
 			                					</div>
 			                				</div>
-			                				
-			                				
-			                				 
-			                				
-			                				<div class="media bord-btm">
+					                    	</c:if>
+					                    	<c:forEach items="${int3List }" var="group" end="2">
+											<div class="media bord-btm">
 						                		<div class="media-left pad-all">
-						                			<img class="img-lg" src="resources/img/profile-photos/1.png" alt="Sample Image">
+						                			<img class="img-lg" src="${group.teamPhoto }" alt="Sample Image">
 						                		</div>
 						                		<div class="media-body pad-all text-semibold">
-						                			<p>{ _모임이름_ }</p>
-						                			<p>{ _모임위치_ }</p>
-						                			<p>{ _모임인원_ }</p>
+						                			<a href="/groups/${ group.teamId }"><p>{ _${group.teamName }_ }</p></a>
+						                			<p>{ _${group.areaRegionName }_ }</p>
+						                			<p>{ _${group.teamShortContent }_ }</p> 
 			                					</div>
 			                				</div>
-						                	
-						                	
-						                	
-						                	
-						                	<div class="media bord-btm">
-						                		<div class="media-left pad-all">
-						                			<img class="img-lg" src="resources/img/profile-photos/1.png" alt="Sample Image">
-						                		</div>
-						                		<div class="media-body pad-all text-semibold">
-						                			<p>{ _모임이름_ }</p>
-						                			<p>{ _모임위치_ }</p>
-						                			<p>{ _모임인원_ }</p>
-			                					</div>
-			                				</div>
-
-
-
-
+			                				</c:forEach>
 					                    </div>
 					                </div>
 					            </div>
@@ -456,62 +374,35 @@
 			            <!--===================================================-->
 			            <div class="panel">
 			                <div class="panel-heading">
-			                    <h3 class="panel-title">{ _서울시 서초구_ } 의 추천모임</h3>
+			                    <h3 class="panel-title">{ _${ areaName }_ } 의 추천모임</h3>
 			                </div>
+	                    	<c:if test="${empty areaList}">
+							<div class="media bord-btm">
+		                		<div class="media-left pad-all">
+		                		<div class="row">추천 모임이 없습니다.</div>
+               					</div>
+               				</div>
+	                    	</c:if>
+			                <c:forEach items="${areaList }" var="group" end="2">
 			                <div class="panel-body bord-btm">
 			                	<div class="media">
 			                		<div class="media-left pad-all">
-			                			<img class="img-lg" src="resources/img/profile-photos/1.png" alt="Sample Image">
+			                			<img class="img-lg" src="${group.teamPhoto }" alt="Sample Image">
 			                		</div>
 			                		<div class="media-body pad-all text-semibold">
-			                			<p>{ _모임이름_ }</p>
-			                			<p>{ _모임위치_ }</p>
-			                			<p>{ _모임인원_ }</p>
+			                			<a href="/groups/${ group.teamId }"><p>{ _${group.teamName }_ }</p></a>
+			                			<p>{ _ ${group.intName } _ }</p>
+			                			<p>{ _${group.teamShortContent }_ }</p> 
 			                		</div>
 			                	</div>
 			                </div>
-			                
-			                <div class="panel-body bord-btm">
-			                	<div class="media">
-			                		<div class="media-left pad-all">
-			                			<img class="img-lg" src="resources/img/profile-photos/1.png" alt="Sample Image">
-			                		</div>
-			                		<div class="media-body pad-all text-semibold">
-			                			<p>{ _모임이름_ }</p>
-			                			<p>{ _모임위치_ }</p>
-			                			<p>{ _모임인원_ }</p>
-			                		</div>
-			                	</div>
-			                </div>
-			                
-			                <div class="panel-body bord-btm">
-			                	<div class="media">
-			                		<div class="media-left pad-all">
-			                			<img class="img-lg" src="resources/img/profile-photos/1.png" alt="Sample Image">
-			                		</div>
-			                		<div class="media-body pad-all text-semibold">
-			                			<p>{ _모임이름_ }</p>
-			                			<p>{ _모임위치_ }</p>
-			                			<p>{ _모임인원_ }</p>
-			                		</div>
-			                	</div>
-			                </div>
-			                
+			                </c:forEach>
 			                
 			            </div>
 			            <!--===================================================-->
 			            <!--End Panel with Header-->
-			            
-			            
-			                      	    
             	    </div>
             	    <!-- //맞춤추천-지역 -->
-                
-					
-					
-				
-				
-					
                 </div>
                 <!--===================================================-->
                 <!--End page content-->
