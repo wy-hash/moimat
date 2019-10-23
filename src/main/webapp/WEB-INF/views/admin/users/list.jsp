@@ -202,12 +202,6 @@
 	</div>
 	<!-- END CONTAINER -->
 	
-	 <%-- for modal --%>
-	<c:if test="${ !empty loginVO }">
-		<%@ include file="../../includes/modals.jsp" %>
-	</c:if>
-	<%-- for modal --%>
-	
 	<!-- modal for level -->	
 	<div class="modal" id="modalLevel" tabindex="-1"  style="display: none;">
 	    <div class="modal-dialog">
@@ -369,6 +363,11 @@
 			});
 		});
 	</script>
-
+	
+	 <%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 </body>
 </html>
