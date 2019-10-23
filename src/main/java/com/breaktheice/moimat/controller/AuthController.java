@@ -85,7 +85,7 @@ public class AuthController {
 		
 		req.getSession().invalidate();
 		
-		return "{\"result\": true, \"redirectURL\": \"/\"}";
+		return "{\"result\": true, \"redirectURL\": \"/home\"}";
 	}
 
 	@GetMapping("/join")
