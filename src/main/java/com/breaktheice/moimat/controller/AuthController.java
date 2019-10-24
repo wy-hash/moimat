@@ -71,7 +71,7 @@ public class AuthController {
 		boolean result = authService.loginCheck(loginVo, request);
 
 		if (result) { // 성공한 경우 세션성립 후 성공시 로그인 성공 페이지l
-			return "redirect:/";			//
+			return "redirect:/home";			//
 		} else { // 실패의 경우 실패시 로그인 페이지와 메시지 전송 			
 			rttr.addFlashAttribute("loginErrorMsg", "아이디 또는 비밀번호를 다시 확인하세요.");
 			
@@ -85,7 +85,7 @@ public class AuthController {
 		
 		req.getSession().invalidate();
 		
-		return "{\"result\": true, \"redirectURL\": \"/\"}";
+		return "{\"result\": true, \"redirectURL\": \"/home\"}";
 	}
 
 	@GetMapping("/join")
@@ -150,10 +150,10 @@ public class AuthController {
 		member.setMemInt3(authService.getInterestKey(interestKeyList[2]));
 
 		String uploadPath = "";
-
+		
 		if (file.getSize() <= 0) {
 			String randomImage = String.valueOf((int)(Math.random() * 10) + 1) + ".png";
-			uploadPath = "resources/img/profile-photos/" + randomImage;
+			uploadPath = "/resources/img/profile-photos/" + randomImage;
 
 		} else {
 			uploadPath = fileUploadService.saveFile("USER", file);
@@ -168,4 +168,18 @@ public class AuthController {
 
 		return "true";
 	}
+	
+	@PostMapping("/findPassword")
+	public String findPassword(String email,RedirectAttributes rttr,Model model) {
+		
+		if(!authService.findPassword(email)) {
+			rttr.addFlashAttribute("msg", "이메일이 유효하지 않습니다. 다시 시도해 주세요");
+			return "redirect:/auth/login";
+		};
+		model.addAttribute("email",email);
+		return "/auth/alert";
+	}
+	
+	
+	
 }

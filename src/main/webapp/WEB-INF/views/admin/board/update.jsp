@@ -14,7 +14,7 @@
 <!--X-editable [ OPTIONAL ]-->
 <link href="/resources/plugins/x-editable/css/bootstrap-editable.css" rel="stylesheet">
 
-<title>Page Template | moim@</title>
+<title> 게시판 코드관리 - Admin | moim@</title>
 </head>
 <!-- END HEAD -->
 
@@ -47,7 +47,7 @@
 				<!--Page Title-->
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<div id="page-title">
-					<h1 class="page-header text-overflow">게시판 관리</h1>
+					<h1 class="page-header text-overflow">게시판 코드 관리</h1>
 				</div>
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<!--End page title-->
@@ -145,11 +145,6 @@
 
 	</div>
 	<!-- END CONTAINER -->
-	 <%-- for modal --%>
-	<c:if test="${ !empty loginVO }">
-		<%@ include file="../../includes/modals.jsp" %>
-	</c:if>
-	<%-- for modal --%>
 
 	<!--Bootstrap Table Sample [ SAMPLE ]-->
 	<script src="/resources/js/demo/tables-bs-table.js"></script>
@@ -281,6 +276,11 @@
 	</script>
 
 
+	 <%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 </body>
 
 </html>

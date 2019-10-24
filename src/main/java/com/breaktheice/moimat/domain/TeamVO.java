@@ -17,4 +17,5 @@ public class TeamVO {
 	private Date teamRegDate;
 	private Long teamMax;
 	private Long memId;
+	private String teamPhoto;
 }

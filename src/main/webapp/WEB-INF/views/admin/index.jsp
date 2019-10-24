@@ -18,7 +18,7 @@
 <!-- Material Design Bootstrap Chart-->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.10/css/mdb.min.css" rel="stylesheet">
 
-<title>Page Template | moim@</title>
+<title> Dashboard - Admin | moim@</title>
 </head>
 <!-- END HEAD -->
 
@@ -139,7 +139,7 @@
 								<tbody>
 									<c:if test="${empty teamList}">
 										<tr>
-											<td colspan="8" class="text-center"> 값이 없습니다.</td>
+											<td colspan="8" class="text-center"> 최근 생성된 모임이 없습니다.</td>
 										</tr>
 									</c:if>
 									<c:forEach items="${teamList }" var="list" varStatus="status" end="4">
@@ -182,7 +182,7 @@
 								<tbody>
 									<c:if test="${empty postList}">
 										<tr>
-											<td colspan="7" class="text-center"> 값이 없습니다.</td>
+											<td colspan="7" class="text-center"> 답변 안된 질문이 없습니다.</td>
 										</tr>
 									</c:if>
 									<c:forEach items="${postList }" var="list" varStatus="status" end="4">
@@ -228,11 +228,6 @@
 
 	</div>
 	<!-- END CONTAINER -->
-	 <%-- for modal --%>
-	<c:if test="${ !empty loginVO }">
-		<%@ include file="../includes/modals.jsp" %>
-	</c:if>
-	<%-- for modal --%>
 
 	<!--Bootstrap Table Sample [ SAMPLE ]-->
 	<script src="/resources/js/demo/tables-bs-table.js"></script>
@@ -315,6 +310,10 @@
 		}
 	</script>
 
+	 <%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 </body>
-
 </html>

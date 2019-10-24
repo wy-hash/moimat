@@ -47,7 +47,7 @@
 						
 						            <!--Menu list item-->
 						            <li class="active-link">
-						                <a href="<c:url value='/'/>">
+						                <a href="<c:url value='/home'/>">
 						                    <i class="demo-psi-home"></i>
 						                    <span class="menu-title">
 												<strong>홈</strong>
@@ -161,6 +161,66 @@
 						            	</a>
 						            </li>
 						            
+						            <c:if test="${sessionScope.loginVO.memLevel >7}">
+						             <!-- Category name -->
+						            <li class="list-header">관리자</li>
+						            <li>
+						            	<a href="<c:url value='/admin'/>">
+						            		<i class="fa fa-pie-chart"></i>
+						            		<span class="menu-title">
+						            			<strong>대쉬보드</strong>
+						            		</span>
+						            	</a>
+						            </li>
+						            
+						            <!-- Menu list item -->
+						            <li>
+						            	<a href="<c:url value='/admin/interest'/>">
+						            		<i class="fa fa-cog"></i>
+						            		<span class="menu-title">
+						            			<strong>관심사 코드 관리</strong>
+						            		</span>
+						            	</a>
+						            </li>
+						            
+						            <!-- Menu list item -->
+						            <li>
+						            	<a href="<c:url value='/admin/board'/>">
+						            		<i class="fa fa-cog"></i>
+						            		<span class="menu-title">
+						            			<strong>게시판 코드 관리</strong>
+						            		</span>
+						            	</a>
+						            </li>
+						            
+						            <!-- Menu list item -->
+						            <li>
+						            	<a href="<c:url value='/admin/post'/>">
+						            		<i class="fa fa-cogs"></i>
+						            		<span class="menu-title">
+						            			<strong>게시글 통합 관리</strong>
+						            		</span>
+						            	</a>
+						            </li>
+						            <!-- Menu list item -->
+						            <li>
+						            	<a href="<c:url value='/admin/users'/>">
+						            		<i class="fa fa-user"></i>
+						            		<span class="menu-title">
+						            			<strong>회원 관리</strong>
+						            		</span>
+						            	</a>
+						            </li>
+						            <!-- Menu list item -->
+						            <li>
+						            	<a href="<c:url value='/admin/groups'/>">
+						            		<i class="fa fa-users"></i>
+						            		<span class="menu-title">
+						            			<strong>모임 관리</strong>
+						            		</span>
+						            	</a>
+						            </li>
+						            </c:if>
                                 </ul>
 
 

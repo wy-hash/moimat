@@ -13,7 +13,20 @@
 <!--Bootbox Modals [ OPTIONAL ]-->
 <script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 
-<title>Page Template | moim@</title>
+<title> 모임 관리 - Admin | moim@</title>
+
+<style>
+@media screen and (max-width: 768px) {
+	.input-group {
+		margin-top : 15px;
+	}
+}
+
+@media screen and (min-width: 768px) {
+	.input-group {
+	}
+}
+</style>
 </head>
 <!-- END HEAD -->
 <body>
@@ -72,11 +85,17 @@
 										<option value="N" <c:if test="${pageMaker.cri.type eq 'N'}">selected</c:if> >모임 이름</option>
 										<option value="C" <c:if test="${pageMaker.cri.type eq 'C'}">selected</c:if> >모임 소개</option>
 									</select>
+									<div class="input-group">
 									<input type="text" name="keyword" class="form-control" value="${pageMaker.cri.keyword }"
 										placeholder="검색어를 입력해 주세요.">
 									<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
 									<input type="hidden" name="amount" value="${pageMaker.cri.amount }">
-									<button type="submit" class="btn btn-default">검색</button>
+										<span class="input-group-btn">
+				    						<button class="btn btn-default btn-icon" type="submit">
+						      					<i class="glyphicon glyphicon-search"></i>
+					      					</button>
+										</span>
+									</div>
 								</div>
 							</form>
 
@@ -100,7 +119,7 @@
 											<tbody>
 												<c:if test="${empty teamList}">
 													<tr>
-														<td colspan="8" class="text-center"> 값이 없습니다.</td>
+														<td colspan="8" class="text-center"> 등록된 모임이 없습니다.</td>
 													</tr>
 												</c:if>
 												<c:forEach items="${teamList }" var="list" varStatus="status">
@@ -161,13 +180,6 @@
 		<!-- END FOOTER -->
 	</div>
 	<!-- END CONTAINER -->
-	 <%-- for modal --%>
-	<c:if test="${ !empty loginVO }">
-		<%@ include file="../../includes/modals.jsp" %>
-	</c:if>
-	<%-- for modal --%>
-
-	
 	
 	<!--Bootstrap Table Sample [ SAMPLE ]-->
 	<script src="/resources/js/demo/tables-bs-table.js"></script>
@@ -208,5 +220,10 @@
 		});
 	</script>
 
+	 <%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 </body>
 </html>

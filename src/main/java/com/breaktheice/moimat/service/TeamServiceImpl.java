@@ -3,8 +3,6 @@ package com.breaktheice.moimat.service;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +24,15 @@ public class TeamServiceImpl implements TeamService {
 	//for indexpage
 	@Override
 	public List<TeamDomain> getRandomList() {
-		// TODO Auto-generated method stub
-		return mapper.getRandomList();
+		return mapper.getRandomList();// 인덱스 캐러셀 랜덤
+	}
+	@Override
+	public List<TeamDomain> getIntRandomList(Long intId) {
+		return mapper.getIntRandomList(intId);
+	}
+	@Override
+	public List<TeamDomain> getAreaRandomList(Long areaId) {
+		return mapper.getAreaRandomList(areaId);
 	}
 
 	@Override
@@ -94,5 +99,23 @@ public class TeamServiceImpl implements TeamService {
 	public List<InterestDomain> selectAllInterest() {
 		// 전체 관심사
 		return mapper.selectAllInterest();
+	}
+	@Override
+	public String getInterestName(Long intId) {
+		TeamDomain domain = new TeamDomain();
+		domain.setIntId(intId.intValue());
+		return mapper.getInterest(domain);
+	}
+	@Override
+	public String getAreaName(Long areaId) {
+		TeamDomain domain = new TeamDomain();
+		domain.setAreaId(areaId);
+		return mapper.getArea(domain);
+	}
+	@Override
+	public AreaDomain getAreaAll(Long areaId) {
+		TeamDomain domain = new TeamDomain();
+		domain.setAreaId(areaId);
+		return mapper.getAreaAll(domain);
 	}
 }

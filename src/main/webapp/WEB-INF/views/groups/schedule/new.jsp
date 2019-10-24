@@ -279,11 +279,6 @@
 		<!-- END FOOTER -->
 	</div>
 	<!-- END CONTAINER -->
-	<%-- for modal --%>
-	<c:if test="${ !empty loginVO }">
-		<%@ include file="/WEB-INF/views/includes/modals.jsp" %>
-	</c:if>
-	<%-- for modal --%>
 	<!--Bootbox Modals [ OPTIONAL ]-->
 	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 	<script type="text/javascript">
@@ -679,5 +674,10 @@
 		}
 	})
 	</script>
+	 <%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 </body>
 </html>

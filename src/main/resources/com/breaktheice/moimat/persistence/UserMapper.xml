@@ -2,12 +2,117 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.breaktheice.moimat.persistence.UserMapper">
 	
+	<select id="getUserInfo" resultType="com.breaktheice.moimat.domain.MemberDomain">
+		SELECT
+			MEM_ID,
+			MEM_EMAIL,
+			MEM_PASSWORD,
+			MEM_NICKNAME,
+			TO_CHAR(MEM_BIRTHDAY, 'YYYY-MM-DD') MEM_BIRTHDAY,
+			MEM_GENDER,
+			AREA_ID,
+			MEM_REGDATE,
+			MEM_UPDATE,
+			MEM_LASTLOGIN,
+			MEM_CONTENT,
+			MEM_LEVEL,
+			MEM_STATUS,
+			MEM_INT1,
+			MEM_INT2,
+			MEM_INT3,
+			MEM_PHOTO
+		FROM
+			MEMBER
+		WHERE
+			MEM_ID = #{memId}
+	</select>
+	
+	<select id="getRecentPost" resultType="com.breaktheice.moimat.domain.TeamPostDomain">
+		SELECT
+			BRD_ID,
+			TEAM_ID,
+			POST_ID,
+			POST_TITLE,
+			POST_UPDATE
+		FROM       
+	        (SELECT
+				*
+			FROM
+				TEAM_POST
+			WHERE
+				POST_EMAIL = #{memEmail}
+			ORDER BY
+				POST_UPDATE DESC)
+		<![CDATA[
+		WHERE ROWNUM <= 5
+		]]>
+	</select>
+	
+	<select id="intKeyName" resultType="String">
+		SELECT 
+			INT_NAME
+		FROM
+			INTEREST
+		WHERE
+			INT_ID = #{intId}	
+	</select>
+	
+	<select id="getInterest" resultType="com.breaktheice.moimat.domain.InterestDomain">
+		Select
+			*
+		from
+			interest
+	</select>
+	
+	<select id="getArea" resultType="com.breaktheice.moimat.domain.AreaDomain">
+		Select
+			*
+		from
+			AREA
+	</select>
+	
+	<select id="getAreaName" resultType="String">
+		SELECT 
+			AREA_NAME ||' '|| AREA_REGION_NAME 
+		FROM 
+			AREA
+		WHERE
+			AREA_ID = #{areaId}
+	</select>
+	
+	<select id="getRecentGroup" resultType="com.breaktheice.moimat.domain.TeamVO">
+		SELECT
+			*
+		FROM
+			TEAM
+		WHERE
+			TEAM_ID 
+			IN
+			(SELECT 
+				* 
+			FROM
+				(SELECT 
+					TEAM_ID 
+				FROM 
+					TEAM_MEMBER
+				WHERE
+					MEM_ID = #{memId}
+				ORDER BY
+					TMEM_LASTVISIT DESC
+				)
+			WHERE
+			<![CDATA[
+				ROWNUM <= 4
+			]]>
+			)	
+	</select>
+	
 	<select id="selectMember" parameterType="String" resultType="com.breaktheice.moimat.domain.MemberDomain">
 		SELECT
 			MEM_EMAIL
 			,MEM_NICKNAME
 			,MEM_GENDER
-			,TO_CHAR(MEM_BIRTHDAY, 'YYYYMMDD') MEM_BIRTHDAY
+			,TO_CHAR(MEM_BIRTHDAY, 'YYYY-MM-DD') MEM_BIRTHDAY
 			,AREA_ID
 			,MEM_PHOTO
 			,AREA_ID
@@ -23,44 +128,20 @@
 	</select>
 	
 	<update id="updateMember" parameterType="com.breaktheice.moimat.domain.MemberDomain">
-		
 		UPDATE	MEMBER	
-		<!--
-		SET
-			MEM_EMAIL 		= CASE WHEN #{memEmail}		IS NULL THEN MEM_EMAIL 		ELSE 	#{memEmail}  		END
-			,MEM_PASSWORD 	= CASE WHEN #{memPassword} 	IS NULL THEN MEM_PASSWORD	ELSE 	#{memPassword} 		END
-			,MEM_BIRTHDAY 	= CASE WHEN TO_DATE(#{memBirthday}, 'YYYYMMDD')	IS NULL THEN MEM_BIRTHDAY 	ELSE 	TO_DATE(#{memBirthday},'YYYYMMDD') END
-			,MEM_NICKNAME 	= CASE WHEN #{memNickname} 	IS NULL THEN MEM_NICKNAME 	ELSE 	#{memNickname} 		END
-			,MEM_GENDER 	= CASE WHEN #{memGender} 	IS NULL THEN MEM_GENDER 	ELSE 	#{memGender} 		END
-			,AREA_ID 		= CASE WHEN #{areaId} 		= 0 THEN AREA_ID 		ELSE 	#{areaId} 			END
-			,MEM_UPDATE 	= SYSDATE
-			,MEM_CONTENT 	= CASE WHEN #{memContent} 	IS NULL THEN MEM_CONTENT 	ELSE 	#{memContent} 		END
-			,MEM_PHOTO		= CASE WHEN #{memPhoto} 	IS NULL THEN MEM_PHOTO 		ELSE 	#{memPhoto} 		END
-			,MEM_LEVEL 		= CASE WHEN #{memLevel} 	= 0 THEN MEM_LEVEL 		ELSE 	#{memLevel} 		END
-			,MEM_STATUS 	= CASE WHEN #{memStatus} 	= 0 THEN MEM_STATUS 	ELSE 	#{memStatus} 	END 
- 			,MEM_INT1 		= CASE WHEN #{memInt1} 		= 0 THEN MEM_INT1 		ELSE 	#{memInt1} 		END
-			,MEM_INT2		= CASE WHEN #{memInt2} 		= 0 THEN MEM_INT2 		ELSE 	#{memInt2} 		END
-			,MEM_INT3		= CASE WHEN #{memInt3} 		= 0 THEN MEM_INT3 		ELSE 	#{memInt3} 		END   -->
-			
-		 <trim prefix="SET" suffixOverrides=",">
-      		<if test="memEmail != null and memEmail !='' ">MEM_EMAIL=#{memEmail},</if>
-      		<if test="memPassword != null and memPassword !='' ">MEM_PASSWORD=#{memPassword},</if>
-      		<if test="memBirthday != null and memBirthday !='' ">MEM_BIRTHDAY=TO_DATE(#{memBirthday}, 'YYYYMMDD'),</if>
-      		<if test="memNickname != null and memNickname !='' ">MEM_NICKNAME=#{memNickname},</if>
-      		<if test="memGender != null and memGender !='' ">MEM_GENDER=#{memGender},</if>
+		 <trim prefix="SET" suffixOverrides="," >
+      		<if test="memPassword != null and memPassword !=''">MEM_PASSWORD=#{memPassword},</if>
+      		<if test="memBirthday != null and memBirthday !=''">MEM_BIRTHDAY=TO_DATE(#{memBirthday}, 'YYYYMMDD'),</if>
+      		<if test="memNickname != null and memNickname !=''">MEM_NICKNAME=#{memNickname},</if>
       		<if test="areaId != null">AREA_ID=#{areaId},</if>
       		<if test="memContent != null">MEM_CONTENT=#{memContent},</if>
       		<if test="memPhoto != null">MEM_PHOTO=#{memPhoto},</if>
-      		<if test="memLevel != null">MEM_LEVEL=#{memLevel},</if>
-      		<!-- <if test="memStatus != null">MEM_STATUS=#{memStatus},</if> -->
       		<if test="memInt1 != null">MEM_INT1=#{memInt1},</if>
       		<if test="memInt2 != null">MEM_INT2=#{memInt2},</if>
-      		<if test="memInt3 != null">MEM_INT3=#{memInt3}</if>
+      		<if test="memInt3 != null">MEM_INT3=#{memInt3},</if>
+      		MEM_UPDATE = sysdate
       	</trim>
-      		
-  		
-		<trim prefix="WHERE" prefixOverrides="AND |OR ">
-
+  		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 		    <if test="memId != null and memId != '' ">
 		         MEM_ID = #{memId}
 		    </if>
@@ -68,8 +149,57 @@
 		        and MEM_EMAIL = #{memEmail}
 		    </if>
   		</trim>
-  		
+  		<selectKey order="AFTER" keyProperty="memberDomain" resultType="com.breaktheice.moimat.domain.MemberDomain">
+  			select 
+  			MEM_ID, MEM_EMAIL, MEM_PASSWORD, MEM_NICKNAME,TO_CHAR(MEM_BIRTHDAY, 'YYYY-MM-DD') MEM_BIRTHDAY, MEM_GENDER,
+  			AREA_ID, MEM_REGDATE, MEM_UPDATE, MEM_LASTLOGIN, MEM_CONTENT, MEM_LEVEL, MEM_STATUS, MEM_INT1, MEM_INT2, MEM_INT3, MEM_PHOTO
+  			from member
+  			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+		    <if test="memId != null and memId != '' ">
+		         MEM_ID = #{memId}
+		    </if>
+		    <if test="memEmail != null and memEmail != '' ">
+		        and MEM_EMAIL = #{memEmail}
+		    </if>
+  		</trim>
+  		</selectKey>
   	</update>
+  	
+  	<update id="updateTeamMember">
+  		UPDATE TEAM_MEMBER
+  		SET TMEM_NICKNAME = #{memNickname}, 
+  			TMEM_CONTENT = #{memContent}, 
+  			TMEM_BIRTHDAY=TO_DATE(#{memBirthday}, 'YYYY-MM-DD'),
+  			TMEM_PHOTO = #{memPhoto}
+  		WHERE MEM_ID = #{memId}
+  	</update>
+  	
+  	<update id="updateMeetMember">
+  		UPDATE MEET_MEMBER
+  		SET MMEM_NICKNAME = #{memNickname}, MMEM_PHOTO = #{memPhoto}
+  		WHERE
+  			TMEM_ID IN (SELECT TMEM_ID 
+  						FROM TEAM_MEMBER a, MEMBER b
+						WHERE a.MEM_ID = b.MEM_ID
+						AND b.MEM_ID = #{memId})
+  	
+  	</update>
+  	
+  	<select id="isTeamMaster" resultType="boolean">
+  		SELECT
+  			count(*)
+  		FROM
+  			TEAM
+  		WHERE
+  			mem_id = #{memId}
+  	</select>
+  	
+  	<delete id="dropMember">
+  		delete
+  			member
+  		where 
+  			mem_id = #{memId}
+  	</delete>
   	
   	<delete id="deleteMember" parameterType="com.breaktheice.moimat.domain.MemberDomain">
   		 DELETE 
@@ -85,13 +215,10 @@
   	
   	<delete id="updateMemStatus" parameterType="com.breaktheice.moimat.domain.MemberDomain">
   		 UPDATE	MEMBER	
-  		 
   		 SET
   		 		MEM_STATUS = #{memStatus}
-  		
   		 WHERE
-  		 		MEM_EMAIL = #{memEmail}
-  	
+  		 		MEM_ID = #{memId}
   	</delete>
 	
 </mapper>

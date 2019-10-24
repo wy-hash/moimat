@@ -158,9 +158,11 @@
                         <li>
                             <a href="/groups/${ group.teamId }/chat">채팅</a>
                         </li>
+                        <c:if test="${tmem.tmemLevel > 7}">
                         <li>
                             <a href="/groups/${ group.teamId }/settings">설정</a>
                         </li>
+                        </c:if>
                     </ul>
 
                     <!--Default Dropdown button-->
@@ -176,8 +178,10 @@
                             <li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
                             <li class="active"><a href="/groups/${ group.teamId }/posts">게시판</a></li>
                             <li><a href="/groups/${ group.teamId }/chat">채팅</a></li>
+                            <c:if test="${tmem.tmemLevel > 7}">
                             <li class="divider"></li>
                             <li><a href="/groups/${ group.teamId }/settings">설정</a></li>
+                            </c:if>
                         </ul>
                     </div>
                     <!--===================================================-->
@@ -196,7 +200,7 @@
                                     <div class="media-block">
                                         <div class="media-body">
                                             <div class="media media-userinfo">
-                                                <a class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="${ userImg }"></a>
+                                                <a class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="${ user.memPhoto }"></a>
                                                 <div class="pad-btm">
                                                     <div class="text-semibold media-heading">${ post.postTitle }</div>
                                                     <a href="#" class="btn-link text-semibold box-inline">${ post.postNickname }</a><span class="text-muted text-sm pad-lft"><i class="fa fa-clock-o"></i> ${ post.postRegdate } <i class="fa fa-eye"></i> ${ post.postHit }</span>
@@ -209,20 +213,24 @@
 
                                             <div class="media media-button">
                                                 <div class="media-right">
-                                                    <c:if test="${ loginVO.memId eq post.tmemId }">
-                                                        <a href="/groups/${ group.teamId }/posts/${ post.postId }/edit"><button class="btn btn-warning">수정</button></a>
-                                                        <a href="/groups/${ group.teamId }/posts/${ post.postId }/delete"><button class="btn btn-danger">삭제</button></a>
+                                                    <c:if test="${ loginVO.memId eq user.memId }">
+                                                        <a id="modBtn" data-action="/groups/${ group.teamId }/posts/${ post.postId }/edit"><button class="btn btn-warning">수정</button></a>
+                                                        <a id="delBtn" data-action="/groups/${ group.teamId }/posts/${ post.postId }/delete"><button class="btn btn-danger">삭제</button></a>
                                                     </c:if>
-                                                    <a href="/groups/${ group.teamId }/posts"><button class="btn btn-default">목록</button></a>
+                                                    <button id="listBtn" class="btn btn-default">목록</button>
                                                 </div>
                                             </div>
-
+											<form id="actionForm" action="/groups/${ group.teamId }/posts" method="get">
+												<input type="hidden" name="pageNum" value="${cri.pageNum}">
+												<input type="hidden" name="type" value="${cri.type}">
+												<input type="hidden" name="keyword" value="${cri.keyword}">
+											</form>
 
                                             <!-- Comments -->
                                             <div class="mar-top pad-top bord-top">
                                                 <div class="media">
                                                     <i class="demo-pli-speech-bubble-3 icon-lg "></i>
-                                                    <span class="text-bold">${ fn:length(comments) }</span>
+                                                    <span class="text-bold" id="cmtCounter">${ fn:length(comments) }</span>
                                                 </div>
 
 
@@ -236,14 +244,21 @@
 
                                                 <div id="comment-container">
                                                     <c:forEach var="item" items="${ comments }">
-                                                        <div class="media pad-btm">
+                                                        <div class="media pad-btm" data-cmtid="${ item.cmtId }">
                                                             <a class="media-left" href="#"><img class="img-circle img-xs" alt="Profile Picture" src="${ item.memPhoto }"></a>
                                                             <div class="media-body">
-                                                                <div>
+                                                                <div class="user-info">
                                                                     <a href="#" class="btn-link text-semibold media-heading box-inline">${ item.cmtNickname }</a>
-                                                                    <small class="text-muted pad-lft">${ item.cmtRegdate }</small>
+                                                                    <small class="text-muted pad-lft"><span>${ item.cmtRegdate }</span>
+                                                                        <c:if test="${ loginVO.memId eq item.memId }">
+                                                                        <a class="cmtMod"  data-cmtid="${item.cmtId }" style="cursor: pointer;"> 수정 </a>|
+                                                                        <a class="cmtDelete" data-cmtid="${item.cmtId }" style="cursor: pointer;"> 삭제</a>
+                                                                        </c:if>
+                                                                    </small>
                                                                 </div>
-                                                                    ${ item.cmtContent }
+                                                                <div class="cmt-content">
+                                                                        ${ item.cmtContent }
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </c:forEach>
@@ -281,15 +296,106 @@
     </div>
     <!-- END BOXED -->
 
-    <!-- FOOTER -->
-    <%@ include file="../../includes/footer.jsp" %>
-    <!-- END FOOTER -->
-
 </div>
 <!-- END CONTAINER -->
 
+<!-- modal for 덧글 수정 -->
+<div class="modal" id="modalMod" tabindex="-1"  style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--Modal header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title">댓글 수정</h4>
+            </div>
+
+            <form id="modalModForm" action="/groups/${ group.teamId }/photos/${ post.postId }/comment/mod" method="post">
+                <!--Modal body-->
+                <div class="modal-body">
+                    <input type="hidden" name="cmtId">
+                    <div class="media form-group">
+                        <textarea class="form-control" name="cmtContent" rows="5" placeholder="댓글 내용을 입력하세요." style="resize: none;"></textarea>
+                    </div>
+                    <p class="text-semibold text-main"> 댓글을 수정하시겠습니까?</p>
+                </div>
+
+                <!--Modal footer-->
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-default" type="button">취소</button>
+                    <button id="modalModBtn" class="btn btn-warning" type="button">확인</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- //modal for 덧글 수정 -->
+<!--Bootbox Modals [ OPTIONAL ]-->
+	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 <script>
     $(document).ready(function() {
+		
+    	var actionForm = $("#actionForm");
+    	
+        // 수정 모달창 오픈
+        $(document).on('click', '.cmtMod', function(){ //모달창 오픈 이벤트
+            const modalMod = $('#modalMod');
+            const cmtId = $(this).attr('data-cmtid');
+
+            modalMod.find('input[name=cmtId]').val(cmtId);
+            modalMod.modal('show');
+
+        });
+        // 파라미터 유지를 위한 버튼 이벤트
+        // 목록을 가기위한 이벤트 
+        $("#listBtn").on('click',function(){
+        	actionForm.submit();
+        });
+        // 작성자만 사용하는 버튼에대한 이벤트
+        $("#modBtn").on('click',function(){
+        	actionForm.attr('action',$(this).data('action'));
+        	actionForm.submit();
+        });
+        $("#delBtn").on('click',function(){
+        	bootbox.confirm("게시글을 삭제하시겠습니까.", function(result) {
+	            if (result) {
+	            	actionForm.attr('action',$(delBtn).data('action'));
+	            	actionForm.submit();
+	            }else{
+	                $.niftyNoty({
+	                    type: 'danger',
+	                    icon : 'pli-cross icon-2x',
+	                    message : '취소하였습니다.',
+	                    container : 'floating',
+	                    timer : 5000
+	                });
+	            };
+	        });
+        });
+
+        $('#modalModBtn').on('click', function(){
+            const url = $('#modalModForm').attr('action');
+            const data = $('#modalModForm').serialize();
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data : data,
+                dataType: 'json'
+            }).done(function(result){
+
+                if(result.cmtId > 0){
+                    $('#modalMod').find('textarea').val('');
+                    $('div[data-cmtid="' + result.cmtId +'"]').find('.cmt-content').text(result.cmtContent);
+                    $('div[data-cmtid="' + result.cmtId +'"]').find('small > span').text(result.cmtUpdate);
+                    $('#modalMod').modal('hide');
+
+                } else {
+                    alert('수정 실패. 잠시 후 다시 시도해주세요.');
+                    $('#modalMod').modal('hide');
+                }
+            });
+        });
+
         $('#comment-input-box').find('button').on('click', function() {
             var commentDiv = $('#comment-input-box');
             var content = commentDiv.find('textarea');
@@ -301,10 +407,10 @@
             }
 
             $.ajax({
-                url: '/groups/${ group.teamId }/posts/${ post.postId }/comment',
+                url: '/groups/${ group.teamId }/photos/${ post.postId }/comment',
                 type: 'post',
                 data: { "postId": ${ post.postId },
-                    "brdId" : 23,
+                    "brdId" : 22,
                     "cmtContent": message,
                     "tmemId" : ${ loginVO.memId },
                     "cmtNickname": "${ loginVO.memNickname }",
@@ -313,18 +419,24 @@
                 dataType: 'json',
                 success: function(result) {
                     if (Number(result.postId) > 0) {
-                        var commentData = '<div class="media pad-btm">'
+                        var commentData = '<div class="media pad-btm" data-cmtid="' + result.cmtId + '">'
                             + 	'<a class="media-left" href="#"><img class="img-circle img-xs" alt="Profile Picture" src="' + result.memPhoto + '"></a>'
                             +	'<div class="media-body">'
-                            + 		'<div>'
+                            + 		'<div class="user-info">'
                             + 			'<a href="#" class="btn-link text-semibold media-heading box-inline">' + result.cmtNickname + '</a>'
-                            + 			'<small class="text-muted pad-lft">' + result.cmtRegdate + '</small>'
+                            + 			'<small class="text-muted pad-lft"><span>' + result.cmtRegdate + '</span>'
+                            +				'<a class="cmtMod"  data-cmtid="' + result.cmtId + '" style="cursor: pointer;"> 수정 </a>|'
+                            +				'<a class="cmtDelete" data-cmtid="' + result.cmtId + '" style="cursor: pointer;"> 삭제</a>'
+                            +			'</small>'
                             + 		'</div>'
-                            +     result.cmtContent
+                            +		'<div class="cmt-content">'
+                            +     		result.cmtContent
+                            +		'</div>'
                             + 	'</div>'
                             + '</div>';
 
                         commentContainer.prepend(commentData);
+                        $('#cmtCounter').text(Number($('#cmtCounter').text()) + 1);
 
                         content.val('');
                     } else {
@@ -337,9 +449,26 @@
             });
         });
 
-        $('.media-button .btn-danger').on('click', function() {
+        $(document).on('click', '.cmtDelete', function() {
             if (confirm('삭제하시겠습니까?')) {
-                return true;
+                var delid = $(this).data('cmtid');
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/groups/${ group.teamId }/photos/${ post.postId }/comment/del',
+                    data: {cmtId: delid},
+                    dataType: 'json',
+                    success: function(result) {
+                        if (result) {
+                            $('div[data-cmtid="' + delid +'"]').remove();
+                            $('#cmtCounter').text(Number($('#cmtCounter').text()) - 1);
+                        }
+                    },
+                    fail: function() {
+                        alert('잠시후 다시 작업을 진행해주세요.');
+                    }
+                });
+
             }
             return false;
         });

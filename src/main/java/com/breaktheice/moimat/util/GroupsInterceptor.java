@@ -2,7 +2,6 @@ package com.breaktheice.moimat.util;
 
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -25,7 +24,7 @@ public class GroupsInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		
 		HttpSession session = request.getSession(false);
-
+		
 		log.info("URL 테스트 : "+request.getHeader("referer"));
 		log.info("HOST 테스트 : "+request.getHeader("host"));
 		String host = request.getHeader("host");
@@ -45,14 +44,11 @@ public class GroupsInterceptor extends HandlerInterceptorAdapter {
 			if (user != null && user.getMemLevel() != null && user.getMemLevel() >=8L) {
 				return true;
 			}else if (user != null && user.getMemId() != null) {
-				
 				List<TeamDomain> groupList = teamMapper.selectJoinedGroupList(user.getMemId());
-							
-				for (TeamDomain domain : groupList) {
-
+				for (TeamDomain domain : groupList) {		
 					if((arr[1]+"/").contains("/"+domain.getTeamId()+"/")) {// uri 주소의 그룹번호가 회원이 가입한 팀번호와 일치하다
 						return true;
-					}else if (request.getRequestURI().contains("/"+domain.getTeamId()+"/")){
+					}else if ((request.getRequestURI()+"/").contains("/"+domain.getTeamId()+"/")){
 						return true;
 					}
 				}
@@ -61,6 +57,7 @@ public class GroupsInterceptor extends HandlerInterceptorAdapter {
 		//홈만볼수있음 , 
 		//설정은 운영진까지.
 		if (arr[1] != null) {
+			request.getSession().setAttribute("msg", "모임에 가입해야 볼 수 있습니다.");
 			response.sendRedirect(arr[1]);
 		}else {
 			response.sendRedirect("/groups");

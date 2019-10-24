@@ -257,11 +257,6 @@
 	</div>
 	<!-- END CONTAINER -->
 	
-	<%-- for modal --%>
-	<c:if test="${ !empty loginVO }">
-		<%@ include file="../includes/modals.jsp" %>
-	</c:if>
-	<%-- for modal --%>
 	
 	<script type="text/javascript" src="/resources/js/teamsetting.js"></script>
 	<!--Bootbox Modals [ OPTIONAL ]-->
@@ -494,5 +489,10 @@
 
 		});
 	</script>
+	<%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 </body>
 </html>

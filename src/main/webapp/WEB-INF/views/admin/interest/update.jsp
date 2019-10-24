@@ -13,13 +13,8 @@
 
 <!--X-editable [ OPTIONAL ]-->
 <link href="/resources/plugins/x-editable/css/bootstrap-editable.css" rel="stylesheet">
-<style>
-	.mt-20 {
-		margin-top: 20px;
-	}
-</style>
 
-<title>Page Template | moim@</title>
+<title> 관심사 코드 관리 - Admin | moim@</title>
 </head>
 <!-- END HEAD -->
 
@@ -52,7 +47,7 @@
 				<!--Page Title-->
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<div id="page-title">
-					<h1 class="page-header text-overflow">관심사 관리</h1>
+					<h1 class="page-header text-overflow">관심사 코드 관리</h1>
 				</div>
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<!--End page title-->
@@ -115,9 +110,9 @@
 									</label>
 								</div>
 							</div>
-							<div class="row pull-right">
-								<button type="button" id="intSubmit" class="btn btn-success  mt-20">확인</button>
-								<button type="button" id="intCansel" class="btn btn-danger  mt-20">취소</button>
+							<div class="row pull-right mar-top">
+								<button type="button" id="intSubmit" class="btn btn-success">확인</button>
+								<button type="button" id="intCansel" class="btn btn-danger">취소</button>
 							</div>
 						</form>
 
@@ -150,11 +145,6 @@
 
 	</div>
 	<!-- END CONTAINER -->
-	 <%-- for modal --%>
-	<c:if test="${ !empty loginVO }">
-		<%@ include file="../../includes/modals.jsp" %>
-	</c:if>
-	<%-- for modal --%>
 
 	<!--Bootstrap Table Sample [ SAMPLE ]-->
 	<script src="/resources/js/demo/tables-bs-table.js"></script>
@@ -303,6 +293,11 @@
 	</script>
 
 
+	 <%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 </body>
 
 </html>

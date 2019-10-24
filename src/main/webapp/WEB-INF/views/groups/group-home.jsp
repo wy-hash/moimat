@@ -98,9 +98,11 @@
 			                <li>
 			                    <a href="/groups/${ group.teamId }/chat">채팅</a>
 			                </li>
+							<c:if test="${tmem.tmemLevel > 7}">
 			                <li>
 			                    <a href="/groups/${ group.teamId }/settings">설정</a>
 			                </li>
+			                </c:if>
 			            </ul>
 			            
                         <!--Default Dropdown button-->
@@ -116,8 +118,10 @@
 								<li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
 								<li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
                                 <li><a href="/groups/${ group.teamId }/chat">채팅</a></li>
+								<c:if test="${tmem.tmemLevel > 7}">
                                 <li class="divider"></li>
                                 <li><a href="/groups/${ group.teamId }/settings">설정</a></li>
+                                </c:if>
                             </ul>
                         </div>
                         <!--===================================================-->
@@ -126,10 +130,20 @@
 			            <div class="tab-content">
 			                <div class="content-box">
 
+								<div class="row">
+									<div class="imgbox">
+										<img class="img-responsive" src="/resources/img/bg-img/bg-img-2.jpg">
+									</div>
+									<div class="info-container">
+										<div class="text-2x text-bold pad-ver">모임명</div>
+										<div class="text pad-ver">지역 | 관심사 | 8명 참여중 | 가입하기</div>
+										<div class="group-shot-desc pad-ver">짧은소개짧은소개짧은소개짧은소개짧은소개짧은소개</div>
+										<div class="group-desc pad-ver">
+											<textbox>모임소개모임소개모임소개모임소개모임소개모임소개</textbox>
+										</div>
+									</div>
+								</div>
 
-
-
-			                    
 			                    
 			                    
 			                    
@@ -170,11 +184,20 @@
 			
 	</div>
 	<!-- END CONTAINER -->
-	
+	<!--Bootbox Modals [ OPTIONAL ]-->
+	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 	<script>
 		$(document).ready(function() {
-			
+			var msg = "<c:out value='${msg}'/>"
+			if(msg){
+				bootbox.alert(msg);
+			}
 		});
 	</script>
+	<%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 </body>
 </html>

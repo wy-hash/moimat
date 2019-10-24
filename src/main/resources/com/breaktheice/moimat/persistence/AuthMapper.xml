@@ -37,8 +37,8 @@
 			,#{memEmail}
 			,#{memPassword}
 			,#{memNickname}
-			,to_date(#{memBirthday}, 'YYMMDD')
-			,#{memGender}	
+			,to_date(#{memBirthday}, 'rrmmdd')
+			,#{memGender}
 			,#{areaId}
 			,SYSDATE
 			,SYSDATE
