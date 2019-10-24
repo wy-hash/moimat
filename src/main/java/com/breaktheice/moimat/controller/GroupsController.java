@@ -100,10 +100,11 @@ public class GroupsController {
 			model.addAttribute("msg", msg);
 			session.setAttribute("msg","");
 		}
-		
+		TeamDomain td = teamService.getGroupInfo(groupId);
 		model.addAttribute("tmem", teamMemberService.getTeamMemberId(groupId, md.getMemId()));
 		
-		model.addAttribute("group", teamService.getGroupInfo(groupId));
+		model.addAttribute("group",td);
+		model.addAttribute("teamInfo",teamService.settingTeamInfoVO(td));
 		return "groups/group-home";
 	}
 

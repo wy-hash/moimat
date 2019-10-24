@@ -3,10 +3,13 @@ package com.breaktheice.moimat.persistence;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.breaktheice.moimat.domain.AdminVO;
 import com.breaktheice.moimat.domain.AreaDomain;
 import com.breaktheice.moimat.domain.InterestDomain;
 import com.breaktheice.moimat.domain.TeamDomain;
+import com.breaktheice.moimat.domain.TeamPostDomain;
 import com.breaktheice.moimat.util.AdminCriteria;
 
 public interface TeamMapper {
@@ -59,4 +62,11 @@ public interface TeamMapper {
 	
 	// 최근 7일간 등록된 모임
 	public List<TeamDomain> recentOneWeek(AdminCriteria cri);
+	// 풀네임필요
+	public String getAreaFullName(TeamDomain teamDomain);
+	
+	public Long countTeamMember(TeamDomain teamDomain);
+	
+	public List<TeamPostDomain> getPostDomain(@Param("teamId")Long teamId,@Param("brdId")Long brdId);
+	
 }

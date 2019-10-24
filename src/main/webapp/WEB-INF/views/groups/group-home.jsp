@@ -28,6 +28,10 @@
 				display: none;
 			}
 		}
+		a{
+			cursor: pointer;
+			
+		}
 	
 	</style>
 </head>
@@ -118,7 +122,7 @@
 								<li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
 								<li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
                                 <li><a href="/groups/${ group.teamId }/chat">채팅</a></li>
-								<c:if test="${tmem.tmemLevel > 7}">
+								<c:if test="${tmem.tmemLevel > 6}">
                                 <li class="divider"></li>
                                 <li><a href="/groups/${ group.teamId }/settings">설정</a></li>
                                 </c:if>
@@ -135,21 +139,60 @@
 										<img class="img-responsive" src="/resources/img/bg-img/bg-img-2.jpg">
 									</div>
 									<div class="info-container">
-										<div class="text-2x text-bold pad-ver">모임명</div>
-										<div class="text pad-ver">지역 | 관심사 | 8명 참여중 | 가입하기</div>
-										<div class="group-shot-desc pad-ver">짧은소개짧은소개짧은소개짧은소개짧은소개짧은소개</div>
-										<div class="group-desc pad-ver">
-											<textbox>모임소개모임소개모임소개모임소개모임소개모임소개</textbox>
+										<div class="row">
+										<div class="col-lg-6 pad-top"> <label class="text-2x text-bold mar-lft">${group.teamName}</label> </div>
+										<div class="col-lg-6 text-right">
+											<c:choose>
+												<c:when test="${group.memId eq sessionScope.loginVO.memId }">
+													<div class="text pad-top mar-top"><c:out value="${teamInfo.interest}"/> | <c:out value="${teamInfo.area}"/> | <c:out value="${teamInfo.countMember}"/>명 참여중 </div>
+												</c:when>
+												<c:otherwise>
+													<div class="text pad-top mar-top mar-rgt"><c:out value="${teamInfo.interest}"/> | <c:out value="${teamInfo.area}"/> | <c:out value="${teamInfo.countMember}"/>명 참여중 | <a id="joinBtn">가입탈퇴버튼</a></div>
+												</c:otherwise>
+											</c:choose>
+										</div>
+										</div>
+										<hr>
+										
+										<div class="group-shot-desc pad-var"><textarea class="form-group form-control" style="resize: none;background-color: white; cursor: default;" disabled>${group.teamShortContent }</textarea></div>
+										<div class="text bord-btm"><label class="text-bold mar-lft" style="font-size : 18px;">모임소개</label></div>
+										
+										<div class="group-desc pad-btm">
+											<div class="textbox pad-all bord-all">${group.teamContent }</div>
+										</div>
+										<div class="text bord-btm"><label class="text-bold mar-lft" style="font-size : 18px;">최근활동</label>
+										</div>
+										<div class="group-desc pad-btm">
+										<div class="textbox pad-all bord-all">
+											<div class="row">
+											<div class="col-lg-6"><div class="text bord-btm"><label class="text-bold mar-lft" style="font-size : 14px;">최근 게시글</label></div>
+												<div class="row pad-all">
+												<div class="col-xs-9 bord-btm"><label class="text-bold">제목</label></div>
+												<div class="col-xs-3 bord-btm"><label class="text-bold">작성자</label></div>
+												
+												<c:forEach items="${teamInfo.postList }" var="postList">
+												
+												<div class="col-xs-9 bord-btm">${postList.postTitle }</div>
+												<div class="col-xs-3 bord-btm ">${postList.postNickname }</div>
+												</c:forEach>
+												
+												</div>
+											</div>
+											<div class="col-lg-6"><div class="text bord-btm"><label class="text-bold mar-lft" style="font-size : 14px;">최근 사진</label></div></div>
+											
+											
+											</div>
+										</div>
 										</div>
 									</div>
 								</div>
+			                    		
 			                    
 			                    
 			                    
 			                    
 			                    
-			                    
-			                    <button id="buttonid">버튼</button>
+			               
 			                   
 			                    
 			                    
@@ -183,16 +226,6 @@
 			
 	</div>
 	<!-- END CONTAINER -->
-	<!--Bootbox Modals [ OPTIONAL ]-->
-	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
-	<script>
-		$(document).ready(function() {
-			var msg = "<c:out value='${msg}'/>"
-			if(msg){
-				bootbox.alert(msg);
-			}
-		});
-	</script>
 	<%-- for modal --%>
 	<c:if test="${ !empty loginVO }">
 		<%@ include file="../includes/modals.jsp" %>
@@ -205,7 +238,12 @@
 		$(document).ready(function() {
 			var groupId = '<c:out value="${groupId}"/>';
 			var memberId = '<c:out value="${sessionScope.loginVO.memId}"/>';
-			teamMember.joinbutton($('#buttonid'),groupId,memberId);
+			//가입탈퇴버튼 내의 문구(alert창 포함)를 바꾸려면 teammember.js 에서 
+			teamMember.joinbutton($('#joinBtn'),groupId,memberId);
+			var msg = "<c:out value='${msg}'/>"
+				if(msg){
+					bootbox.alert(msg);
+				}
 		});
 	</script>
 </body>
