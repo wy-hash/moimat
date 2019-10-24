@@ -20,6 +20,12 @@ public interface TeamMemberService {
 	public boolean isMaster(Long teamId, Long memId);
 	
 	public boolean isAdmin(Long teamId, Long memId);
+	
+	public Long attendTeam(Long teamId, Long memId);
+	
+	public Long withdrawTeam(Long teamId, Long memId);
+	
+	public boolean isAttendTeam(Long teamId, Long memId);
 
 	TeamMemberDomain getTeamMemberId(Long groupId, Long memId);
 }

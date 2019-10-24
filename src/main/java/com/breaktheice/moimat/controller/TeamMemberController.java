@@ -7,12 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.breaktheice.moimat.domain.GroupMemberVO;
-import com.breaktheice.moimat.domain.MessageVO;
 import com.breaktheice.moimat.domain.TeamMemberDomain;
 import com.breaktheice.moimat.domain.TeamMemberListVO;
 import com.breaktheice.moimat.service.TeamMemberService;
@@ -85,5 +85,25 @@ public class TeamMemberController {
 		 return tms.updateMaster(groupMemberVO) == 1 ? new ResponseEntity<>("success",HttpStatus.OK)
 				 : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	 }
-	
+	 
+	 @GetMapping("/isAttendTeam/{teamid}/{memid}")
+	 public ResponseEntity<Boolean> isAttend(@PathVariable("teamid")Long teamId,@PathVariable("memid")Long memId){
+		 return new ResponseEntity<Boolean>(tms.isAttendTeam(teamId, memId),HttpStatus.OK);
+	 }
+	 
+	 @PostMapping("/attend")
+	 public ResponseEntity<String> attend(@RequestBody GroupMemberVO groupMemberVO){
+		 Long teamId = groupMemberVO.getTeamId();
+		 Long memId = groupMemberVO.getMemberId();
+		 return tms.attendTeam(teamId, memId) == 1 ? new ResponseEntity<>("success",HttpStatus.OK)
+				 : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	 }
+	 @DeleteMapping("/withdraw")
+	 public ResponseEntity<String> withdraw(@RequestBody GroupMemberVO groupMemberVO){
+		 Long teamId = groupMemberVO.getTeamId();
+		 Long memId = groupMemberVO.getMemberId();
+		 return tms.withdrawTeam(teamId, memId) == 1 ? new ResponseEntity<>("success",HttpStatus.OK)
+				 : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	 }
+	 
 }
