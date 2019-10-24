@@ -10,7 +10,7 @@
 
 <!--X-editable [ OPTIONAL ]-->
 <link href="/resources/plugins/x-editable/css/bootstrap-editable.css" rel="stylesheet">
-<title>Page Template | moim@</title>
+<title> 이벤트 - 인포 | moim@</title>
 
 <style>
 @media screen and (max-width: 768px) {

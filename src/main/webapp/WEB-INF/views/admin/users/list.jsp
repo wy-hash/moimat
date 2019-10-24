@@ -13,7 +13,7 @@
 <!--Bootbox Modals [ OPTIONAL ]-->
 <script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 
-<title>Page Template | moim@</title>
+<title> 회원 관리 - Admin | moim@</title>
 
 <style>
 @media screen and (max-width: 768px) {

@@ -6,7 +6,7 @@
 
 <!-- HEAD -->
 <%@ include file="../includes/head.jsp"%>
-<title>Page Template | moim@</title>
+<title> 입력된 정보가 올바르지 않습니다 - 500 | moim@</title>
 </head>
 <!-- END HEAD -->
 
