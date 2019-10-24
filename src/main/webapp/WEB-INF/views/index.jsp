@@ -423,12 +423,6 @@
 	</div>
 	<!-- END CONTAINER -->
 	
-	<%-- for modal --%>
-	<c:if test="${ !empty loginVO }">
-		<%@ include file="includes/modals.jsp" %>
-	</c:if>
-	<%-- for modal --%>
-	
 <!-- 	검색 확인창 -->
 	<div class="modal" id="searchModal" role="dialog" tabindex="-1" style="display:none;">
     <div class="modal-dialog">
@@ -465,5 +459,11 @@
 		}
 	});
 	</script>
+	
+	<%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 </body>
 </html>

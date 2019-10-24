@@ -14,6 +14,22 @@
 <script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 
 <title>Page Template | moim@</title>
+
+<style>
+@media screen and (max-width: 768px) {
+	.input-group {
+		margin-top : 15px;
+	}
+	.mar-sel {
+		margin-top : 5px;
+	}
+}
+
+@media screen and (min-width: 768px) {
+	.input-group {
+	}
+}
+</style>
 </head>
 <!-- END HEAD -->
 <body>
@@ -73,25 +89,31 @@
 										<option value="8" <c:if test="${pageMaker.cri.memLevel == 8}">selected</c:if> >부관리자</option>
 										<option value="9" <c:if test="${pageMaker.cri.memLevel == 9}">selected</c:if> >관리자</option>
 									</select>
-									<select id="memStatus" name="memStatus" class="form-control">
+									<select id="memStatus" name="memStatus" class="form-control mar-sel">
 										<option value="2" <c:if test="${pageMaker.cri.memStatus == 2}">selected</c:if>
 											<c:if test="${empty pageMaker.cri.memStatus}">selected</c:if> >::상태::
 										</option>
 										<option value="1" <c:if test="${pageMaker.cri.memStatus == 1}">selected</c:if> >일반</option>
 										<option value="0" <c:if test="${pageMaker.cri.memStatus == 0}">selected</c:if> >탈퇴</option>
 									</select>
-									<select id="type" name="type" class="form-control">
+									<select id="type" name="type" class="form-control mar-sel">
 										<option value="EN" <c:if test="${pageMaker.cri.type eq 'EN'}">selected</c:if>
 											<c:if test="${empty pageMaker.cri.type}">selected</c:if> >전체
 										</option>
 										<option value="E" <c:if test="${pageMaker.cri.type eq 'E'}">selected</c:if> >이메일</option>
 										<option value="N" <c:if test="${pageMaker.cri.type eq 'N'}">selected</c:if> >닉네임</option>
 									</select>
+									<div class="input-group">
 									<input type="text" name="keyword" class="form-control" value="${pageMaker.cri.keyword }"
 										placeholder="검색어를 입력해 주세요.">
 									<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
 									<input type="hidden" name="amount" value="${pageMaker.cri.amount }">
-									<button type="submit" class="btn btn-default">검색</button>
+										<span class="input-group-btn">
+				    						<button class="btn btn-default btn-icon" type="submit">
+						      					<i class="glyphicon glyphicon-search"></i>
+					      					</button>
+										</span>
+									</div>
 								</div>
 							</form>
 
@@ -116,7 +138,7 @@
 											<tbody>
 												<c:if test="${empty memList}">
 													<tr>
-														<td colspan="9" class="text-center"> 값이 없습니다.</td>
+														<td colspan="9" class="text-center"> 등록된 회원이 없습니다.</td>
 													</tr>
 												</c:if>
 												<c:forEach items="${memList }" var="list" varStatus="status">
@@ -128,7 +150,7 @@
 														<td>${list.memEmail }</td>
 														<td>
 														<fmt:parseDate value="${list.memBirthday}" var="birthday"  pattern="yyyy-mm-dd" scope="page"/>
-														<fmt:formatDate value="${birthday}" pattern="yyyy년 MM월 dd일"/>
+														<fmt:formatDate value="${birthday}" pattern="yyyy년 mm월 dd일"/>
 														</td>
 														<td>														
 														<c:choose>
@@ -201,12 +223,6 @@
 		<!-- END FOOTER -->
 	</div>
 	<!-- END CONTAINER -->
-	
-	 <%-- for modal --%>
-	<c:if test="${ !empty loginVO }">
-		<%@ include file="../../includes/modals.jsp" %>
-	</c:if>
-	<%-- for modal --%>
 	
 	<!-- modal for level -->	
 	<div class="modal" id="modalLevel" tabindex="-1"  style="display: none;">
@@ -369,6 +385,11 @@
 			});
 		});
 	</script>
-
+	
+	 <%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 </body>
 </html>

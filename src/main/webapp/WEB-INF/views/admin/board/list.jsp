@@ -14,6 +14,19 @@
     <link href="/resources/plugins/x-editable/css/bootstrap-editable.css" rel="stylesheet">
     
 	<title>Page Template | moim@</title>
+
+<style>
+@media screen and (max-width: 768px) {
+	.input-group {
+		margin-top : 15px;
+	}
+}
+
+@media screen and (min-width: 768px) {
+	.input-group {
+	}
+}
+</style>
 </head>
 <!-- END HEAD -->
 
@@ -46,7 +59,7 @@
                 <!--Page Title-->
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <div id="page-title">
-                    <h1 class="page-header text-overflow">게시판 관리</h1>
+                    <h1 class="page-header text-overflow">게시판 코드 관리</h1>
                 </div>
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <!--End page title-->
@@ -74,14 +87,20 @@
 										<option value="K" <c:if test="${pageMaker.cri.type eq 'K'}">selected</c:if> >코드</option>
 										<option value="N" <c:if test="${pageMaker.cri.type eq 'N'}">selected</c:if> >이름</option>
 									</select>
+									<div class="input-group">
 									<input type="text" name="keyword" class="form-control" value="${pageMaker.cri.keyword }"
 										placeholder="검색어를 입력해 주세요.">
 									<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
 									<input type="hidden" name="amount" value="${pageMaker.cri.amount }">
-									<button type="submit" class="btn btn-default">검색</button>
+										<span class="input-group-btn">
+				    						<button class="btn btn-default btn-icon" type="submit">
+						      					<i class="glyphicon glyphicon-search"></i>
+					      					</button>
+										</span>
+									</div>
 								</div>
 							</form>
-							<table class="table table-bordered">
+							<table class="table table-hover table-vcenter">
 								<thead>
 									<tr>
 										<th>No</th>
@@ -94,7 +113,7 @@
 								<tbody>
 									<c:if test="${empty list}">
 										<tr>
-											<td colspan="5" class="text-center"> 값이 없습니다.</td>
+											<td colspan="5" class="text-center"> 등록된 코드가 없습니다.</td>
 										</tr>
 									</c:if>
 									<c:forEach items="${list }" var="list" varStatus="status">
@@ -128,8 +147,7 @@
 										</c:if>
 									</ul>
 									<button id="newBoard" type="button" class="btn btn-success pull-right mar-top"><i
-											class="demo-pli-plus"></i> 게시글
-										추가</button>
+											class="demo-pli-plus"></i>게시판 추가</button>
 								</nav>
 							</div>
 						</div>
@@ -158,12 +176,6 @@
 			
 	</div>
 	<!-- END CONTAINER -->
-	
-	 <%-- for modal --%>
-	<c:if test="${ !empty loginVO }">
-		<%@ include file="../../includes/modals.jsp" %>
-	</c:if>
-	<%-- for modal --%>
   
     <!--Bootstrap Table Sample [ SAMPLE ]-->
     <script src="/resources/js/demo/tables-bs-table.js"></script>
@@ -203,5 +215,11 @@
 		});
 	</script>
 
+	
+	 <%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 </body>
 </html>
