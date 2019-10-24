@@ -62,15 +62,8 @@ public class PhotosController {
 			dto.setMemId(teamMemberService.getMember(dto.getTmemId()).getMemId());
 		}
 		model.addAttribute("comments", comments);
-
-
 		MemberDomain postingUser = authService.getMemberInfo(post.getTmemId());
 		model.addAttribute("userImg", postingUser.getMemPhoto());
-
-
-
-
-
 		return "/groups/photos/read";
 	}
 
