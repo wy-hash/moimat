@@ -2,6 +2,7 @@ package com.breaktheice.moimat.service;
 
 import java.util.List;
 
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import com.breaktheice.moimat.domain.TeamVO;
 import com.breaktheice.moimat.persistence.TeamSettingsMapper;
 
 @Service
+@Log4j
 public class TeamSettingsServiceImpl implements TeamSettingsService{
 
 	@Autowired
@@ -55,7 +57,14 @@ public class TeamSettingsServiceImpl implements TeamSettingsService{
 	@Override
 	public int updateTeamInfo(TeamVO teamVO) {
 		// TODO Auto-generated method stub
-		return tsm.updateTeamInfo(teamVO);
+		int result = tsm.updateTeamInfo(teamVO);
+		log.info(result);
+		return result;
+	}
+
+	@Override
+	public TeamVO getTeamInfo(Long teamId) {
+		return tsm.getTeamInfo(teamId);
 	}
 	
 	
