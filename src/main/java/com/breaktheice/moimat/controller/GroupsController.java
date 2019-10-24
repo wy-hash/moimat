@@ -124,7 +124,9 @@ public class GroupsController {
 			session.setAttribute("msg","");
 		}
 		TeamDomain td = teamService.getGroupInfo(groupId);
-		model.addAttribute("tmem", teamMemberService.getTeamMemberId(groupId, md.getMemId()));
+		if (md != null && md.getMemId() >0) {
+			model.addAttribute("tmem", teamMemberService.getTeamMemberId(groupId, md.getMemId()));
+		}
 		
 		model.addAttribute("group",td);
 		model.addAttribute("teamInfo",teamService.settingTeamInfoVO(td));
@@ -135,7 +137,9 @@ public class GroupsController {
 	public String member(@PathVariable Long groupId, Model model, HttpSession session) {
 		//모임 탭 분기를 위한 tmem 정보 
 		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
-		model.addAttribute("tmem", teamMemberService.getTeamMemberId(groupId, md.getMemId()));
+		if (md != null && md.getMemId() >0) {
+			model.addAttribute("tmem", teamMemberService.getTeamMemberId(groupId, md.getMemId()));
+		}
 		
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
 		return "groups/member";
@@ -145,7 +149,9 @@ public class GroupsController {
 	public String schedule(@PathVariable Long groupId, Model model, HttpSession session) {
 		//모임 탭 분기를 위한 tmem 정보 
 		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
-		model.addAttribute("tmem", teamMemberService.getTeamMemberId(groupId, md.getMemId()));
+		if (md != null && md.getMemId() >0) {
+			model.addAttribute("tmem", teamMemberService.getTeamMemberId(groupId, md.getMemId()));
+		}
 		
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
 		return "groups/schedule";
@@ -156,7 +162,9 @@ public class GroupsController {
 
 		//모임 탭 분기를 위한 tmem 정보 
 		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
-		model.addAttribute("tmem", teamMemberService.getTeamMemberId(groupId, md.getMemId()));
+		if (md != null && md.getMemId() >0) {
+			model.addAttribute("tmem", teamMemberService.getTeamMemberId(groupId, md.getMemId()));
+		}
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
 		//사진게시판 ID 22
 		cri.setBrdId(22L);
@@ -178,7 +186,9 @@ public class GroupsController {
 	public String posts(@PathVariable Long groupId, Model model,AdminCriteria cri, HttpSession session) {
 		//모임 탭 분기를 위한 tmem 정보 
 		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
-		model.addAttribute("tmem", teamMemberService.getTeamMemberId(groupId, md.getMemId()));
+		if (md != null && md.getMemId() >0) {
+			model.addAttribute("tmem", teamMemberService.getTeamMemberId(groupId, md.getMemId()));
+		}
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
 		//일반게시판 ID 23
 		cri.setBrdId(23L);
@@ -197,7 +207,9 @@ public class GroupsController {
 	public String chat(@PathVariable Long groupId, Model model, HttpSession session) {
 		//모임 탭 분기를 위한 tmem 정보 
 		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
-		model.addAttribute("tmem", teamMemberService.getTeamMemberId(groupId, md.getMemId()));
+		if (md != null && md.getMemId() >0) {
+			model.addAttribute("tmem", teamMemberService.getTeamMemberId(groupId, md.getMemId()));
+		}
 		
 		ChatRoom room = chatRoomManager.getChatRoom(groupId);
 
@@ -217,7 +229,9 @@ public class GroupsController {
 	public String settings(@PathVariable Long groupId, Model model, HttpSession session) {
 		//모임 탭 분기를 위한 tmem 정보 
 		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
-		model.addAttribute("tmem", teamMemberService.getTeamMemberId(groupId, md.getMemId()));
+		if (md != null && md.getMemId() >0) {
+			model.addAttribute("tmem", teamMemberService.getTeamMemberId(groupId, md.getMemId()));
+		}
 		
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
 		return "groups/settings";
