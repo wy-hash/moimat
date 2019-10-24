@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import com.breaktheice.moimat.service.*;
 import com.breaktheice.moimat.chat.ChatRoom;
 import com.breaktheice.moimat.chat.ChatRoomManager;
 import com.breaktheice.moimat.domain.*;
@@ -19,14 +20,16 @@ import com.breaktheice.moimat.util.AdminPageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.breaktheice.moimat.chat.ChatRoom;
+import com.breaktheice.moimat.chat.ChatRoomManager;
+import com.breaktheice.moimat.domain.MemberDomain;
+import com.breaktheice.moimat.domain.TeamDomain;
+import com.breaktheice.moimat.domain.TeamPostDomain;
+import com.breaktheice.moimat.util.AdminCriteria;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
@@ -55,6 +58,9 @@ public class GroupsController {
 
 	@Autowired
 	private TeamPostService teamPostService;
+
+	@Autowired
+	private FileUploadService fileUploadService;
 	
 	@GetMapping(value= {"","/"})
 	public String index(@ModelAttribute("loginVO") MemberDomain member, Model model) {
@@ -75,17 +81,34 @@ public class GroupsController {
 	}
 	// 모임 등록 쿼리실행
 	@PostMapping("new")
-	public String addQuery(Model model, TeamDomain domain, AdminCriteria cri, RedirectAttributes rttr, HttpSession session) {
+	@ResponseBody
+	public String addQuery(Model model, TeamDomain domain, AdminCriteria cri, RedirectAttributes rttr, HttpSession session,
+						   @RequestParam(value = "file", required = false) MultipartFile file) {
 		
 		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
 		
 		log.info(""+domain);
+
+
+		String uploadPath = "";
+
+		if (file.getSize() <= 0) {
+			String randomImage = String.valueOf((int)(Math.random() * 10) + 1) + ".png";
+			uploadPath = "resources/img/profile-photos/" + randomImage;
+
+		} else {
+			uploadPath = fileUploadService.saveFile("GROUP", file);
+			uploadPath = uploadPath.replace("\\", "/");
+		}
+
+		domain.setTeamPhoto(uploadPath);
+
+
 		
 		// 모임 등록 성공시 1이상 반환
 		Long result = teamService.add(domain, md);
-		
-		
-		return "redirect:/groups";
+
+		return "{\"result\": true, \"groupId\": " + result + "}";
 	}
 	
 
