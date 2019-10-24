@@ -1,8 +1,9 @@
 package com.breaktheice.moimat.service;
 
-import com.breaktheice.moimat.domain.TeamPostDomain;
-
 import java.util.List;
+
+import com.breaktheice.moimat.domain.TeamPostDomain;
+import com.breaktheice.moimat.util.AdminCriteria;
 
 public interface TeamPostService {
 
@@ -16,5 +17,7 @@ public interface TeamPostService {
 
     void updateViewCount(Long postId);
 
-    List<TeamPostDomain> getAllPosts(Long postId, Long brdId);
+    List<TeamPostDomain> getAllPosts(Long teamId, AdminCriteria cri);
+    
+    public Long getTotalCount(Long teamId, AdminCriteria cri);
 }
