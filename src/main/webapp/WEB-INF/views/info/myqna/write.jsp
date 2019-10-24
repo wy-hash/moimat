@@ -17,7 +17,7 @@
 <!-- 썸머노트 css-->
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
 
-<title>Page Template | moim@</title>
+<title> 1대1 질문 - 인포| moim@</title>
 </head>
 <!-- END HEAD -->
 

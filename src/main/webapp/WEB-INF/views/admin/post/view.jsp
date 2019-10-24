@@ -13,7 +13,7 @@
     <!--X-editable [ OPTIONAL ]-->
     <link href="/resources/plugins/x-editable/css/bootstrap-editable.css" rel="stylesheet">
 
-	<title>Page Template | moim@</title>
+	<title> 게시글 통합 관리 - Admin | moim@</title>
 </head>
 <!-- END HEAD -->
 

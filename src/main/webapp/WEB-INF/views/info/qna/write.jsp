@@ -17,7 +17,7 @@
 <!-- 썸머노트 css-->
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
 
-<title>Page Template | moim@</title>
+<title> QNA - 인포| moim@</title>
 </head>
 <!-- END HEAD -->
 

@@ -6,7 +6,7 @@
 
 <!-- HEAD -->
 <%@ include file="../includes/head.jsp"%>
-<title>Page Template | moim@</title>
+<title> 찾는 페이지가 없습니다 - 404 | moim@</title>
 </head>
 <!-- END HEAD -->
 

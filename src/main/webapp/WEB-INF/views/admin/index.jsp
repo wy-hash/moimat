@@ -18,7 +18,7 @@
 <!-- Material Design Bootstrap Chart-->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.10/css/mdb.min.css" rel="stylesheet">
 
-<title>Page Template | moim@</title>
+<title> Dashboard - Admin | moim@</title>
 </head>
 <!-- END HEAD -->
 

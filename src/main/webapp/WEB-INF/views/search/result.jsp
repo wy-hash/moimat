@@ -6,7 +6,7 @@
 
 <!-- HEAD -->
 <%@ include file="../includes/head.jsp" %>
-	<title>Page Template | moim@</title>
+	<title> 모임 찾기  | moim@</title>
 <style>
 
 .row {

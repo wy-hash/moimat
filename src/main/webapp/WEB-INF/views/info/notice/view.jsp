@@ -13,7 +13,7 @@
     <!--X-editable [ OPTIONAL ]-->
     <link href="/resources/plugins/x-editable/css/bootstrap-editable.css" rel="stylesheet">
 
-	<title>Page Template | moim@</title>
+	<title> 공지사항 - 인포 | moim@</title>
 </head>
 <!-- END HEAD -->
 
