@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.breaktheice.moimat.domain.MessageVO;
+import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.domain.TeamMemberDomain;
 import com.breaktheice.moimat.util.AdminCriteria;
 
@@ -33,6 +33,10 @@ public interface TeamMemberMapper {
 	public Boolean isAdmin(@Param("teamId")Long teamId, @Param("memId")Long memId);
 	
 	public Long getTmemId(@Param("memId")Long memId,@Param("teamId")Long teamId);
+	//모임 가입 
+	public Long attendTeam(@Param("teamId")Long teamId,@Param("memId")Long memId);
+	//모임 탈퇴
+	public Long withdrawTeam(@Param("teamId")Long teamId,@Param("memId")Long memId);
 	
 	TeamMemberDomain selectMemberByTeamIdAndMemId(@Param("teamId") Long teamId, @Param("memId") Long memId);
 }
