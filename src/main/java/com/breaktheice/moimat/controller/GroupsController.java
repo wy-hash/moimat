@@ -6,9 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import com.breaktheice.moimat.chat.ChatRoom;
 import com.breaktheice.moimat.chat.ChatRoomManager;
-import com.breaktheice.moimat.domain.MemberDomain;
-import com.breaktheice.moimat.domain.TeamDomain;
-import com.breaktheice.moimat.domain.TeamPostDomain;
+import com.breaktheice.moimat.domain.*;
 import com.breaktheice.moimat.service.TeamChatService;
 import com.breaktheice.moimat.service.TeamCommentsService;
 import com.breaktheice.moimat.service.TeamMemberService;
@@ -180,8 +178,13 @@ public class GroupsController {
 		ChatRoom room = chatRoomManager.getChatRoom(groupId);
 
 		model.addAttribute("chatRoom", room);
+		TeamMemberDomain d = teamMemberService.getTeamMemberId(groupId, md.getMemId());
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
 		model.addAttribute("messages", teamChatService.getMessages(groupId));
+
+		model.addAttribute("tmemId", d.getTmemId());
+
+
 
 		return "groups/chat";
 	}
