@@ -273,11 +273,7 @@ i.form-control-feedback {
 
 	</div>
 	<!-- END CONTAINER -->
-	<%-- for modal --%>
-	<c:if test="${ !empty loginVO }">
-		<%@ include file="../includes/modals.jsp"%>
-	</c:if>
-	<%-- for modal --%>
+
 	<!--Bootbox Modals [ OPTIONAL ]-->
 	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 	<script>
@@ -325,7 +321,6 @@ i.form-control-feedback {
 			                    label: "탈퇴하기",
 			                    className: "btn-danger",
 			                    callback: function() {
-			                        var name = $('#name').val();
 			                        var modalForm = $("#chkModal");
 			                        modalForm.attr("action","/mypage/delete");
 			                        modalForm.attr("method","post");
@@ -584,5 +579,10 @@ i.form-control-feedback {
 
 		});
 	</script>
+		<%-- for modal --%>
+		<c:if test="${ !empty loginVO }">
+			<%@ include file="../includes/modals.jsp"%>
+		</c:if>
+		<%-- for modal --%>
 </body>
 </html>

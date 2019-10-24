@@ -103,9 +103,11 @@
 			                <li class="active">
 			                    <a href="/groups/${ group.teamId }/chat">채팅</a>
 			                </li>
+							<c:if test="${tmem.tmemLevel > 7}">
 			                <li>
 			                    <a href="/groups/${ group.teamId }/settings">설정</a>
 			                </li>
+			                </c:if>
 			            </ul>
 			            
                         <!--Default Dropdown button-->
@@ -121,8 +123,10 @@
                                 <li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
                                 <li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
                                 <li class="active"><a href="/groups/${ group.teamId }/chat">채팅</a></li>
+								<c:if test="${tmem.tmemLevel > 7}">
                                 <li class="divider"></li>
                                 <li><a href="/groups/${ group.teamId }/settings">설정</a></li>
+                                </c:if>
                             </ul>
                         </div>
                         <!--===================================================-->
@@ -141,7 +145,7 @@
 														<c:set var="mediaWay" value="media-left"/>
 														<c:set var="speechWay" value=""/>
 
-														<c:if test="${ list.senderId eq loginVO.memId }">
+														<c:if test="${ list.senderId eq tmemId }">
 															<c:set var="mediaWay" value="media-right"/>
 															<c:set var="speechWay" value="speech-right"/>
 														</c:if>
@@ -227,7 +231,7 @@
 
 			var sock = new SockJS('/groupchat');
 			sock.onopen = function() {
-				sock.send(JSON.stringify({messageType: 'ENTER', groupId: ${ group.teamId }, sender: '${ loginVO.memNickname }', senderId: ${ loginVO.memId }}));
+				sock.send(JSON.stringify({messageType: 'ENTER', groupId: ${ group.teamId }, sender: '${ loginVO.memNickname }', senderId: ${ tmemId }}));
 				$('.content-box .nano-content').scrollTop($('.content-box .nano-content')[0].scrollHeight);
 				initDiffY = $('.content-box .nano-content')[0].scrollHeight - $('.content-box .nano-content').scrollTop();
 			};
@@ -269,7 +273,7 @@
 			};
 
 			window.onbeforeunload = function() {
-				sock.send(JSON.stringify({messageType: 'LEAVE', groupId: ${ group.teamId }, sender: '${ loginVO.memNickname }', senderId: ${ loginVO.memId }}));
+				sock.send(JSON.stringify({messageType: 'LEAVE', groupId: ${ group.teamId }, sender: '${ loginVO.memNickname }', senderId: ${ tmemId }}));
 				sock.close();
 			};
 
@@ -292,11 +296,16 @@
 				if (thisMessage == '' || thisMessage == null || byteLength >= 400) {
 					return false;
 				}
-				sock.send(JSON.stringify({messageType:'ON', groupId: ${ group.teamId }, message: thisMessage, sender: '${ loginVO.memNickname }', sendTime: moment().format('YYYY-MM-DD HH:mm:ss'), profilePhoto: '${ loginVO.memPhoto }', senderId: ${ loginVO.memId }}));
+				sock.send(JSON.stringify({messageType:'ON', groupId: ${ group.teamId }, message: thisMessage, sender: '${ loginVO.memNickname }', sendTime: moment().format('YYYY-MM-DD HH:mm:ss'), profilePhoto: '${ loginVO.memPhoto }', senderId: ${ tmemId }}));
 				message.val('');
 			}
 		});
 
 	</script>
+	<%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 </body>
 </html>

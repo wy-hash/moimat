@@ -73,7 +73,7 @@
 				
                 <!-- 게시글 이름-->
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="postTitle"><strong>게시글 제목</strong></label>
+                    <label class="col-md-2 control-label" for="postTitle"><strong>이벤트 제목</strong></label>
                     <div class="col-md-10">
                         <p class="form-control-static">${view.postTitle}</p>
                     </div>
@@ -81,9 +81,8 @@
 
                 <!--게시글 내용-->
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="postContent"><strong>게시글 내용</strong></label>
+                    <label class="col-md-2 control-label" for="postContent"><strong>이벤트 내용</strong></label>
                     <div class="col-md-10">
-
                         	${view.postContent}
                     </div>
                 </div>
@@ -119,11 +118,6 @@
 			
 	</div>
 	<!-- END CONTAINER -->
-	 <%-- for modal --%>
-	<c:if test="${ !empty loginVO }">
-		<%@ include file="../../includes/modals.jsp" %>
-	</c:if>
-	<%-- for modal --%>
   
     <!--Bootstrap Table Sample [ SAMPLE ]-->
     <script src="/resources/js/demo/tables-bs-table.js"></script>
@@ -156,6 +150,11 @@
 			}
 		}
 	</script>
+	 <%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 
 </body>
 </html>

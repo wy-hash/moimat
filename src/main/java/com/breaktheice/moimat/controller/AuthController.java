@@ -153,7 +153,7 @@ public class AuthController {
 		
 		if (file.getSize() <= 0) {
 			String randomImage = String.valueOf((int)(Math.random() * 10) + 1) + ".png";
-			uploadPath = "resources/img/profile-photos/" + randomImage;
+			uploadPath = "/resources/img/profile-photos/" + randomImage;
 
 		} else {
 			uploadPath = fileUploadService.saveFile("USER", file);
@@ -168,4 +168,18 @@ public class AuthController {
 
 		return "true";
 	}
+	
+	@PostMapping("/findPassword")
+	public String findPassword(String email,RedirectAttributes rttr,Model model) {
+		
+		if(!authService.findPassword(email)) {
+			rttr.addFlashAttribute("msg", "이메일이 유효하지 않습니다. 다시 시도해 주세요");
+			return "redirect:/auth/login";
+		};
+		model.addAttribute("email",email);
+		return "/auth/alert";
+	}
+	
+	
+	
 }

@@ -2,6 +2,7 @@ package com.breaktheice.moimat.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,6 +17,7 @@ import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.persistence.AreaMapper;
 import com.breaktheice.moimat.persistence.AuthMapper;
 import com.breaktheice.moimat.persistence.InterestMapper;
+import com.breaktheice.moimat.persistence.UserMapper;
 import com.breaktheice.moimat.util.SHA256;
 
 import lombok.AllArgsConstructor;
@@ -37,6 +39,8 @@ public class AuthServiceImpl implements AuthService {
 	
 	@Autowired
 	MailSenderService mailService;
+	UserMapper userMapper;
+
 
 	@Autowired
 	SHA256 sha256;
@@ -254,5 +258,33 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	public MemberDomain getMemberInfo(Long memId) {
 		return mapper.selectMember(memId);
+	}
+
+	@Override
+	public boolean findPassword(String email) {
+		// TODO Auto-generated method stub
+		log.info("userEmail" + email);
+		String result = mapper.checkMemberEmail(email);
+		
+		// 디비에 메일 없으면
+		if (result == null || result.equals("")) {
+			log.info("잘못된 이메일 입력됨");
+			return false;
+		}
+		//임시 비밀번호 생성
+		String uuid = UUID.randomUUID().toString().replaceAll("-", ""); // -를 제거해 주었다.
+        String tempPass = uuid.substring(0, 10); //uuid를 앞에서부터 10자리 잘라줌.
+        //저장될 password
+        MemberDomain md = new MemberDomain();
+        String inputPassword = sha256.encrypt(tempPass);
+        md.setMemEmail(email);
+        md.setMemPassword(inputPassword);
+        //임시비밀번호를 DB에 
+        userMapper.updateMember(md);
+        //이메일 발송
+        log.info("임시비밀번호" + tempPass);
+        
+        
+        return true;
 	}
 }

@@ -50,7 +50,7 @@
 				<!--Page Title-->
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<div id="page-title">
-					<h1 class="page-header text-overflow">게시판 관리</h1>
+					<h1 class="page-header text-overflow">게시판 코드 관리</h1>
 				</div>
 				<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 				<!--End page title-->
@@ -122,8 +122,8 @@
 							</div>
 							<div class="row pull-right">
 								<button type="button" id="brdSubmit"
-									class="btn btn-success  mt-20">확인</button>
-								<button type="button" id="brdCansel" class="btn btn-danger  mt-20">취소</button>
+									class="btn btn-success mar-top">확인</button>
+								<button type="button" id="brdCansel" class="btn btn-danger mar-top">취소</button>
 							</div>
 						</form>
 						<!--===================================================-->
@@ -155,11 +155,6 @@
 
 	</div>
 	<!-- END CONTAINER -->
-	 <%-- for modal --%>
-	<c:if test="${ !empty loginVO }">
-		<%@ include file="../../includes/modals.jsp" %>
-	</c:if>
-	<%-- for modal --%>
 
 	<!--Bootstrap Table Sample [ SAMPLE ]-->
 	<script src="/resources/js/demo/tables-bs-table.js"></script>
@@ -298,5 +293,10 @@
 		}
 	</script>
 
+	 <%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 </body>
 </html>
