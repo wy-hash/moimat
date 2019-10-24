@@ -321,7 +321,6 @@ i.form-control-feedback {
 			                    label: "탈퇴하기",
 			                    className: "btn-danger",
 			                    callback: function() {
-			                        var name = $('#name').val();
 			                        var modalForm = $("#chkModal");
 			                        modalForm.attr("action","/mypage/delete");
 			                        modalForm.attr("method","post");
