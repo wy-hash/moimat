@@ -5,14 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.breaktheice.moimat.domain.MemberDomain;
@@ -64,7 +57,9 @@ public class PhotosController {
 	@GetMapping("/{postId}")
 	public String readPost(@PathVariable("groupId") Long groupId,
 						   @PathVariable("postId") Long postId,
-						   Model model,@ModelAttribute("cri")AdminCriteria cri) {
+						   Model model,
+						   @ModelAttribute("cri")AdminCriteria cri,
+						   @SessionAttribute("loginVO") MemberDomain loginVO) {
 		teamPostService.updateViewCount(postId);
 
 		TeamPostDomain post = teamPostService.getPost(postId, 22L);
@@ -84,23 +79,28 @@ public class PhotosController {
 		MemberDomain postingUser = authService.getMemberInfo(teamMemberService.getMember(post.getTmemId()).getMemId());
 		model.addAttribute("user", postingUser);
 
+		TeamMemberDomain tmem = teamMemberService.getTeamMemberId(groupId, loginVO.getMemId());
+		log.info(tmem.getTmemId());
+		model.addAttribute("teamMemberInfo", tmem.getTmemId());
+
+
+
 		return "/groups/photos/read";
 	}
 
-	@PostMapping(value = "/{postId2}/comment", consumes = "application/x-www-form-urlencoded;charset=UTF-8", produces = "application/json; charset=utf-8")
+	@PostMapping(value = "/{postId}/comment", consumes = "application/x-www-form-urlencoded;charset=UTF-8", produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public String writeComment(@PathVariable("postId2") Long postId2, TeamCommentsDomain comment) {
+	public String writeComment(@PathVariable("postId") Long postId, TeamCommentsDomain comment) {
 
-		Long cmtId = teamCommentsService.writeComment(comment);
-
-		if (cmtId != 0L) {
-			TeamCommentsDTO result = teamCommentsService.getCommentById(cmtId);
-			log.info(result);
-
-			return new Gson().toJson(result);
+		Long cmtId = 0L;
+		if (teamCommentsService.writeComment(comment) == 1) {
+			cmtId = comment.getCmtId();
 		}
 
-		return "{\"cmtId\": 0}";
+		TeamCommentsDTO result = teamCommentsService.getCommentById(cmtId);
+		log.info(result);
+
+		return new Gson().toJson(result);
 	}
 
 	@PostMapping({"/new"})

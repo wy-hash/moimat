@@ -39,4 +39,6 @@ public interface TeamMemberMapper {
 	public Long withdrawTeam(@Param("teamId")Long teamId,@Param("memId")Long memId);
 	
 	TeamMemberDomain selectMemberByTeamIdAndMemId(@Param("teamId") Long teamId, @Param("memId") Long memId);
+
+	TeamMemberDomain selectTeamMemberDomainByTmemId(Long tmemId);
 }

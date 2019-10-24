@@ -26,11 +26,7 @@ public class TeamCommentsServiceImpl implements TeamCommentsService {
 
     @Override
     public Long writeComment(TeamCommentsDomain comment) {
-        if (mapper.insertComment(comment) == 1) {
-            return comment.getCmtId();
-        }
-
-        return 0L;
+        return mapper.insertComment(comment);
     }
 
     @Override

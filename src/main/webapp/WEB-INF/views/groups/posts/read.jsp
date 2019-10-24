@@ -412,13 +412,13 @@
                 data: { "postId": ${ post.postId },
                     "brdId" : 22,
                     "cmtContent": message,
-                    "tmemId" : ${ loginVO.memId },
+                    "tmemId" : ${ tmemId },
                     "cmtNickname": "${ loginVO.memNickname }",
                     "cmtEmail": "${ loginVO.memEmail }"
                 },
                 dataType: 'json',
                 success: function(result) {
-                    if (Number(result.postId) > 0) {
+                    if (Number(result.postId) != null) {
                         var commentData = '<div class="media pad-btm" data-cmtid="' + result.cmtId + '">'
                             + 	'<a class="media-left" href="#"><img class="img-circle img-xs" alt="Profile Picture" src="' + result.memPhoto + '"></a>'
                             +	'<div class="media-body">'

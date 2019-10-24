@@ -28,4 +28,8 @@ public interface TeamMemberService {
 	public boolean isAttendTeam(Long teamId, Long memId);
 
 	TeamMemberDomain getTeamMemberId(Long groupId, Long memId);
+
+	Long getTmemId(Long groupId, Long memId);
+
+	public TeamMemberDomain getTeamMemberDomainByTmemId(Long tmemId);
 }

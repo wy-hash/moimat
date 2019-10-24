@@ -3,10 +3,10 @@
 <mapper namespace="com.breaktheice.moimat.persistence.TeamCommentsMapper">
 
 	<select id="selectAllComments" resultType="com.breaktheice.moimat.domain.TeamCommentsDTO">
-		select cmt.CMT_ID, cmt.POST_ID, cmt.BRD_ID, cmt.CMT_CONTENT, cmt.TMEM_ID, cmt.CMT_NICKNAME, cmt.CMT_NICKNAME, cmt.CMT_EMAIL, cmt.CMT_REGDATE, cmt.CMT_UPDATE, mem.MEM_PHOTO
+		select cmt.CMT_ID, cmt.POST_ID, cmt.BRD_ID, cmt.CMT_CONTENT, cmt.TMEM_ID, cmt.CMT_NICKNAME, cmt.CMT_NICKNAME, cmt.CMT_EMAIL, cmt.CMT_REGDATE, cmt.CMT_UPDATE, mem.TMEM_PHOTO
 		from TEAM_COMMENTS cmt
-        join MEMBER mem
-        on cmt.TMEM_ID = mem.MEM_ID
+        join TEAM_MEMBER mem
+        on cmt.TMEM_ID = mem.TMEM_ID
 		where cmt.post_id = #{ postId }
 		order by cmt.CMT_ID desc
 	</select>
@@ -20,10 +20,10 @@
 	</insert>
 
 	<select id="selectCommentById" resultType="com.breaktheice.moimat.domain.TeamCommentsDTO">
-		select cmt.CMT_ID, cmt.POST_ID, cmt.BRD_ID, cmt.CMT_CONTENT, cmt.TMEM_ID, cmt.CMT_NICKNAME, cmt.CMT_NICKNAME, cmt.CMT_EMAIL, cmt.CMT_REGDATE, cmt.CMT_UPDATE, mem.MEM_PHOTO
+		select cmt.CMT_ID, cmt.POST_ID, cmt.BRD_ID, cmt.CMT_CONTENT, cmt.TMEM_ID, cmt.CMT_NICKNAME, cmt.CMT_NICKNAME, cmt.CMT_EMAIL, cmt.CMT_REGDATE, cmt.CMT_UPDATE, mem.TMEM_PHOTO
 		from TEAM_COMMENTS cmt
-        join MEMBER mem
-        on cmt.TMEM_ID = mem.MEM_ID
+        join TEAM_MEMBER mem
+        on cmt.TMEM_ID = mem.TMEM_ID
 		where cmt.cmt_id = #{ cmtId }
 	</select>
 

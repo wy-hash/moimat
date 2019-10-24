@@ -2,11 +2,11 @@ package com.breaktheice.moimat.domain;
 
 import java.util.Date;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 public class TeamMemberDomain {
 	private Long tmemId;//teamMemberId
 	private Long teamId;//teamId;

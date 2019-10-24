@@ -1,17 +1,12 @@
 package com.breaktheice.moimat.controller;
 
+import java.lang.reflect.Member;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.breaktheice.moimat.domain.MemberDomain;
@@ -52,14 +47,16 @@ public class TeamPostController {
     @GetMapping("/{postId}")
     public String readPost(@PathVariable("groupId") Long groupId,
                            @PathVariable("postId") Long postId,
-                           Model model,@ModelAttribute("cri")AdminCriteria cri) {
+                           Model model, @ModelAttribute("cri")AdminCriteria cri,
+                           @SessionAttribute("loginVO") MemberDomain loginVO) {
+
+        model.addAttribute("group", teamService.getGroupInfo(groupId));
 
         teamPostService.updateViewCount(postId);
 
         TeamPostDomain post = teamPostService.getPost(postId, 23L);
-
-        model.addAttribute("group", teamService.getGroupInfo(groupId));
         model.addAttribute("post", post);
+
         List<TeamCommentsDTO> comments = teamCommentsService.getAllComments(postId);
 
         for (TeamCommentsDTO dto: comments) {
@@ -70,6 +67,10 @@ public class TeamPostController {
         MemberDomain postingUser = authService.getMemberInfo(teamMemberService.getMember(post.getTmemId()).getMemId());
         model.addAttribute("user", postingUser);
 
+        TeamMemberDomain member = teamMemberService.getTeamMemberId(groupId, loginVO.getMemId());
+        log.info("member: " + member);
+        model.addAttribute("tmemId", member.getTmemId());
+
         return "/groups/posts/read";
     }
 
@@ -78,10 +79,12 @@ public class TeamPostController {
     public String writeComment(@PathVariable("postId") Long postId2, TeamCommentsDomain comment) {
 
         Long cmtId = teamCommentsService.writeComment(comment);
+        log.info("cmtId" + cmtId);
 
         if (cmtId != 0L) {
             TeamCommentsDTO result = teamCommentsService.getCommentById(cmtId);
             log.info(result);
+            log.info("cmtResult: " + result);
 
             return new Gson().toJson(result);
         }

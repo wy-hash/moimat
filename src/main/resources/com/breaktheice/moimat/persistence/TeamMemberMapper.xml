@@ -170,5 +170,9 @@
 			AND
 			MEM_ID NOT IN (SELECT MEM_ID FROM TEAM WHERE TEAM_ID = #{teamId} AND MEM_ID = #{memId})
 	</delete>
+
+	<select id="selectTeamMemberDomainByTmemId" resultType="com.breaktheice.moimat.domain.TeamMemberDomain">
+		select * from TEAM_MEMBER where tmem_id = ${ tmemId }
+	</select>
 	
 </mapper>

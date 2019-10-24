@@ -415,7 +415,7 @@
 					data: { "postId": ${ post.postId },
 							"brdId" : 22,
 							"cmtContent": message,
-							"tmemId" : ${ loginVO.memId },
+							"tmemId" : ${ teamMemberInfo.tmemId },
 							"cmtNickname": "${ loginVO.memNickname }",
 							"cmtEmail": "${ loginVO.memEmail }"
 					},

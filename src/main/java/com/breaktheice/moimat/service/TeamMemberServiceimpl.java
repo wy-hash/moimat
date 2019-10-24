@@ -115,6 +115,16 @@ public class TeamMemberServiceimpl implements TeamMemberService {
 		}
 		return false;
 	}
+
+	@Override
+	public Long getTmemId(Long memId, Long teamId) {
+		return tmm.getTmemId(memId, teamId);
+	}
+
+	@Override
+	public TeamMemberDomain getTeamMemberDomainByTmemId(Long tmemId) {
+		return tmm.selectTeamMemberDomainByTmemId(tmemId);
+	};
 	
 	
 }
