@@ -153,7 +153,7 @@ public class AuthController {
 		
 		if (file.getSize() <= 0) {
 			String randomImage = String.valueOf((int)(Math.random() * 10) + 1) + ".png";
-			uploadPath = "resources/img/profile-photos/" + randomImage;
+			uploadPath = "/resources/img/profile-photos/" + randomImage;
 
 		} else {
 			uploadPath = fileUploadService.saveFile("USER", file);
