@@ -139,6 +139,10 @@
 		select mem_id from team_member 
 		where tmem_id = #{tmemId}
 	</sql>
+	<select id="getTmemId" resultType="Long">
+		select tmem_id from team_member
+		where mem_id = #{memId} and team_id=#{teamId}
+	</select>
 
 	<select id="selectMemberByTeamIdAndMemId" resultType="com.breaktheice.moimat.domain.TeamMemberDomain">
 		select * from team_member where TEAM_ID = #{ teamId } and MEM_ID = #{ memId }

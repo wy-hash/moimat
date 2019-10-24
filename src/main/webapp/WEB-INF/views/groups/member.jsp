@@ -171,7 +171,6 @@
 																<option value="member">멤버보기</option>
 																<option value="manager">운영진보기</option>
 																<option value="waiting">가입대기인원</option>
-																<option value="block">차단멤버보기</option>
 															</select>
 														</div>
 													</div>
@@ -199,10 +198,8 @@
 												<div id="adminbutton" class="mar-top">
 													<p>
 														선택한 회원을
-														<button type="button" id="block-confirm"
-															class="btn btn-default btn-hover-warning">차단하기</button>
 														<button type="button" id="delete-confirm"
-															class="btn btn-default btn-hover-danger">삭제하기</button>
+															class="btn btn-default btn-hover-danger">내보내기</button>
 													</p>
 												</div>
 												<div class="paginationBtn text-right mar-top"></div>
@@ -306,6 +303,7 @@
 					var checkbox = '';
 					for(var i = 0, len = data.getMember.length||0; i<len; i++){
 						if(withcheck){
+							//등급 7이하의 모임원에게만 체크박스 생성
 							if(data.getMember[i].tmemLevel<7){
 								checkbox =	'<div class="col-xs-1 customCenter" style="min-height:48px;">'
 										 +		'<input type="checkbox" class="chk" data-tid="'+data.getMember[i].tmemId+'">'
@@ -317,7 +315,7 @@
 									 + 			checkbox
 									 +		'<div class="col-xs-8 col-sm-9 clearfix">'
 									 +		'<div class="text-center mar-rgt" style="width:63px !important; display:inline-block;">'
-									 +			'<img class="img-sm img-circle" src="/resources/img/profile-photos/'+data.getMember[i].tmemPhoto+'" alt="Profile Picture">'
+									 +			'<img class="img-sm img-circle" src="'+data.getMember[i].tmemPhoto+'" alt="Profile Picture">'
 									 +		'</div>'
 									 +   	'<div style="vertical-align: middle; display:inline-block;">'
 									 + 			'<a class="memclick" data-tid="'+data.getMember[i].tmemId+'"><h4 class="mar-no text-main">'+data.getMember[i].tmemNickName+'</h4></a>'
@@ -332,7 +330,7 @@
 							listHtml +=     '<div class="row pad-ver '+(i%2==0 ? '' : 'bg-trans-dark')+'">'
 									 +		'<div class="col-xs-9 col-sm-10 clearfix">'
 									 +		'<div class="text-center mar-rgt" style="width:63px !important; display:inline-block;">'
-									 +			'<img class="img-sm img-circle" src="/resources/img/profile-photos/'+data.getMember[i].tmemPhoto+'" alt="Profile Picture">'
+									 +			'<img class="img-sm img-circle" src="'+data.getMember[i].tmemPhoto+'" alt="Profile Picture">'
 									 +		'</div>'
 									 +   	'<div style="vertical-align: middle; display:inline-block;">'
 									 + 			'<a class="memclick" data-tid="'+data.getMember[i].tmemId+'"><h4 class="mar-no text-main">'+data.getMember[i].tmemNickName+'</h4></a>'
@@ -349,8 +347,6 @@
 					var numberOfPeople = "";
 					if(status == "manager"){
 						numberOfPeople = "운영진 : " + data.teamMemberCount + "명";
-					}else if(status == "block"){
-						numberOfPeople = "차단한 모임원 : " + data.teamMemberCount + "명";
 					}else if(status == "waiting"){
 						numberOfPeople = "가입 대기 : " + data.teamMemberCount + "명";
 					}else if(status == "member"){
@@ -421,7 +417,7 @@
 				var gradeBox = '';
 				var buttonBox = '';
 				teamMember.getMember($(this).data("tid"),function(e){
-					var photo = '<img class="img-sm img-circle" src="/resources/img/profile-photos/'+e.tmemPhoto+'" alt="Profile Picture">';
+					var photo = '<img class="img-sm img-circle" src="'+e.tmemPhoto+'" alt="Profile Picture">';
 					teamMember.isMaster(groupId,memberId,function(b){
 						if(e.tmemLevel == 9){
 							gradeBox = '<button type="button"'
@@ -437,46 +433,36 @@
 									 	 + '</select>';
 								buttonBox = '<button id="modalUpdateBtn" type="button"'
 										  +		'class="btn btn-default btn-hover-info">등급조정</button>'
-										  +	'<button id="modalBlockBtn" type="button"'
-										  +	'class="btn btn-default btn-hover-warning">차단하기</button>'
 										  + '<button id="modalDeleteBtn" type="button"'
-										  + 	'class="btn btn-default btn-hover-danger">삭제하기</button>';
+										  + 	'class="btn btn-default btn-hover-danger">내보내기</button>';
 							}else{
 								gradeBox = '<button type="button"'
 									 +		'class="btn btn-pink">운영진</button>';
 							}
-						}else if(e.tmemLevel == 0){
-							gradeBox = '<button id="modalReleseBtn" type="button"'
-									 +		'class="btn btn-default btn-hover-dark">차단해제하기</button>';
-							buttonBox = '<button id="modalDeleteBtn" type="button"'
-								 	  + 		'class="btn btn-default btn-hover-danger">삭제하기</button>';
 						}else if(e.tmemLevel == 1){
 							gradeBox = '<button id="modalAdmissionBtn" type="button"'
 								     +		'class="btn btn-default btn-hover-pink">가입승인하기</button>';
 							buttonBox = '<button id="modalDeleteBtn" type="button"'
-							 	  	  + 	'class="btn btn-default btn-hover-danger">삭제하기</button>';
+							 	  	  + 	'class="btn btn-default btn-hover-danger">내보내기</button>';
 						}else{
 							if(b){
 								gradeBox = '회원 등급 : '
 									 + '<select id="modalSelect">'
 									 + 		'<option value="2" name="일반회원">일반회원</option>'	
-									 +		'<option value="3" name="우수회원">우수회원</option>'
 									 +		'<option value="7" name="운영진">운영진</option>'
 									 +		'<option value="9" name="모임장">모임장</option>'
 									 + '</select>';
-							}else{
-								gradeBox = '회원 등급 : '
-									 + '<select id="modalSelect">'
-									 + 		'<option value="2" name="일반회원">일반회원</option>'	
-									 +		'<option value="3" name="우수회원">우수회원</option>'
-									 + '</select>';
-							}
-							buttonBox = '<button id="modalUpdateBtn" type="button"'
+								buttonBox = '<button id="modalUpdateBtn" type="button"'
 									  +		'class="btn btn-default btn-hover-info">등급조정</button>'
-									  +	'<button id="modalBlockBtn" type="button"'
-									  +		'class="btn btn-default btn-hover-warning">차단하기</button>'
 									  + '<button id="modalDeleteBtn" type="button"'
-									  + 	'class="btn btn-default btn-hover-danger">삭제하기</button>';
+									  + 	'class="btn btn-default btn-hover-danger">내보내기</button>';	 
+									 
+							}else{
+								gradeBox = '<button type="button"'
+									 +		'class="btn btn-pink">일반회원</button>';
+								buttonBox = '<button id="modalDeleteBtn" type="button"'
+									  + 	'class="btn btn-default btn-hover-danger">내보내기</button>';
+							}
 						}
 						$("#gradeBox").html(gradeBox);
 						$("#buttonBox").html(buttonBox);
@@ -504,18 +490,12 @@
 				}
 				if($(this).val()=='member'){
 					btnhtml = '<p> 선택한 회원을'
-							+	 '<button type="button" id="block-confirm" class="btn btn-default btn-hover-warning">차단하기</button>'
-							+	 '<button type="button" id="delete-confirm" class="btn btn-default btn-hover-danger">삭제하기</button>'
-							+ '</p>'
-				}else if($(this).val()=='block'){
-					btnhtml = '<p> 선택한 회원을'
-							+	 '<button type="button" id="block-relese" class="btn btn-default btn-hover-warning">차단해제하기</button>'
-							+	 '<button type="button" id="delete-confirm" class="btn btn-default btn-hover-danger">삭제하기</button>'
+							+	 '<button type="button" id="delete-confirm" class="btn btn-default btn-hover-danger">내보내기</button>'
 							+ '</p>'
 				}else if($(this).val()=='waiting'){
 					btnhtml = '<p> 선택한 회원을'
 						+	 '<button type="button" id="admission" class="btn btn-default btn-hover-info">승인하기</button>'
-						+	 '<button type="button" id="delete-confirm" class="btn btn-default btn-hover-danger">삭제하기</button>'
+						+	 '<button type="button" id="delete-confirm" class="btn btn-default btn-hover-danger">내보내기</button>'
 						+ '</p>'
 				}
 				$('#adminbutton').html(btnhtml);
@@ -529,51 +509,6 @@
 		            $(".chk").prop("checked",false);
 		        }
 			});
-			
-			$('#adminbutton').on('click','#block-confirm', function(){
-				 var tmemIds = [];
-				 $('.chk').each(function(){
-					if(this.checked){
-						tmemIds.push($(this).data('tid'));
-					}
-				 });
-				 
-				 var teamData = {"tmemIds" : tmemIds, "teamName" : teamName, "memberId" : memberId, "tmemLevel" : 0};
-				 	
-				 if(tmemIds.length != 0){
-					 bootbox.confirm("선택한 회원을 차단 하시겠습니까?", function(result) {
-				            if (result) {
-				            	$.ajax({
-				            		type : 'put',
-				            		url : '/changelevel',
-				            		datatype : "json",
-				            		data : JSON.stringify(teamData),
-				            		contentType : "application/json; charset=utf-8",
-				            		success : function(result){
-				            			showList('adminList',$('#select').val(),true);
-				            		}
-				            	});
-				            	$.niftyNoty({
-				                    type: 'success',
-				                    icon : 'pli-like-2 icon-2x',
-				                    message : '선택한 회원을 차단 하였습니다.',
-				                    container : 'floating',
-				                    timer : 5000
-				                });
-				            }else{
-				                $.niftyNoty({
-				                    type: 'danger',
-				                    icon : 'pli-cross icon-2x',
-				                    message : '취소하였습니다.',
-				                    container : 'floating',
-				                    timer : 5000
-				                });
-				            };
-				        });
-				 }else{
-					 bootbox.alert("선택한 회원이 없습니다.")
-				 }
-			 });
 			
 			 $('#adminbutton').on('click','#delete-confirm',function(){
 				 var tmemIds = [];
@@ -619,49 +554,6 @@
 				 }
 			 });
 			 
-			 $('#adminbutton').on('click','#block-relese', function(){
-				 var tmemIds = [];
-				 $('.chk').each(function(){
-					if(this.checked){
-						tmemIds.push($(this).data('tid'));
-					}
-				 })
-				 var teamData = {"tmemIds" : tmemIds, "teamName" : teamName, "memberId" : memberId, "tmemLevel" : 2};	
-				 if(tmemIds.length != 0){
-					 bootbox.confirm("선택한 회원을 차단해제 하시겠습니까?", function(result) {
-				            if (result) {
-				            	$.ajax({
-				            		type : 'put',
-				            		url : '/relesemember',
-				            		datatype : "json",
-				            		data : JSON.stringify(teamData),
-				            		contentType : "application/json; charset=utf-8",
-				            		success : function(result){
-				            			showList('adminList',$('#select').val(),true);
-				            		}
-				            	});
-				            	$.niftyNoty({
-				                    type: 'success',
-				                    icon : 'pli-like-2 icon-2x',
-				                    message : '선택한 회원을 차단해제 하였습니다.',
-				                    container : 'floating',
-				                    timer : 5000
-				                });
-				            }else{
-				                $.niftyNoty({
-				                    type: 'danger',
-				                    icon : 'pli-cross icon-2x',
-				                    message : '취소하였습니다.',
-				                    container : 'floating',
-				                    timer : 5000
-				                });
-				            };
-
-				        });
-				 }else{
-					 bootbox.alert("선택한 회원이 없습니다.")
-				 }
-			 });
 			 $('#adminbutton').on('click','#admission', function(){
 				 var tmemIds = [];
 				 $('.chk').each(function(){
@@ -714,7 +606,7 @@
 				var mGrade = $("#modalSelect option:selected").attr("name");
 				var modalData = {};
 				var confirmText = ''
-				if($('#modalSelect').val()==9){//5는 운영진 등급 
+				if($('#modalSelect').val()==9){//7는 운영진 등급 
 					modalData = {"tmemIds" : [$('#modalTmemId').val()],"teamName" : teamName, "memberId" : memberId, "tmemLevel" : $('#modalSelect').val(),"teamId":groupId};
 					confirmText = '모임장을 위임 하시겠습니까? 위임시 회원님의 해당 모임에서 일반회원이 됩니다.'
 					bootbox.confirm(confirmText, function(result) {
@@ -728,13 +620,6 @@
 				            			location.reload(); //성공하면 새로고침
 				            		}
 				            	});
-				            	$.niftyNoty({
-				                    type: 'success',
-				                    icon : 'pli-like-2 icon-2x',
-				                    message : '모임장을 위임하였습니다.',
-				                    container : 'floating',
-				                    timer : 5000
-				                });
 				            }else{
 				                $.niftyNoty({
 				                    type: 'danger',
@@ -784,45 +669,6 @@
 				}
 			});
 			
-			$('#buttonBox').on('click','#modalBlockBtn',function(){
-				$("#memberModal").modal("hide");
-				var mNickName = $("#modalMNickName").text();
-				var confirmText = mNickName + " 님을 차단하시겠습니까?";
-				var modalData = {"tmemIds" : [$('#modalTmemId').val()], "teamName" : teamName, "memberId" : memberId, "tmemLevel" : 0 };
-				bootbox.confirm(confirmText,function(result){
-					if (result) {
-		            	$.ajax({
-		            		type : 'put',
-		            		url : '/changelevel',
-		            		datatype : "json",
-		            		data : JSON.stringify(modalData),
-		            		contentType : "application/json; charset=utf-8",
-		            		success : function(result){
-		            			showList('adminList',$('#select').val(),true);
-		            		}
-		            	});
-		            	$.niftyNoty({
-		                    type: 'success',
-		                    icon : 'pli-like-2 icon-2x',
-		                    message : mNickName + '님을 차단 하였습니다.',
-		                    container : 'floating',
-		                    timer : 5000
-		                });
-		            	  
-		            }else{
-		                $.niftyNoty({
-		                    type: 'danger',
-		                    icon : 'pli-cross icon-2x',
-		                    message : '취소하였습니다.',
-		                    container : 'floating',
-		                    timer : 5000
-		                });
-		                
-		                $("#memberModal").modal("show");
-		            };
-				})
-			});
-			
 			$('#buttonBox').on('click','#modalDeleteBtn',function(){
 				$("#memberModal").modal("hide");
 				var mNickName = $("#modalMNickName").text();
@@ -848,42 +694,6 @@
 		                    timer : 5000
 		                });
 		            	  
-		            }else{
-		                $.niftyNoty({
-		                    type: 'danger',
-		                    icon : 'pli-cross icon-2x',
-		                    message : '취소하였습니다.',
-		                    container : 'floating',
-		                    timer : 5000
-		                });
-		                $("#memberModal").modal("show");
-		            };
-				})
-			});
-			$('#gradeBox').on('click','#modalReleseBtn',function(){
-				$("#memberModal").modal("hide");
-				var mNickName = $("#modalMNickName").text();
-				var confirmText = mNickName + " 님을 차단해제 하시겠습니까?";
-				var modalData = {"tmemIds" : [$('#modalTmemId').val()], "teamName" : teamName, "memberId" : memberId,"tmemLevel" : 2};
-				bootbox.confirm(confirmText,function(result){
-					if (result) {
-		            	$.ajax({
-		            		type : 'put',
-		            		url : '/relesemember',
-		            		datatype : "json",
-		            		data : JSON.stringify(modalData),
-		            		contentType : "application/json; charset=utf-8",
-		            		success : function(result){
-		            			showList('adminList',$('#select').val(),true);
-		            		}
-		            	});
-		            	$.niftyNoty({
-		                    type: 'success',
-		                    icon : 'pli-like-2 icon-2x',
-		                    message : mNickName + '님을 차단해제 하였습니다.',
-		                    container : 'floating',
-		                    timer : 5000
-		                });
 		            }else{
 		                $.niftyNoty({
 		                    type: 'danger',

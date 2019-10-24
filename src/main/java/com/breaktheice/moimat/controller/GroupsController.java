@@ -26,6 +26,7 @@ import com.breaktheice.moimat.service.TeamPhotoService;
 import com.breaktheice.moimat.service.TeamPostService;
 import com.breaktheice.moimat.service.TeamService;
 import com.breaktheice.moimat.util.AdminCriteria;
+import com.breaktheice.moimat.util.AdminPageDTO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -105,26 +106,36 @@ public class GroupsController {
 	}
 
 	@GetMapping("/{groupId}/photos")
-	public String photos(@PathVariable Long groupId, Model model) {
+	public String photos(@PathVariable Long groupId, Model model,AdminCriteria cri) {
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
-
-		List<TeamPostDomain> posts = teamPhotoService.getAllPosts(groupId,22L);
+		//사진게시판 ID 22
+		cri.setBrdId(22L);
+		//페이지당 갯수는 10개 고정
+		cri.setAmount(6L);
+		List<TeamPostDomain> posts = teamPhotoService.getAllPosts(groupId,cri);
+		
 		teamPhotoService.getThumbnail(posts);
 
 		teamCommentsService.addNumOfComments(posts);
-
+		Long total = teamPostService.getTotalCount(groupId, cri);
 		model.addAttribute("posts", posts);
-
+		model.addAttribute("pageMaker",new AdminPageDTO(cri,total));
 
 		return "groups/photos/list";
 	}
 
 	@GetMapping("/{groupId}/posts")
-	public String posts(@PathVariable Long groupId, Model model) {
+	public String posts(@PathVariable Long groupId, Model model,AdminCriteria cri) {
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
-		List<TeamPostDomain> posts = teamPostService.getAllPosts(groupId, 23L);
+		//일반게시판 ID 23
+		cri.setBrdId(23L);
+		//페이지당 갯수는 10개 고정
+		cri.setAmount(10L);
+		List<TeamPostDomain> posts = teamPostService.getAllPosts(groupId, cri);
+		Long total = teamPostService.getTotalCount(groupId, cri);
 		teamCommentsService.addNumOfComments(posts);
 		model.addAttribute("posts", posts);
+		model.addAttribute("pageMaker",new AdminPageDTO(cri,total));
 
 		return "groups/posts/list";
 	}
