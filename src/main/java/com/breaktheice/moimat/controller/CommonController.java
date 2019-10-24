@@ -20,7 +20,7 @@ public class CommonController {
 	TeamService service;
 	
 	@GetMapping(value= {"/home","/home/"})
-	public String index(Model model, HttpSession session) {
+	public String home(Model model, HttpSession session) {
 		
 		//Session
 		MemberDomain domain = (MemberDomain) session.getAttribute("loginVO");
@@ -38,6 +38,11 @@ public class CommonController {
 		model.addAttribute("area", service.getAreaAll(domain.getAreaId()));// 사용자의 활동지역 이름
 		model.addAttribute("areaList", service.getAreaRandomList(domain.getAreaId()));// 사용자의 활동지역 기준 추천 모임
 
+		return "home";
+	}
+
+	@GetMapping("/")
+	public String index() {
 		return "index";
 	}
 }
