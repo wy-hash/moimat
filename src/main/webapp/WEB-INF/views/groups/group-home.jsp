@@ -259,7 +259,7 @@ a {
 														<div class="row pad-all">
 
 															<c:forEach items="${teamInfo.postPhotoList}" var="list">
-																<div class="panel col-md-4 col-xs-12">
+																<div class="panel col-sm-4">
 																	<div class="panel-body img-thumbnail-box">
 																		<a class="move"
 																			href="/groups/${group.teamId}/photos/${list.postId}">
