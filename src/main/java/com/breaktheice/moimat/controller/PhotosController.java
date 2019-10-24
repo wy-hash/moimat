@@ -79,9 +79,9 @@ public class PhotosController {
 		MemberDomain postingUser = authService.getMemberInfo(teamMemberService.getMember(post.getTmemId()).getMemId());
 		model.addAttribute("user", postingUser);
 
-		TeamMemberDomain tmem = teamMemberService.getTeamMemberId(groupId, loginVO.getMemId());
-		log.info(tmem.getTmemId());
-		model.addAttribute("teamMemberInfo", tmem.getTmemId());
+		TeamMemberDomain member = teamMemberService.getTeamMemberId(groupId, loginVO.getMemId());
+		log.info("member: " + member);
+		model.addAttribute("tmemId", member.getTmemId());
 
 
 
