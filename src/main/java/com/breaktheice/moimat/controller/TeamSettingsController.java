@@ -2,15 +2,13 @@ package com.breaktheice.moimat.controller;
 
 import java.util.List;
 
+import com.breaktheice.moimat.service.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.breaktheice.moimat.domain.AreaDomain;
 import com.breaktheice.moimat.domain.InterestDomain;
@@ -19,6 +17,7 @@ import com.breaktheice.moimat.domain.TeamVO;
 import com.breaktheice.moimat.service.TeamSettingsService;
 
 import lombok.extern.log4j.Log4j;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @Log4j
@@ -26,12 +25,33 @@ public class TeamSettingsController {
 	
 	@Autowired
 	private TeamSettingsService tss;
+
+	@Autowired
+	private FileUploadService fileUploadService;
 	
 	@PostMapping("/modGroup")
-	public String modifyGroup(TeamVO teamVO) {
+	@ResponseBody
+	public String modifyGroup(TeamVO teamVO, @RequestParam(value = "file", required = false) MultipartFile file) {
 		Long id = teamVO.getTeamId();
-		tss.updateTeamInfo(teamVO);
-		return "redirect:/groups/"+id+"/settings";
+
+		log.info("teamVO: " +teamVO);
+		String uploadPath = "";
+
+		if (file.getSize() <= 0) {
+			uploadPath = tss.getTeamInfo(teamVO.getTeamId()).getTeamPhoto();
+
+		} else {
+			uploadPath = fileUploadService.saveFile("GROUP", file);
+			uploadPath = uploadPath.replace("\\", "/");
+		}
+
+		teamVO.setTeamPhoto(uploadPath);
+        log.info("teamVO: " + teamVO);
+		if (tss.updateTeamInfo(teamVO) > 0) {
+		    return "{\"result\": true}";
+        }
+
+		return "{\"result\": false}";
 	}
 	
 	@ResponseBody

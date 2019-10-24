@@ -23,7 +23,7 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
 		}
 
 	
-		response.sendRedirect("/");
+		response.sendRedirect("/home");
 		
 		return false;
 	}

@@ -10,6 +10,32 @@
 			) where rownum < 4
 		]]>
 	</select>
+	<select id="getIntRandomList" resultType="com.breaktheice.moimat.domain.TeamDomain">
+		<![CDATA[
+			SELECT * 
+			FROM (  SELECT t.*, i.int_name, a.area_region_name
+            	 	FROM team t, interest i, area a
+		            WHERE t.int_id = i.int_id and 
+                          t.area_id = a.area_id and
+		                  t.int_id = #{intId}
+					ORDER BY DBMS_RANDOM.RANDOM
+			) WHERE rownum < 4
+		]]>
+	</select>
+	<select id="getAreaRandomList" resultType="com.breaktheice.moimat.domain.TeamDomain">
+		<![CDATA[
+			SELECT * 
+			FROM ( SELECT t.*, i.int_name, a.area_region_name
+            	 	FROM team t, interest i, area a
+		            WHERE t.int_id = i.int_id and 
+		            	  t.area_id = a.area_id and 
+		                  t.area_id = #{areaId}
+					ORDER BY DBMS_RANDOM.RANDOM
+			) WHERE rownum < 4
+		]]>
+	</select>
+			
+			
 	
 	<select id="totalCount" resultType="Long">
 	<![CDATA[		
@@ -162,6 +188,11 @@
 		FROM    area
 		WHERE   area_id = #{areaId}
 	</select>
+	<select id="getAreaAll" resultType="com.breaktheice.moimat.domain.AreaDomain">
+		SELECT  area_id, area_key, area_name, area_region_key, area_region_name
+		FROM    area
+		WHERE   area_id = #{areaId}
+	</select>
 	
 	<select id="getNickname" resultType="String">
 		SELECT	mem_nickname
@@ -239,5 +270,38 @@
 		ORDER BY team_id DESC
 		]]>
 	</select>
+	<select id="getAreaFullName" resultType="String">
+		select area_name || ' ' || area_region_name
+		from
+			area
+		where
+			area_id = #{areaId}
+	</select>
+	<select id="countTeamMember" resultType="Long">
+		select count(*) from team_member where team_id = #{teamId}
 	
+	</select>
+	
+	<select id="getPostDomain" resultType="com.breaktheice.moimat.domain.TeamPostDomain">
+		SELECT
+			BRD_ID,
+			TEAM_ID,
+			POST_ID,
+			POST_TITLE,
+			POST_NICKNAME
+		FROM       
+	        (SELECT
+				*
+			FROM
+				TEAM_POST
+			WHERE
+				TEAM_ID = #{teamId} 
+				AND
+				BRD_ID = #{brdId}
+			ORDER BY
+				POST_UPDATE DESC)
+		<![CDATA[
+		WHERE ROWNUM <= 5
+		]]>
+	</select>
 </mapper>

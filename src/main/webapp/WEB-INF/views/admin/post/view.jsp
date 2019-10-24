@@ -13,7 +13,7 @@
     <!--X-editable [ OPTIONAL ]-->
     <link href="/resources/plugins/x-editable/css/bootstrap-editable.css" rel="stylesheet">
 
-	<title>Page Template | moim@</title>
+	<title> 게시글 통합 관리 - Admin | moim@</title>
 </head>
 <!-- END HEAD -->
 
@@ -126,11 +126,6 @@
 			
 	</div>
 	<!-- END CONTAINER -->
-	 <%-- for modal --%>
-	<c:if test="${ !empty loginVO }">
-		<%@ include file="../../includes/modals.jsp" %>
-	</c:if>
-	<%-- for modal --%>
   
     <!--Bootstrap Table Sample [ SAMPLE ]-->
     <script src="/resources/js/demo/tables-bs-table.js"></script>
@@ -146,14 +141,39 @@
 
     <!--Bootstrap Table Extension [ OPTIONAL ]-->
     <script src="/resources/plugins/bootstrap-table/extensions/editable/bootstrap-table-editable.js"></script>
+<!-- modal for delete -->	
+	<div class="modal" id="modalDelete" tabindex="-1"  style="display: none;">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <!--Modal header-->
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+	                <h4 class="modal-title">삭제</h4>
+	            </div>
+	            <!--Modal body-->
+	            <div class="modal-body">
+	                <p class="text-semibold text-main">삭제 하시겠습니까?</p>
+	            </div>
+	            <!--Modal footer-->
+	            <div class="modal-footer">
+	                <button data-dismiss="modal" class="btn btn-default" type="button">취소</button>
+	               	<button id="modalDeleteSubmit" class="btn btn-warning" type="button">확인</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+<!-- //modal for delete -->		
 
 	<script>
 		$(document).ready(function(){
-
+			
+			$('#delete').on('click', function(){// 게시글 삭제
+				$('#modalDelete').modal('show');
+			});
+			$('#modalDeleteSubmit').on('click', formSubmit);
 			
 			$('#reply').on('click',  formSubmit);	// 게시글 답변
 			$('#edit').on('click',   formSubmit);	// 게시글 수정
-			$('#delete').on('click', formSubmit);	// 게시글 삭제
 			
 		});
 		
@@ -168,9 +188,9 @@
 				$('#postForm').attr('method','get');
 				$('#postForm').attr('action',uri+'/'+id+'/'+action);
 				$('#postForm').submit();
-			}else if(action ==='delete'){
+			}else if(action ==='modalDeleteSubmit'){
 				$('#postForm').attr('method','post');
-				$('#postForm').attr('action',uri+action);
+				$('#postForm').attr('action',uri+'delete');
 				$('#postForm').submit();
 			}else if(action ==='reply'){
 				$('#postForm').attr('method','get');
@@ -180,5 +200,10 @@
 		}
 	</script>
 
+	 <%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 </body>
 </html>

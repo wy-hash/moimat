@@ -158,9 +158,11 @@
 			                <li>
 			                    <a href="/groups/${ group.teamId }/chat">채팅</a>
 			                </li>
+			                <c:if test="${tmem.tmemLevel > 7}">
 			                <li>
 			                    <a href="/groups/${ group.teamId }/settings">설정</a>
 			                </li>
+			                </c:if>
 			            </ul>
 			            
                         <!--Default Dropdown button-->
@@ -176,8 +178,10 @@
                                 <li class="active"><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
                                 <li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
                                 <li><a href="/groups/${ group.teamId }/chat">채팅</a></li>
+                                <c:if test="${tmem.tmemLevel > 7}">
                                 <li class="divider"></li>
                                 <li><a href="/groups/${ group.teamId }/settings">설정</a></li>
+                                </c:if>
                             </ul>
                         </div>
                         <!--===================================================-->
@@ -196,7 +200,7 @@
 										<div class="media-block">
 											<div class="media-body">
 												<div class="media media-userinfo">
-													<a class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="${ userImg }"></a>
+													<a class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="${ user.memPhoto }"></a>
 													<div class="pad-btm">
 														<div class="text-semibold media-heading">${ post.postTitle }</div>
 														<a href="#" class="btn-link text-semibold box-inline">${ post.postNickname }</a><span class="text-muted text-sm pad-lft"><i class="fa fa-clock-o"></i> ${ post.postRegdate } <i class="fa fa-eye"></i> ${ post.postHit }</span>
@@ -209,14 +213,18 @@
 
 												<div class="media media-button">
 													<div class="media-right">
-														<c:if test="${ loginVO.memId eq post.tmemId }">
-															<a href="/groups/${ group.teamId }/photos/${ post.postId }/edit"><button class="btn btn-warning">수정</button></a>
-															<a href="/groups/${ group.teamId }/photos/${ post.postId }/delete"><button class="btn btn-danger">삭제</button></a>
+														<c:if test="${ loginVO.memId eq user.memId }">
+															<a id="modBtn" data-action="/groups/${ group.teamId }/photos/${ post.postId }/edit"><button class="btn btn-warning">수정</button></a>
+															<a id="delBtn" data-action="/groups/${ group.teamId }/photos/${ post.postId }/delete"><button class="btn btn-danger">삭제</button></a>
 														</c:if>
-														<a href="/groups/${ group.teamId }/photos"><button class="btn btn-default">목록</button></a>
+														<button id="listBtn" class="btn btn-default">목록</button>
 													</div>
 												</div>
-
+												<form id="actionForm" action="/groups/${ group.teamId }/photos" method="get">
+													<input type="hidden" name="pageNum" value="${cri.pageNum}">
+													<input type="hidden" name="type" value="${cri.type}">
+													<input type="hidden" name="keyword" value="${cri.keyword}">
+												</form>
 
 												<!-- Comments -->
 												<div class="mar-top pad-top bord-top">
@@ -325,9 +333,36 @@
 	    </div>
 	</div>
 	<!-- //modal for 덧글 수정 -->
-	
+
+	<!--Bootbox Modals [ OPTIONAL ]-->
+	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 	<script>
 		$(document).ready(function() {
+			var actionForm = $("#actionForm");
+			$("#listBtn").on("click",function(){
+				actionForm.submit();
+			})
+			 // 작성자만 사용하는 버튼에대한 이벤트
+	        $("#modBtn").on('click',function(){
+	        	actionForm.attr('action',$(this).data('action'));
+	        	actionForm.submit();
+	        });
+			$("#delBtn").on('click',function(){
+	        	bootbox.confirm("게시글을 삭제하시겠습니까.", function(result) {
+		            if (result) {
+		            	actionForm.attr('action',$('#delBtn').data('action'));
+		            	actionForm.submit();
+		            }else{
+		                $.niftyNoty({
+		                    type: 'danger',
+		                    icon : 'pli-cross icon-2x',
+		                    message : '취소하였습니다.',
+		                    container : 'floating',
+		                    timer : 5000
+		                });
+		            };
+		        });
+	        });
 			
 			// 수정 모달창 오픈
 			$(document).on('click', '.cmtMod', function(){ //모달창 오픈 이벤트
@@ -418,9 +453,26 @@
 				});
 			});
 
-			$('.media-button .btn-danger').on('click', function() {
+			$(document).on('click', '.cmtDelete', function() {
 				if (confirm('삭제하시겠습니까?')) {
-					return true;
+					var delid = $(this).data('cmtid');
+					
+					$.ajax({
+						type: 'POST',
+						url: '/groups/${ group.teamId }/photos/${ post.postId }/comment/del',
+						data: {cmtId: delid},
+						dataType: 'json',
+						success: function(result) {
+							if (result) {
+								$('div[data-cmtid="' + delid +'"]').remove();
+								$('#cmtCounter').text(Number($('#cmtCounter').text()) - 1);
+							}
+						},
+						fail: function() {
+							alert('잠시후 다시 작업을 진행해주세요.');
+						}
+					});
+
 				}
 				return false;
 			});

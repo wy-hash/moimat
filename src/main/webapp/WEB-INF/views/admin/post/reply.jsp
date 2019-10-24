@@ -17,7 +17,7 @@
 <!-- 썸머노트 css-->
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
 
-<title>Page Template | moim@</title>
+<title> 게시글 통합 관리 - Admin | moim@</title>
 </head>
 <!-- END HEAD -->
 
@@ -132,11 +132,6 @@
 
 	</div>
 	<!-- END CONTAINER -->
-	 <%-- for modal --%>
-	<c:if test="${ !empty loginVO }">
-		<%@ include file="../../includes/modals.jsp" %>
-	</c:if>
-	<%-- for modal --%>
 
 	<!--Bootstrap Table Sample [ SAMPLE ]-->
 	<script src="/resources/js/demo/tables-bs-table.js"></script>
@@ -216,8 +211,11 @@
 		}
 	</script>
 
-
-
+	 <%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 </body>
 
 </html>

@@ -52,24 +52,38 @@
 					<!-- #### WRITE CODE BELOW THIS LINE #### -->
 					<!-- #################################### -->
 					
-					<div class="row pull-right"><button id="newGroups" class="btn btn-mint mar-all">모임 생성</button> </div>
+                    	<p class="text-left">
+                    	<button id="newGroups" class="btn btn-mint mar-all">모임 생성</button> 
+                    	찾으시는 모임이 없으신가요? 직접 만들어 보세요!
+						</p>
 					
 					<div class="row">
 						<div class="eq-height">
-							<c:forEach items="${ groups }" var="group">
-										<div class="col-md-6 col-lg-4 eq-box-lg">
-											<div class="panel panel-bordered-primary">
-												<div class="panel-heading">
-                                                    <a href="/groups/${ group.teamId }"><h3 class="panel-title">${ group.teamName }</h3></a>
-												</div>
-												<div class="panel-body">
-													<div>
-														${ group.teamShortContent }<br>
+								<c:if test="${empty groups}">
+									<label><strong>"아직 가입한 모임이 없습니다."</strong></label>
+								</c:if>
+								<c:forEach items="${groups}" var="teamDomain">
+									<div class="col-lg-6">
+										<div class="panel">
+											<div class="pad-all">
+												<div class="media mar-btm">
+													<div class="media-left">
+														<img src="${teamDomain.teamPhoto }"
+															class="img-md img-circle" alt="Avatar">
+													</div>
+													<div class="media-body">
+														<a href='<c:out value="/groups/${teamDomain.teamId }" />'>
+															<p class="text-lg text-main text-semibold mar-no">${teamDomain.teamName}</p>
+														</a>
+														<p>${UserInfoVO.intMap[teamDomain.intId] }&nbsp;/&nbsp;${UserInfoVO.areaMap[teamDomain.areaId] }</p>
 													</div>
 												</div>
+												<blockquote class="bq-sm bq-open bq-close">${teamDomain.teamShortContent}</blockquote>
 											</div>
 										</div>
-							</c:forEach>
+									</div>
+								</c:forEach>
+							
 						</div>
 					</div>
 					
@@ -95,12 +109,6 @@
 
 	</div>
 	<!-- END CONTAINER -->
-	
-	<%-- for modal --%>
-	<c:if test="${ !empty loginVO }">
-		<%@ include file="../includes/modals.jsp" %>
-	</c:if>
-	<%-- for modal --%>
 	<script>
 	$(document).ready(function(){
 
@@ -114,5 +122,10 @@
 	
 	</script>
 	
+	<%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 </body>
 </html>

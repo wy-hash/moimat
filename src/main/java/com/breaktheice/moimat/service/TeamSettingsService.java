@@ -18,4 +18,6 @@ public interface TeamSettingsService {
 	
 	public int updateTeamInfo(TeamVO teamVO);
 
+	public TeamVO getTeamInfo(Long teamId);
+
 }

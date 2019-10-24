@@ -139,9 +139,36 @@
 		select mem_id from team_member 
 		where tmem_id = #{tmemId}
 	</sql>
+	<select id="getTmemId" resultType="Long">
+		select tmem_id from team_member
+		where mem_id = #{memId} and team_id=#{teamId}
+	</select>
 
 	<select id="selectMemberByTeamIdAndMemId" resultType="com.breaktheice.moimat.domain.TeamMemberDomain">
 		select * from team_member where TEAM_ID = #{ teamId } and MEM_ID = #{ memId }
 	</select>
+	
+	<insert id="attendTeam">
+		INSERT INTO TEAM_MEMBER (TMEM_ID,TEAM_ID,MEM_ID,TMEM_LEVEL,
+			TMEM_CONTENT,TMEM_NICKNAME,TMEM_EMAIL,
+			TMEM_LASTVISIT,TMEM_REGDATE,TMEM_BIRTHDAY,TMEM_GENDER,TMEM_PHOTO )
+			(SELECT 
+				TEAM_MEMBER_SEQ.nextval, #{teamId}, MEM_ID, 1, 
+				MEM_CONTENT, MEM_NICKNAME, MEM_EMAIL, 
+				sysdate, sysdate, MEM_BIRTHDAY, MEM_GENDER,MEM_PHOTO 
+			FROM
+				MEMBER
+			WHERE MEM_ID = #{memId})
+	</insert>
+	
+	<delete id="withdrawTeam">
+		DELETE FROM TEAM_MEMBER
+		WHERE
+			TEAM_ID = #{teamId}
+			AND
+			MEM_ID = #{memId}
+			AND
+			MEM_ID NOT IN (SELECT MEM_ID FROM TEAM WHERE TEAM_ID = #{teamId} AND MEM_ID = #{memId})
+	</delete>
 	
 </mapper>

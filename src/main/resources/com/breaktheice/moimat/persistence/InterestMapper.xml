@@ -101,6 +101,6 @@
 	<select id="selectInterestId" resultType="Long">
 		select int_id
 		from interest
-		where int_key = #{ intKey }
+		where int_key = #{intKey}
 	</select>
 </mapper>

@@ -131,7 +131,7 @@
 		VALUES
 		(
 			member_seq.nextval, #{memEmail}, #{memPassword}, #{memNickname},
-			#{memBirthday}, #{memGender}, #{areaId}, sysdate, sysdate, 
+			to_date(#{memBirthday}, 'rrmmdd'), #{memGender}, #{areaId}, sysdate, sysdate, 
 			sysdate, #{memContent}, #{memPhoto}, #{memLevel}, #{memStatus},
 			#{memInt1}, #{memInt2}, #{memInt3}
 		)
@@ -146,6 +146,7 @@
 				<if test="memPhoto != null">
 				mem_photo	 = #{memPhoto},
 				</if>
+				mem_birthday = to_date(#{memBirthday}, 'rrmmdd'),
 				mem_update	 = sysdate,
 				mem_int1	 = #{memInt1},
 				mem_int2	 = #{memInt2},

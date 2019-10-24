@@ -11,7 +11,7 @@
 			team_id = #{teamId}
 	</select>
 	
-	<update id="updateTeamInfo">
+	<update id="updateTeamInfo" parameterType="com.breaktheice.moimat.domain.TeamVO">
 		update
 			team
 		set
@@ -19,7 +19,8 @@
 			team_content = #{teamContent},
 			int_id = #{intId},
 			area_id = #{areaId},
-			team_max = #{teamMax}
+			team_max = #{teamMax},
+			team_photo = #{teamPhoto}
 		where
 			team_id = #{teamId}
 	</update>

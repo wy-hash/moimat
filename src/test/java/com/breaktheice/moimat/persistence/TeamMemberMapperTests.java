@@ -69,4 +69,26 @@ public class TeamMemberMapperTests {
 	public void isMasterTest() {
 		tmm.isMaster(2L,1L);
 	}
+	@Test
+	public void tmemTest() {
+		log.info(tmm.getTmemId(3L, 1L));
+	}
+	
+	@Test
+	public void attendTeamTest() {
+		log.info(tmm.attendTeam(106L, 136L));
+	}
+	
+	@Test
+	public void withdrawTest() {
+		log.info(tmm.withdrawTeam(106L, 136L));
+	}
+	
+	@Test
+	public void withdrawTestWhenTeamMast() {
+		//모임장일땐 탈퇴가 되면 안된다... 137은 현재 모임장인 MEM_ID이다
+		//물론 화면에서도 막아야합미다...
+		log.info(tmm.withdrawTeam(106L, 137L));
+	}
+	
 }

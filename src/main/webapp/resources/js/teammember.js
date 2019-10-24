@@ -62,11 +62,60 @@ var teamMember = (function(){
 		return [yy,'/',(mm > 9 ? '' : '0')+mm,'/',(dd > 9 ? '' : '0')+dd].join('');
 	}
 	
+	function joinbutton(buttonId,teamId,memId){
+		$.get("/isAttendTeam/"+teamId+"/"+memId+".json",function(data){
+			var groupMemberVO = {"teamId" : teamId, "memberId" : memId}
+			if(data){
+				buttonId.text("탈퇴하기");
+				buttonId.on("click",function(){
+				bootbox.confirm("모임에서 탈퇴하시겠습니까",function(result){
+					if(result){
+							$.ajax({
+			            		type : 'delete',
+			            		url : '/withdraw',
+			            		datatype : "json",
+			            		data : JSON.stringify(groupMemberVO),
+			            		contentType : "application/json; charset=utf-8",
+			            		success : function(result){
+			            			location.reload(); //성공하면 새로고침
+			            		}
+			            	});
+						
+					}else{
+						
+					}
+				})
+				
+				});
+				
+			}else{
+				buttonId.text("가입하기");
+				buttonId.on("click",function(){
+				bootbox.confirm("모임에 가입하시겠습니까",function(result){
+					if(result){
+						$.ajax({
+		            		type : 'post',
+		            		url : '/attend',
+		            		datatype : "json",
+		            		data : JSON.stringify(groupMemberVO),
+		            		contentType : "application/json; charset=utf-8",
+		            		success : function(result){
+		            			location.reload(); //성공하면 새로고침
+		            		}
+		            	});
+					}
+				});
+				});
+			}
+		});
+	}
+	
 	return {
 		getList : getList,
 		parseDate : parseDate,
 		getMember : getMember,
 		isMaster : isMaster,
-		isAdmin : isAdmin
+		isAdmin : isAdmin,
+		joinbutton : joinbutton
 	}
 })();
