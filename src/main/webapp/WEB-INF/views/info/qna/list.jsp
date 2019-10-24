@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <!-- HEAD -->
@@ -87,7 +88,7 @@
 													<th>제목</th>
 													<th>작성자</th>
 													<th>등록일</th>
-													<th>수정일</th>
+<!-- 													<th>수정일</th> -->
 													<th>조회수</th>
 												</tr>
 											</thead>
@@ -110,8 +111,11 @@
 															${list.postTitle}
 															</a></td>
 														<td>${list.postNickname}</td>
-														<td>${list.postRegdate}</td>
-														<td>${list.postUpdate}</td>
+														<td>
+														<fmt:parseDate value="${list.postRegdate}" var="postRegdate"  pattern="yyyy-mm-dd" scope="page"/>
+														<fmt:formatDate value="${postRegdate}" pattern="yyyy년 mm월 dd일"/>
+														</td>
+<%-- 														<td>${list.postUpdate}</td> --%>
 														<td>${list.postHit}</td>
 													</tr>
 												</c:forEach>

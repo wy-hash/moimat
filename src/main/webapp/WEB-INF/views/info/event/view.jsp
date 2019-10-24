@@ -83,7 +83,6 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="postContent"><strong>게시글 내용</strong></label>
                     <div class="col-md-10">
-
                         	${view.postContent}
                     </div>
                 </div>

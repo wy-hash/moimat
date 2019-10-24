@@ -159,13 +159,38 @@
 
     <!--Bootstrap Table Extension [ OPTIONAL ]-->
     <script src="/resources/plugins/bootstrap-table/extensions/editable/bootstrap-table-editable.js"></script>
-
+<!-- modal for delete -->	
+	<div class="modal" id="modalDelete" tabindex="-1"  style="display: none;">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <!--Modal header-->
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+	                <h4 class="modal-title">삭제</h4>
+	            </div>
+	            <!--Modal body-->
+	            <div class="modal-body">
+	                <p class="text-semibold text-main">삭제 하시겠습니까?</p>
+	            </div>
+	            <!--Modal footer-->
+	            <div class="modal-footer">
+	                <button data-dismiss="modal" class="btn btn-default" type="button">취소</button>
+	               	<button id="modalDeleteSubmit" class="btn btn-warning" type="button">확인</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+<!-- //modal for delete -->
 	<script>
 		$(document).ready(function(){
 			
 			let id = $('#brdId').val();
 			
-			$('#delete').on('click', formSubmit);
+			$('#delete').on('click', function(){
+				$('#modalDelete').modal('show');
+			});
+
+			$('#modalDeleteSubmit').on('click', formSubmit);
 			
 			$('#edit').on('click', function(){
 				let url = location.origin+'/admin/board/edit/'+id;

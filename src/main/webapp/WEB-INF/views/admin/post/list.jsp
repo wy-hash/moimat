@@ -75,7 +75,7 @@
 									</c:forEach>
 								</ul>
 							</div>
-							<h3 class="panel-title">게시판 관리</h3>
+							<h3 class="panel-title">게시글 관리</h3>
 						</div>
 						<!--Panel body-->
 						<div class="panel-body">

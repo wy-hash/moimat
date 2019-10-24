@@ -122,8 +122,8 @@
 							</div>
 							<div class="row pull-right">
 								<button type="button" id="brdSubmit"
-									class="btn btn-success  mt-20">확인</button>
-								<button type="button" id="brdCansel" class="btn btn-danger  mt-20">취소</button>
+									class="btn btn-success mar-top">확인</button>
+								<button type="button" id="brdCansel" class="btn btn-danger mar-top">취소</button>
 							</div>
 						</form>
 						<!--===================================================-->

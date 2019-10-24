@@ -16,15 +16,6 @@
 <!--X-editable [ OPTIONAL ]-->
 <link href="/resources/plugins/x-editable/css/bootstrap-editable.css"
 	rel="stylesheet">
-<style>
-.mt-20 {
-	margin-top: 20px;
-}
-
-.color {
-	color: yellowgreen;
-}
-</style>
 
 <title>Page Template | moim@</title>
 </head>
@@ -129,10 +120,10 @@
 									</label>
 								</div>
 							</div>
-							<div class="row pull-right">
+							<div class="row pull-right mar-top">
 								<button type="button" id="intSubmit"
-									class="btn btn-success  mt-20">확인</button>
-								<button type="button" id="intCansel" class="btn btn-danger  mt-20">취소</button>
+									class="btn btn-success">확인</button>
+								<button type="button" id="intCansel" class="btn btn-danger">취소</button>
 							</div>
 						</form>
 						<!--===================================================-->
