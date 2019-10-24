@@ -98,9 +98,11 @@
 			                <li>
 			                    <a href="/groups/${ group.teamId }/chat">채팅</a>
 			                </li>
+							<c:if test="${tmem.tmemLevel > 7}">
 			                <li>
 			                    <a href="/groups/${ group.teamId }/settings">설정</a>
 			                </li>
+			                </c:if>
 			            </ul>
 			            
                         <!--Default Dropdown button-->
@@ -116,8 +118,10 @@
 								<li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
 								<li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
                                 <li><a href="/groups/${ group.teamId }/chat">채팅</a></li>
+								<c:if test="${tmem.tmemLevel > 7}">
                                 <li class="divider"></li>
                                 <li><a href="/groups/${ group.teamId }/settings">설정</a></li>
+                                </c:if>
                             </ul>
                         </div>
                         <!--===================================================-->
@@ -168,7 +172,16 @@
 			
 	</div>
 	<!-- END CONTAINER -->
-	
+	<!--Bootbox Modals [ OPTIONAL ]-->
+	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			var msg = "<c:out value='${msg}'/>"
+			if(msg){
+				bootbox.alert(msg);
+			}
+		});
+	</script>
 	<%-- for modal --%>
 	<c:if test="${ !empty loginVO }">
 		<%@ include file="../includes/modals.jsp" %>

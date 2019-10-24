@@ -47,7 +47,7 @@
 		        </div>
 		
 		        <div class="pad-all">
-		            <a href="/auth/findPwd" class="btn-link mar-rgt">비밀번호를 잊으셨나요?</a>
+		            <a id="findPass" class="btn-link mar-rgt">비밀번호를 잊으셨나요?</a>
 		            <a href="/auth/join" class="btn-link mar-lft">계정 만들기</a>
 		
 		        </div>
@@ -59,7 +59,8 @@
 	</div>
 	<!--===================================================-->
 	<!-- END OF CONTAINER -->
-	
+	<!--Bootbox Modals [ OPTIONAL ]-->
+	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 	<script>
 	
 	$(document).ready(function(){
@@ -156,6 +157,41 @@
 	    }
 	    return unescape(cookieValue);
 	}
+	
+	var msg = "<c:out value='${msg}'/>"
+		if(msg){
+			bootbox.alert(msg);
+		}
+	
+	$('#findPass').on('click', function(){
+        bootbox.dialog({
+            title: "비밀번호를 잊어버렸나요?",
+            message:'<div class="row"> ' + 
+            		'	<div class="col-md-12"> ' +
+                    '		<form id="chkModal"class="form-horizontal"> ' + 
+                    '			<div class="form-group"> ' +
+                    '				<label class="col-md-4 control-label mar-lft" for="pwchk">이메일</label> ' +
+                    '				<div class="col-md-5"> ' +
+                    '					<input name="email" type="text" class="form-control input-md"> ' +
+                    '					<span class="help-block mar-lft"><small>이메일을 입력해주세요.</small></span>' +
+                    '				</div>' + 
+                    ' 			</div>' + 
+                    '		</form> </div> </div>',
+            buttons: {
+                success: {
+                    label: "확인",
+                    className: "btn-info",
+                    callback: function() {
+                        var name = $('#name').val();
+                        var modalForm = $("#chkModal");
+                        modalForm.attr("action","/auth/findPassword");
+                        modalForm.attr("method","post");
+                        modalForm.submit();
+                    }
+                }
+            }
+        });
+    });
 	
 	</script>
 

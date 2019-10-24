@@ -29,6 +29,7 @@
 	
 	<select id="getRecentPost" resultType="com.breaktheice.moimat.domain.TeamPostDomain">
 		SELECT
+			BRD_ID,
 			TEAM_ID,
 			POST_ID,
 			POST_TITLE,
@@ -129,7 +130,6 @@
 	<update id="updateMember" parameterType="com.breaktheice.moimat.domain.MemberDomain">
 		UPDATE	MEMBER	
 		 <trim prefix="SET" suffixOverrides="," >
-      		<if test="memEmail != null and memEmail !=''">MEM_EMAIL=#{memEmail},</if>
       		<if test="memPassword != null and memPassword !=''">MEM_PASSWORD=#{memPassword},</if>
       		<if test="memBirthday != null and memBirthday !=''">MEM_BIRTHDAY=TO_DATE(#{memBirthday}, 'YYYYMMDD'),</if>
       		<if test="memNickname != null and memNickname !=''">MEM_NICKNAME=#{memNickname},</if>

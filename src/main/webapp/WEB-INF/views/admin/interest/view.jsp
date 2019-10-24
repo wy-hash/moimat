@@ -13,11 +13,6 @@
 
     <!--X-editable [ OPTIONAL ]-->
     <link href="/resources/plugins/x-editable/css/bootstrap-editable.css" rel="stylesheet">
-    <style>
-    	.mt-20{
-    		margin-top: 20px;
-    	}
-    </style>
 
 	<title>Page Template | moim@</title>
 </head>
@@ -52,7 +47,7 @@
                 <!--Page Title-->
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <div id="page-title">
-                    <h1 class="page-header text-overflow">관심사 관리</h1>
+                    <h1 class="page-header text-overflow">관심사 코드 관리</h1>
                 </div>
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <!--End page title-->
@@ -115,9 +110,9 @@
 <!--                         <small class="help-block">Please enter password</small> -->
                     </div>
                 </div>
-                <div class="row pull-right">
-                	<button type="button" id="edit" class="btn btn-success  mt-20"> 수정</button>
-                	<button type="button" id="delete" class="btn btn-danger  mt-20"> 삭제</button>
+                <div class="row pull-right mar-top">
+                	<button type="button" id="edit" class="btn btn-success"> 수정</button>
+                	<button type="button" id="delete" class="btn btn-danger"> 삭제</button>
                 </div>
             </form>
             <!--===================================================-->
@@ -149,11 +144,6 @@
 			
 	</div>
 	<!-- END CONTAINER -->
-	 <%-- for modal --%>
-	<c:if test="${ !empty loginVO }">
-		<%@ include file="../../includes/modals.jsp" %>
-	</c:if>
-	<%-- for modal --%>
   
     <!--Bootstrap Table Sample [ SAMPLE ]-->
     <script src="/resources/js/demo/tables-bs-table.js"></script>
@@ -170,12 +160,38 @@
     <!--Bootstrap Table Extension [ OPTIONAL ]-->
     <script src="/resources/plugins/bootstrap-table/extensions/editable/bootstrap-table-editable.js"></script>
 
+	<!-- modal for delete -->	
+	<div class="modal" id="modalDelete" tabindex="-1"  style="display: none;">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <!--Modal header-->
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+	                <h4 class="modal-title">삭제</h4>
+	            </div>
+	            <!--Modal body-->
+	            <div class="modal-body">
+	                <p class="text-semibold text-main">삭제 하시겠습니까?</p>
+	            </div>
+	            <!--Modal footer-->
+	            <div class="modal-footer">
+	                <button data-dismiss="modal" class="btn btn-default" type="button">취소</button>
+	               	<button id="modalDeleteSubmit" class="btn btn-warning" type="button">확인</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<!-- //modal for delete -->		
 	<script>
 		$(document).ready(function(){
 			
 			let id = $('#intId').val();
 			
-			$('#delete').on('click', formSubmit);
+			$('#delete').on('click', function(){
+				$('#modalDelete').modal('show');
+			});
+
+			$('#modalDeleteSubmit').on('click', formSubmit);
 			
 			$('#edit').on('click', function(){
 				let url = location.origin+'/admin/interest/edit/'+id;
@@ -188,5 +204,10 @@
 		}
 	</script>
 
+	 <%-- for modal --%>
+	<c:if test="${ !empty loginVO }">
+		<%@ include file="../../includes/modals.jsp" %>
+	</c:if>
+	<%-- for modal --%>
 </body>
 </html>

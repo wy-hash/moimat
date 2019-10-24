@@ -8,10 +8,10 @@
 	</insert>
 
 	<select id="selectMessages" resultType="com.breaktheice.moimat.domain.ChatMessage" >
-		select tc.CHAT_CONTENT message, tc.CHAT_REGDATE sendTime, m.MEM_NICKNAME sender, m.mem_photo profilePhoto, m.mem_id senderId
+		select tc.CHAT_CONTENT message, tc.CHAT_REGDATE sendTime, m.TMEM_NICKNAME sender, m.TMEM_PHOTO profilePhoto, m.TMEM_ID senderId
 		from (select * from team_chat where team_id = #{ teamId }) tc
-		join member m
-		on tc.TMEM_ID = m.MEM_ID
+		join team_member m
+		on tc.TMEM_ID = m.TMEM_ID
 		order by chat_regdate asc
 	</select>
 	
