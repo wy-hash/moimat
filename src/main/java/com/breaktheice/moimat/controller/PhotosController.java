@@ -1,18 +1,35 @@
 package com.breaktheice.moimat.controller;
 
-import com.breaktheice.moimat.domain.*;
-import com.breaktheice.moimat.service.*;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import lombok.extern.log4j.Log4j;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
-import java.util.Map;
+import com.breaktheice.moimat.domain.MemberDomain;
+import com.breaktheice.moimat.domain.TeamCommentsDTO;
+import com.breaktheice.moimat.domain.TeamCommentsDomain;
+import com.breaktheice.moimat.domain.TeamMemberDomain;
+import com.breaktheice.moimat.domain.TeamPostDomain;
+import com.breaktheice.moimat.service.AuthService;
+import com.breaktheice.moimat.service.TeamCommentsService;
+import com.breaktheice.moimat.service.TeamMemberService;
+import com.breaktheice.moimat.service.TeamPhotoService;
+import com.breaktheice.moimat.service.TeamPostService;
+import com.breaktheice.moimat.service.TeamService;
+import com.breaktheice.moimat.util.AdminCriteria;
+import com.google.gson.Gson;
+
+import lombok.extern.log4j.Log4j;
 
 @Controller
 @RequestMapping("/groups/{groupId}/photos")
@@ -47,7 +64,7 @@ public class PhotosController {
 	@GetMapping("/{postId}")
 	public String readPost(@PathVariable("groupId") Long groupId,
 						   @PathVariable("postId") Long postId,
-						   Model model) {
+						   Model model,@ModelAttribute("cri")AdminCriteria cri) {
 		teamPostService.updateViewCount(postId);
 
 		TeamPostDomain post = teamPostService.getPost(postId, 22L);
@@ -64,12 +81,8 @@ public class PhotosController {
 		model.addAttribute("comments", comments);
 
 
-		MemberDomain postingUser = authService.getMemberInfo(post.getTmemId());
-		model.addAttribute("userImg", postingUser.getMemPhoto());
-
-
-
-
+		MemberDomain postingUser = authService.getMemberInfo(teamMemberService.getMember(post.getTmemId()).getMemId());
+		model.addAttribute("user", postingUser);
 
 		return "/groups/photos/read";
 	}
@@ -110,7 +123,7 @@ public class PhotosController {
 	}
 
 	@GetMapping("/{postId}/edit")
-	public String editPost(@PathVariable("postId") Long postId, @PathVariable("groupId") Long groupId, Model model) {
+	public String editPost(@PathVariable("postId") Long postId, @PathVariable("groupId") Long groupId, Model model,@ModelAttribute("cri")AdminCriteria cri) {
 
 		model.addAttribute("post", teamPostService.getPost(postId, 22L));
 		model.addAttribute("group",teamService.getGroupInfo(groupId));
@@ -119,7 +132,7 @@ public class PhotosController {
 	}
 
 	@PostMapping("/{postId}/edit")
-	public String editPost(@PathVariable("postId") Long postId, @PathVariable("groupId") Long groupId, TeamPostDomain post, @RequestParam("memId") Long memId) {
+	public String editPost(@PathVariable("postId") Long postId, @PathVariable("groupId") Long groupId, TeamPostDomain post, @RequestParam("memId") Long memId,@ModelAttribute("cri")AdminCriteria cri,RedirectAttributes rttr) {
 //		log.info("post: " + post);
 //
 //		log.info(groupId);
@@ -139,15 +152,19 @@ public class PhotosController {
 		originPost.setPostContent(post.getPostContent());
 
 		teamPostService.updatePost(originPost);
-
+		rttr.addAttribute("pageNum",cri.getPageNum());
+        rttr.addAttribute("type",cri.getType());
+        rttr.addAttribute("keyword",cri.getKeyword());
 		return "redirect:/groups/" + groupId + "/photos/" + postId;
 	}
 
 	@GetMapping("/{postId}/delete")
-	public String deletePost(@PathVariable("groupId") Long groupId, @PathVariable("postId") Long postId) {
+	public String deletePost(@PathVariable("groupId") Long groupId, @PathVariable("postId") Long postId,@ModelAttribute("cri")AdminCriteria cri,RedirectAttributes rttr) {
 
 		teamPostService.deletePost(postId);
-
+		rttr.addAttribute("pageNum",cri.getPageNum());
+        rttr.addAttribute("type",cri.getType());
+        rttr.addAttribute("keyword",cri.getKeyword());
 		return "redirect:/groups/" + groupId + "/photos";
 	}
 
