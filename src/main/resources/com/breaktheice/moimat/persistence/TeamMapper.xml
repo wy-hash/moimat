@@ -288,7 +288,8 @@
 			TEAM_ID,
 			POST_ID,
 			POST_TITLE,
-			POST_NICKNAME
+			POST_NICKNAME,
+			POST_CONTENT
 		FROM       
 	        (SELECT
 				*

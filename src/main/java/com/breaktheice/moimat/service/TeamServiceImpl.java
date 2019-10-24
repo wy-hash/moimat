@@ -136,7 +136,9 @@ public class TeamServiceImpl implements TeamService {
 		TeamInfoVO vo = new TeamInfoVO();
 		vo.setPostList(mapper.getPostDomain(td.getTeamId(),23L));
 		List <TeamPostDomain> photoList = mapper.getPostDomain(td.getTeamId(), 22L);
-		vo.setPostPhotoList(Thumbnail(photoList));
+		photoList = Thumbnail(photoList);
+		
+		vo.setPostPhotoList(photoList);
 		vo.setCountMember(mapper.countTeamMember(td));
 		vo.setInterest(mapper.getInterest(td));
 		vo.setArea(mapper.getAreaFullName(td));
@@ -154,16 +156,17 @@ public class TeamServiceImpl implements TeamService {
 			// 패턴작업
 			Pattern pattern = Pattern.compile("<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>"); // img 태그 src 추출 정규표현식
 			Matcher matcher = pattern.matcher(content);
-
+			
 			while (matcher.find()) {
 				if (matcher.group(1) != null) {
 					src = matcher.group(1);
+					log.info(src);
 					domain.setSrc(src);
 					break;
 				}
 			}
 		}
-
+		
 		return list;
 	}
 }

@@ -25,9 +25,4 @@ public class TeamPostDomain {
     private Long commentNums;
 
 	private String src;
-    
-    public void setSrc(String src) {
-		// TODO Auto-generated method stub
-		this.src = src;
-	}
 }
