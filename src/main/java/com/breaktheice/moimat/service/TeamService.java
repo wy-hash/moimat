@@ -6,6 +6,7 @@ import com.breaktheice.moimat.domain.AreaDomain;
 import com.breaktheice.moimat.domain.InterestDomain;
 import com.breaktheice.moimat.domain.MemberDomain;
 import com.breaktheice.moimat.domain.TeamDomain;
+import com.breaktheice.moimat.domain.TeamInfoVO;
 
 public interface TeamService {
 
@@ -31,4 +32,5 @@ public interface TeamService {
 	public List<AreaDomain> selectAllAreas();
 	// 관심사
 	public List<InterestDomain> selectAllInterest();
+	public TeamInfoVO settingTeamInfoVO(TeamDomain td);
 }

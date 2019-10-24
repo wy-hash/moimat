@@ -54,16 +54,6 @@
 											</span>
 						                </a>
 						            </li>
-						            
-						            <!--Menu list item-->
-						            <li>
-						                <a href="#">
-						                    <i class="fa fa-envelope"></i>
-						                    <span class="menu-title">
-												<strong>받은 메시지</strong>
-											</span>
-						                </a>
-						            </li>
 
 						            <!--Menu list item-->
 						            <li>

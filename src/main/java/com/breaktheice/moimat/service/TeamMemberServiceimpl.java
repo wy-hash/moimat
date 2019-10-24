@@ -96,4 +96,25 @@ public class TeamMemberServiceimpl implements TeamMemberService {
 	public TeamMemberDomain getTeamMemberId(Long groupId, Long memId) {
 		return tmm.selectMemberByTeamIdAndMemId(groupId, memId);
 	}
+	@Override
+	public Long attendTeam(Long teamId, Long memId) {
+		// TODO Auto-generated method stub
+		return tmm.attendTeam(teamId, memId);
+	}
+	@Override
+	public Long withdrawTeam(Long teamId, Long memId) {
+		// TODO Auto-generated method stub
+		return tmm.withdrawTeam(teamId, memId);
+	}
+	@Override
+	public boolean isAttendTeam(Long teamId, Long memId) {
+		// 결과가하나이상이 나오면 안됨 ... 
+		Long tmemId = tmm.getTmemId(memId, teamId);
+		if(tmemId != null) {
+			return true;
+		}
+		return false;
+	}
+	
+	
 }

@@ -430,7 +430,7 @@
 							for(var i = 0, len = data.memberList.length||0; i<len; i++){
 								mmhtml += '<a href="#" class="list-group-item">'
 		                           	   +  	'<div class="media-left pos-rel">'
-		                               + 		'<img class="img-circle img-xs" src="/resources/img/profile-photos/'+data.memberList[i].mmemPhoto+'" alt="Profile Picture">'
+		                               + 		'<img class="img-circle img-xs" src="'+data.memberList[i].mmemPhoto+'" alt="Profile Picture">'
 		                               + 	'</div>'
 		                               +	'<div class="media-body">'
 		                               +		'<p class="mar-no">'+data.memberList[i].mmemNickName+'</p>'

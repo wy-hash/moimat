@@ -270,5 +270,38 @@
 		ORDER BY team_id DESC
 		]]>
 	</select>
+	<select id="getAreaFullName" resultType="String">
+		select area_name || ' ' || area_region_name
+		from
+			area
+		where
+			area_id = #{areaId}
+	</select>
+	<select id="countTeamMember" resultType="Long">
+		select count(*) from team_member where team_id = #{teamId}
 	
+	</select>
+	
+	<select id="getPostDomain" resultType="com.breaktheice.moimat.domain.TeamPostDomain">
+		SELECT
+			BRD_ID,
+			TEAM_ID,
+			POST_ID,
+			POST_TITLE,
+			POST_NICKNAME
+		FROM       
+	        (SELECT
+				*
+			FROM
+				TEAM_POST
+			WHERE
+				TEAM_ID = #{teamId} 
+				AND
+				BRD_ID = #{brdId}
+			ORDER BY
+				POST_UPDATE DESC)
+		<![CDATA[
+		WHERE ROWNUM <= 5
+		]]>
+	</select>
 </mapper>
