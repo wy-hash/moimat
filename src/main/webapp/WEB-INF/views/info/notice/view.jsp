@@ -73,7 +73,7 @@
 				
                 <!-- 게시글 이름-->
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="postTitle"><strong>게시글 제목</strong></label>
+                    <label class="col-md-2 control-label" for="postTitle"><strong>공지 제목</strong></label>
                     <div class="col-md-10">
                         <p class="form-control-static">${view.postTitle}</p>
                     </div>
@@ -81,7 +81,7 @@
 
                 <!--게시글 내용-->
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="postContent"><strong>게시글 내용</strong></label>
+                    <label class="col-md-2 control-label" for="postContent"><strong>공지 내용</strong></label>
                     <div class="col-md-10">
 
                         	${view.postContent}

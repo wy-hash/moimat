@@ -11,6 +11,19 @@
 <!--X-editable [ OPTIONAL ]-->
 <link href="/resources/plugins/x-editable/css/bootstrap-editable.css" rel="stylesheet">
 <title>Page Template | moim@</title>
+
+<style>
+@media screen and (max-width: 768px) {
+	.input-group {
+		margin-top : 15px;
+	}
+}
+
+@media screen and (min-width: 768px) {
+	.input-group {
+	}
+}
+</style>
 </head>
 <!-- END HEAD -->
 <body>
@@ -69,12 +82,18 @@
 										<option value="C" <c:if test="${pageMaker.cri.type eq 'C'}">selected</c:if> >내용</option>
 										<option value="W" <c:if test="${pageMaker.cri.type eq 'W'}">selected</c:if> >작성자</option>
 									</select>
+           	    					<div class="input-group">
 									<input type="text" name="keyword" class="form-control" value="${pageMaker.cri.keyword }"
 										placeholder="검색어를 입력해 주세요.">
 									<input type="hidden" name="brdId" value="${pageMaker.cri.brdId }">
 									<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
 									<input type="hidden" name="amount" value="${pageMaker.cri.amount }">
-									<button type="submit" class="btn btn-default">검색</button>
+										<span class="input-group-btn">
+				    						<button class="btn btn-default btn-icon" type="submit">
+						      					<i class="glyphicon glyphicon-search"></i>
+					      					</button>
+										</span>
+									</div>
 								</div>
 							</form>
 
@@ -96,7 +115,7 @@
 											<tbody>
 												<c:if test="${empty postList}">
 													<tr>
-														<td colspan="6" class="text-center"> 값이 없습니다.</td>
+														<td colspan="5" class="text-center"> 나의 질문이 없습니다.</td>
 													</tr>
 												</c:if>
 												<c:forEach items="${postList }" var="list" varStatus="status">
