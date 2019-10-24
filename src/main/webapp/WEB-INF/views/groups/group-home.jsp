@@ -159,18 +159,18 @@ a {
 								<li><a href="/groups/${ group.teamId }/schedule">모임일정</a></li>
 								<li><a href="/groups/${ group.teamId }/photos">사진첩</a></li>
 								<li><a href="/groups/${ group.teamId }/posts">게시판</a></li>
-								<li><a href="/groups/${ group.teamId }/chat">채팅</a></li>
+                                <li><a href="/groups/${ group.teamId }/chat">채팅</a></li>
 								<c:if test="${tmem.tmemLevel > 6}">
-									<li class="divider"></li>
-									<li><a href="/groups/${ group.teamId }/settings">설정</a></li>
-								</c:if>
-							</ul>
-						</div>
-						<!--===================================================-->
-
-						<!--Tabs Content-->
-						<div class="tab-content">
-							<div class="content-box">
+                                <li class="divider"></li>
+                                <li><a href="/groups/${ group.teamId }/settings">설정</a></li>
+                                </c:if>
+                            </ul>
+                        </div>
+                        <!--===================================================-->
+			
+			            <!--Tabs Content-->
+			            <div class="tab-content">
+			                <div class="content-box">
 
 								<div class="row">
 									<div class="imgbox">
@@ -316,7 +316,7 @@ a {
 	<!-- END CONTAINER -->
 	<%-- for modal --%>
 	<c:if test="${ !empty loginVO }">
-		<%@ include file="../includes/modals.jsp"%>
+		<%@ include file="../includes/modals.jsp" %>
 	</c:if>
 	<%-- for modal --%>
 	<!--Bootbox Modals [ OPTIONAL ]-->
