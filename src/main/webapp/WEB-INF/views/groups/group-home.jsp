@@ -129,9 +129,20 @@
 			            <!--Tabs Content-->
 			            <div class="tab-content">
 			                <div class="content-box">
-			                    <p class="text-main text-semibold">First Tab Content</p>
-			                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
-			                    
+
+								<div class="row">
+									<div class="imgbox">
+										<img class="img-responsive" src="/resources/img/bg-img/bg-img-2.jpg">
+									</div>
+									<div class="info-container">
+										<div class="text-2x text-bold pad-ver">모임명</div>
+										<div class="text pad-ver">지역 | 관심사 | 8명 참여중 | 가입하기</div>
+										<div class="group-shot-desc pad-ver">짧은소개짧은소개짧은소개짧은소개짧은소개짧은소개</div>
+										<div class="group-desc pad-ver">
+											<textbox>모임소개모임소개모임소개모임소개모임소개모임소개</textbox>
+										</div>
+									</div>
+								</div>
 			                    
 			                    
 			                    
