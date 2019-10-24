@@ -28,6 +28,9 @@
 				display: none;
 			}
 		}
+		.move{
+			cursor: pointer;
+		}
 	
 	</style>
 </head>
@@ -145,7 +148,7 @@
 												<c:forEach var="item" items="${ posts }">
 													<tr>
 														<td>
-															<a href="/groups/${ group.teamId }/posts/${ item.postId }">
+															<a class="move" data-post-id="${ item.postId }">
 																<span class="text-main text-bold">${ item.postTitle }</span>
 															</a>
 															<span class="label label-default">${ item.commentNums }</span>
@@ -169,40 +172,50 @@
 								</div>
 
 								<div class="row text-center">
-
 									<!--Pagination with disabled and active states-->
 									<!--===================================================-->
+									<!-- data-pNum = pageNum href안쓰고 a태그에 이벤트걸어서 할것이라 data태그씀 -->
 									<ul class="pagination">
-										<li class="disabled"><a href="#" class="demo-pli-arrow-left"></a></li>
-										<li class="active"><a href="#">1</a></li>
-										<li><a href="#">2</a></li>
-										<li><a href="#">3</a></li>
-										<li><a href="#">4</a></li>
-										<li><span>...</span></li>
-										<li><a href="#">20</a></li>
-										<li><a href="#" class="demo-pli-arrow-right"></a></li>
+										<c:if test="${pageMaker.prev}">
+											<li><a data-page-num="${pageMaker.startPage - 1}" class="demo-pli-arrow-left"></a></li>
+										</c:if>
+										<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
+											<li class="${pageMaker.cri.pageNum == num ? 'active': '' }"><a data-page-num="${num}">${num}</a></li>
+										</c:forEach>
+										<c:if test="${pageMaker.next }">
+											<li><a data-page-num="${pageMaker.endPage + 1}" class="demo-pli-arrow-right"></a></li>
+										</c:if>
+										<!--  일부로 주석해놓은거 <li><span>...</span></li>
+										<li><a href="#">20</a></li> -->
 									</ul>
 									<!--===================================================-->
 									<!--End Pagination with disabled and active states-->
-
+									<form id="actionForm" action="/groups/${group.teamId}/posts">
+										<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
+										<input type="hidden" name="type" value="${pageMaker.cri.type}">
+										<input type="hidden" name="keyword" value="${pageMaker.cri.keyword}">
+									</form>
 								</div>
-
+								
 								<div class="row text-center">
-									<form class="form-inline" action="/${ group.teamId }/posts/search" method="get">
+									<form id="searchForm" class="form-inline" action="/groups/${group.teamId}/posts" method="get">
+										<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
 										<div class="searchbox input-group mar-btm">
 											<div class="input-group-btn">
-												<select id="demo-foo-filter-status" class="form-control bord-no">
-													<option value="title">제목</option>
-													<option value="content">내용</option>
-													<option value="nickname">작성자</option>
+												<select id="searchOption" class="form-control bord-no" name="type">
+													<option value="T" <c:out value="${pageMaker.cri.type eq 'T' ? 'selected' : ''}"/>>제목</option>
+													<option value="C" <c:out value="${pageMaker.cri.type eq 'C' ? 'selected' : ''}"/>>내용</option>
+													<option value="W" <c:out value="${pageMaker.cri.type eq 'W' ? 'selected' : ''}"/>>작성자</option>
 												</select>
 											</div>
 											<div class="input-group custom-search-form">
-												<input type="text" class="form-control" placeholder="검색어를 입력하세요">
+												<input type="text" class="form-control" placeholder="검색어를 입력하세요" 
+													name="keyword" value='<c:out value="${pageMaker.cri.keyword }"/>'>
 												<span class="input-group-btn">
-                                					<button class="text-muted" type="button"><i class="demo-pli-magnifi-glass"></i></button>
+                                					<button id="searchBtn" class="text-muted" type="button"><i class="demo-pli-magnifi-glass"></i></button>
 												</span>
 											</div>
+											
 										</div>
 									</form>
 								</div>
@@ -235,9 +248,32 @@
 			
 	</div>
 	<!-- END CONTAINER -->
-	
+	<!--Bootbox Modals [ OPTIONAL ]-->
+	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 	<script>
 		$(document).ready(function() {
+			var actionForm = $("#actionForm");
+			var searchForm = $("#searchForm");
+			$(".pagination").on("click","a",function(){
+				console.log($(this).data('page-num'));
+				actionForm.find("input[name='pageNum']").val($(this).data('page-num'));
+				actionForm.submit();
+			});
+			$(".move").on("click",function(){
+				var postId = $(this).data('post-id');
+				var actionURL = '/groups/<c:out value="${ group.teamId }"/>/posts/'+postId;
+				actionForm.attr('action',actionURL);
+				actionForm.submit();
+			});
+			$("#searchBtn").on('click',function(){
+				if(!searchForm.find("input[name='keyword']").val()){
+					bootbox.alert("키워드를 입력해 주세요.");
+				}
+				searchForm.find("input[name='pageNum']").val("1");
+				
+				searchForm.submit();
+			});
+			
 			
 		});
 	</script>

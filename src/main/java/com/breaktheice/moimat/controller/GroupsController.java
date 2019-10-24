@@ -4,6 +4,20 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import com.breaktheice.moimat.chat.ChatRoom;
+import com.breaktheice.moimat.chat.ChatRoomManager;
+import com.breaktheice.moimat.domain.MemberDomain;
+import com.breaktheice.moimat.domain.TeamDomain;
+import com.breaktheice.moimat.domain.TeamPostDomain;
+import com.breaktheice.moimat.service.TeamChatService;
+import com.breaktheice.moimat.service.TeamCommentsService;
+import com.breaktheice.moimat.service.TeamMemberService;
+import com.breaktheice.moimat.service.TeamPhotoService;
+import com.breaktheice.moimat.service.TeamPostService;
+import com.breaktheice.moimat.service.TeamService;
+import com.breaktheice.moimat.util.AdminCriteria;
+import com.breaktheice.moimat.util.AdminPageDTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,20 +28,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.breaktheice.moimat.chat.ChatRoom;
-import com.breaktheice.moimat.chat.ChatRoomManager;
-import com.breaktheice.moimat.domain.MemberDomain;
-import com.breaktheice.moimat.domain.TeamDomain;
-import com.breaktheice.moimat.domain.TeamMemberDomain;
-import com.breaktheice.moimat.domain.TeamPostDomain;
-import com.breaktheice.moimat.service.TeamChatService;
-import com.breaktheice.moimat.service.TeamCommentsService;
-import com.breaktheice.moimat.service.TeamMemberService;
-import com.breaktheice.moimat.service.TeamPhotoService;
-import com.breaktheice.moimat.service.TeamPostService;
-import com.breaktheice.moimat.service.TeamService;
-import com.breaktheice.moimat.util.AdminCriteria;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -130,34 +130,43 @@ public class GroupsController {
 	}
 
 	@GetMapping("/{groupId}/photos")
-	public String photos(@PathVariable Long groupId, Model model, HttpSession session) {
+	public String photos(@PathVariable Long groupId, Model model,AdminCriteria cri,  HttpSession session) {
+
 		//모임 탭 분기를 위한 tmem 정보 
 		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
 		model.addAttribute("tmem", teamMemberService.getTeamMemberId(groupId, md.getMemId()));
-		
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
-
-		List<TeamPostDomain> posts = teamPhotoService.getAllPosts(groupId,22L);
+		//사진게시판 ID 22
+		cri.setBrdId(22L);
+		//페이지당 갯수는 10개 고정
+		cri.setAmount(6L);
+		List<TeamPostDomain> posts = teamPhotoService.getAllPosts(groupId,cri);
+		
 		teamPhotoService.getThumbnail(posts);
 
 		teamCommentsService.addNumOfComments(posts);
-
+		Long total = teamPostService.getTotalCount(groupId, cri);
 		model.addAttribute("posts", posts);
-
+		model.addAttribute("pageMaker",new AdminPageDTO(cri,total));
 
 		return "groups/photos/list";
 	}
 
 	@GetMapping("/{groupId}/posts")
-	public String posts(@PathVariable Long groupId, Model model, HttpSession session) {
+	public String posts(@PathVariable Long groupId, Model model,AdminCriteria cri, HttpSession session) {
 		//모임 탭 분기를 위한 tmem 정보 
 		MemberDomain md = (MemberDomain) session.getAttribute("loginVO");
 		model.addAttribute("tmem", teamMemberService.getTeamMemberId(groupId, md.getMemId()));
-		
 		model.addAttribute("group", teamService.getGroupInfo(groupId));
-		List<TeamPostDomain> posts = teamPostService.getAllPosts(groupId, 23L);
+		//일반게시판 ID 23
+		cri.setBrdId(23L);
+		//페이지당 갯수는 10개 고정
+		cri.setAmount(10L);
+		List<TeamPostDomain> posts = teamPostService.getAllPosts(groupId, cri);
+		Long total = teamPostService.getTotalCount(groupId, cri);
 		teamCommentsService.addNumOfComments(posts);
 		model.addAttribute("posts", posts);
+		model.addAttribute("pageMaker",new AdminPageDTO(cri,total));
 
 		return "groups/posts/list";
 	}

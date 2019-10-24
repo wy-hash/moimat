@@ -1,14 +1,15 @@
 package com.breaktheice.moimat.service;
 
-import com.breaktheice.moimat.domain.TeamPostDomain;
-import com.breaktheice.moimat.domain.TeamPostFileDomain;
-import com.breaktheice.moimat.persistence.TeamPostMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.breaktheice.moimat.domain.TeamPostDomain;
+import com.breaktheice.moimat.persistence.TeamPostMapper;
+import com.breaktheice.moimat.util.AdminCriteria;
 
 @Service
 public class TeamPhotoServiceImpl implements TeamPhotoService {
@@ -22,8 +23,8 @@ public class TeamPhotoServiceImpl implements TeamPhotoService {
     }
 
     @Override
-    public List<TeamPostDomain> getAllPosts(Long groupId, Long brdId) {
-        return mapper.selectAllPosts(groupId, brdId);
+    public List<TeamPostDomain> getAllPosts(Long groupId, AdminCriteria cri) {
+        return mapper.selectAllPosts(groupId, cri);
     }
 
     public List<TeamPostDomain> getThumbnail(List<TeamPostDomain> list) {

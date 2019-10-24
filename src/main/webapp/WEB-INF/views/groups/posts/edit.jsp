@@ -86,13 +86,12 @@
                 <!-- #################################### -->
                 <!-- #### WRITE CODE BELOW THIS LINE #### -->
                 <!-- #################################### -->
-
                 <div class="panel">
                     <div class="panel-heading">
                         <h3 class="panel-title">자유게시판</h3>
                     </div>
 
-                    <form class="form" method="post" action="/groups/${ group.teamId }/posts/${ post.postId }/edit">
+                    <form id="actionForm" class="form" method="post" action="/groups/${ group.teamId }/posts/${ post.postId }/edit">
                         <div class="panel-body">
 
                             <!--Summernote-->
@@ -112,21 +111,18 @@
                             <input type="hidden" name="postEmail" value="${ loginVO.memEmail }">
                             <input type="hidden" name="teamId" value="${ group.teamId }">
                             <input type="hidden" name="memId" value="${ loginVO.memId }">
-
-
+                            <!-- 파라미터 유지를 위한 인풋 태그 -->
+                            <input type="hidden" name="pageNum" value="${cri.pageNum }"> 
+							<input type="hidden" name="type" value="${cri.type }"> 
+ 							<input type="hidden" name="keyword" value="${cri.keyword }"> 
                             <div class="action-btn text-right">
-                                <a href="/groups/${ group.teamId }/posts/${ post.postId }"><button type="button" class="btn btn-danger btn-rounded mar-rgt">취소</button></a>
-                                <a href="/gropus/${ group.teamId }/posts/${ post.postId }/edit"><button type="submit" class="btn btn-success btn-rounded mar-lft">올리기</button></a>
+                                <a class="nBtn" data-action="/groups/${ group.teamId }/posts/${ post.postId }"><button type="button" class="btn btn-danger btn-rounded mar-rgt">취소</button></a>
+                                <a class="nBtn" data-action="/groups/${ group.teamId }/posts"><button type="button" class="btn btn-info btn-rounded mar-rgt">목록</button></a>
+                                <button type="submit" class="btn btn-success btn-rounded mar-lft">올리기</button>
                             </div>
                         </div>
                     </form>
-
                 </div>
-
-
-
-
-
             </div>
             <!--===================================================-->
             <!--End page content-->
@@ -153,7 +149,7 @@
         var summernote = $('#summernote');
 
         var imgs = 0;
-
+		
         $('#summernote').summernote({
             placeholder: '여기에 글을 작성해주세요',
             height: 300,
@@ -181,6 +177,22 @@
 
             $('form').submit();
         });
+        
+        var actionForm = $("#actionForm");
+        //수정을 안하고 다른거한다해서 noBtn 이란뜻으로 이렇게...
+        $(".nBtn").on("click",function(){
+        	actionForm.attr("action",$(this).data('action')).attr("method","get");
+        	var pageNumTag = $("input[name='pageNum']").clone();
+        	var type = $("input[name='type']").clone();
+        	var keyword = $("input[name='keyword']").clone();
+        	actionForm.empty();
+        	actionForm.append(pageNumTag);
+        	actionForm.append(type);
+        	actionForm.append(keyword);
+        	
+        	actionForm.submit();
+        });
+        
     });
 </script>
 	 <%-- for modal --%>
