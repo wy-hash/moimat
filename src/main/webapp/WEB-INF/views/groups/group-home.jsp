@@ -134,7 +134,7 @@
 			                    
 			                    
 			                    
-			                    <button id="a">버튼</button>
+			                    <button id="buttonid">버튼</button>
 			                   
 			                    
 			                    
@@ -174,10 +174,14 @@
 		<%@ include file="../includes/modals.jsp" %>
 	</c:if>
 	<%-- for modal --%>
-	
+	<!--Bootbox Modals [ OPTIONAL ]-->
+	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
+	<script type="text/javascript" src="/resources/js/teammember.js"></script>
 	<script>
 		$(document).ready(function() {
-			
+			var groupId = '<c:out value="${groupId}"/>';
+			var memberId = '<c:out value="${sessionScope.loginVO.memId}"/>';
+			teamMember.joinbutton($('#buttonid'),groupId,memberId);
 		});
 	</script>
 </body>
