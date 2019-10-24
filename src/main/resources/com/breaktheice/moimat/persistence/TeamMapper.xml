@@ -302,7 +302,7 @@
 			ORDER BY
 				POST_UPDATE DESC)
 		<![CDATA[
-		WHERE ROWNUM <= 5
+		WHERE ROWNUM <= #{rowNum}
 		]]>
 	</select>
 </mapper>

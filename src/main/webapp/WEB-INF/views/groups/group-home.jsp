@@ -31,6 +31,58 @@
 a {
 	cursor: pointer;
 }
+
+.img-thumbnail-box {
+	padding: 0;
+}
+
+.thumbnail {
+	position: relative;
+	padding-top: 75%;
+	overflow: hidden;
+}
+
+.thumbnail>.centered {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	-webkit-transform: translate(50%, 50%);
+	-ms-transform: translate(50%, 50%);
+	transform: translate(50%, 50%);
+}
+
+.thumbnail>.centered>img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	max-width: auto;
+	height: 100%;
+	-webkit-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+.img-desc-box {
+	padding: 15px;
+}
+
+.img-desc-box>ul {
+	list-style: none;
+	padding-left: 0;
+}
+
+.ellipsis {
+	width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.move {
+	cursor: pointer;
+}
 </style>
 </head>
 <!-- END HEAD -->
@@ -176,7 +228,7 @@ a {
 										<div class="group-desc pad-btm">
 											<div class="textbox pad-all bord-all">
 												<div class="row">
-													<div class="col-lg-6">
+													<div class="col-lg-6 bord-hor">
 														<div class="text bord-btm">
 															<label class="text-bold mar-lft" style="font-size: 14px;">최근
 																게시글</label>
@@ -190,121 +242,75 @@ a {
 															</div>
 
 															<c:forEach items="${teamInfo.postList }" var="postList">
-
-																<div class="col-xs-9 bord-btm">${postList.postTitle }</div>
+																<div class="col-xs-9 bord-btm">
+																	<a class="move"
+																		href="/groups/${group.teamId }/posts/${postList.postId}">${postList.postTitle }</a>
+																</div>
 																<div class="col-xs-3 bord-btm ">${postList.postNickname }</div>
 															</c:forEach>
 
 														</div>
 													</div>
-													<div class="col-lg-6">
+													<div class="col-lg-6 bord-hor">
 														<div class="text bord-btm">
 															<label class="text-bold mar-lft" style="font-size: 14px;">최근
 																사진</label>
 														</div>
 														<div class="row pad-all">
-															<div class="col-xs-12">
-																<!--Carousel-->
-																<!--===================================================-->
-																<div id="demo-carousel" class="carousel slide"
-																	data-ride="carousel">
 
-																	<!--Indicators-->
-																	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-																	<ol class="carousel-indicators out">
-																		<li class="active" data-slide-to="0"
-																			data-target="#demo-carousel"></li>
-																		<li data-slide-to="1" data-target="#demo-carousel"></li>
-																		<li data-slide-to="2" data-target="#demo-carousel"></li>
-																	</ol>
-																	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-
-																	<div class="carousel-inner text-center">
-
-
-																		<c:forEach items="${teamInfo.postPhotoList}"
-																			var="list" varStatus="status">
-																			<c:choose>
-																				<c:when test="${ status.index eq 0 }">
-																					<div class="item active"></div>
-																				</c:when>
-																				<c:otherwise>
-																					<div class="item"></div>
-																				</c:otherwise>
-																			</c:choose>
-																			
-																			<p>${ list.postTitle }</p>
-					                										<img src=" ${list.src} " style="width:150px; height:150px;">
-					                									</c:forEach>
+															<c:forEach items="${teamInfo.postPhotoList}" var="list">
+																<div class="panel col-md-4 col-xs-12">
+																	<div class="panel-body img-thumbnail-box">
+																		<a class="move"
+																			href="/groups/${group.teamId}/photos/${list.postId}">
+																			<div class="thumbnail">
+																				<div class="centered">
+																					<img src='${ list.src }'>
+																				</div>
+																			</div>
+																		</a>
 																	</div>
-																	
+
+																	<div class="panel-body img-desc-box">
+																		<div class="ellipsis text-bold">
+																			<a class="move"
+																				href="/groups/${group.teamId}/photos/${list.postId}">${ list.postTitle }</a>
+																		</div>
+																	</div>
 																</div>
-
-																<!--carousel-control-->
-																<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-																<a class="carousel-control left" data-slide="prev"
-																	href="#demo-carousel"><i
-																	class="demo-pli-arrow-left icon-2x"></i></a> <a
-																	class="carousel-control right" data-slide="next"
-																	href="#demo-carousel"><i
-																	class="demo-pli-arrow-right icon-2x"></i></a>
-																<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-
-															</div>
-															<!--===================================================-->
-															<!--End Carousel-->
+															</c:forEach>
 														</div>
-
 													</div>
-
-
-
-
 												</div>
-
-
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 						</div>
 					</div>
+
+					<!--===================================================-->
+					<!--End Default Tabs (Left Aligned)-->
+
+
 				</div>
 				<!--===================================================-->
-				<!--End Default Tabs (Left Aligned)-->
+				<!--End page content-->
 
 
 			</div>
 			<!--===================================================-->
-			<!--End page content-->
+			<!--END CONTENT CONTAINER-->
+
 
 
 		</div>
-		<!--===================================================-->
-		<!--END CONTENT CONTAINER-->
+		<!-- END BOXED -->
 
-
-
-	</div>
-	<!-- END BOXED -->
-
-	<!-- FOOTER -->
-	<%@ include file="../includes/footer.jsp"%>
-	<!-- END FOOTER -->
+		<!-- FOOTER -->
+		<%@ include file="../includes/footer.jsp"%>
+		<!-- END FOOTER -->
 
 	</div>
 	<!-- END CONTAINER -->
@@ -326,7 +332,7 @@ a {
 			if(msg){
 				bootbox.alert(msg);
 			}
-	});
+	});		
 	</script>
 </body>
 </html>

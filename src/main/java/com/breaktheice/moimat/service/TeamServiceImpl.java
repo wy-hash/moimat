@@ -135,8 +135,8 @@ public class TeamServiceImpl implements TeamService {
 
 	public TeamInfoVO settingTeamInfoVO(TeamDomain td) {
 		TeamInfoVO vo = new TeamInfoVO();
-		vo.setPostList(mapper.getPostDomain(td.getTeamId(),23L));
-		List <TeamPostDomain> photoList = mapper.getPostDomain(td.getTeamId(), 22L);
+		vo.setPostList(mapper.getPostDomain(td.getTeamId(),23L,10L));
+		List <TeamPostDomain> photoList = mapper.getPostDomain(td.getTeamId(), 22L,3L);
 		photoList = Thumbnail(photoList);
 		
 		vo.setPostPhotoList(photoList);

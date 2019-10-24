@@ -67,6 +67,6 @@ public interface TeamMapper {
 	
 	public Long countTeamMember(TeamDomain teamDomain);
 	
-	public List<TeamPostDomain> getPostDomain(@Param("teamId")Long teamId,@Param("brdId")Long brdId);
+	public List<TeamPostDomain> getPostDomain(@Param("teamId")Long teamId,@Param("brdId")Long brdId,@Param("rowNum")Long rowNum);
 	
 }
