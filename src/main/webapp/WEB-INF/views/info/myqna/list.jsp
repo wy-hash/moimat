@@ -102,25 +102,32 @@
 								<div id="tab-content-box" class="tab-pane in active">
 									<div class="row">
 										<table class="table table-bordered">
+											<colgroup>
+<%-- 												<col width="8%"> --%>
+												<col width="38%">
+												<col width="19%">
+												<col width="24%">
+												<col width="19%">
+											</colgroup>
 											<thead>
 												<tr>
-													<th>No</th>
-													<th>제목</th>
-													<th>작성자</th>
-													<th>등록일</th>
+<!-- 													<th scope="col">No</th> -->
+													<th scope="col">제목</th>
+													<th scope="col">작성자</th>
+													<th scope="col">등록일</th>
 <!-- 													<th>수정일</th> -->
-													<th>조회수</th>
+													<th scope="col">조회수</th>
 												</tr>
 											</thead>
 											<tbody>
 												<c:if test="${empty postList}">
 													<tr>
-														<td colspan="5" class="text-center"> 나의 질문이 없습니다.</td>
+														<td colspan="4" class="text-center"> 나의 질문이 없습니다.</td>
 													</tr>
 												</c:if>
 												<c:forEach items="${postList }" var="list" varStatus="status">
 													<tr>
-														<td>${(pageMaker.cri.pageNum-1)*pageMaker.cri.amount + status.count}</td>
+<%-- 														<td>${(pageMaker.cri.pageNum-1)*pageMaker.cri.amount + status.count}</td> --%>
 														<!-- 게시글 번호 -->
 														<td><a href="#" class="view" data-id="${list.postId }">
 														<c:choose>
@@ -133,7 +140,7 @@
 														<td>${list.postNickname}</td>
 														<td>
 														<fmt:parseDate value="${list.postRegdate}" var="postRegdate"  pattern="yyyy-mm-dd" scope="page"/>
-														<fmt:formatDate value="${postRegdate}" pattern="yyyy년 mm월 dd일"/>
+														<fmt:formatDate value="${postRegdate}" pattern="yyyy.mm.dd"/>
 														</td>
 <%-- 														<td>${list.postUpdate}</td> --%>
 														<td>${list.postHit}</td>

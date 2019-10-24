@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <!-- HEAD -->
@@ -100,15 +101,21 @@
 								<div id="tab-content-box" class="tab-pane in active">
 									<div class="row">
 										<table class="table table-bordered">
+											<colgroup>
+<%-- 												<col width="6%"> --%>
+												<col width="52%">
+												<col width="26%">
+												<col width="22%">
+											</colgroup>
 											<thead>
 												<tr>
-													<th>No</th>
+<!-- 													<th scope="col">No</th> -->
 <!-- 													<th>썸네일</th> -->
-													<th>제목</th>
+													<th scope="col">제목</th>
 <!-- 													<th>작성자</th> -->
-													<th>등록일</th>
+													<th scope="col">등록일</th>
 <!-- 													<th>수정일</th> -->
-													<th>조회수</th>
+													<th scope="col">조회수</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -119,14 +126,17 @@
 												</c:if>
 												<c:forEach items="${postList }" var="list" varStatus="status">
 													<tr>
-														<td>${(pageMaker.cri.pageNum-1)*pageMaker.cri.amount + status.count}</td>
+<%-- 														<td>${(pageMaker.cri.pageNum-1)*pageMaker.cri.amount + status.count}</td> --%>
 <%-- 														<td><img src=" ${list.src} " style="width:100px; height:50px;"></td> --%>
 														<!-- 게시글 번호 -->
 														<td><a href="#" class="view" data-id="${list.postId }">
 															${list.postTitle}
 															</a></td>
 <%-- 														<td>${list.postNickname}</td> --%>
-														<td>${list.postRegdate}</td>
+														<td>
+														<fmt:parseDate value="${list.postRegdate}" var="postRegdate"  pattern="yyyy-mm-dd" scope="page"/>
+														<fmt:formatDate value="${postRegdate}" pattern="yyyy.mm.dd"/>
+														</td>
 <%-- 														<td>${list.postUpdate}</td> --%>
 														<td>${list.postHit}</td>
 													</tr>
