@@ -169,7 +169,16 @@
 													<tr>
 														<td class="text-center">${postDomain.postId }</td>
 														<td class="text-overflow"><span
-															class="text-main text-semibold"><a href="/groups/${ postDomain.teamId }/posts/${ postDomain.postId }">${postDomain.postTitle }</a></span>
+															class="text-main text-semibold">
+															<c:choose>
+																<c:when test="${ postDomain.brdId eq 23 }">
+																	<a href="/groups/${ postDomain.teamId }/posts/${ postDomain.postId }">${postDomain.postTitle }</a>
+																</c:when>
+																<c:when test="${ postDomain.brdId eq 22 }">
+																	<a href="/groups/${ postDomain.teamId }/photos/${ postDomain.postId }">${postDomain.postTitle }</a>
+																</c:when>
+															</c:choose>
+															</span>
 														</td>
 														<td class="text-center"><span
 															class="text-semibold text-sm">
@@ -205,11 +214,6 @@
 		<!-- END FOOTER -->
 
 
-		<%-- for modal --%>
-		<c:if test="${ !empty loginVO }">
-			<%@ include file="../includes/modals.jsp"%>
-		</c:if>
-		<%-- for modal --%>
 
 	</div>
 	<!-- END CONTAINER -->
@@ -220,5 +224,10 @@
 			});
 		});	
 	</script>
+		<%-- for modal --%>
+		<c:if test="${ !empty loginVO }">
+			<%@ include file="../includes/modals.jsp"%>
+		</c:if>
+		<%-- for modal --%>
 </body>
 </html>
