@@ -11,13 +11,11 @@ public interface TeamMemberService {
 	
 	public TeamMemberListVO getMemberList(Long teamId,String status,AdminCriteria cri);
 	
-	public int updatemember(GroupMemberVO groupMemberVO,MessageVO vo);
-	
 	public int updatemember(GroupMemberVO groupMemberVO);
 	
 	public int updateMaster(GroupMemberVO groupMemberVO);
 	
-	public int deletemember(List<Long> tmemIds,MessageVO vo);
+	public int deletemember(List<Long> tmemIds);
 	
 	public boolean isMaster(Long teamId, Long memId);
 	

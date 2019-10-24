@@ -106,11 +106,10 @@
                 	<!-- #################################### -->
                 	<!-- #### WRITE CODE BELOW THIS LINE #### -->
             	    <!-- #################################### -->
-                   	<div class="row text-lg-right">
-                    	<p class="text-right"> 찾으시는 모임이 없으신가요? 직접 만들어 보세요!
+                    	<p class="text-left">  
                     	<button id="newGroups" class="btn btn-mint mar-all">모임 생성</button> 
+                    	찾으시는 모임이 없으신가요? 직접 만들어 보세요!
 						</p>
-					</div>
   	    			<div class="row pad-ver bg-trans-dark">
            	    		<div class="col-xs-12 col-sm-10 col-sm-offset-1 pad-hor">
            	    		<form id="searchForm" action="/result" method="post">
@@ -138,7 +137,9 @@
 					</div> 
 					
 					<form action="/result" method="post">
+					
 					<div class="row btn-search">
+					<div class="eq-height">
 						<div class="col-sm-6 eq-box-sm">
 			            	<div class="panel">
 				                <div class="panel-heading">
@@ -163,11 +164,12 @@
 					             	</div>
 					          </div>
 					     </div>	
+					     </div>
 					 </div>
 					 
    					<c:forEach items="${keyword}" var="searchVO" varStatus="status" end="2">
 	           		 <div class="row">
-						<div class="col-md-6 col-lg-4">
+						<div class="col-lg-12">
 	           				<div class="panel">
 	      						<div class="pad-all">
 	           						<div class="media mar-btm">

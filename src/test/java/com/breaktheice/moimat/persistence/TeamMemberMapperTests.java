@@ -69,4 +69,9 @@ public class TeamMemberMapperTests {
 	public void isMasterTest() {
 		tmm.isMaster(2L,1L);
 	}
+	@Test
+	public void tmemTest() {
+		log.info(tmm.getTmemId(3L, 1L));
+	}
+	
 }

@@ -1,10 +1,8 @@
 package com.breaktheice.moimat.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.sql.Date;
+
+import lombok.Data;
 
 @Data
 public class TeamPostDomain {
