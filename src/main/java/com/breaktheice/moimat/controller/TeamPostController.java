@@ -24,6 +24,8 @@ import com.google.gson.Gson;
 
 import lombok.extern.log4j.Log4j;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/groups/{groupId}/posts")
 @Log4j

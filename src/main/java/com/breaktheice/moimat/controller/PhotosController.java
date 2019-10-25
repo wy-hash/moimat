@@ -22,7 +22,10 @@ import com.breaktheice.moimat.service.TeamService;
 import com.breaktheice.moimat.util.AdminCriteria;
 import com.google.gson.Gson;
 
+import java.util.List;
+import java.util.Map;
 import lombok.extern.log4j.Log4j;
+
 
 @Controller
 @RequestMapping("/groups/{groupId}/photos")
@@ -69,6 +72,17 @@ public class PhotosController {
 		model.addAttribute("post", post);
 
 		List<TeamCommentsDTO> comments = teamCommentsService.getAllComments(postId);
+
+
+		for (TeamCommentsDTO dto: comments) {
+			dto.setMemId(teamMemberService.getMember(dto.getTmemId()).getMemId());
+		}
+		model.addAttribute("comments", comments);
+
+
+		MemberDomain postingUser = authService.getMemberInfo(post.getTmemId());
+		model.addAttribute("userImg", postingUser.getMemPhoto());
+
 
 		for (TeamCommentsDTO dto: comments) {
 			dto.setMemId(teamMemberService.getMember(dto.getTmemId()).getMemId());

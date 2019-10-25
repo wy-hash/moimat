@@ -329,13 +329,14 @@
     </div>
 </div>
 <!-- //modal for 덧글 수정 -->
+
 <!--Bootbox Modals [ OPTIONAL ]-->
 	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 <script>
     $(document).ready(function() {
 		
     	var actionForm = $("#actionForm");
-    	
+
         // 수정 모달창 오픈
         $(document).on('click', '.cmtMod', function(){ //모달창 오픈 이벤트
             const modalMod = $('#modalMod');
@@ -345,6 +346,7 @@
             modalMod.modal('show');
 
         });
+
         // 파라미터 유지를 위한 버튼 이벤트
         // 목록을 가기위한 이벤트 
         $("#listBtn").on('click',function(){
@@ -371,6 +373,7 @@
 	            };
 	        });
         });
+
 
         $('#modalModBtn').on('click', function(){
             const url = $('#modalModForm').attr('action');
@@ -447,6 +450,30 @@
                     console.log(e.responseText);
                 }
             });
+        });
+
+        $(document).on('click', '.cmtDelete', function() {
+            if (confirm('삭제하시겠습니까?')) {
+                var delid = $(this).data('cmtid');
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/groups/${ group.teamId }/photos/${ post.postId }/comment/del',
+                    data: {cmtId: delid},
+                    dataType: 'json',
+                    success: function(result) {
+                        if (result) {
+                            $('div[data-cmtid="' + delid +'"]').remove();
+                            $('#cmtCounter').text(Number($('#cmtCounter').text()) - 1);
+                        }
+                    },
+                    fail: function() {
+                        alert('잠시후 다시 작업을 진행해주세요.');
+                    }
+                });
+
+            }
+            return false;
         });
 
         $(document).on('click', '.cmtDelete', function() {

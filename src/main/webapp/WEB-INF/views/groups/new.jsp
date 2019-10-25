@@ -95,7 +95,7 @@
 						<!--Tabs Content-->
 						<div class="tab-content">
 							<div class="content-box">
-								<form id="newform" class="form-horizontal f orm-padding" action="/groups/new" method="post">
+								<form id="newform" class="form-horizontal form-padding" action="/groups/new" method="post">
 									<input type="hidden" id="memId" name="memId" value="${sessionScope.loginVO.memId }">
 									<div class="panel">
 										<div class="panel-heading">
