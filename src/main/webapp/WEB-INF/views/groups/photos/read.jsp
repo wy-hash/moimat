@@ -245,7 +245,7 @@
 													<div id="comment-container">
 														<c:forEach var="item" items="${ comments }">
 															<div class="media pad-btm" data-cmtid="${ item.cmtId}">
-																<a class="media-left" href="#"><img class="img-circle img-xs" alt="Profile Picture" src="${ item.memPhoto }"></a>
+																<a class="media-left" href="#"><img class="img-circle img-xs" alt="Profile Picture" src="${ item.tmemPhoto }"></a>
 																<div class="media-body">
 																	<div class="user-info">
 																		<a href="#" class="btn-link text-semibold media-heading box-inline">${ item.cmtNickname }</a>
@@ -424,7 +424,7 @@
 					success: function(result) {
 						if (Number(result.postId) > 0) {
 							var commentData = '<div class="media pad-btm" data-cmtid="' + result.cmtId + '">'
-											+ 	'<a class="media-left" href="#"><img class="img-circle img-xs" alt="Profile Picture" src="' + result.memPhoto + '"></a>'
+											+ 	'<a class="media-left" href="#"><img class="img-circle img-xs" alt="Profile Picture" src="' + result.tmemPhoto + '"></a>'
 											+	'<div class="media-body">'
 											+ 		'<div class="user-info">'
 											+ 			'<a href="#" class="btn-link text-semibold media-heading box-inline">' + result.cmtNickname + '</a>'
