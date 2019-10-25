@@ -174,7 +174,7 @@
 	      						<div class="pad-all">
 	           						<div class="media mar-btm">
 	          							<div class="media-left">
-	          								<img src="/resources/uploads/profile-team/${searchVO.teamPhoto}" class="img-md img-circle" alt="Avatar">
+	          								<img src="${searchVO.teamPhoto}" class="img-md img-circle" alt="Avatar">
 	          							</div>
 	          							<div class="media-body">
 	          							<a href='<c:out value="/groups/${searchVO.teamId }" />'> <p class="text-lg text-main text-semibold mar-no">${searchVO.teamName}</p></a>
