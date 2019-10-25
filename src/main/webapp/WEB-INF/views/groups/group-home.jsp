@@ -175,7 +175,7 @@ a {
 								<div class="row">
 									<div class="imgbox">
 										<img class="img-responsive"
-											src="/resources/img/bg-img/bg-img-2.jpg">
+											src="${ group.teamPhoto }">
 									</div>
 									<div class="info-container">
 										<div class="row">
