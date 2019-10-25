@@ -22,10 +22,7 @@ import com.breaktheice.moimat.service.TeamService;
 import com.breaktheice.moimat.util.AdminCriteria;
 import com.google.gson.Gson;
 
-import java.util.List;
-import java.util.Map;
 import lombok.extern.log4j.Log4j;
-
 
 @Controller
 @RequestMapping("/groups/{groupId}/photos")
@@ -72,17 +69,6 @@ public class PhotosController {
 		model.addAttribute("post", post);
 
 		List<TeamCommentsDTO> comments = teamCommentsService.getAllComments(postId);
-
-
-		for (TeamCommentsDTO dto: comments) {
-			dto.setMemId(teamMemberService.getMember(dto.getTmemId()).getMemId());
-		}
-		model.addAttribute("comments", comments);
-
-
-		MemberDomain postingUser = authService.getMemberInfo(post.getTmemId());
-		model.addAttribute("userImg", postingUser.getMemPhoto());
-
 
 		for (TeamCommentsDTO dto: comments) {
 			dto.setMemId(teamMemberService.getMember(dto.getTmemId()).getMemId());
@@ -167,8 +153,8 @@ public class PhotosController {
 
 		teamPostService.updatePost(originPost);
 		rttr.addAttribute("pageNum",cri.getPageNum());
-        rttr.addAttribute("type",cri.getType());
-        rttr.addAttribute("keyword",cri.getKeyword());
+		rttr.addAttribute("type",cri.getType());
+		rttr.addAttribute("keyword",cri.getKeyword());
 		return "redirect:/groups/" + groupId + "/photos/" + postId;
 	}
 
@@ -177,23 +163,23 @@ public class PhotosController {
 
 		teamPostService.deletePost(postId);
 		rttr.addAttribute("pageNum",cri.getPageNum());
-        rttr.addAttribute("type",cri.getType());
-        rttr.addAttribute("keyword",cri.getKeyword());
+		rttr.addAttribute("type",cri.getType());
+		rttr.addAttribute("keyword",cri.getKeyword());
 		return "redirect:/groups/" + groupId + "/photos";
 	}
 
 	@RequestMapping(value="/{postId}/comment/mod",method=RequestMethod.POST, consumes = "application/x-www-form-urlencoded;charset=UTF-8", produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public String modComment(TeamCommentsDomain domain) {
-		
+
 		log.info("덧글 수정실행" + domain);
-		
+
 		String result = "{\"postId\": 0}";
-		
+
 		if(teamCommentsService.modComment(domain) >0L) {
 			result = new Gson().toJson(teamCommentsService.getCommentById(domain.getCmtId()));
 		}
-		
+
 		return result;
 	}
 
