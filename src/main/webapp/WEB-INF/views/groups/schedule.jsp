@@ -51,7 +51,8 @@
 <!--Bootbox Modals [ OPTIONAL ]-->
 <script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 <script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6213368344dd87ee3c46139e0d1df7cd&libraries=services"></script>
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2365b9f150bd99dbbe53ea0054d4e89b&libraries=services"></script>
+		
 </head>
 <!-- END HEAD -->
 
